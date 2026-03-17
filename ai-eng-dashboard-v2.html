@@ -35,6 +35,7 @@
   .project-btn { padding: 8px 18px; border-radius: 8px; border: 1px solid var(--border); background: var(--card); color: var(--text-dim); font-size: 13px; font-weight: 600; cursor: pointer; transition: all 0.2s; }
   .project-btn.active { background: var(--blue); color: #fff; border-color: var(--blue); }
   .project-btn:hover:not(.active) { color: var(--text); border-color: var(--text-dim); }
+  .project-btn .freshness { font-size: 9px; display: block; margin-top: 2px; opacity: 0.7; }
   .tabs { display: flex; gap: 4px; margin-bottom: 24px; background: var(--card); border-radius: 10px; padding: 4px; width: fit-content; }
   .tab { padding: 8px 20px; border-radius: 8px; border: none; background: none; color: var(--text-dim); font-size: 14px; font-weight: 500; cursor: pointer; transition: all 0.2s; }
   .tab.active { background: var(--blue); color: #fff; }
@@ -137,7 +138,7 @@
     <h1><span>AI Engineering</span> Sprint & Release Risk Dashboard</h1>
     <div class="subtitle">Capacity planning and release readiness across projects — all component teams</div>
   </div>
-  <div class="date-badge">Data as of March 16, 2026</div>
+  <div class="date-badge">Data as of March 17, 2026</div>
 </div>
 
 <div class="project-selector" id="project-selector"></div>
@@ -205,16 +206,17 @@
   <div class="assumptions-content">
     <h4>Data Source & Scope</h4>
     <ul>
-      <li>Data pulled from Jira projects <strong>AIPCC, INFERENG, RHAIENG, RHOAIENG</strong> via REST API on March 16, 2026.</li>
+      <li>Data pulled from Jira projects <strong>AIPCC, INFERENG, RHAIENG, RHOAIENG</strong> on March 17, 2026.</li>
+      <li><strong>AIPCC:</strong> Live data refreshed via Jira REST API (anonymous read access). Sprint, version, and flow metrics are current.</li>
+      <li><strong>INFERENG, RHAIENG, RHOAIENG:</strong> Data carried forward from prior authenticated session (Mar 16, 2026). These projects require Jira authentication which was not available during this refresh. Configure Jira credentials in Workspace Settings for live updates.</li>
       <li>Teams are organized by <strong>Jira component</strong> — every component with active sprint items is included.</li>
       <li>Issue types counted: <strong>Story, Task, Spike, Bug</strong>. Epics and Features excluded from velocity.</li>
       <li>"Completed" = <strong>statusCategory = Done</strong>. Includes Closed, Done, Resolved statuses.</li>
     </ul>
     <h4>Sprint Throughput Logic</h4>
     <ul>
-      <li>Scrum teams: velocity = average completed items across last 3-6 closed sprints.</li>
+      <li>Scrum teams: velocity = average completed items across last 6 closed sprints.</li>
       <li>Kanban teams (INFERENG): bi-weekly throughput = (30-day completed count / 2) as a velocity proxy.</li>
-      <li>Components with only open sprint data: 90-day completed / 6 used as bi-weekly estimate.</li>
       <li>Sprint cadences vary: 2 weeks (AIPCC), 2-3 weeks (RHAIENG/RHOAIENG teams).</li>
     </ul>
     <h4>Risk Thresholds - Sprint</h4>
@@ -232,59 +234,66 @@
     </ul>
     <h4>Target Version Field</h4>
     <ul>
-      <li><strong>fixVersion</strong> is the active field for version tracking. Target Version (customfield_12319940) is no longer in use.</li>
+      <li><strong>Target Version</strong> (customfield_10855) is the primary field for version tracking in AIPCC. fixVersion used as fallback where Target Version returned no data.</li>
       <li>Due dates come from version metadata (releaseDate), not individual issues.</li>
     </ul>
     <h4>Project-Specific Notes</h4>
     <ul>
-      <li><strong>AIPCC (7 teams):</strong> Productization now tracked as Scrum (Sprint 28 active, 91 items). PyTorch Sprint 28 has 160 items with 118 in progress. Model Validation has no active sprint. All active sprints end Mar 23-24.</li>
-      <li><strong>INFERENG (7 teams):</strong> Mostly Kanban. llm-d now uses Scrum (Sprint 3 active, ends Mar 17). Sprint 2 completed 78/78 (100%). Throughput measured via 30-day resolved windows. llama.cpp has zero issues.</li>
-      <li><strong>RHAIENG (13 teams, 7 active):</strong> Sprint cadences vary (2-3 weeks). Tooling Experience is a newer team (Sprint 5 active). AI Core Platform board is cross-project. AgentDev Sprint 10 ends Mar 18.</li>
-      <li><strong>RHOAIENG (8 teams):</strong> AI Hub Sprint 26-4 is 62% done (40/65). AI Safety/Model Eval sprint (XAI Q1-2) past due since Feb 27 with 80 items. AICP-4 has 2 active squad sprints. rhoai-3.3 is 95% done (381/401). rhoai-3.4 is 32% done (100/315).</li>
+      <li><strong>AIPCC (5 active teams, live):</strong> Sprint 28 active across all teams ending Mar 23-24. PyTorch Sprint 28 has 119 items (67% IP). DP Sprint 28 has 58 items. Accelerators 28 has 64 items. Productization Sprint 28 has 39 items.</li>
+      <li><strong>INFERENG (7 teams, cached):</strong> Mostly Kanban. llm-d uses Scrum (Sprint 3 ended Mar 17). Sprint 2 completed 78/78 (100%). Throughput measured via 30-day resolved windows.</li>
+      <li><strong>RHAIENG (13 teams, 7 active, cached):</strong> Sprint cadences vary (2-3 weeks). AgentDev Sprint 10 ended Mar 18. Llama Stack Core Sprint 13 ends Mar 27.</li>
+      <li><strong>RHOAIENG (8 teams, cached):</strong> AI Hub Sprint 26-4 was 62% done. AI Safety/Model Eval sprint past due since Feb 27 with 80 items. rhoai-3.3 is 95% done. rhoai-3.4 is 32% done.</li>
     </ul>
   </div>
 </details>
 
 <script>
+const TODAY = '2026-03-17';
 const projectData = {
   AIPCC: {
     label: "AIPCC",
+    freshness: "Live",
     teams: [
-      { name: "Accelerator Enablement", type: "Scrum (2wk)", avgVelocity: 66.2,
-        sprintHistory: [{name:"Accel 23",done:57},{name:"Accel 24",done:71},{name:"Accel 25",done:59},{name:"Accel 26",done:79},{name:"Accel 27",done:65}],
-        activeSprint: {name:"Accelerators 28",total:69,done:25,inProgress:37,todo:7,endDate:"2026-03-24"}
+      { name: "Accelerator Enablement", type: "Scrum (2wk)", avgVelocity: 59.5,
+        sprintHistory: [{name:"Accel 22",done:48},{name:"Accel 23",done:54},{name:"Accel 24",done:69},{name:"Accel 25",done:52},{name:"Accel 26",done:72},{name:"Accel 27",done:62}],
+        activeSprint: {name:"AIPCC Accelerators 28",total:64,done:24,inProgress:36,todo:4,endDate:"2026-03-24"}
       },
-      { name: "Development Platform", type: "Scrum (2wk)", avgVelocity: 82.2,
-        sprintHistory: [{name:"DP 22",done:48},{name:"DP 23",done:52},{name:"DP 24",done:95},{name:"DP 25",done:111},{name:"DP 26",done:93},{name:"DP 27",done:94}],
-        activeSprint: {name:"DP Sprint 28",total:52,done:21,inProgress:25,todo:6,endDate:"2026-03-24"}
+      { name: "Development Platform", type: "Scrum (2wk)", avgVelocity: 83.8,
+        sprintHistory: [{name:"DP 22",done:47},{name:"DP 23",done:54},{name:"DP 24",done:93},{name:"DP 25",done:115},{name:"DP 26",done:95},{name:"DP 27",done:99}],
+        activeSprint: {name:"DP Sprint 28",total:58,done:25,inProgress:27,todo:6,endDate:"2026-03-24"}
       },
-      { name: "AI Testing + Workflow Validation", type: "Scrum (2wk)", avgVelocity: 19.8,
-        sprintHistory: [{name:"WV 22",done:3},{name:"WV 23",done:15},{name:"WV 24",done:11},{name:"WV 25",done:32},{name:"WV 26",done:29},{name:"WV 27",done:29}],
-        activeSprint: {name:"WV Sprint 28",total:14,done:7,inProgress:2,todo:5,endDate:"2026-03-24"}
+      { name: "AI Testing + Workflow Validation", type: "Scrum (2wk)", avgVelocity: 25.3,
+        sprintHistory: [{name:"WV 22",done:10},{name:"WV 23",done:33},{name:"WV 24",done:11},{name:"WV 25",done:35},{name:"WV 26",done:31},{name:"WV 27",done:32}],
+        activeSprint: {name:"Workflow Validation Sprint 28",total:14,done:7,inProgress:2,todo:5,endDate:"2026-03-24"}
       },
-      { name: "PyTorch", type: "Scrum (2wk)", avgVelocity: 71.3,
-        sprintHistory: [{name:"PT 22",done:73},{name:"PT 23",done:79},{name:"PT 24",done:86},{name:"PT 25",done:73},{name:"PT 26",done:59},{name:"PT 27",done:58}],
-        activeSprint: {name:"PyTorch Sprint 28",total:160,done:22,inProgress:118,todo:20,endDate:"2026-03-23"}
+      { name: "PyTorch", type: "Scrum (2wk)", avgVelocity: 58.3,
+        sprintHistory: [{name:"PT 22",done:57},{name:"PT 23",done:64},{name:"PT 24",done:68},{name:"PT 25",done:57},{name:"PT 26",done:48},{name:"PT 27",done:56}],
+        activeSprint: {name:"PyTorch Sprint 28",total:119,done:27,inProgress:80,todo:12,endDate:"2026-03-23"}
       },
-      { name: "Productization", type: "Scrum (2wk)", avgVelocity: 56,
-        sprintHistory: [{name:"Prod 22",done:38},{name:"Prod 23",done:36},{name:"Prod 25",done:67},{name:"Prod 26",done:68},{name:"Prod 27",done:71}],
-        activeSprint: {name:"Productization Sprint 28",total:91,done:21,inProgress:42,todo:28,endDate:"2026-03-24"}
+      { name: "Productization", type: "Scrum (2wk)", avgVelocity: 26.5,
+        sprintHistory: [{name:"Prod 22",done:17},{name:"Prod 23",done:15},{name:"Prod 24",done:32},{name:"Prod 25",done:28},{name:"Prod 26",done:33},{name:"Prod 27",done:34}],
+        activeSprint: {name:"Productization Sprint 28",total:39,done:8,inProgress:21,todo:10,endDate:"2026-03-24"}
       },
       { name: "Model Validation", type: "Scrum", avgVelocity: 3, sprintHistory: [], activeSprint: null,
-        note: "Minimal throughput. No active sprint structure. Cross-board sprints only."
+        note: "Minimal throughput. No active sprint structure."
       },
       { name: "Catalyst Platform", type: "Scrum", avgVelocity: null, sprintHistory: [], activeSprint: null,
         note: "Board exists but no recent sprint activity."
       }
     ],
     releases: [
-      {name:"rhoai-3.4",product:"rhoai",released:false,total:2,done:0,inProgress:0,todo:2,dueDate:null},
-      {name:"rhelai-3.3",product:"rhelai",released:true,total:0,done:0,inProgress:0,todo:0,dueDate:"2026-02-26"},
-      {name:"RHAIIS-3.3",product:"rhaiis",released:true,total:0,done:0,inProgress:0,todo:0,dueDate:"2026-02-26"}
+      {name:"rhoai-3.4",product:"rhoai",released:false,total:2,done:0,inProgress:1,todo:1,dueDate:null},
+      {name:"rhoai-3.4.EA1",product:"rhoai",released:false,total:7,done:5,inProgress:1,todo:1,dueDate:null},
+      {name:"rhoai-3.4.EA2",product:"rhoai",released:false,total:3,done:2,inProgress:0,todo:1,dueDate:null},
+      {name:"rhoai-3.3",product:"rhoai",released:false,total:34,done:33,inProgress:0,todo:1,dueDate:null},
+      {name:"rhoai-3.5.EA1",product:"rhoai",released:false,total:1,done:0,inProgress:0,todo:1,dueDate:null},
+      {name:"rhoai-3.5.EA2",product:"rhoai",released:false,total:1,done:0,inProgress:0,todo:1,dueDate:null},
+      {name:"rhoai-3.2",product:"rhoai",released:false,total:10,done:9,inProgress:0,todo:1,dueDate:null}
     ]
   },
   INFERENG: {
     label: "INFERENG",
+    freshness: "Cached Mar 16",
     teams: [
       { name: "INFERENG Midstream", type: "Kanban (30d avg)", avgVelocity: 37,
         sprintHistory: [{name:"30d",done:74}],
@@ -294,7 +303,7 @@ const projectData = {
       { name: "llm-d", type: "Scrum (3wk)", avgVelocity: 78,
         sprintHistory: [{name:"Sprint 2",done:78}],
         activeSprint: {name:"LLM-D Sprint 3",total:85,done:43,inProgress:28,todo:14,endDate:"2026-03-17"},
-        note: "Sprint 3 (Feb 24-Mar 17) ends tomorrow. Sprint 2 completed 78/78 items (100%)."
+        note: "Sprint 3 (Feb 24-Mar 17) ends today. Sprint 2 completed 78/78 items (100%)."
       },
       { name: "vLLM Runtime", type: "Kanban (30d avg)", avgVelocity: 22,
         sprintHistory: [{name:"30d",done:44}],
@@ -333,6 +342,7 @@ const projectData = {
   },
   RHAIENG: {
     label: "RHAIENG",
+    freshness: "Cached Mar 16",
     teams: [
       { name: "Llama Stack Core", type: "Scrum (3-4wk)", avgVelocity: 46.8,
         sprintHistory: [{name:"LLS 9",done:60},{name:"LLS 10",done:22},{name:"LLS 11",done:42},{name:"LLS 12",done:63}],
@@ -391,6 +401,7 @@ const projectData = {
   },
   RHOAIENG: {
     label: "RHOAIENG",
+    freshness: "Cached Mar 16",
     teams: [
       { name: "AI Hub", type: "Scrum (3wk)", avgVelocity: 44,
         sprintHistory: [{name:"25-16",done:45},{name:"25-17",done:65},{name:"26-1",done:55},{name:"26-2",done:12},{name:"26-3",done:43}],
@@ -458,7 +469,7 @@ function getReleaseRisk(r) {
   let daysLeft = null;
   if (r.dueDate) {
     const due = new Date(r.dueDate);
-    const now = new Date('2026-03-16');
+    const now = new Date(TODAY);
     daysLeft = Math.ceil((due - now) / 86400000);
   }
   if (daysLeft !== null && daysLeft < 0 && pctDone < 1) return {level:'red',label:'Past Due'};
@@ -471,9 +482,10 @@ function getReleaseRisk(r) {
 
 function renderProjectSelector() {
   const el = document.getElementById('project-selector');
-  el.innerHTML = Object.keys(projectData).map(k =>
-    `<button class="project-btn ${k===currentProject?'active':''}" onclick="selectProject('${k}')">${projectData[k].label}</button>`
-  ).join('');
+  el.innerHTML = Object.keys(projectData).map(k => {
+    const d = projectData[k];
+    return `<button class="project-btn ${k===currentProject?'active':''}" onclick="selectProject('${k}')">${d.label}<span class="freshness">${d.freshness}</span></button>`;
+  }).join('');
 }
 
 function selectProject(key) {
@@ -571,90 +583,17 @@ function renderReleaseTable() {
     let daysHtml = '';
     if (r.released) { daysHtml = '<span class="days-remaining ok">Released</span>'; }
     else if (r.dueDate) {
-      const days = Math.ceil((new Date(r.dueDate) - new Date('2026-03-16')) / 86400000);
+      const days = Math.ceil((new Date(r.dueDate) - new Date(TODAY)) / 86400000);
       let cls = days < 0 ? 'urgent' : days < 14 ? 'urgent' : days < 30 ? 'warning' : 'ok';
       daysHtml = `<span class="days-remaining ${cls}">${days<0?days+' (past due)':days+' days'}</span>`;
     } else { daysHtml = '<span class="days-remaining na">No date</span>'; }
     let fillColor = risk.level==='red'?'var(--red)':risk.level==='yellow'?'var(--yellow)':'var(--green)';
     const tr = document.createElement('tr');
-    tr.className = r.total > 0 && !r.released ? 'release-row-clickable' : '';
-    if (r.total > 0 && !r.released) {
-      tr.onclick = () => showReleaseDetail(r);
-    }
-    tr.innerHTML = `<td><strong>${r.name}</strong>${r.released?' <span style="font-size:11px;color:var(--text-dim)">(released)</span>':''} ${r.total>0&&!r.released?'<span style="font-size:10px;color:var(--blue)">▼ click for details</span>':''}</td><td style="font-size:12px;color:var(--text-dim)">${r.project}</td><td><span class="risk-badge ${risk.level}"><span class="dot"></span>${risk.label}</span></td><td><div class="progress-bar-small"><div class="fill" style="width:${pctDone}%;background:${fillColor}"></div></div><span style="font-size:13px;">${pctDone}%</span> <span style="font-size:11px;color:var(--text-dim)">(${r.done}/${r.total})</span></td><td><div class="status-counts"><span class="done">${r.done} done</span><span class="ip">${r.inProgress} ip</span><span class="todo">${r.todo} todo</span></div></td><td style="font-size:13px;">${r.dueDate||'<span style="color:var(--text-dim)">Not set</span>'}</td><td>${daysHtml}</td>`;
+    tr.innerHTML = `<td><strong>${r.name}</strong>${r.released?' <span style="font-size:11px;color:var(--text-dim)">(released)</span>':''}</td><td style="font-size:12px;color:var(--text-dim)">${r.project}</td><td><span class="risk-badge ${risk.level}"><span class="dot"></span>${risk.label}</span></td><td><div class="progress-bar-small"><div class="fill" style="width:${pctDone}%;background:${fillColor}"></div></div><span style="font-size:13px;">${pctDone}%</span> <span style="font-size:11px;color:var(--text-dim)">(${r.done}/${r.total})</span></td><td><div class="status-counts"><span class="done">${r.done} done</span><span class="ip">${r.inProgress} ip</span><span class="todo">${r.todo} todo</span></div></td><td style="font-size:13px;">${r.dueDate||'<span style="color:var(--text-dim)">Not set</span>'}</td><td>${daysHtml}</td>`;
     tbody.appendChild(tr);
   });
   document.getElementById('release-detail').className = 'release-detail';
   document.getElementById('release-detail').innerHTML = '';
-}
-
-function showReleaseDetail(release) {
-  const panel = document.getElementById('release-detail');
-  panel.className = 'release-detail active';
-  const data = projectData[currentProject];
-  const teams = data.teams;
-  const remaining = release.total - release.done;
-  const pctDone = release.total > 0 ? Math.round((release.done/release.total)*100) : 0;
-
-  // Delivery forecast
-  let forecastHtml = '';
-  let forecastClass = 'none';
-  if (release.dueDate && remaining > 0) {
-    const daysLeft = Math.ceil((new Date(release.dueDate) - new Date('2026-03-16')) / 86400000);
-    const sprintsLeft = Math.max(daysLeft / 14, 0.1);
-    // Calculate total project velocity from teams with data
-    const totalVelocity = teams.reduce((s,t) => s + (t.avgVelocity || 0), 0);
-    if (totalVelocity > 0) {
-      const sprintsNeeded = remaining / totalVelocity;
-      if (sprintsNeeded <= sprintsLeft * 0.8) { forecastClass = 'green'; }
-      else if (sprintsNeeded <= sprintsLeft) { forecastClass = 'yellow'; }
-      else { forecastClass = 'red'; }
-      forecastHtml = `<div class="forecast-banner ${forecastClass}">Delivery Forecast: ${remaining} items remaining · ~${sprintsNeeded.toFixed(1)} sprints needed vs ${sprintsLeft.toFixed(1)} sprints left (${daysLeft} days) · Project velocity: ~${totalVelocity} items/sprint</div>`;
-    } else {
-      forecastHtml = `<div class="forecast-banner none">Delivery Forecast: ${remaining} items remaining · ${daysLeft} days left · No velocity baseline to project</div>`;
-    }
-  } else if (remaining > 0 && !release.dueDate) {
-    const totalVelocity = teams.reduce((s,t) => s + (t.avgVelocity || 0), 0);
-    if (totalVelocity > 0) {
-      const sprintsNeeded = remaining / totalVelocity;
-      forecastHtml = `<div class="forecast-banner none">Delivery Forecast: ${remaining} items remaining · ~${sprintsNeeded.toFixed(1)} sprints needed at project velocity (~${totalVelocity}/sprint) · No due date set</div>`;
-    }
-  } else if (remaining === 0) {
-    forecastHtml = `<div class="forecast-banner green">All ${release.total} items complete</div>`;
-  }
-
-  // Component breakdown — use componentBreakdown data if available, else estimate from team data
-  let componentRows = '';
-  if (release.componentBreakdown) {
-    const sorted = [...release.componentBreakdown].sort((a,b) => b.total - a.total);
-    sorted.forEach(c => {
-      const pct = c.total > 0 ? Math.round((c.done/c.total)*100) : 0;
-      const rem = c.total - c.done;
-      const team = teams.find(t => t.name === c.name);
-      const vel = team && team.avgVelocity ? team.avgVelocity : null;
-      let forecastCell = '<span style="color:var(--text-dim)">No velocity</span>';
-      if (vel && rem > 0) {
-        const sn = rem / vel;
-        forecastCell = `<span style="color:${sn>2?'var(--red)':sn>1?'var(--yellow)':'var(--green)'}">${sn.toFixed(1)} sprints</span>`;
-      } else if (rem === 0) {
-        forecastCell = '<span style="color:var(--green)">Done</span>';
-      }
-      const fillColor = pct >= 70 ? 'var(--green)' : pct >= 40 ? 'var(--yellow)' : pct > 0 ? 'var(--red)' : 'var(--text-dim)';
-      componentRows += `<tr><td>${c.name}</td><td><div class="pct-bar"><div class="pct-fill" style="width:${pct}%;background:${fillColor}"></div></div>${pct}%</td><td style="color:var(--green)">${c.done}</td><td>${rem}</td><td>${c.total}</td><td>${vel||'—'}</td><td>${forecastCell}</td></tr>`;
-    });
-  } else {
-    componentRows = `<tr><td colspan="7" style="text-align:center;color:var(--text-dim);padding:20px;">Component breakdown not yet available for this version. Data is aggregated at the project level.</td></tr>`;
-  }
-
-  panel.innerHTML = `
-    <h3>${release.name} <span style="font-size:13px;color:var(--text-dim)">(${currentProject})</span></h3>
-    <div class="release-subtitle">${pctDone}% complete · ${release.done} done · ${release.inProgress} in progress · ${release.todo} to do</div>
-    ${forecastHtml}
-    <table class="component-table">
-      <thead><tr><th>Component</th><th>Progress</th><th>Done</th><th>Remaining</th><th>Total</th><th>Velocity</th><th>Sprints to Finish</th></tr></thead>
-      <tbody>${componentRows}</tbody>
-    </table>
-    <div style="margin-top:12px;text-align:right"><button onclick="document.getElementById('release-detail').className='release-detail'" style="background:var(--card);border:1px solid var(--border);color:var(--text-dim);padding:6px 16px;border-radius:6px;cursor:pointer;font-size:12px">Close</button></div>`;
 }
 
 function switchView(view) {
