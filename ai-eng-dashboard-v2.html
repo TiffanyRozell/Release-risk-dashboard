@@ -265,7 +265,7 @@
       <option value="RHAIENG">RHAIENG</option>
       <option value="INFERENG">INFERENG</option>
     </select>
-    <div class="date-badge">Data as of: 2026-03-20</div>
+    <div class="date-badge">Data as of: 2026-03-23</div>
   </div>
 </div>
 
@@ -293,15 +293,15 @@
         </div>
         <div class="summary-stat">
           <div class="stat-label">Total Issues</div>
-          <div class="stat-value stat-blue">362</div>
+          <div class="stat-value stat-blue">375</div>
         </div>
         <div class="summary-stat">
           <div class="stat-label">Avg Velocity (Closed)</div>
-          <div class="stat-value stat-green">68.7%</div>
+          <div class="stat-value stat-green">66.8%</div>
         </div>
         <div class="summary-stat">
           <div class="stat-label">Avg Completed</div>
-          <div class="stat-value stat-yellow">61.5</div>
+          <div class="stat-value stat-yellow">62.4</div>
         </div>
       </div>
       <div class="sprint-grid" id="sprintGrid"></div>
@@ -336,14 +336,14 @@
     </button>
     <div class="assumptions-body" id="assumptionsBody">
       <ul>
-        <li><strong>Data source:</strong> Jira REST API v3 at redhat.atlassian.net (unauthenticated access for AIPCC project).</li>
+        <li><strong>Data source:</strong> Jira REST API v3 (search/jql) at redhat.atlassian.net.</li>
         <li><strong>Authentication:</strong> RHOAIENG, RHAIENG, and INFERENG projects require Jira authentication. Configure credentials in workspace settings to access their data.</li>
-        <li><strong>Sprint velocity</strong> is calculated as issues completed / total issues in sprint (percentage-based).</li>
+        <li><strong>Sprint velocity</strong> is calculated as issues completed / total issues in sprint (percentage-based) from the last 6 closed sprints.</li>
         <li><strong>Risk thresholds (Sprint):</strong> <span style="color:#3fb950">Green</span> = current sprint pace within +10% of average velocity. <span style="color:#d29922">Yellow</span> = 10&ndash;30% over average. <span style="color:#f85149">Red</span> = &gt;30% over average or significantly under-performing.</li>
         <li><strong>Risk thresholds (Release):</strong> <span style="color:#3fb950">Green</span> = &gt;70% done or &gt;30 days until release. <span style="color:#d29922">Yellow</span> = &lt;70% done and &lt;30 days to release (or no date set and &lt;70%). <span style="color:#f85149">Red</span> = &lt;50% done and &lt;14 days to release, or overdue.</li>
-        <li><strong>Target Version</strong> is read from custom field <code style="color:#58a6ff;background:#21262d;padding:1px 5px;border-radius:3px;">customfield_10855</code> for release version queries.</li>
+        <li><strong>Target Version</strong> is read from custom field <code style="color:#58a6ff;background:#21262d;padding:1px 5px;border-radius:3px;">customfield_10855</code> (cf[10855]) for release version queries.</li>
         <li><strong>Sprint field</strong> is read from <code style="color:#58a6ff;background:#21262d;padding:1px 5px;border-radius:3px;">customfield_10020</code>.</li>
-        <li><strong>Data refreshed:</strong> 2026-03-20</li>
+        <li><strong>Data refreshed:</strong> 2026-03-23</li>
       </ul>
     </div>
   </div>
@@ -356,54 +356,69 @@
       team: "AIPCC Accelerators",
       sprint: "AIPCC Accelerators 28",
       ends: "2026-03-24",
-      done: 49, ip: 44, todo: 8, total: 101,
+      done: 50, ip: 43, todo: 8, total: 101,
       history: [
-        { sprint: "Sprint 27", done: 86, total: 128 },
-        { sprint: "Sprint 26", done: 98, total: 128 }
+        { sprint: "Sprint 27", done: 88, total: 128 },
+        { sprint: "Sprint 26", done: 98, total: 128 },
+        { sprint: "Sprint 25", done: 73, total: 96 },
+        { sprint: "Sprint 24", done: 92, total: 110 },
+        { sprint: "Sprint 23", done: 77, total: 92 },
+        { sprint: "Sprint 22", done: 77, total: 91 }
       ]
     },
     {
       team: "DP",
       sprint: "DP Sprint 28",
       ends: "2026-03-24",
-      done: 42, ip: 22, todo: 6, total: 70,
+      done: 44, ip: 20, todo: 7, total: 71,
       history: [
-        { sprint: "Sprint 27", done: 103, total: 126 },
+        { sprint: "Sprint 27", done: 106, total: 126 },
         { sprint: "Sprint 26", done: 98, total: 110 },
-        { sprint: "Sprint 25", done: 118, total: 135 }
+        { sprint: "Sprint 25", done: 118, total: 135 },
+        { sprint: "Sprint 24", done: 94, total: 102 },
+        { sprint: "Sprint 23", done: 55, total: 61 },
+        { sprint: "Sprint 22", done: 47, total: 57 }
       ]
     },
     {
       team: "Productization",
       sprint: "Productization Sprint 28",
       ends: "2026-03-24",
-      done: 14, ip: 19, todo: 9, total: 42,
+      done: 17, ip: 17, todo: 8, total: 42,
       history: [
-        { sprint: "Sprint 27", done: 36, total: 53 },
-        { sprint: "Sprint 26", done: 33, total: 44 },
-        { sprint: "Sprint 25", done: 28, total: 34 }
+        { sprint: "Sprint 27", done: 39, total: 53 },
+        { sprint: "Sprint 26", done: 34, total: 44 },
+        { sprint: "Sprint 25", done: 28, total: 34 },
+        { sprint: "Sprint 24", done: 32, total: 35 },
+        { sprint: "Sprint 23", done: 15, total: 17 },
+        { sprint: "Sprint 22", done: 17, total: 18 }
       ]
     },
     {
       team: "PyTorch",
       sprint: "PyTorch Sprint 28",
       ends: "2026-03-23",
-      done: 30, ip: 84, todo: 10, total: 124,
+      done: 35, ip: 91, todo: 10, total: 136,
       history: [
+        { sprint: "Sprint 27", done: 59, total: 139 },
         { sprint: "Sprint 26", done: 48, total: 104 },
         { sprint: "Sprint 25", done: 57, total: 104 },
-        { sprint: "Sprint 24", done: 68, total: 106 }
+        { sprint: "Sprint 24", done: 68, total: 106 },
+        { sprint: "Sprint 23", done: 64, total: 93 },
+        { sprint: "Sprint 22", done: 57, total: 82 }
       ]
     },
     {
       team: "Workflow Validation",
       sprint: "Workflow Validation Sprint 28",
       ends: "2026-03-24",
-      done: 11, ip: 5, todo: 9, total: 25,
+      done: 12, ip: 6, todo: 7, total: 25,
       history: [
         { sprint: "Sprint 27", done: 33, total: 43 },
         { sprint: "Sprint 26", done: 32, total: 33 },
-        { sprint: "Sprint 25", done: 36, total: 37 }
+        { sprint: "Sprint 25", done: 37, total: 37 },
+        { sprint: "Sprint 24", done: 12, total: 12 },
+        { sprint: "Sprint 23", done: 33, total: 33 }
       ]
     }
   ];
@@ -435,7 +450,7 @@
 
   function computeReleaseRisk(r) {
     var pctDone = r.total > 0 ? (r.done / r.total) * 100 : 100;
-    var today = new Date("2026-03-20");
+    var today = new Date("2026-03-23");
     if (r.releaseDate) {
       var rd = new Date(r.releaseDate);
       var daysUntil = Math.floor((rd - today) / 86400000);
