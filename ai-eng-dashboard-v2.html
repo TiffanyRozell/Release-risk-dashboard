@@ -265,7 +265,7 @@
       <option value="RHAIENG">RHAIENG</option>
       <option value="INFERENG">INFERENG</option>
     </select>
-    <div class="date-badge">Data as of: 2026-03-23</div>
+    <div class="date-badge">Data as of: 2026-03-24</div>
   </div>
 </div>
 
@@ -293,15 +293,15 @@
         </div>
         <div class="summary-stat">
           <div class="stat-label">Total Issues</div>
-          <div class="stat-value stat-blue">375</div>
+          <div class="stat-value stat-blue">331</div>
         </div>
         <div class="summary-stat">
           <div class="stat-label">Avg Velocity (Closed)</div>
-          <div class="stat-value stat-green">66.8%</div>
+          <div class="stat-value stat-green">78.9%</div>
         </div>
         <div class="summary-stat">
           <div class="stat-label">Avg Completed</div>
-          <div class="stat-value stat-yellow">62.4</div>
+          <div class="stat-value stat-yellow">53.5</div>
         </div>
       </div>
       <div class="sprint-grid" id="sprintGrid"></div>
@@ -336,14 +336,15 @@
     </button>
     <div class="assumptions-body" id="assumptionsBody">
       <ul>
-        <li><strong>Data source:</strong> Jira REST API v3 (search/jql) at redhat.atlassian.net.</li>
-        <li><strong>Authentication:</strong> RHOAIENG, RHAIENG, and INFERENG projects require Jira authentication. Configure credentials in workspace settings to access their data.</li>
+        <li><strong>Data source:</strong> Jira REST API v3 (search/jql) at redhat.atlassian.net, queried 2026-03-24.</li>
+        <li><strong>Authentication:</strong> RHOAIENG, RHAIENG, and INFERENG projects require Jira authentication (returned 0 issues via anonymous API). Configure credentials in workspace settings to access their data.</li>
         <li><strong>Sprint velocity</strong> is calculated as issues completed / total issues in sprint (percentage-based) from the last 6 closed sprints.</li>
         <li><strong>Risk thresholds (Sprint):</strong> <span style="color:#3fb950">Green</span> = current sprint pace within +10% of average velocity. <span style="color:#d29922">Yellow</span> = 10&ndash;30% over average. <span style="color:#f85149">Red</span> = &gt;30% over average or significantly under-performing.</li>
         <li><strong>Risk thresholds (Release):</strong> <span style="color:#3fb950">Green</span> = &gt;70% done or &gt;30 days until release. <span style="color:#d29922">Yellow</span> = &lt;70% done and &lt;30 days to release (or no date set and &lt;70%). <span style="color:#f85149">Red</span> = &lt;50% done and &lt;14 days to release, or overdue.</li>
         <li><strong>Target Version</strong> is read from custom field <code style="color:#58a6ff;background:#21262d;padding:1px 5px;border-radius:3px;">customfield_10855</code> (cf[10855]) for release version queries.</li>
         <li><strong>Sprint field</strong> is read from <code style="color:#58a6ff;background:#21262d;padding:1px 5px;border-radius:3px;">customfield_10020</code>.</li>
-        <li><strong>Data refreshed:</strong> 2026-03-23</li>
+        <li><strong>Active sprint data:</strong> 331 issues across 5 boards (AIPCC Accelerators, DP, Productization, PyTorch, Workflow Validation).</li>
+        <li><strong>Data refreshed:</strong> 2026-03-24</li>
       </ul>
     </div>
   </div>
@@ -356,38 +357,38 @@
       team: "AIPCC Accelerators",
       sprint: "AIPCC Accelerators 28",
       ends: "2026-03-24",
-      done: 50, ip: 43, todo: 8, total: 101,
+      done: 41, ip: 25, todo: 4, total: 70,
       history: [
-        { sprint: "Sprint 27", done: 88, total: 128 },
-        { sprint: "Sprint 26", done: 98, total: 128 },
-        { sprint: "Sprint 25", done: 73, total: 96 },
-        { sprint: "Sprint 24", done: 92, total: 110 },
-        { sprint: "Sprint 23", done: 77, total: 92 },
-        { sprint: "Sprint 22", done: 77, total: 91 }
+        { sprint: "Sprint 27", done: 66, total: 90 },
+        { sprint: "Sprint 26", done: 74, total: 93 },
+        { sprint: "Sprint 25", done: 54, total: 69 },
+        { sprint: "Sprint 24", done: 70, total: 83 },
+        { sprint: "Sprint 23", done: 54, total: 65 },
+        { sprint: "Sprint 22", done: 48, total: 58 }
       ]
     },
     {
       team: "DP",
       sprint: "DP Sprint 28",
       ends: "2026-03-24",
-      done: 44, ip: 20, todo: 7, total: 71,
+      done: 48, ip: 25, todo: 5, total: 78,
       history: [
-        { sprint: "Sprint 27", done: 106, total: 126 },
-        { sprint: "Sprint 26", done: 98, total: 110 },
-        { sprint: "Sprint 25", done: 118, total: 135 },
-        { sprint: "Sprint 24", done: 94, total: 102 },
-        { sprint: "Sprint 23", done: 55, total: 61 },
-        { sprint: "Sprint 22", done: 47, total: 57 }
+        { sprint: "Sprint 27", done: 106, total: 124 },
+        { sprint: "Sprint 26", done: 99, total: 108 },
+        { sprint: "Sprint 25", done: 118, total: 132 },
+        { sprint: "Sprint 24", done: 93, total: 101 },
+        { sprint: "Sprint 23", done: 55, total: 60 },
+        { sprint: "Sprint 22", done: 48, total: 57 }
       ]
     },
     {
       team: "Productization",
       sprint: "Productization Sprint 28",
       ends: "2026-03-24",
-      done: 17, ip: 17, todo: 8, total: 42,
+      done: 24, ip: 12, todo: 9, total: 45,
       history: [
-        { sprint: "Sprint 27", done: 39, total: 53 },
-        { sprint: "Sprint 26", done: 34, total: 44 },
+        { sprint: "Sprint 27", done: 41, total: 53 },
+        { sprint: "Sprint 26", done: 35, total: 44 },
         { sprint: "Sprint 25", done: 28, total: 34 },
         { sprint: "Sprint 24", done: 32, total: 35 },
         { sprint: "Sprint 23", done: 15, total: 17 },
@@ -396,16 +397,16 @@
     },
     {
       team: "PyTorch",
-      sprint: "PyTorch Sprint 28",
-      ends: "2026-03-23",
-      done: 35, ip: 91, todo: 10, total: 136,
+      sprint: "PyTorch Sprint 29",
+      ends: "2026-04-06",
+      done: 6, ip: 94, todo: 13, total: 113,
       history: [
-        { sprint: "Sprint 27", done: 59, total: 139 },
-        { sprint: "Sprint 26", done: 48, total: 104 },
-        { sprint: "Sprint 25", done: 57, total: 104 },
-        { sprint: "Sprint 24", done: 68, total: 106 },
-        { sprint: "Sprint 23", done: 64, total: 93 },
-        { sprint: "Sprint 22", done: 57, total: 82 }
+        { sprint: "Sprint 28", done: 41, total: 149 },
+        { sprint: "Sprint 27", done: 59, total: 136 },
+        { sprint: "Sprint 26", done: 50, total: 102 },
+        { sprint: "Sprint 25", done: 59, total: 103 },
+        { sprint: "Sprint 24", done: 70, total: 106 },
+        { sprint: "Sprint 23", done: 66, total: 93 }
       ]
     },
     {
@@ -416,24 +417,24 @@
       history: [
         { sprint: "Sprint 27", done: 33, total: 43 },
         { sprint: "Sprint 26", done: 32, total: 33 },
-        { sprint: "Sprint 25", done: 37, total: 37 },
-        { sprint: "Sprint 24", done: 12, total: 12 },
-        { sprint: "Sprint 23", done: 33, total: 33 }
+        { sprint: "Sprint 25", done: 36, total: 36 },
+        { sprint: "Sprint 24", done: 11, total: 11 },
+        { sprint: "Sprint 23", done: 33, total: 33 },
+        { sprint: "Sprint 22", done: 10, total: 10 }
       ]
     }
   ];
 
   var releaseData = [
-    { version: "rhoai-3.5", product: "AIPCC", total: 2, done: 0, ip: 0, todo: 2, releaseDate: null },
-    { version: "rhoai-3.5.EA2", product: "AIPCC", total: 1, done: 0, ip: 0, todo: 1, releaseDate: null },
-    { version: "rhoai-3.5.EA1", product: "AIPCC", total: 1, done: 0, ip: 0, todo: 1, releaseDate: null },
-    { version: "rhoai-3.4", product: "AIPCC", total: 2, done: 0, ip: 1, todo: 1, releaseDate: null },
-    { version: "rhoai-3.4.EA2", product: "AIPCC", total: 3, done: 2, ip: 0, todo: 1, releaseDate: null },
-    { version: "rhoai-3.4.EA1", product: "AIPCC", total: 8, done: 5, ip: 1, todo: 2, releaseDate: null },
     { version: "rhoai-3.3", product: "AIPCC", total: 34, done: 33, ip: 0, todo: 1, releaseDate: null },
-    { version: "rhoai-3.2", product: "AIPCC", total: 10, done: 9, ip: 0, todo: 1, releaseDate: null },
-    { version: "RHAIIS-3.4EA1", product: "AIPCC", total: 1, done: 1, ip: 0, todo: 0, releaseDate: "2025-05-20" },
-    { version: "rhelai-3.4 EA1", product: "AIPCC", total: 1, done: 1, ip: 0, todo: 0, releaseDate: null }
+    { version: "rhoai-3.4.EA1", product: "AIPCC", total: 8, done: 5, ip: 1, todo: 2, releaseDate: null },
+    { version: "rhoai-3.4.EA2", product: "AIPCC", total: 3, done: 2, ip: 0, todo: 1, releaseDate: null },
+    { version: "rhoai-3.4", product: "AIPCC", total: 2, done: 0, ip: 1, todo: 1, releaseDate: null },
+    { version: "rhoai-3.5.EA1", product: "AIPCC", total: 1, done: 0, ip: 0, todo: 1, releaseDate: null },
+    { version: "rhoai-3.5.EA2", product: "AIPCC", total: 1, done: 0, ip: 0, todo: 1, releaseDate: null },
+    { version: "rhoai-3.5", product: "AIPCC", total: 2, done: 0, ip: 0, todo: 2, releaseDate: null },
+    { version: "rhelai-3.4 EA1", product: "AIPCC", total: 1, done: 1, ip: 0, todo: 0, releaseDate: null },
+    { version: "rhaiis-1.0", product: "AIPCC", total: 2, done: 2, ip: 0, todo: 0, releaseDate: null }
   ];
 
   function computeSprintRisk(card) {
@@ -450,7 +451,7 @@
 
   function computeReleaseRisk(r) {
     var pctDone = r.total > 0 ? (r.done / r.total) * 100 : 100;
-    var today = new Date("2026-03-23");
+    var today = new Date("2026-03-24");
     if (r.releaseDate) {
       var rd = new Date(r.releaseDate);
       var daysUntil = Math.floor((rd - today) / 86400000);
