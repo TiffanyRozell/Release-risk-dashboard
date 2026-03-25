@@ -6,194 +6,165 @@
 <title>AI Engineering Risk Dashboard</title>
 <style>
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-
   body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif;
     background: #0f1117;
     color: #e6edf3;
-    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif;
-    line-height: 1.6;
+    line-height: 1.5;
     min-height: 100vh;
   }
-
-  .container { max-width: 1280px; margin: 0 auto; padding: 24px; }
-
   .header {
     display: flex; align-items: center; justify-content: space-between;
-    flex-wrap: wrap; gap: 12px;
-    padding-bottom: 20px; margin-bottom: 24px;
-    border-bottom: 1px solid #30363d;
+    flex-wrap: wrap; gap: 12px; padding: 20px 24px;
+    border-bottom: 1px solid #30363d; background: #161b22;
   }
-  .header h1 { font-size: 24px; font-weight: 600; letter-spacing: -0.3px; }
-  .header .badge {
+  .header-left { display: flex; align-items: center; gap: 16px; }
+  .header h1 { font-size: 20px; font-weight: 600; }
+  .date-badge {
     background: #161b22; border: 1px solid #30363d; border-radius: 20px;
-    padding: 4px 14px; font-size: 13px; color: #8b949e;
+    padding: 4px 12px; font-size: 12px; color: #8b949e;
   }
-
-  .tab-bar {
-    display: flex; gap: 4px; margin-bottom: 24px;
-    border-bottom: 1px solid #30363d; padding-bottom: 0;
+  .logo-icon {
+    width: 28px; height: 28px;
+    background: linear-gradient(135deg, #f85149, #d29922);
+    border-radius: 6px; display: flex; align-items: center; justify-content: center;
+    font-weight: 700; font-size: 12px; color: #0f1117;
+  }
+  .tabs {
+    display: flex; padding: 0 24px;
+    border-bottom: 1px solid #30363d; background: #161b22;
   }
   .tab-btn {
-    background: transparent; border: none; border-bottom: 2px solid transparent;
-    color: #8b949e; font-size: 14px; font-weight: 500;
-    padding: 10px 18px; cursor: pointer; transition: all .2s;
+    background: none; border: none; color: #8b949e;
+    padding: 12px 20px; font-size: 14px; cursor: pointer;
+    border-bottom: 2px solid transparent; font-weight: 500;
+    transition: color 0.2s, border-color 0.2s;
   }
   .tab-btn:hover { color: #e6edf3; }
   .tab-btn.active { color: #e6edf3; border-bottom-color: #58a6ff; }
-
-  .tab-panel { display: none; animation: fadeIn .3s ease; }
+  .content { padding: 24px; max-width: 1400px; margin: 0 auto; }
+  .tab-panel { display: none; animation: fadeIn 0.3s ease; }
   .tab-panel.active { display: block; }
-  @keyframes fadeIn { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: translateY(0); } }
-
+  @keyframes fadeIn { from { opacity: 0; transform: translateY(4px); } to { opacity: 1; transform: translateY(0); } }
   .card {
     background: #161b22; border: 1px solid #30363d; border-radius: 8px;
-    padding: 20px; margin-bottom: 20px;
+    padding: 20px; margin-bottom: 16px;
   }
-  .card h2 { font-size: 16px; font-weight: 600; margin-bottom: 16px; }
-  .card h3 { font-size: 14px; font-weight: 600; margin-bottom: 12px; color: #8b949e; text-transform: uppercase; letter-spacing: .5px; }
-
-  .stat-row { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 16px; margin-bottom: 20px; }
-  .stat-box {
-    background: #0f1117; border: 1px solid #30363d; border-radius: 8px;
-    padding: 16px; text-align: center;
+  .card h2 { font-size: 16px; font-weight: 600; margin-bottom: 14px; }
+  .card h3 { font-size: 14px; font-weight: 600; margin: 16px 0 10px; color: #8b949e; }
+  .filter-row {
+    display: flex; gap: 12px; margin-bottom: 16px; flex-wrap: wrap; align-items: center;
   }
-  .stat-box .label { font-size: 12px; color: #8b949e; text-transform: uppercase; letter-spacing: .5px; margin-bottom: 4px; }
-  .stat-box .value { font-size: 28px; font-weight: 700; }
-  .stat-box .value.green { color: #3fb950; }
-  .stat-box .value.yellow { color: #d29922; }
-  .stat-box .value.red { color: #f85149; }
-  .stat-box .value.blue { color: #58a6ff; }
-
-  .filters { display: flex; gap: 12px; flex-wrap: wrap; margin-bottom: 16px; }
-  .filters label { font-size: 13px; color: #8b949e; margin-right: 4px; }
-  .filters select {
+  .filter-row label { font-size: 13px; color: #8b949e; }
+  .filter-row select {
     background: #0f1117; color: #e6edf3; border: 1px solid #30363d;
-    border-radius: 6px; padding: 6px 10px; font-size: 13px; cursor: pointer;
+    border-radius: 6px; padding: 5px 10px; font-size: 13px; outline: none;
   }
-  .filters select:focus { outline: none; border-color: #58a6ff; }
-
   .table-wrap { overflow-x: auto; }
   table { width: 100%; border-collapse: collapse; font-size: 13px; }
-  thead th {
-    text-align: left; padding: 10px 12px; font-weight: 600; font-size: 12px;
-    color: #8b949e; text-transform: uppercase; letter-spacing: .5px;
-    border-bottom: 1px solid #30363d; white-space: nowrap;
+  th {
+    text-align: left; padding: 8px 12px; border-bottom: 2px solid #30363d;
+    color: #8b949e; font-weight: 600; font-size: 11px;
+    text-transform: uppercase; letter-spacing: 0.5px;
   }
-  tbody tr { transition: background .15s; }
-  tbody tr:hover { background: rgba(88,166,255,.06); }
-  tbody td { padding: 10px 12px; border-bottom: 1px solid #21262d; white-space: nowrap; }
-
+  td { padding: 8px 12px; border-bottom: 1px solid #21262d; }
+  tr:hover td { background: rgba(88,166,255,0.04); }
   .progress-bar {
-    width: 120px; height: 8px; background: #21262d; border-radius: 4px;
+    width: 100px; height: 7px; background: #21262d; border-radius: 4px;
     overflow: hidden; display: flex;
   }
   .progress-bar .done { background: #3fb950; height: 100%; }
   .progress-bar .ip { background: #d29922; height: 100%; }
-
   .risk-badge {
     display: inline-block; padding: 2px 10px; border-radius: 12px;
-    font-size: 12px; font-weight: 600; text-transform: uppercase;
+    font-size: 11px; font-weight: 600; text-transform: uppercase;
   }
-  .risk-badge.green { background: rgba(63,185,80,.15); color: #3fb950; }
-  .risk-badge.yellow { background: rgba(210,153,34,.15); color: #d29922; }
-  .risk-badge.red { background: rgba(248,81,73,.15); color: #f85149; }
-
-  .auth-card {
-    background: #161b22; border: 1px solid #30363d; border-radius: 8px;
-    padding: 32px; text-align: center; color: #8b949e; margin-bottom: 16px;
-  }
-  .auth-card .lock { font-size: 32px; margin-bottom: 8px; opacity: .5; }
-  .auth-card .title { font-size: 15px; font-weight: 600; color: #e6edf3; margin-bottom: 4px; }
-
-  .positive-msg {
-    background: rgba(63,185,80,.08); border: 1px solid rgba(63,185,80,.3);
-    border-radius: 8px; padding: 20px; text-align: center; color: #3fb950;
-    font-size: 14px; margin-bottom: 16px;
-  }
-
+  .risk-badge.green { background: rgba(63,185,80,0.15); color: #3fb950; }
+  .risk-badge.yellow { background: rgba(210,153,34,0.15); color: #d29922; }
+  .risk-badge.red { background: rgba(248,81,73,0.15); color: #f85149; }
+  .stat-row { display: flex; gap: 16px; flex-wrap: wrap; margin-bottom: 14px; }
+  .stat-box { text-align: center; flex: 1; min-width: 90px; background: #0f1117; border-radius: 8px; padding: 14px 8px; }
+  .stat-box .label { font-size: 11px; color: #8b949e; text-transform: uppercase; letter-spacing: 0.3px; }
+  .stat-box .value { font-size: 24px; font-weight: 700; margin-top: 4px; }
+  .stat-box .value.green { color: #3fb950; }
+  .stat-box .value.yellow { color: #d29922; }
+  .stat-box .value.blue { color: #58a6ff; }
+  .stat-box .value.red { color: #f85149; }
   .warning-msg {
-    background: rgba(210,153,34,.08); border: 1px solid rgba(210,153,34,.3);
-    border-radius: 8px; padding: 14px 20px; color: #d29922;
-    font-size: 13px; margin-bottom: 16px; display: flex; align-items: center; gap: 10px;
+    background: rgba(210,153,34,0.08); border: 1px solid rgba(210,153,34,0.2);
+    border-radius: 6px; padding: 10px 14px; font-size: 13px; color: #d29922;
+    display: flex; align-items: center; gap: 8px; margin: 12px 0;
   }
-
-  .chart-container { margin: 20px 0; }
-  .chart-container svg { width: 100%; max-width: 500px; }
-
+  .chart-container { margin: 10px 0; }
+  .trend-low {
+    background: rgba(248,81,73,0.15); color: #f85149;
+    padding: 1px 8px; border-radius: 10px; font-size: 11px; font-weight: 600;
+  }
   .collapsible-header {
     background: #161b22; border: 1px solid #30363d; border-radius: 8px;
-    padding: 14px 20px; cursor: pointer; display: flex;
-    align-items: center; justify-content: space-between;
-    font-size: 14px; font-weight: 600; color: #8b949e;
-    transition: background .15s; user-select: none;
+    padding: 12px 20px; cursor: pointer; display: flex;
+    justify-content: space-between; align-items: center;
+    color: #8b949e; font-size: 13px; font-weight: 500;
+    margin-top: 32px; user-select: none;
   }
-  .collapsible-header:hover { background: #1c2129; }
-  .collapsible-header .arrow { transition: transform .25s; font-size: 12px; }
+  .collapsible-header .arrow { transition: transform 0.2s; font-size: 10px; }
+  .collapsible-header.open { border-radius: 8px 8px 0 0; }
   .collapsible-header.open .arrow { transform: rotate(180deg); }
   .collapsible-body {
-    max-height: 0; overflow: hidden; transition: max-height .35s ease;
-    background: #161b22; border: 1px solid #30363d; border-top: none;
-    border-radius: 0 0 8px 8px;
+    display: none; background: #161b22; border: 1px solid #30363d; border-top: none;
+    border-radius: 0 0 8px 8px; padding: 16px 20px;
+    font-size: 13px; color: #8b949e; line-height: 1.7;
   }
-  .collapsible-body.open { max-height: 600px; }
-  .collapsible-body-inner { padding: 20px; font-size: 13px; color: #8b949e; line-height: 1.8; }
-  .collapsible-body-inner ul { padding-left: 20px; }
-
-  .trend-low { color: #f85149; font-weight: 600; font-size: 12px; }
-
-  @media (max-width: 768px) {
-    .container { padding: 16px; }
-    .header h1 { font-size: 18px; }
-    .stat-row { grid-template-columns: 1fr 1fr; }
-    .progress-bar { width: 80px; }
+  .collapsible-body.open { display: block; }
+  .collapsible-body li { margin-bottom: 6px; }
+  .collapsible-body ul { padding-left: 20px; }
+  .aging-item {
+    background: #0f1117; border: 1px solid #21262d; border-radius: 6px;
+    padding: 10px 14px; margin-bottom: 8px; font-size: 13px;
   }
+  .aging-item .key { color: #58a6ff; font-weight: 600; margin-right: 8px; }
+  .aging-item .meta { color: #8b949e; font-size: 12px; margin-top: 4px; }
 </style>
 </head>
 <body>
-
-<div class="container">
-  <div class="header">
+<div class="header">
+  <div class="header-left">
+    <div class="logo-icon">R</div>
     <h1>AI Engineering Risk Dashboard</h1>
-    <span class="badge">Data as of: 2026-03-24</span>
   </div>
+  <span class="date-badge">Data as of 2026-03-25</span>
+</div>
+<div class="tabs">
+  <button class="tab-btn active" onclick="switchTab('burndown')">Release Burndown</button>
+  <button class="tab-btn" onclick="switchTab('aging')">Aging WIP</button>
+  <button class="tab-btn" onclick="switchTab('flow')">Flow Metrics</button>
+</div>
 
-  <div class="tab-bar">
-    <button class="tab-btn active" onclick="switchTab('burndown')">Release Burndown</button>
-    <button class="tab-btn" onclick="switchTab('aging')">Aging WIP</button>
-    <button class="tab-btn" onclick="switchTab('flow')">Flow Metrics</button>
-  </div>
-
-  <!-- TAB 1: RELEASE BURNDOWN -->
+<div class="content">
+  <!-- RELEASE BURNDOWN TAB -->
   <div id="tab-burndown" class="tab-panel active">
     <div class="card">
-      <h2>Unreleased Versions &mdash; Risk Assessment</h2>
-
-      <div class="filters">
-        <div>
-          <label for="filter-product">Product:</label>
-          <select id="filter-product" onchange="filterBurndown()">
-            <option value="All">All</option>
-            <option value="RHOAI">RHOAI</option>
-            <option value="RHELAI">RHELAI</option>
-            <option value="RHAIIS">RHAIIS</option>
-          </select>
-        </div>
-        <div>
-          <label for="filter-risk">Risk Level:</label>
-          <select id="filter-risk" onchange="filterBurndown()">
-            <option value="All">All</option>
-            <option value="red">Red</option>
-            <option value="yellow">Yellow</option>
-            <option value="green">Green</option>
-          </select>
-        </div>
+      <h2>Release Burndown</h2>
+      <div class="filter-row">
+        <label>Product:</label>
+        <select id="filter-product" onchange="renderBurndown()">
+          <option value="All">All</option>
+          <option value="RHOAI">RHOAI</option>
+          <option value="RHELAI">RHELAI</option>
+        </select>
+        <label>Risk:</label>
+        <select id="filter-risk" onchange="renderBurndown()">
+          <option value="All">All</option>
+          <option value="red">Red</option>
+          <option value="yellow">Yellow</option>
+          <option value="green">Green</option>
+        </select>
       </div>
-
       <div class="table-wrap">
         <table>
           <thead>
             <tr>
-              <th>Version</th><th>Project</th><th>Total</th><th>Done</th><th>IP</th><th>To Do</th><th>% Complete</th><th>Progress</th><th>Days Left</th><th>Risk</th>
+              <th>Version</th><th>Project</th><th>Total</th><th>Done</th><th>IP</th><th>To Do</th><th>%</th><th>Progress</th><th>Days Left</th><th>Risk</th>
             </tr>
           </thead>
           <tbody id="burndown-body"></tbody>
@@ -202,79 +173,107 @@
     </div>
   </div>
 
-  <!-- TAB 2: AGING WIP -->
+  <!-- AGING WIP TAB -->
   <div id="tab-aging" class="tab-panel">
     <div class="card">
-      <h2>Aging WIP &mdash; AIPCC</h2>
-      <div class="filters">
-        <div>
-          <label for="filter-aging-project">Project:</label>
-          <select id="filter-aging-project" onchange="filterAging()">
-            <option value="AIPCC">AIPCC</option>
-            <option value="RHOAIENG">RHOAIENG</option>
-            <option value="RHAIENG">RHAIENG</option>
-            <option value="INFERENG">INFERENG</option>
-          </select>
+      <h2>Aging Work In Progress (&gt;14 days since update)</h2>
+      <div class="filter-row">
+        <label>Project:</label>
+        <select id="filter-aging-project" onchange="filterAging()">
+          <option value="All">All Projects</option>
+          <option value="AIPCC">AIPCC</option>
+          <option value="RHELAI">RHELAI / RHAIENG</option>
+          <option value="RHODS">RHODS / RHOAIENG</option>
+        </select>
+      </div>
+
+      <!-- AIPCC aging -->
+      <div id="aging-AIPCC" class="aging-section">
+        <h3 style="color:#3fb950;font-size:14px;margin-bottom:12px;">AIPCC &mdash; 0 aging items</h3>
+        <div style="color:#8b949e;font-size:13px;padding:20px;text-align:center;background:#0f1117;border-radius:6px;">
+          No stale work items. All 485 WIP items have been updated within the last 14 days.
         </div>
       </div>
-      <div id="aging-aipcc">
-        <div class="stat-row">
-          <div class="stat-box">
-            <div class="label">Current WIP</div>
-            <div class="value blue">384</div>
-          </div>
-          <div class="stat-box">
-            <div class="label">WIP Items Aging &gt;14d</div>
-            <div class="value green">0</div>
-          </div>
-          <div class="stat-box">
-            <div class="label">Health</div>
-            <div class="value"><span class="risk-badge green">Excellent</span></div>
-          </div>
-        </div>
-        <div class="positive-msg">
-          No stale work items detected. All 384 in-progress items have been updated within the last 14 days.
-        </div>
+
+      <!-- RHELAI aging -->
+      <div id="aging-RHELAI" class="aging-section" style="margin-top:20px;">
+        <h3 style="color:#f85149;font-size:14px;margin-bottom:12px;">RHELAI (RHAIENG) &mdash; 66 aging items</h3>
+        <div class="aging-item"><span class="key">RHELAI-4993</span> RHEL AI 1.4 to 1.5 change log documentation<div class="meta">Updated: 2025-11-17 | William Caban Babilonia</div></div>
+        <div class="aging-item"><span class="key">RHELAI-4749</span> Review &amp; Document GitHub CI/CD Security Best Practices<div class="meta">Updated: 2025-09-02 | Charli Allen</div></div>
+        <div class="aging-item"><span class="key">RHELAI-4655</span> DIIP unable to authenticate against registry.redhat.io<div class="meta">Updated: 2025-08-21 | Courtney Pacheco</div></div>
+        <div class="aging-item"><span class="key">RHELAI-4654</span> [certification] Evaluation with MMLU benchmark failure<div class="meta">Updated: 2025-07-16 | Unassigned</div></div>
+        <div class="aging-item"><span class="key">RHELAI-4615</span> Connect with Product Managers to understand their needs<div class="meta">Updated: 2025-08-07 | Charli Allen</div></div>
+        <div class="aging-item"><span class="key">RHELAI-4597</span> Connect with the Agentic/MCP Team to understand their needs<div class="meta">Updated: 2025-08-21 | Charli Allen</div></div>
+        <div class="aging-item"><span class="key">RHELAI-4524</span> Missing --expected-size argument in aws c3 cp command<div class="meta">Updated: 2025-07-01 | Kelly Brown</div></div>
+        <div class="aging-item"><span class="key">RHELAI-4521</span> Please list AWS instance types among supported hardware<div class="meta">Updated: 2025-07-01 | Kelly Brown</div></div>
+        <div class="aging-item"><span class="key">RHELAI-4517</span> Upgrade instructions in release notes do not work<div class="meta">Updated: 2025-07-24 | Kelly Brown</div></div>
+        <div class="aging-item"><span class="key">RHELAI-4516</span> Unclear support status of single L40S AWS instances<div class="meta">Updated: 2025-07-09 | Kelly Brown</div></div>
+        <div class="aging-item"><span class="key">RHELAI-4515</span> [Certification] Evaluation using Mt Bench failed Azure ND MI<div class="meta">Updated: 2025-08-13 | Unassigned</div></div>
+        <div class="aging-item"><span class="key">RHELAI-4514</span> [Certification] Evaluation using Mt Bench failed 8xMI300<div class="meta">Updated: 2025-09-24 | Unassigned</div></div>
+        <div class="aging-item"><span class="key">RHELAI-4511</span> Update 1.5.1 release note with correct INTEL Gaudi 3 info<div class="meta">Updated: 2025-09-22 | Kelly Brown</div></div>
+        <div class="aging-item"><span class="key">RHELAI-4290</span> [instructlab/training] CI: test large e2e job with use_liger<div class="meta">Updated: 2025-10-08 | Unassigned</div></div>
+        <div class="aging-item"><span class="key">RHELAI-4289</span> [instructlab/training] Rewrite smoke tests from tests/smoket<div class="meta">Updated: 2025-10-10 | Unassigned</div></div>
+        <div class="aging-item"><span class="key">RHELAI-4288</span> [instructlab/training] Add package versions + commit hash<div class="meta">Updated: 2026-01-09 | Unassigned</div></div>
+        <div class="aging-item"><span class="key">RHELAI-4287</span> [instructlab/training] refactor data processing<div class="meta">Updated: 2025-10-12 | Unassigned</div></div>
+        <div class="aging-item"><span class="key">RHELAI-4286</span> [instructlab/training] Decouple data processing from training<div class="meta">Updated: 2025-10-13 | Unassigned</div></div>
+        <div class="aging-item"><span class="key">RHELAI-4149</span> Investigate Meta's Synthetic Data Kit<div class="meta">Updated: 2025-06-12 | Alina Ryan</div></div>
+        <div class="aging-item"><span class="key">RHELAI-4132</span> log more instructlab image information in diip runs<div class="meta">Updated: 2025-05-29 | Charli Allen</div></div>
       </div>
-      <div id="aging-auth" style="display:none;">
-        <div class="auth-card">
-          <div class="lock">&#x1F512;</div>
-          <div class="title" id="aging-auth-title">Project</div>
-          <div>Authentication required to access Jira project data.</div>
-        </div>
+
+      <!-- RHODS aging -->
+      <div id="aging-RHODS" class="aging-section" style="margin-top:20px;">
+        <h3 style="color:#f85149;font-size:14px;margin-bottom:12px;">RHODS (RHOAIENG) &mdash; 91 aging items</h3>
+        <div class="aging-item"><span class="key">RHODS-13658</span> Learning about RHODS<div class="meta">Updated: 2024-04-15 | Adolfo Aguirrezabal</div></div>
+        <div class="aging-item"><span class="key">RHODS-13656</span> Learn Robot Framework and Automation<div class="meta">Updated: 2024-04-16 | Adolfo Aguirrezabal</div></div>
+        <div class="aging-item"><span class="key">RHODS-13640</span> New team member on-boarding (OpenShift AI)<div class="meta">Updated: 2025-06-11 | Adolfo Aguirrezabal</div></div>
+        <div class="aging-item"><span class="key">RHODS-13280</span> Reminder Notifications to update inactive hours<div class="meta">Updated: 2024-01-10 | Deepak Chourasia</div></div>
+        <div class="aging-item"><span class="key">RHODS-12767</span> Validate v1 to v2 Upgrade<div class="meta">Updated: 2025-06-11 | Luca Giorgi</div></div>
+        <div class="aging-item"><span class="key">RHODS-12766</span> [RHODS 2.4] [QE] Release Testing Coordination<div class="meta">Updated: 2025-06-11 | Luca Giorgi</div></div>
+        <div class="aging-item"><span class="key">RHODS-12588</span> Learning about RHODS<div class="meta">Updated: 2023-10-27 | Savitha Thundathil Jose</div></div>
+        <div class="aging-item"><span class="key">RHODS-12581</span> [Optional] ODS-QE Camp presentation<div class="meta">Updated: 2023-11-16 | Savitha Thundathil Jose</div></div>
+        <div class="aging-item"><span class="key">RHODS-12578</span> Learn RHODS build promotion<div class="meta">Updated: 2023-10-20 | Savitha Thundathil Jose</div></div>
+        <div class="aging-item"><span class="key">RHODS-12571</span> RHODS QE knowledge base<div class="meta">Updated: 2023-10-18 | Savitha Thundathil Jose</div></div>
+        <div class="aging-item"><span class="key">RHODS-12509</span> Learning about RHODS (jdanek)<div class="meta">Updated: 2025-06-23 | Jiri Danek</div></div>
+        <div class="aging-item"><span class="key">RHODS-12426</span> New team member on-boarding (jdanek)<div class="meta">Updated: 2025-06-11 | Jiri Danek</div></div>
+        <div class="aging-item"><span class="key">RHODS-12322</span> Cloud Resource Cleaner<div class="meta">Updated: 2025-10-12 | Unassigned</div></div>
+        <div class="aging-item"><span class="key">RHODS-12319</span> Cloud Cost Control<div class="meta">Updated: 2023-11-08 | Deepak Chourasia</div></div>
+        <div class="aging-item"><span class="key">RHODS-11889</span> Release Activities on the 1.34 RHODS RC<div class="meta">Updated: 2023-11-02 | Arthy Loganathan</div></div>
+        <div class="aging-item"><span class="key">RHODS-11477</span> Revisit testcases of odh dashboard component<div class="meta">Updated: 2025-06-11 | Arthy Loganathan</div></div>
+        <div class="aging-item"><span class="key">RHODS-11285</span> Learning about RHODS<div class="meta">Updated: 2023-10-25 | Unassigned</div></div>
+        <div class="aging-item"><span class="key">RHODS-11255</span> Learn polarion for RHODS testcase management<div class="meta">Updated: 2023-10-24 | Unassigned</div></div>
+        <div class="aging-item"><span class="key">RHODS-11248</span> [optional] Recommended reading for Git<div class="meta">Updated: 2023-11-16 | Unassigned</div></div>
+        <div class="aging-item"><span class="key">RHODS-11223</span> [Optional] ODS-QE Camp presentation<div class="meta">Updated: 2023-10-25 | Unassigned</div></div>
       </div>
     </div>
   </div>
 
-  <!-- TAB 3: FLOW METRICS -->
+  <!-- FLOW METRICS TAB -->
   <div id="tab-flow" class="tab-panel">
+    <!-- AIPCC Flow -->
     <div class="card">
       <h2>Flow Metrics &mdash; AIPCC</h2>
-
       <div class="stat-row">
         <div class="stat-box">
           <div class="label">WIP Count</div>
-          <div class="value blue">384</div>
+          <div class="value blue">485</div>
         </div>
         <div class="stat-box">
           <div class="label">30-day Throughput</div>
-          <div class="value green">1,189</div>
+          <div class="value green">1,384</div>
         </div>
         <div class="stat-box">
           <div class="label">30-day Created</div>
-          <div class="value yellow">1,478</div>
+          <div class="value yellow">1,751</div>
         </div>
         <div class="stat-box">
           <div class="label">WIP:Throughput Ratio</div>
-          <div class="value blue">9.7d</div>
+          <div class="value blue">10.5d</div>
         </div>
       </div>
-
       <div class="warning-msg">
         <span style="font-size:18px;">&#9888;</span>
-        <span>Incoming work exceeding capacity &mdash; created items exceed resolved by 24.3%.</span>
+        <span>Incoming work exceeding capacity &mdash; created items exceed resolved by 26.5% (+367 items net in 30 days).</span>
       </div>
-
       <h3>Created vs Resolved (30 days)</h3>
       <div class="chart-container">
         <svg viewBox="0 0 400 180" xmlns="http://www.w3.org/2000/svg">
@@ -283,17 +282,17 @@
           <line x1="80" y1="80" x2="380" y2="80" stroke="#21262d" stroke-width="1"/>
           <line x1="80" y1="110" x2="380" y2="110" stroke="#21262d" stroke-width="1"/>
           <line x1="80" y1="140" x2="380" y2="140" stroke="#21262d" stroke-width="1"/>
-          <text x="72" y="24" fill="#8b949e" font-size="10" text-anchor="end">1,500</text>
-          <text x="72" y="54" fill="#8b949e" font-size="10" text-anchor="end">1,125</text>
-          <text x="72" y="84" fill="#8b949e" font-size="10" text-anchor="end">750</text>
-          <text x="72" y="114" fill="#8b949e" font-size="10" text-anchor="end">375</text>
+          <text x="72" y="24" fill="#8b949e" font-size="10" text-anchor="end">1,800</text>
+          <text x="72" y="54" fill="#8b949e" font-size="10" text-anchor="end">1,350</text>
+          <text x="72" y="84" fill="#8b949e" font-size="10" text-anchor="end">900</text>
+          <text x="72" y="114" fill="#8b949e" font-size="10" text-anchor="end">450</text>
           <text x="72" y="144" fill="#8b949e" font-size="10" text-anchor="end">0</text>
-          <!-- Created: 1478 -->
-          <rect x="130" y="22" width="60" height="118" rx="4" fill="#58a6ff" opacity="0.85"/>
-          <text x="160" y="16" fill="#58a6ff" font-size="11" text-anchor="middle" font-weight="600">1,478</text>
-          <!-- Resolved: 1189 -->
-          <rect x="230" y="45" width="60" height="95" rx="4" fill="#3fb950" opacity="0.85"/>
-          <text x="260" y="39" fill="#3fb950" font-size="11" text-anchor="middle" font-weight="600">1,189</text>
+          <!-- Created: 1751 -->
+          <rect x="130" y="23" width="60" height="117" rx="4" fill="#58a6ff" opacity="0.85"/>
+          <text x="160" y="17" fill="#58a6ff" font-size="11" text-anchor="middle" font-weight="600">1,751</text>
+          <!-- Resolved: 1384 -->
+          <rect x="230" y="48" width="60" height="92" rx="4" fill="#3fb950" opacity="0.85"/>
+          <text x="260" y="42" fill="#3fb950" font-size="11" text-anchor="middle" font-weight="600">1,384</text>
           <text x="160" y="158" fill="#58a6ff" font-size="11" text-anchor="middle">Created</text>
           <text x="260" y="158" fill="#3fb950" font-size="11" text-anchor="middle">Resolved</text>
         </svg>
@@ -305,95 +304,147 @@
       <div class="table-wrap">
         <table>
           <thead>
-            <tr>
-              <th>Team</th><th>Last Sprint Done</th><th>Last Sprint Total</th><th>Completion %</th><th>Trend</th>
-            </tr>
+            <tr><th>Team</th><th>Current Done</th><th>Current Total</th><th>Completion %</th><th>Trend</th></tr>
           </thead>
           <tbody>
-            <tr>
-              <td>Workflow Validation</td><td>33</td><td>43</td>
-              <td>76.7%</td><td style="color:#8b949e;">&mdash;</td>
-            </tr>
-            <tr>
-              <td>DP</td><td>106</td><td>124</td>
-              <td>85.5%</td><td style="color:#8b949e;">&mdash;</td>
-            </tr>
-            <tr>
-              <td>Productization</td><td>41</td><td>53</td>
-              <td>77.4%</td><td style="color:#8b949e;">&mdash;</td>
-            </tr>
-            <tr>
-              <td>AIPCC Accelerators</td><td>66</td><td>90</td>
-              <td>73.3%</td><td style="color:#8b949e;">&mdash;</td>
-            </tr>
-            <tr>
-              <td>PyTorch</td><td>41</td><td>149</td>
-              <td>27.5%</td><td><span class="trend-low">Low</span></td>
-            </tr>
+            <tr><td>AIPCC Accelerators</td><td>60</td><td>103</td><td>58.3%</td><td style="color:#8b949e;">&mdash;</td></tr>
+            <tr><td>DP</td><td>7</td><td>48</td><td>14.6%</td><td><span class="trend-low">Early</span></td></tr>
+            <tr><td>Productization</td><td>4</td><td>45</td><td>8.9%</td><td><span class="trend-low">Early</span></td></tr>
+            <tr><td>PyTorch</td><td>10</td><td>122</td><td>8.2%</td><td><span class="trend-low">Early</span></td></tr>
+            <tr><td>Workflow Validation</td><td>3</td><td>20</td><td>15.0%</td><td><span class="trend-low">Early</span></td></tr>
           </tbody>
         </table>
       </div>
     </div>
 
-    <div class="auth-card">
-      <div class="lock">&#x1F512;</div>
-      <div class="title">RHOAIENG</div>
-      <div>Authentication required to access Jira project data.</div>
+    <!-- RHELAI Flow -->
+    <div class="card">
+      <h2>Flow Metrics &mdash; RHELAI (RHAIENG)</h2>
+      <div class="stat-row">
+        <div class="stat-box">
+          <div class="label">WIP Count</div>
+          <div class="value blue">66</div>
+        </div>
+        <div class="stat-box">
+          <div class="label">30-day Throughput</div>
+          <div class="value red">3</div>
+        </div>
+        <div class="stat-box">
+          <div class="label">30-day Created</div>
+          <div class="value green">1</div>
+        </div>
+        <div class="stat-box">
+          <div class="label">WIP:Throughput Ratio</div>
+          <div class="value red">660d</div>
+        </div>
+      </div>
+      <div class="warning-msg">
+        <span style="font-size:18px;">&#9888;</span>
+        <span>Extremely high WIP:Throughput ratio (660 days). 100% of WIP items are stale (&gt;14d). Project may be dormant or migrated.</span>
+      </div>
+      <h3>Created vs Resolved (30 days)</h3>
+      <div class="chart-container">
+        <svg viewBox="0 0 400 180" xmlns="http://www.w3.org/2000/svg">
+          <line x1="80" y1="20" x2="380" y2="20" stroke="#21262d" stroke-width="1"/>
+          <line x1="80" y1="80" x2="380" y2="80" stroke="#21262d" stroke-width="1"/>
+          <line x1="80" y1="140" x2="380" y2="140" stroke="#21262d" stroke-width="1"/>
+          <text x="72" y="24" fill="#8b949e" font-size="10" text-anchor="end">4</text>
+          <text x="72" y="84" fill="#8b949e" font-size="10" text-anchor="end">2</text>
+          <text x="72" y="144" fill="#8b949e" font-size="10" text-anchor="end">0</text>
+          <rect x="130" y="110" width="60" height="30" rx="4" fill="#58a6ff" opacity="0.85"/>
+          <text x="160" y="104" fill="#58a6ff" font-size="11" text-anchor="middle" font-weight="600">1</text>
+          <rect x="230" y="50" width="60" height="90" rx="4" fill="#3fb950" opacity="0.85"/>
+          <text x="260" y="44" fill="#3fb950" font-size="11" text-anchor="middle" font-weight="600">3</text>
+          <text x="160" y="158" fill="#58a6ff" font-size="11" text-anchor="middle">Created</text>
+          <text x="260" y="158" fill="#3fb950" font-size="11" text-anchor="middle">Resolved</text>
+        </svg>
+      </div>
     </div>
-    <div class="auth-card">
-      <div class="lock">&#x1F512;</div>
-      <div class="title">RHAIENG</div>
-      <div>Authentication required to access Jira project data.</div>
-    </div>
-    <div class="auth-card">
-      <div class="lock">&#x1F512;</div>
-      <div class="title">INFERENG</div>
-      <div>Authentication required to access Jira project data.</div>
+
+    <!-- RHODS Flow -->
+    <div class="card">
+      <h2>Flow Metrics &mdash; RHODS (RHOAIENG)</h2>
+      <div class="stat-row">
+        <div class="stat-box">
+          <div class="label">WIP Count</div>
+          <div class="value blue">92</div>
+        </div>
+        <div class="stat-box">
+          <div class="label">30-day Throughput</div>
+          <div class="value red">3</div>
+        </div>
+        <div class="stat-box">
+          <div class="label">30-day Created</div>
+          <div class="value green">0</div>
+        </div>
+        <div class="stat-box">
+          <div class="label">WIP:Throughput Ratio</div>
+          <div class="value red">920d</div>
+        </div>
+      </div>
+      <div class="warning-msg">
+        <span style="font-size:18px;">&#9888;</span>
+        <span>Extremely high WIP:Throughput ratio (920 days). 99% of WIP items are stale. Zero new issues in 30 days &mdash; project appears dormant.</span>
+      </div>
+      <h3>Created vs Resolved (30 days)</h3>
+      <div class="chart-container">
+        <svg viewBox="0 0 400 180" xmlns="http://www.w3.org/2000/svg">
+          <line x1="80" y1="20" x2="380" y2="20" stroke="#21262d" stroke-width="1"/>
+          <line x1="80" y1="80" x2="380" y2="80" stroke="#21262d" stroke-width="1"/>
+          <line x1="80" y1="140" x2="380" y2="140" stroke="#21262d" stroke-width="1"/>
+          <text x="72" y="24" fill="#8b949e" font-size="10" text-anchor="end">4</text>
+          <text x="72" y="84" fill="#8b949e" font-size="10" text-anchor="end">2</text>
+          <text x="72" y="144" fill="#8b949e" font-size="10" text-anchor="end">0</text>
+          <rect x="130" y="140" width="60" height="0" rx="4" fill="#58a6ff" opacity="0.85"/>
+          <text x="160" y="134" fill="#58a6ff" font-size="11" text-anchor="middle" font-weight="600">0</text>
+          <rect x="230" y="50" width="60" height="90" rx="4" fill="#3fb950" opacity="0.85"/>
+          <text x="260" y="44" fill="#3fb950" font-size="11" text-anchor="middle" font-weight="600">3</text>
+          <text x="160" y="158" fill="#58a6ff" font-size="11" text-anchor="middle">Created</text>
+          <text x="260" y="158" fill="#3fb950" font-size="11" text-anchor="middle">Resolved</text>
+        </svg>
+      </div>
     </div>
   </div>
 
   <!-- ASSUMPTIONS PANEL -->
-  <div style="margin-top: 32px;">
-    <div class="collapsible-header" id="assumptions-header" onclick="toggleAssumptions()">
-      <span>Assumptions &amp; Methodology</span>
-      <span class="arrow">&#9660;</span>
-    </div>
-    <div class="collapsible-body" id="assumptions-body">
-      <div class="collapsible-body-inner">
+  <div class="collapsible-header" id="assumptions-header" onclick="toggleAssumptions()">
+    <span>Assumptions &amp; Methodology</span>
+    <span class="arrow">&#9660;</span>
+  </div>
+  <div class="collapsible-body" id="assumptions-body">
+    <ul>
+      <li><strong>Data Source:</strong> Jira REST API v3 (search/jql) at redhat.atlassian.net, queried 2026-03-25.</li>
+      <li><strong>Project Mapping:</strong> RHAIENG &rarr; RHELAI; RHOAIENG &rarr; RHODS. INFERENG was not found in the Jira instance.</li>
+      <li><strong>Aging WIP Definition:</strong> Issues in the &ldquo;In Progress&rdquo; status category whose last update timestamp is more than 14 days ago.</li>
+      <li><strong>Flow Ratio (Little&rsquo;s Law):</strong> WIP count &times; 30 / monthly throughput. Approximates average cycle time in days.</li>
+      <li><strong>Release Risk Thresholds:</strong>
         <ul>
-          <li><strong>Data Source:</strong> Jira REST API v3 (search/jql) at redhat.atlassian.net, queried 2026-03-24.</li>
-          <li><strong>Restricted Projects:</strong> RHOAIENG, RHAIENG, and INFERENG require Jira authentication and returned 0 issues via anonymous API access.</li>
-          <li><strong>Aging WIP Definition:</strong> Issues currently in the &ldquo;In Progress&rdquo; status category whose last update timestamp is more than 14 days ago.</li>
-          <li><strong>Flow Ratio (Little&rsquo;s Law):</strong> WIP count &times; 30 / monthly throughput. Approximates average cycle time in days. Current ratio: 384 &times; 30 / 1189 = 9.7 days.</li>
-          <li><strong>Release Risk Thresholds:</strong>
-            <ul>
-              <li><span style="color:#3fb950;">Green:</span> &gt;70% complete or &gt;30 days remaining until release.</li>
-              <li><span style="color:#d29922;">Yellow:</span> &lt;70% complete and &lt;30 days remaining, or no release date set and &lt;70% complete.</li>
-              <li><span style="color:#f85149;">Red:</span> &lt;50% complete and &lt;14 days remaining, overdue releases that are not 100% complete.</li>
-            </ul>
-          </li>
-          <li><strong>Target Version</strong> is read from custom field <code style="color:#58a6ff;background:#21262d;padding:1px 5px;border-radius:3px;">customfield_10855</code> (cf[10855]).</li>
-          <li><strong>AIPCC totals:</strong> Done: 5,507 | In Progress: 384 | To Do: 972 | 30d Resolved: 1,189 | 30d Created: 1,478.</li>
-          <li><strong>Data Refreshed:</strong> 2026-03-24</li>
+          <li><span style="color:#3fb950;">Green:</span> &gt;70% complete or &gt;30 days remaining until release.</li>
+          <li><span style="color:#d29922;">Yellow:</span> &lt;70% complete and &lt;30 days remaining, or no release date and &lt;70% complete.</li>
+          <li><span style="color:#f85149;">Red:</span> &lt;50% complete and &lt;14 days remaining, overdue releases not 100% complete.</li>
         </ul>
-      </div>
-    </div>
+      </li>
+      <li><strong>Target Version</strong> is read from custom field <code style="color:#58a6ff;background:#21262d;padding:1px 5px;border-radius:3px;">customfield_10855</code> (cf[10855]).</li>
+      <li><strong>AIPCC:</strong> WIP: 485 | Aging WIP: 0 | 30d Resolved: 1,384 | 30d Created: 1,751.</li>
+      <li><strong>RHELAI:</strong> WIP: 66 | Aging WIP: 66 (100%) | 30d Resolved: 3 | 30d Created: 1.</li>
+      <li><strong>RHODS:</strong> WIP: 92 | Aging WIP: 91 (99%) | 30d Resolved: 3 | 30d Created: 0.</li>
+      <li><strong>Data Refreshed:</strong> 2026-03-25.</li>
+    </ul>
   </div>
 </div>
 
 <script>
-var TODAY = new Date('2026-03-24');
+var TODAY = new Date('2026-03-25');
 
 var versions = [
+  { version: 'rhoai-3.2',      project: 'AIPCC', product: 'RHOAI',  total: 10, done: 9,  ip: 0, todo: 1,  releaseDate: null },
   { version: 'rhoai-3.3',      project: 'AIPCC', product: 'RHOAI',  total: 34, done: 33, ip: 0, todo: 1,  releaseDate: null },
-  { version: 'rhoai-3.4.EA1',  project: 'AIPCC', product: 'RHOAI',  total: 8,  done: 5,  ip: 1, todo: 2,  releaseDate: null },
+  { version: 'rhoai-3.4.EA1',  project: 'AIPCC', product: 'RHOAI',  total: 7,  done: 5,  ip: 2, todo: 0,  releaseDate: null },
   { version: 'rhoai-3.4.EA2',  project: 'AIPCC', product: 'RHOAI',  total: 3,  done: 2,  ip: 0, todo: 1,  releaseDate: null },
   { version: 'rhoai-3.4',      project: 'AIPCC', product: 'RHOAI',  total: 2,  done: 0,  ip: 1, todo: 1,  releaseDate: null },
   { version: 'rhoai-3.5.EA1',  project: 'AIPCC', product: 'RHOAI',  total: 1,  done: 0,  ip: 0, todo: 1,  releaseDate: null },
   { version: 'rhoai-3.5.EA2',  project: 'AIPCC', product: 'RHOAI',  total: 1,  done: 0,  ip: 0, todo: 1,  releaseDate: null },
-  { version: 'rhoai-3.5',      project: 'AIPCC', product: 'RHOAI',  total: 2,  done: 0,  ip: 0, todo: 2,  releaseDate: null },
-  { version: 'rhelai-3.4 EA1', project: 'AIPCC', product: 'RHELAI', total: 1,  done: 1,  ip: 0, todo: 0,  releaseDate: null },
-  { version: 'rhaiis-1.0',     project: 'AIPCC', product: 'RHAIIS', total: 2,  done: 2,  ip: 0, todo: 0,  releaseDate: null }
+  { version: 'rhelai-3.0',     project: 'RHELAI', product: 'RHELAI', total: 4,  done: 1,  ip: 0, todo: 3,  releaseDate: null }
 ];
 
 function calcRisk(v) {
@@ -434,13 +485,8 @@ function renderBurndown() {
     };
   });
 
-  if (prodFilter !== 'All') {
-    data = data.filter(function(d) { return d.product === prodFilter; });
-  }
-  if (riskFilter !== 'All') {
-    data = data.filter(function(d) { return d.risk === riskFilter; });
-  }
-
+  if (prodFilter !== 'All') data = data.filter(function(d) { return d.product === prodFilter; });
+  if (riskFilter !== 'All') data = data.filter(function(d) { return d.risk === riskFilter; });
   data.sort(function(a, b) { return riskOrder[a.risk] - riskOrder[b.risk]; });
 
   var tbody = document.getElementById('burndown-body');
@@ -452,14 +498,13 @@ function renderBurndown() {
     var daysStr = d.overdue
       ? '<span style="color:#f85149;font-weight:600;">OVERDUE</span>'
       : (d.daysLeft !== null ? d.daysLeft : '<span style="color:#8b949e;">No date</span>');
-
     html += '<tr>' +
-      '<td style="font-weight:600;">' + d.version + '</td>' +
+      '<td style="font-weight:600;color:#58a6ff;">' + d.version + '</td>' +
       '<td>' + d.project + '</td>' +
       '<td>' + d.total + '</td>' +
-      '<td>' + d.done + '</td>' +
-      '<td>' + d.ip + '</td>' +
-      '<td>' + d.todo + '</td>' +
+      '<td style="color:#3fb950;">' + d.done + '</td>' +
+      '<td style="color:#d29922;">' + d.ip + '</td>' +
+      '<td style="color:#8b949e;">' + d.todo + '</td>' +
       '<td>' + d.pct.toFixed(1) + '%</td>' +
       '<td><div class="progress-bar"><div class="done" style="width:' + donePct + '%"></div><div class="ip" style="width:' + ipPct + '%"></div></div></td>' +
       '<td>' + daysStr + '</td>' +
@@ -469,25 +514,23 @@ function renderBurndown() {
   tbody.innerHTML = html;
 }
 
-function filterBurndown() { renderBurndown(); }
-
 function filterAging() {
   var proj = document.getElementById('filter-aging-project').value;
-  if (proj === 'AIPCC') {
-    document.getElementById('aging-aipcc').style.display = '';
-    document.getElementById('aging-auth').style.display = 'none';
-  } else {
-    document.getElementById('aging-aipcc').style.display = 'none';
-    document.getElementById('aging-auth').style.display = '';
-    document.getElementById('aging-auth-title').textContent = proj;
-  }
+  var sections = document.querySelectorAll('.aging-section');
+  sections.forEach(function(s) {
+    if (proj === 'All') {
+      s.style.display = '';
+    } else {
+      s.style.display = s.id === 'aging-' + proj ? '' : 'none';
+    }
+  });
 }
 
 function switchTab(tab) {
   var panels = document.querySelectorAll('.tab-panel');
   var btns = document.querySelectorAll('.tab-btn');
-  for (var i = 0; i < panels.length; i++) { panels[i].classList.remove('active'); }
-  for (var i = 0; i < btns.length; i++) { btns[i].classList.remove('active'); }
+  for (var i = 0; i < panels.length; i++) panels[i].classList.remove('active');
+  for (var i = 0; i < btns.length; i++) btns[i].classList.remove('active');
   document.getElementById('tab-' + tab).classList.add('active');
   var idx = tab === 'burndown' ? 0 : (tab === 'aging' ? 1 : 2);
   btns[idx].classList.add('active');
@@ -500,6 +543,5 @@ function toggleAssumptions() {
 
 renderBurndown();
 </script>
-
 </body>
 </html>
