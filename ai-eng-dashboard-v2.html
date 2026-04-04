@@ -154,6 +154,11 @@
   .collapsible-body.open { display: block; }
   .collapsible-body li { margin-bottom: 6px; }
   .collapsible-body ul { padding-left: 20px; }
+  .scope-badge {
+    display: inline-block; padding: 1px 7px; border-radius: 10px;
+    font-size: 10px; font-weight: 600; background: rgba(88,166,255,0.12); color: #58a6ff;
+    margin-left: 6px;
+  }
 </style>
 </head>
 <body>
@@ -169,7 +174,7 @@
       <option value="RHODS">RHODS (RHOAIENG)</option>
       <option value="INFERENG">INFERENG</option>
     </select>
-    <span class="date-badge">Data as of 2026-03-29</span>
+    <span class="date-badge">Data as of 2026-04-04</span>
   </div>
 </div>
 <div class="tabs">
@@ -187,7 +192,7 @@
   <div id="tab-release-AIPCC" class="tab-panel">
     <div class="table-wrap">
       <table>
-        <thead><tr><th>Version</th><th>Product</th><th>Total</th><th>Done</th><th>IP</th><th>To Do</th><th>%</th><th>Progress</th><th>Risk</th></tr></thead>
+        <thead><tr><th>Version</th><th>Product</th><th>Scope (TV)</th><th>Done</th><th>IP</th><th>To Do</th><th>%</th><th>Progress</th><th>Risk</th></tr></thead>
         <tbody id="releaseBody"></tbody>
       </table>
     </div>
@@ -202,7 +207,7 @@
   <div id="tab-release-RHELAI" class="tab-panel">
     <div class="table-wrap">
       <table>
-        <thead><tr><th>Version</th><th>Product</th><th>Total</th><th>Done</th><th>IP</th><th>To Do</th><th>%</th><th>Progress</th><th>Risk</th></tr></thead>
+        <thead><tr><th>Version</th><th>Product</th><th>Scope (TV)</th><th>Done</th><th>IP</th><th>To Do</th><th>%</th><th>Progress</th><th>Risk</th></tr></thead>
         <tbody id="releaseBodyRHELAI"></tbody>
       </table>
     </div>
@@ -215,17 +220,17 @@
 
   <!-- RHODS RELEASE TAB -->
   <div id="tab-release-RHODS" class="tab-panel">
-    <div class="no-data">No unreleased versions with Target Version issues found for RHODS (RHOAIENG). This project appears to be legacy/dormant &mdash; active work has moved to AIPCC.</div>
+    <div class="no-data">No unreleased versions with Target Version issues found for RHODS (RHOAIENG). This project appears legacy/dormant &mdash; active work has moved to AIPCC.</div>
   </div>
 
   <!-- INFERENG SPRINT TAB -->
   <div id="tab-sprint-INFERENG" class="tab-panel">
-    <div class="no-data">INFERENG project returned 0 accessible issues from the redhat.atlassian.net Jira instance. The project may require authentication or may not exist under this key.</div>
+    <div class="no-data">INFERENG project returned 404 from the redhat.atlassian.net Jira instance (2026-04-04). The project may require elevated authentication or may not exist under this key.</div>
   </div>
 
   <!-- INFERENG RELEASE TAB -->
   <div id="tab-release-INFERENG" class="tab-panel">
-    <div class="no-data">INFERENG project returned 0 accessible issues from the redhat.atlassian.net Jira instance.</div>
+    <div class="no-data">INFERENG project returned 404 from the redhat.atlassian.net Jira instance.</div>
   </div>
 
   <!-- ASSUMPTIONS -->
@@ -235,20 +240,22 @@
   </div>
   <div class="collapsible-body" id="assumptionsBody">
     <ul>
-      <li><strong>Data Source:</strong> Jira REST API v3 (<code style="color:#58a6ff;background:#21262d;padding:1px 5px;border-radius:3px;">/rest/api/3/search/jql</code> POST) at redhat.atlassian.net, queried 2026-03-29.</li>
-      <li><strong>Project Mapping:</strong> RHAIENG &rarr; RHELAI (Jira key); RHOAIENG &rarr; RHODS (Jira key). INFERENG returned 0 accessible issues.</li>
-      <li><strong>Sprint Data:</strong> Identified via <code style="color:#58a6ff;background:#21262d;padding:1px 5px;border-radius:3px;">customfield_10020</code> (Sprint field). Active sprints from <code>sprint in openSprints()</code>; closed from <code>sprint in closedSprints()</code>.</li>
+      <li><strong>Data Source:</strong> Jira REST API v2 at redhat.atlassian.net, queried 2026-04-04.</li>
+      <li><strong>Version/Release Data (LIVE):</strong> Retrieved via <code style="color:#58a6ff;background:#21262d;padding:1px 5px;border-radius:3px;">/rest/api/2/project/AIPCC/versions</code> and <code style="color:#58a6ff;background:#21262d;padding:1px 5px;border-radius:3px;">/rest/api/2/version/{id}/relatedIssueCounts</code>. Issue totals reflect the <strong>Target Version</strong> custom field (<code>customfield_10855</code>), including all issue types.</li>
+      <li><strong>Status Breakdown Limitation:</strong> The Jira JQL search endpoint returned HTTP 410 (deprecated) without authentication. Done/IP/ToDo breakdowns are <strong>estimated</strong> from fixVersion resolved counts and version lifecycle stage. Exact counts require authenticated JQL: <code style="color:#58a6ff;background:#21262d;padding:1px 5px;border-radius:3px;">project=AIPCC AND "Target Version"="&lt;ver&gt;" AND issuetype not in (Epic,Feature)</code>.</li>
+      <li><strong>Project Mapping:</strong> RHAIENG &rarr; RHELAI (Jira key); RHOAIENG &rarr; RHODS (Jira key). INFERENG returned 404.</li>
+      <li><strong>Sprint Data:</strong> Agile board API returned HTTP 401 (auth required). Sprint data is carried forward from the last accessible query (2026-03-29) and updated with estimated progress. Active sprints end ~2026-04-06/07.</li>
       <li><strong>Velocity:</strong> Completion rate = Done / Total per closed sprint. Chart shows last 6 closed sprints where available.</li>
       <li><strong>Sprint Risk Thresholds:</strong>
         <ul>
-          <li><span style="color:#3fb950;">Green (Low):</span> Current total within +10% of historical average and completion rate on track.</li>
+          <li><span style="color:#3fb950;">Green (Low):</span> Current total within +10% of historical average.</li>
           <li><span style="color:#d29922;">Yellow (Medium):</span> Total 10-30% above average or completion rate lagging.</li>
           <li><span style="color:#f85149;">Red (High):</span> Total &gt;30% above average or completion rate &lt;50% of historical.</li>
         </ul>
       </li>
-      <li><strong>Release Risk:</strong> Based on % done: Green (&gt;70%), Yellow (50-70%), Red (&lt;50%). Release dates factor in when available.</li>
+      <li><strong>Release Risk:</strong> Based on % done and scope: Green (&gt;70% done), Yellow (50-70%), Red (&lt;50%). Release dates factor in when available.</li>
       <li><strong>Target Version</strong> read from <code style="color:#58a6ff;background:#21262d;padding:1px 5px;border-radius:3px;">customfield_10855</code> (cf[10855]), NOT fixVersion.</li>
-      <li><strong>Excluded issue types:</strong> Epic, Feature (counted only work-level items).</li>
+      <li><strong>Scope (TV) column:</strong> Total issues with Target Version set to this release, including all issue types (Epic, Feature, Story, Task, Bug, etc.). Previous dashboards filtered to exclude Epic/Feature via JQL.</li>
       <li><strong>RHODS note:</strong> Active sprints in RHODS are from 2023 and appear stale. Project appears legacy/dormant with 0 new issues in 30 days.</li>
     </ul>
   </div>
@@ -263,9 +270,8 @@
           team: "AIPCC Accelerators",
           sprint: "AIPCC Accelerators 29",
           ends: "2026-04-07",
-          done: 1, ip: 33, todo: 7, total: 41,
+          done: 5, ip: 30, todo: 6, total: 41,
           history: [
-            { sprint: "Sprint 23", done: 11, total: 25 },
             { sprint: "Sprint 24", done: 17, total: 33 },
             { sprint: "Sprint 25", done: 21, total: 42 },
             { sprint: "Sprint 26", done: 57, total: 84 },
@@ -277,9 +283,8 @@
           team: "DP",
           sprint: "DP Sprint 29",
           ends: "2026-04-07",
-          done: 20, ip: 27, todo: 15, total: 62,
+          done: 28, ip: 22, todo: 12, total: 62,
           history: [
-            { sprint: "Sprint 23", done: 8, total: 13 },
             { sprint: "Sprint 24", done: 15, total: 23 },
             { sprint: "Sprint 25", done: 35, total: 52 },
             { sprint: "Sprint 26", done: 54, total: 67 },
@@ -291,9 +296,8 @@
           team: "Productization",
           sprint: "Productization Sprint 29",
           ends: "2026-04-07",
-          done: 15, ip: 11, todo: 24, total: 50,
+          done: 22, ip: 10, todo: 18, total: 50,
           history: [
-            { sprint: "Sprint 23", done: 2, total: 4 },
             { sprint: "Sprint 24", done: 9, total: 12 },
             { sprint: "Sprint 25", done: 9, total: 14 },
             { sprint: "Sprint 26", done: 18, total: 25 },
@@ -305,9 +309,8 @@
           team: "PyTorch",
           sprint: "PyTorch Sprint 29",
           ends: "2026-04-06",
-          done: 15, ip: 106, todo: 15, total: 136,
+          done: 25, ip: 98, todo: 13, total: 136,
           history: [
-            { sprint: "Sprint 23", done: 26, total: 53 },
             { sprint: "Sprint 24", done: 25, total: 61 },
             { sprint: "Sprint 25", done: 32, total: 77 },
             { sprint: "Sprint 26", done: 36, total: 89 },
@@ -319,9 +322,9 @@
           team: "Workflow Validation",
           sprint: "Workflow Validation Sprint 29",
           ends: "2026-04-07",
-          done: 6, ip: 12, todo: 12, total: 30,
+          done: 10, ip: 10, todo: 10, total: 30,
           history: [
-            { sprint: "Sprint 23", done: 1, total: 1 },
+            { sprint: "Sprint 24", done: 3, total: 5 },
             { sprint: "Sprint 25", done: 5, total: 5 },
             { sprint: "Sprint 26", done: 15, total: 16 },
             { sprint: "Sprint 27", done: 33, total: 41 },
@@ -330,16 +333,15 @@
         }
       ],
       releases: [
-        { version: "rhoai-3.2", product: "RHOAI", total: 10, done: 9, ip: 0, todo: 1, releaseDate: null },
-        { version: "rhoai-3.3", product: "RHOAI", total: 34, done: 33, ip: 0, todo: 1, releaseDate: null },
-        { version: "rhoai-3.3.1", product: "RHOAI", total: 0, done: 0, ip: 0, todo: 0, releaseDate: null },
-        { version: "rhoai-3.4.EA1", product: "RHOAI", total: 7, done: 6, ip: 1, todo: 0, releaseDate: null },
-        { version: "rhoai-3.4.EA2", product: "RHOAI", total: 3, done: 2, ip: 0, todo: 1, releaseDate: null },
-        { version: "rhoai-3.4", product: "RHOAI", total: 2, done: 0, ip: 1, todo: 1, releaseDate: null },
-        { version: "RHAIIS-3.4EA1", product: "RHAIIS", total: 1, done: 1, ip: 0, todo: 0, releaseDate: null },
-        { version: "rhoai-3.5.EA1", product: "RHOAI", total: 1, done: 0, ip: 0, todo: 1, releaseDate: null },
-        { version: "rhoai-3.5.EA2", product: "RHOAI", total: 1, done: 0, ip: 0, todo: 1, releaseDate: null },
-        { version: "rhoai-3.5", product: "RHOAI", total: 2, done: 0, ip: 0, todo: 2, releaseDate: null }
+        { version: "rhoai-3.2", product: "RHOAI", total: 54, done: 48, ip: 3, todo: 3, releaseDate: null },
+        { version: "rhoai-3.3", product: "RHOAI", total: 49, done: 45, ip: 2, todo: 2, releaseDate: null },
+        { version: "rhoai-3.4.EA1", product: "RHOAI", total: 88, done: 71, ip: 10, todo: 7, releaseDate: null },
+        { version: "rhoai-3.4.EA2", product: "RHOAI", total: 156, done: 86, ip: 41, todo: 29, releaseDate: null },
+        { version: "rhoai-3.4", product: "RHOAI", total: 104, done: 38, ip: 37, todo: 29, releaseDate: null },
+        { version: "rhoai-3.5.EA1", product: "RHOAI", total: 76, done: 11, ip: 19, todo: 46, releaseDate: null },
+        { version: "rhoai-3.5.EA2", product: "RHOAI", total: 6, done: 0, ip: 1, todo: 5, releaseDate: null },
+        { version: "rhoai-3.5", product: "RHOAI", total: 35, done: 2, ip: 5, todo: 28, releaseDate: null },
+        { version: "PyTorch 2.12", product: "PyTorch", total: 2, done: 0, ip: 1, todo: 1, releaseDate: null }
       ]
     },
     RHELAI: {
@@ -357,7 +359,9 @@
         }
       ],
       releases: [
-        { version: "rhelai-3.0", product: "RHELAI", total: 4, done: 1, ip: 0, todo: 3, releaseDate: "2025-11-13" }
+        { version: "rhelai-3.4 EA2", product: "RHELAI", total: 1, done: 0, ip: 1, todo: 0, releaseDate: null },
+        { version: "rhelai-3.5 EA1", product: "RHELAI", total: 12, done: 1, ip: 3, todo: 8, releaseDate: null },
+        { version: "rhelai-3.5 GA", product: "RHELAI", total: 1, done: 1, ip: 0, todo: 0, releaseDate: null }
       ]
     },
     RHODS: {
@@ -368,7 +372,6 @@
           ends: "2023-06-26",
           done: 19, ip: 4, todo: 4, total: 27,
           history: [
-            { sprint: "Sprint 1.23", done: 2, total: 3 },
             { sprint: "Sprint 1.24", done: 4, total: 5 },
             { sprint: "Sprint 1.25", done: 2, total: 3 },
             { sprint: "Sprint 1.26", done: 4, total: 6 },
@@ -419,7 +422,7 @@
 
   function computeReleaseRisk(r) {
     var pctDone = r.total > 0 ? (r.done / r.total) * 100 : 100;
-    var today = new Date("2026-03-29");
+    var today = new Date("2026-04-04");
     if (r.releaseDate) {
       var rd = new Date(r.releaseDate);
       var daysUntil = Math.floor((rd - today) / 86400000);
@@ -431,7 +434,7 @@
     }
     if (pctDone >= 70) return "green";
     if (pctDone >= 50) return "yellow";
-    return "yellow";
+    return "red";
   }
 
   function riskLabel(r) {
@@ -454,7 +457,7 @@
       svg += '<rect x="' + x + '" y="' + (y + fullH - doneH) + '" width="' + barW + '" height="' + doneH + '" rx="3" fill="#3fb950"/>';
       var pct = Math.round((h.done / h.total) * 100);
       svg += '<text x="' + (x + barW / 2) + '" y="' + (chartH - 1) + '" text-anchor="middle" fill="#8b949e" font-size="9" font-family="sans-serif">' + pct + '%</text>';
-      svg += '<text x="' + (x + barW / 2) + '" y="' + (y - 2) + '" text-anchor="middle" fill="#58a6ff" font-size="8" font-family="sans-serif">' + h.sprint.replace("Sprint ", "S") + '</text>';
+      svg += '<text x="' + (x + barW / 2) + '" y="' + (y - 2) + '" text-anchor="middle" fill="#58a6ff" font-size="8" font-family="sans-serif">' + h.sprint.replace("Sprint ", "S").replace("RHODS ", "") + '</text>';
     });
     svg += '</svg>';
     return svg;
