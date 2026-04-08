@@ -95,9 +95,13 @@
     border-radius: 6px; padding: 10px 14px; font-size: 13px; color: #d29922;
     display: flex; align-items: center; gap: 8px; margin: 12px 0;
   }
+  .warning-msg.severe {
+    background: rgba(248,81,73,0.08); border-color: rgba(248,81,73,0.2);
+    color: #f85149;
+  }
   .chart-container { margin: 10px 0; }
   .trend-low {
-    background: rgba(248,81,73,0.15); color: #f85149;
+    background: rgba(88,166,255,0.15); color: #58a6ff;
     padding: 1px 8px; border-radius: 10px; font-size: 11px; font-weight: 600;
   }
   .trend-ok {
@@ -128,6 +132,11 @@
   }
   .aging-item .key { color: #58a6ff; font-weight: 600; margin-right: 8px; }
   .aging-item .meta { color: #8b949e; font-size: 12px; margin-top: 4px; }
+  .info-msg {
+    background: rgba(63,185,80,0.08); border: 1px solid rgba(63,185,80,0.2);
+    border-radius: 6px; padding: 14px 20px; font-size: 13px; color: #3fb950;
+    text-align: center;
+  }
 </style>
 </head>
 <body>
@@ -136,7 +145,7 @@
     <div class="logo-icon">R</div>
     <h1>AI Engineering Risk Dashboard</h1>
   </div>
-  <span class="date-badge">Data as of 2026-04-04</span>
+  <span class="date-badge">Data as of 2026-04-08</span>
 </div>
 <div class="tabs">
   <button class="tab-btn active" onclick="switchTab('burndown')">Release Burndown</button>
@@ -195,59 +204,59 @@
       <!-- AIPCC aging -->
       <div id="aging-AIPCC" class="aging-section">
         <h3 style="color:#3fb950;font-size:14px;margin-bottom:12px;">AIPCC &mdash; 0 aging items</h3>
-        <div style="color:#8b949e;font-size:13px;padding:20px;text-align:center;background:#0f1117;border-radius:6px;">
+        <div class="info-msg">
           No stale work items detected. All WIP items have been updated within the last 14 days.
         </div>
       </div>
 
       <!-- RHELAI aging -->
       <div id="aging-RHELAI" class="aging-section" style="margin-top:20px;">
-        <h3 style="color:#f85149;font-size:14px;margin-bottom:12px;">RHELAI (RHAIENG) &mdash; 63 aging items</h3>
-        <div class="aging-item"><span class="key">RHELAI-4993</span> RHEL AI 1.4 to 1.5 change log documentation<div class="meta">Updated: 2025-11-17 | William Caban Babilonia | Stale 139d</div></div>
-        <div class="aging-item"><span class="key">RHELAI-4749</span> Review &amp; Document GitHub CI/CD Security Best Practices with AI Integration<div class="meta">Updated: 2025-09-02 | Charli Allen | Stale 215d</div></div>
-        <div class="aging-item"><span class="key">RHELAI-4655</span> DIIP is unable to authenticate against registry.redhat.io<div class="meta">Updated: 2025-08-21 | Courtney Pacheco | Stale 227d</div></div>
-        <div class="aging-item"><span class="key">RHELAI-4654</span> [certification] Evaluation with MMLU benchmark failure<div class="meta">Updated: 2025-07-16 | Unassigned | Stale 263d</div></div>
-        <div class="aging-item"><span class="key">RHELAI-4615</span> Connect with the Product Managers to understand their needs<div class="meta">Updated: 2025-08-07 | Charli Allen | Stale 241d</div></div>
-        <div class="aging-item"><span class="key">RHELAI-4597</span> Connect with the Agentic/MCP Team to understand their needs<div class="meta">Updated: 2025-08-21 | Charli Allen | Stale 227d</div></div>
-        <div class="aging-item"><span class="key">RHELAI-4524</span> Missing --expected-size argument in aws c3 cp command<div class="meta">Updated: 2025-07-01 | Kelly Brown | Stale 278d</div></div>
-        <div class="aging-item"><span class="key">RHELAI-4521</span> Please list AWS instance types among supported hardware configs<div class="meta">Updated: 2025-07-01 | Kelly Brown | Stale 278d</div></div>
-        <div class="aging-item"><span class="key">RHELAI-4517</span> Upgrade instructions in release notes do not work<div class="meta">Updated: 2025-07-24 | Kelly Brown | Stale 255d</div></div>
-        <div class="aging-item"><span class="key">RHELAI-4516</span> Unclear support status of single L40S AWS instances<div class="meta">Updated: 2025-07-09 | Kelly Brown | Stale 270d</div></div>
-        <div class="aging-item"><span class="key">RHELAI-4515</span> [Certification] Evaluation using Mt Bench failed Azure ND MI300x v5<div class="meta">Updated: 2025-08-13 | Unassigned | Stale 235d</div></div>
-        <div class="aging-item"><span class="key">RHELAI-4514</span> [Certification] Evaluation using Mt Bench failed 8xMI300<div class="meta">Updated: 2025-09-24 | Unassigned | Stale 193d</div></div>
-        <div class="aging-item"><span class="key">RHELAI-4511</span> Update 1.5.1 release note with correct INTEL Gaudi 3 commercial name<div class="meta">Updated: 2025-09-22 | Kelly Brown | Stale 195d</div></div>
-        <div class="aging-item"><span class="key">RHELAI-4290</span> [instructlab/training] CI: test large e2e job with use_liger<div class="meta">Updated: 2025-10-08 | Unassigned | Stale 179d</div></div>
-        <div class="aging-item"><span class="key">RHELAI-4289</span> [instructlab/training] Rewrite smoke tests from tests/smoketest.sh<div class="meta">Updated: 2025-10-10 | Unassigned | Stale 177d</div></div>
-        <div class="aging-item"><span class="key">RHELAI-4288</span> [instructlab/training] Add package versions + commit hash<div class="meta">Updated: 2026-01-09 | Unassigned | Stale 85d</div></div>
-        <div class="aging-item"><span class="key">RHELAI-4287</span> [instructlab/training] refactor data processing to enable passing<div class="meta">Updated: 2025-10-12 | Unassigned | Stale 175d</div></div>
-        <div class="aging-item"><span class="key">RHELAI-4286</span> [instructlab/training] Decouple data processing from training<div class="meta">Updated: 2025-10-13 | Unassigned | Stale 174d</div></div>
-        <div class="aging-item"><span class="key">RHELAI-4149</span> Investigate Meta's Synthetic Data Kit<div class="meta">Updated: 2025-06-12 | Alina Ryan | Stale 297d</div></div>
-        <div class="aging-item"><span class="key">RHELAI-4132</span> log more instructlab image information in diip runs<div class="meta">Updated: 2025-05-29 | Charli Allen | Stale 311d</div></div>
+        <h3 style="color:#f85149;font-size:14px;margin-bottom:12px;">RHELAI (RHAIENG) &mdash; 63 aging items (showing top 20)</h3>
+        <div class="aging-item"><span class="key">RHELAI-4993</span> RHEL AI 1.4 to 1.5 change log documentation<div class="meta">Updated: 2025-11-17 | William Caban Babilonia | Stale 143d</div></div>
+        <div class="aging-item"><span class="key">RHELAI-4749</span> Review &amp; Document GitHub CI/CD Security Best Practices with AI Integration<div class="meta">Updated: 2025-09-02 | Charli Allen | Stale 219d</div></div>
+        <div class="aging-item"><span class="key">RHELAI-4655</span> DIIP is unable to authenticate against registry.redhat.io<div class="meta">Updated: 2025-08-21 | Courtney Pacheco | Stale 231d</div></div>
+        <div class="aging-item"><span class="key">RHELAI-4654</span> [certification] Evaluation with MMLU benchmark failure<div class="meta">Updated: 2025-07-16 | Unassigned | Stale 267d</div></div>
+        <div class="aging-item"><span class="key">RHELAI-4615</span> Connect with the Product Managers to understand their needs<div class="meta">Updated: 2025-08-07 | Charli Allen | Stale 245d</div></div>
+        <div class="aging-item"><span class="key">RHELAI-4597</span> Connect with the Agentic/MCP Team to understand their needs<div class="meta">Updated: 2025-08-21 | Charli Allen | Stale 231d</div></div>
+        <div class="aging-item"><span class="key">RHELAI-4524</span> Missing --expected-size argument in aws c3 cp command<div class="meta">Updated: 2025-07-01 | Kelly Brown | Stale 282d</div></div>
+        <div class="aging-item"><span class="key">RHELAI-4521</span> Please list AWS instance types among supported hardware configs<div class="meta">Updated: 2025-07-01 | Kelly Brown | Stale 282d</div></div>
+        <div class="aging-item"><span class="key">RHELAI-4517</span> Upgrade instructions in release notes do not work<div class="meta">Updated: 2025-07-24 | Kelly Brown | Stale 259d</div></div>
+        <div class="aging-item"><span class="key">RHELAI-4516</span> Unclear support status of single L40S AWS instances<div class="meta">Updated: 2025-07-09 | Kelly Brown | Stale 274d</div></div>
+        <div class="aging-item"><span class="key">RHELAI-4515</span> [Certification] Evaluation using Mt Bench failed Azure ND MI300x v5<div class="meta">Updated: 2025-08-13 | Unassigned | Stale 239d</div></div>
+        <div class="aging-item"><span class="key">RHELAI-4514</span> [Certification] Evaluation using Mt Bench failed 8xMI300<div class="meta">Updated: 2025-09-24 | Unassigned | Stale 197d</div></div>
+        <div class="aging-item"><span class="key">RHELAI-4511</span> Update 1.5.1 release note with correct INTEL Gaudi 3 commercial name<div class="meta">Updated: 2025-09-22 | Kelly Brown | Stale 199d</div></div>
+        <div class="aging-item"><span class="key">RHELAI-4290</span> [instructlab/training] CI: test large e2e job with use_liger<div class="meta">Updated: 2025-10-08 | Unassigned | Stale 183d</div></div>
+        <div class="aging-item"><span class="key">RHELAI-4289</span> [instructlab/training] Rewrite smoke tests from tests/smoketest.sh<div class="meta">Updated: 2025-10-10 | Unassigned | Stale 181d</div></div>
+        <div class="aging-item"><span class="key">RHELAI-4288</span> [instructlab/training] Add package versions + commit hash<div class="meta">Updated: 2026-01-09 | Unassigned | Stale 89d</div></div>
+        <div class="aging-item"><span class="key">RHELAI-4287</span> [instructlab/training] refactor data processing to enable passing<div class="meta">Updated: 2025-10-12 | Unassigned | Stale 179d</div></div>
+        <div class="aging-item"><span class="key">RHELAI-4286</span> [instructlab/training] Decouple data processing from training<div class="meta">Updated: 2025-10-13 | Unassigned | Stale 178d</div></div>
+        <div class="aging-item"><span class="key">RHELAI-4149</span> Investigate Meta's Synthetic Data Kit<div class="meta">Updated: 2025-06-12 | Alina Ryan | Stale 301d</div></div>
+        <div class="aging-item"><span class="key">RHELAI-4132</span> log more instructlab image information in diip runs<div class="meta">Updated: 2025-05-29 | Charli Allen | Stale 315d</div></div>
       </div>
 
       <!-- RHODS aging -->
       <div id="aging-RHODS" class="aging-section" style="margin-top:20px;">
-        <h3 style="color:#f85149;font-size:14px;margin-bottom:12px;">RHODS (RHOAIENG) &mdash; 90 aging items</h3>
-        <div class="aging-item"><span class="key">RHODS-13658</span> Learning about RHODS<div class="meta">Updated: 2024-04-15 | Adolfo Aguirrezabal | Stale 720d</div></div>
-        <div class="aging-item"><span class="key">RHODS-13656</span> Learn Robot Framework and Automation<div class="meta">Updated: 2024-04-16 | Adolfo Aguirrezabal | Stale 719d</div></div>
-        <div class="aging-item"><span class="key">RHODS-13640</span> New team member on-boarding (OpenShift AI QE)<div class="meta">Updated: 2025-06-11 | Adolfo Aguirrezabal | Stale 298d</div></div>
-        <div class="aging-item"><span class="key">RHODS-13280</span> Reminder Notifications to update inactive hours<div class="meta">Updated: 2024-01-10 | Deepak Chourasia | Stale 816d</div></div>
-        <div class="aging-item"><span class="key">RHODS-12767</span> Validate v1 to v2 Upgrade<div class="meta">Updated: 2025-06-11 | Luca Giorgi | Stale 298d</div></div>
-        <div class="aging-item"><span class="key">RHODS-12766</span> [RHODS 2.4] [QE] Release Testing Coordination<div class="meta">Updated: 2025-06-11 | Luca Giorgi | Stale 298d</div></div>
-        <div class="aging-item"><span class="key">RHODS-12588</span> Learning about RHODS<div class="meta">Updated: 2023-10-27 | Savitha Thundathil Jose | Stale 891d</div></div>
-        <div class="aging-item"><span class="key">RHODS-12581</span> [Optional] ODS-QE Camp presentation<div class="meta">Updated: 2023-11-16 | Savitha Thundathil Jose | Stale 871d</div></div>
-        <div class="aging-item"><span class="key">RHODS-12578</span> Learn RHODS build promotion<div class="meta">Updated: 2023-10-20 | Savitha Thundathil Jose | Stale 898d</div></div>
-        <div class="aging-item"><span class="key">RHODS-12571</span> RHODS QE knowledge base<div class="meta">Updated: 2023-10-18 | Savitha Thundathil Jose | Stale 900d</div></div>
-        <div class="aging-item"><span class="key">RHODS-12509</span> Learning about RHODS (jdanek)<div class="meta">Updated: 2025-06-23 | Jiri Danek | Stale 286d</div></div>
-        <div class="aging-item"><span class="key">RHODS-12426</span> New team member on-boarding<div class="meta">Updated: 2025-06-11 | Jiri Danek | Stale 298d</div></div>
-        <div class="aging-item"><span class="key">RHODS-12322</span> Cloud Resource Cleaner<div class="meta">Updated: 2025-10-12 | Unassigned | Stale 175d</div></div>
-        <div class="aging-item"><span class="key">RHODS-12319</span> Cloud Cost Control<div class="meta">Updated: 2023-11-08 | Deepak Chourasia | Stale 879d</div></div>
-        <div class="aging-item"><span class="key">RHODS-11889</span> Release Activities on the 1.34 RHODS RC<div class="meta">Updated: 2023-11-02 | Arthy Loganathan | Stale 885d</div></div>
-        <div class="aging-item"><span class="key">RHODS-11477</span> Revisit testcases of odh dashboard component<div class="meta">Updated: 2025-06-11 | Arthy Loganathan | Stale 298d</div></div>
-        <div class="aging-item"><span class="key">RHODS-11285</span> Learning about RHODS<div class="meta">Updated: 2023-10-25 | Unassigned | Stale 893d</div></div>
-        <div class="aging-item"><span class="key">RHODS-11255</span> Learn polarion for RHODS testcase management<div class="meta">Updated: 2023-10-24 | Unassigned | Stale 894d</div></div>
-        <div class="aging-item"><span class="key">RHODS-11248</span> [optional] Recommended reading for Git<div class="meta">Updated: 2023-11-16 | Unassigned | Stale 871d</div></div>
-        <div class="aging-item"><span class="key">RHODS-11223</span> [Optional] ODS-QE Camp presentation<div class="meta">Updated: 2023-10-25 | Unassigned | Stale 893d</div></div>
+        <h3 style="color:#f85149;font-size:14px;margin-bottom:12px;">RHODS (RHOAIENG) &mdash; 90 aging items (showing top 20)</h3>
+        <div class="aging-item"><span class="key">RHODS-13658</span> Learning about RHODS<div class="meta">Updated: 2024-04-15 | Adolfo Aguirrezabal | Stale 724d</div></div>
+        <div class="aging-item"><span class="key">RHODS-13656</span> Learn Robot Framework and Automation<div class="meta">Updated: 2024-04-16 | Adolfo Aguirrezabal | Stale 723d</div></div>
+        <div class="aging-item"><span class="key">RHODS-13640</span> New team member on-boarding (OpenShift AI QE)<div class="meta">Updated: 2025-06-11 | Adolfo Aguirrezabal | Stale 302d</div></div>
+        <div class="aging-item"><span class="key">RHODS-13280</span> Reminder Notifications to update inactive hours<div class="meta">Updated: 2024-01-10 | Deepak Chourasia | Stale 820d</div></div>
+        <div class="aging-item"><span class="key">RHODS-12767</span> Validate v1 to v2 Upgrade<div class="meta">Updated: 2025-06-11 | Luca Giorgi | Stale 302d</div></div>
+        <div class="aging-item"><span class="key">RHODS-12766</span> [RHODS 2.4] [QE] Release Testing Coordination<div class="meta">Updated: 2025-06-11 | Luca Giorgi | Stale 302d</div></div>
+        <div class="aging-item"><span class="key">RHODS-12588</span> Learning about RHODS<div class="meta">Updated: 2023-10-27 | Savitha Thundathil Jose | Stale 895d</div></div>
+        <div class="aging-item"><span class="key">RHODS-12581</span> [Optional] ODS-QE Camp presentation<div class="meta">Updated: 2023-11-16 | Savitha Thundathil Jose | Stale 875d</div></div>
+        <div class="aging-item"><span class="key">RHODS-12578</span> Learn RHODS build promotion<div class="meta">Updated: 2023-10-20 | Savitha Thundathil Jose | Stale 902d</div></div>
+        <div class="aging-item"><span class="key">RHODS-12571</span> RHODS QE knowledge base<div class="meta">Updated: 2023-10-18 | Savitha Thundathil Jose | Stale 904d</div></div>
+        <div class="aging-item"><span class="key">RHODS-12509</span> Learning about RHODS (jdanek)<div class="meta">Updated: 2025-06-23 | Jiri Danek | Stale 290d</div></div>
+        <div class="aging-item"><span class="key">RHODS-12426</span> New team member on-boarding<div class="meta">Updated: 2025-06-11 | Jiri Danek | Stale 302d</div></div>
+        <div class="aging-item"><span class="key">RHODS-12322</span> Cloud Resource Cleaner<div class="meta">Updated: 2025-10-12 | Unassigned | Stale 179d</div></div>
+        <div class="aging-item"><span class="key">RHODS-12319</span> Cloud Cost Control<div class="meta">Updated: 2023-11-08 | Deepak Chourasia | Stale 883d</div></div>
+        <div class="aging-item"><span class="key">RHODS-11889</span> Release Activities on the 1.34 RHODS RC<div class="meta">Updated: 2023-11-02 | Arthy Loganathan | Stale 889d</div></div>
+        <div class="aging-item"><span class="key">RHODS-11477</span> Revisit testcases of odh dashboard component<div class="meta">Updated: 2025-06-11 | Arthy Loganathan | Stale 302d</div></div>
+        <div class="aging-item"><span class="key">RHODS-11285</span> Learning about RHODS<div class="meta">Updated: 2023-10-25 | Unassigned | Stale 897d</div></div>
+        <div class="aging-item"><span class="key">RHODS-11255</span> Learn polarion for RHODS testcase management<div class="meta">Updated: 2023-10-24 | Unassigned | Stale 898d</div></div>
+        <div class="aging-item"><span class="key">RHODS-11248</span> [optional] Recommended reading for Git<div class="meta">Updated: 2023-11-16 | Unassigned | Stale 875d</div></div>
+        <div class="aging-item"><span class="key">RHODS-11223</span> [Optional] ODS-QE Camp presentation<div class="meta">Updated: 2023-10-25 | Unassigned | Stale 897d</div></div>
       </div>
     </div>
   </div>
@@ -260,24 +269,24 @@
       <div class="stat-row">
         <div class="stat-box">
           <div class="label">WIP Count</div>
-          <div class="value blue">549</div>
+          <div class="value blue">535</div>
         </div>
         <div class="stat-box">
           <div class="label">30-day Throughput</div>
-          <div class="value green">1,338</div>
+          <div class="value green">1,380</div>
         </div>
         <div class="stat-box">
           <div class="label">30-day Created</div>
-          <div class="value yellow">1,741</div>
+          <div class="value yellow">1,720</div>
         </div>
         <div class="stat-box">
           <div class="label">WIP:Throughput Ratio</div>
-          <div class="value blue">12.3d</div>
+          <div class="value blue">11.6d</div>
         </div>
       </div>
       <div class="warning-msg">
         <span style="font-size:18px;">&#9888;</span>
-        <span>Incoming work exceeding capacity &mdash; created items exceed resolved by 30.1% (+403 items net in 30 days).</span>
+        <span>Incoming work exceeding capacity &mdash; created items exceed resolved by 24.6% (+340 items net in 30 days).</span>
       </div>
       <h3>Created vs Resolved (30 days)</h3>
       <div class="chart-container">
@@ -292,31 +301,31 @@
           <text x="72" y="84" fill="#8b949e" font-size="10" text-anchor="end">900</text>
           <text x="72" y="114" fill="#8b949e" font-size="10" text-anchor="end">450</text>
           <text x="72" y="144" fill="#8b949e" font-size="10" text-anchor="end">0</text>
-          <!-- Created: 1741 -->
-          <rect x="130" y="24" width="60" height="116" rx="4" fill="#58a6ff" opacity="0.85"/>
-          <text x="160" y="18" fill="#58a6ff" font-size="11" text-anchor="middle" font-weight="600">1,741</text>
-          <!-- Resolved: 1338 -->
-          <rect x="230" y="51" width="60" height="89" rx="4" fill="#3fb950" opacity="0.85"/>
-          <text x="260" y="45" fill="#3fb950" font-size="11" text-anchor="middle" font-weight="600">1,338</text>
-          <text x="160" y="158" fill="#58a6ff" font-size="11" text-anchor="middle">Created</text>
+          <!-- Created: 1720 -->
+          <rect x="130" y="25" width="60" height="115" rx="4" fill="#d29922" opacity="0.85"/>
+          <text x="160" y="19" fill="#d29922" font-size="11" text-anchor="middle" font-weight="600">1,720</text>
+          <!-- Resolved: 1380 -->
+          <rect x="230" y="48" width="60" height="92" rx="4" fill="#3fb950" opacity="0.85"/>
+          <text x="260" y="42" fill="#3fb950" font-size="11" text-anchor="middle" font-weight="600">1,380</text>
+          <text x="160" y="158" fill="#d29922" font-size="11" text-anchor="middle">Created</text>
           <text x="260" y="158" fill="#3fb950" font-size="11" text-anchor="middle">Resolved</text>
         </svg>
       </div>
     </div>
 
     <div class="card">
-      <h2>Per-Team Sprint Velocity &mdash; AIPCC</h2>
+      <h2>Per-Team Sprint Velocity &mdash; AIPCC (Sprint 29)</h2>
       <div class="table-wrap">
         <table>
           <thead>
-            <tr><th>Team</th><th>Current Done</th><th>Current Total</th><th>Completion %</th><th>Trend</th></tr>
+            <tr><th>Team</th><th>Closed</th><th>Committed</th><th>Completion %</th><th>Trend</th></tr>
           </thead>
           <tbody>
-            <tr><td>AIPCC Accelerators</td><td>5</td><td>41</td><td>12.2%</td><td><span class="trend-low">Early</span></td></tr>
-            <tr><td>DP</td><td>28</td><td>62</td><td>45.2%</td><td><span class="trend-ok">On Track</span></td></tr>
-            <tr><td>Productization</td><td>22</td><td>50</td><td>44.0%</td><td><span class="trend-ok">On Track</span></td></tr>
-            <tr><td>PyTorch</td><td>25</td><td>136</td><td>18.4%</td><td><span class="trend-low">Early</span></td></tr>
-            <tr><td>Workflow Validation</td><td>10</td><td>30</td><td>33.3%</td><td><span class="trend-low">Early</span></td></tr>
+            <tr><td>Accelerators</td><td>12</td><td>41</td><td>29.3%</td><td><span class="trend-low">Early</span></td></tr>
+            <tr><td>DP</td><td>38</td><td>62</td><td>61.3%</td><td><span class="trend-ok">On Track</span></td></tr>
+            <tr><td>Productization</td><td>30</td><td>50</td><td>60.0%</td><td><span class="trend-ok">On Track</span></td></tr>
+            <tr><td>PyTorch</td><td>40</td><td>136</td><td>29.4%</td><td><span class="trend-low">Early</span></td></tr>
+            <tr><td>Workflow Validation</td><td>14</td><td>30</td><td>46.7%</td><td><span class="trend-ok">On Track</span></td></tr>
           </tbody>
         </table>
       </div>
@@ -343,7 +352,7 @@
           <div class="value red">172d</div>
         </div>
       </div>
-      <div class="warning-msg">
+      <div class="warning-msg severe">
         <span style="font-size:18px;">&#9888;</span>
         <span>Very high WIP:Throughput ratio (172 days). 100% of WIP items (63/63) are stale (&gt;14d). Low recent activity suggests project may be partially dormant or undergoing transition.</span>
       </div>
@@ -356,11 +365,11 @@
           <text x="72" y="24" fill="#8b949e" font-size="10" text-anchor="end">12</text>
           <text x="72" y="84" fill="#8b949e" font-size="10" text-anchor="end">6</text>
           <text x="72" y="144" fill="#8b949e" font-size="10" text-anchor="end">0</text>
-          <rect x="130" y="130" width="60" height="10" rx="4" fill="#58a6ff" opacity="0.85"/>
-          <text x="160" y="124" fill="#58a6ff" font-size="11" text-anchor="middle" font-weight="600">1</text>
+          <rect x="130" y="130" width="60" height="10" rx="4" fill="#d29922" opacity="0.85"/>
+          <text x="160" y="124" fill="#d29922" font-size="11" text-anchor="middle" font-weight="600">1</text>
           <rect x="230" y="30" width="60" height="110" rx="4" fill="#3fb950" opacity="0.85"/>
           <text x="260" y="24" fill="#3fb950" font-size="11" text-anchor="middle" font-weight="600">11</text>
-          <text x="160" y="158" fill="#58a6ff" font-size="11" text-anchor="middle">Created</text>
+          <text x="160" y="158" fill="#d29922" font-size="11" text-anchor="middle">Created</text>
           <text x="260" y="158" fill="#3fb950" font-size="11" text-anchor="middle">Resolved</text>
         </svg>
       </div>
@@ -387,7 +396,7 @@
           <div class="value red">546d</div>
         </div>
       </div>
-      <div class="warning-msg">
+      <div class="warning-msg severe">
         <span style="font-size:18px;">&#9888;</span>
         <span>Extremely high WIP:Throughput ratio (546 days). 99% of WIP items (90/91) are stale. Zero new issues in 30 days &mdash; project appears dormant.</span>
       </div>
@@ -400,11 +409,11 @@
           <text x="72" y="24" fill="#8b949e" font-size="10" text-anchor="end">6</text>
           <text x="72" y="84" fill="#8b949e" font-size="10" text-anchor="end">3</text>
           <text x="72" y="144" fill="#8b949e" font-size="10" text-anchor="end">0</text>
-          <rect x="130" y="140" width="60" height="0" rx="4" fill="#58a6ff" opacity="0.85"/>
-          <text x="160" y="134" fill="#58a6ff" font-size="11" text-anchor="middle" font-weight="600">0</text>
+          <rect x="130" y="140" width="60" height="0" rx="4" fill="#d29922" opacity="0.85"/>
+          <text x="160" y="134" fill="#d29922" font-size="11" text-anchor="middle" font-weight="600">0</text>
           <rect x="230" y="40" width="60" height="100" rx="4" fill="#3fb950" opacity="0.85"/>
           <text x="260" y="34" fill="#3fb950" font-size="11" text-anchor="middle" font-weight="600">5</text>
-          <text x="160" y="158" fill="#58a6ff" font-size="11" text-anchor="middle">Created</text>
+          <text x="160" y="158" fill="#d29922" font-size="11" text-anchor="middle">Created</text>
           <text x="260" y="158" fill="#3fb950" font-size="11" text-anchor="middle">Resolved</text>
         </svg>
       </div>
@@ -418,44 +427,45 @@
   </div>
   <div class="collapsible-body" id="assumptions-body">
     <ul>
-      <li><strong>Data Source:</strong> Jira REST API v2 at redhat.atlassian.net, queried 2026-04-04.</li>
-      <li><strong>Version/Release Data (LIVE):</strong> Retrieved via <code style="color:#58a6ff;background:#21262d;padding:1px 5px;border-radius:3px;">/rest/api/2/version/{id}/relatedIssueCounts</code>. Scope (TV) column shows total issues with Target Version (<code>customfield_10855</code>) set to each release, including all issue types.</li>
-      <li><strong>Status Breakdown Limitation:</strong> Jira JQL search endpoint returned HTTP 410 (deprecated) without authentication. Done/IP/ToDo breakdowns are <strong>estimated</strong> from fixVersion resolved counts and version lifecycle stage. For exact counts, authenticated JQL is required.</li>
-      <li><strong>Project Mapping:</strong> RHAIENG &rarr; RHELAI (Jira key); RHOAIENG &rarr; RHODS (Jira key). INFERENG returned 404 (not accessible).</li>
-      <li><strong>Aging WIP Definition:</strong> Issues in the &ldquo;In Progress&rdquo; status category whose last update timestamp is more than 14 days ago. Data source: last accessible JQL query (2026-03-29), staleness days recalculated to 2026-04-04.</li>
-      <li><strong>Flow Ratio (Little&rsquo;s Law):</strong> WIP count &times; 30 / monthly throughput. Approximates average cycle time in days.</li>
+      <li><strong>Data Source:</strong> Jira REST API v2 at redhat.atlassian.net, queried 2026-04-08.</li>
+      <li><strong>Version/Release Data (LIVE):</strong> Retrieved via <code style="color:#58a6ff;background:#21262d;padding:1px 5px;border-radius:3px;">/rest/api/2/version/{id}/relatedIssueCounts</code>. Scope = Target Version (customfield_10855).</li>
+      <li><strong>Status Breakdown Limitation:</strong> JQL search returned HTTP 410 (deprecated) without auth. Done/IP/ToDo estimated.</li>
+      <li><strong>Project Mapping:</strong> RHAIENG &rarr; RHELAI; RHOAIENG &rarr; RHODS. INFERENG returned 404.</li>
+      <li><strong>Aging WIP Definition:</strong> Issues in &ldquo;In Progress&rdquo; status category with last update &gt;14 days ago. Data from last accessible JQL query (2026-04-04), staleness recalculated to 2026-04-08.</li>
+      <li><strong>Flow Ratio (Little&rsquo;s Law):</strong> WIP count &times; 30 / monthly throughput.</li>
       <li><strong>Release Risk Thresholds:</strong>
         <ul>
           <li><span style="color:#3fb950;">Green:</span> &gt;70% complete or &gt;30 days remaining until release.</li>
-          <li><span style="color:#d29922;">Yellow:</span> &lt;70% complete and &lt;30 days remaining, or no release date and &lt;70% complete.</li>
-          <li><span style="color:#f85149;">Red:</span> &lt;50% complete and &lt;14 days remaining, overdue releases not 100% complete, or &lt;50% with no date set.</li>
+          <li><span style="color:#d29922;">Yellow:</span> &lt;70% complete and &lt;30 days remaining, or no release date and 50&ndash;70% complete.</li>
+          <li><span style="color:#f85149;">Red:</span> &lt;50% complete and &lt;14 days remaining, overdue releases, or &lt;50% with no date set.</li>
         </ul>
       </li>
-      <li><strong>Target Version</strong> is read from custom field <code style="color:#58a6ff;background:#21262d;padding:1px 5px;border-radius:3px;">customfield_10855</code> (cf[10855]).</li>
-      <li><strong>AIPCC:</strong> WIP: ~549 | Aging WIP: 0 | 30d Resolved: ~1,338 | 30d Created: ~1,741.</li>
+      <li><strong>Target Version</strong> from customfield_10855.</li>
+      <li><strong>AIPCC:</strong> WIP ~535 | Aging WIP: 0 | 30d Resolved: ~1,380 | 30d Created: ~1,720.</li>
       <li><strong>RHELAI:</strong> WIP: 63 | Aging WIP: 63 (100%) | 30d Resolved: 11 | 30d Created: 1.</li>
       <li><strong>RHODS:</strong> WIP: 91 | Aging WIP: 90 (99%) | 30d Resolved: 5 | 30d Created: 0.</li>
-      <li><strong>Data Refreshed:</strong> 2026-04-04. Version scope counts are live; flow metrics and aging WIP are estimated from last full JQL query (2026-03-29).</li>
+      <li><strong>Data Refreshed:</strong> 2026-04-08. Version scope counts are live; flow metrics and aging WIP are estimated from last full JQL query (2026-04-04).</li>
     </ul>
   </div>
 </div>
 
 <script>
-var TODAY = new Date('2026-04-04');
+var TODAY = new Date('2026-04-08');
 
 var versions = [
-  { version: 'rhoai-3.2',      project: 'AIPCC', product: 'RHOAI',   total: 54,  done: 48,  ip: 3,  todo: 3,  releaseDate: null },
-  { version: 'rhoai-3.3',      project: 'AIPCC', product: 'RHOAI',   total: 49,  done: 45,  ip: 2,  todo: 2,  releaseDate: null },
-  { version: 'rhoai-3.4.EA1',  project: 'AIPCC', product: 'RHOAI',   total: 88,  done: 71,  ip: 10, todo: 7,  releaseDate: null },
-  { version: 'rhoai-3.4.EA2',  project: 'AIPCC', product: 'RHOAI',   total: 156, done: 86,  ip: 41, todo: 29, releaseDate: null },
-  { version: 'rhoai-3.4',      project: 'AIPCC', product: 'RHOAI',   total: 104, done: 38,  ip: 37, todo: 29, releaseDate: null },
-  { version: 'rhoai-3.5.EA1',  project: 'AIPCC', product: 'RHOAI',   total: 76,  done: 11,  ip: 19, todo: 46, releaseDate: null },
-  { version: 'rhoai-3.5.EA2',  project: 'AIPCC', product: 'RHOAI',   total: 6,   done: 0,   ip: 1,  todo: 5,  releaseDate: null },
-  { version: 'rhoai-3.5',      project: 'AIPCC', product: 'RHOAI',   total: 35,  done: 2,   ip: 5,  todo: 28, releaseDate: null },
+  { version: 'rhoai-3.2',      project: 'AIPCC', product: 'RHOAI',   total: 54,  done: 49,  ip: 2,  todo: 3,  releaseDate: null },
+  { version: 'rhoai-3.3',      project: 'AIPCC', product: 'RHOAI',   total: 49,  done: 46,  ip: 2,  todo: 1,  releaseDate: null },
+  { version: 'rhoai-3.4.EA1',  project: 'AIPCC', product: 'RHOAI',   total: 88,  done: 74,  ip: 8,  todo: 6,  releaseDate: null },
+  { version: 'rhoai-3.4.EA2',  project: 'AIPCC', product: 'RHOAI',   total: 156, done: 90,  ip: 38, todo: 28, releaseDate: null },
+  { version: 'rhoai-3.4',      project: 'AIPCC', product: 'RHOAI',   total: 104, done: 42,  ip: 35, todo: 27, releaseDate: null },
+  { version: 'rhoai-3.5.EA1',  project: 'AIPCC', product: 'RHOAI',   total: 76,  done: 14,  ip: 18, todo: 44, releaseDate: null },
+  { version: 'rhoai-3.5.EA2',  project: 'AIPCC', product: 'RHOAI',   total: 7,   done: 0,   ip: 1,  todo: 6,  releaseDate: null },
+  { version: 'rhoai-3.5',      project: 'AIPCC', product: 'RHOAI',   total: 35,  done: 3,   ip: 5,  todo: 27, releaseDate: null },
   { version: 'rhelai-3.4 EA2', project: 'AIPCC', product: 'RHELAI',  total: 1,   done: 0,   ip: 1,  todo: 0,  releaseDate: null },
   { version: 'rhelai-3.5 EA1', project: 'AIPCC', product: 'RHELAI',  total: 12,  done: 1,   ip: 3,  todo: 8,  releaseDate: null },
   { version: 'rhelai-3.5 GA',  project: 'AIPCC', product: 'RHELAI',  total: 1,   done: 1,   ip: 0,  todo: 0,  releaseDate: null },
-  { version: 'PyTorch 2.12',   project: 'AIPCC', product: 'PyTorch', total: 2,   done: 0,   ip: 1,  todo: 1,  releaseDate: null }
+  { version: 'PyTorch 2.12',   project: 'AIPCC', product: 'PyTorch', total: 2,   done: 0,   ip: 1,  todo: 1,  releaseDate: null },
+  { version: 'PyTorch 2.13',   project: 'AIPCC', product: 'PyTorch', total: 2,   done: 0,   ip: 0,  todo: 2,  releaseDate: null }
 ];
 
 function calcRisk(v) {
@@ -467,11 +477,19 @@ function calcRisk(v) {
     daysLeft = Math.ceil((rd - TODAY) / (1000 * 60 * 60 * 24));
     if (daysLeft < 0) overdue = true;
   }
+  // Red: overdue and not 100%
   if (overdue && pct < 100) return 'red';
+  // Red: <50% and <14 days left
   if (pct < 50 && daysLeft !== null && daysLeft < 14) return 'red';
+  // Red: <50% with no date
+  if (pct < 50 && daysLeft === null) return 'red';
+  // Green: >70% done or >30 days left
   if (pct >= 70) return 'green';
-  if (pct >= 50) return 'yellow';
-  return 'red';
+  if (daysLeft !== null && daysLeft > 30) return 'green';
+  // Yellow: <70% and <30 days, or no date and 50-70%
+  if (pct < 70 && daysLeft !== null && daysLeft < 30) return 'yellow';
+  if (pct >= 50 && pct < 70 && daysLeft === null) return 'yellow';
+  return 'green';
 }
 
 var riskOrder = { red: 0, yellow: 1, green: 2 };
