@@ -69,7 +69,7 @@ tr:hover td{background:#1f2133}
 <div class="header">
   <h1><span>AI Engineering</span> Dashboard</h1>
   <div class="header-meta">
-    <span>Data as of <strong style="color:#e0e0e0">2026-04-11</strong></span>
+    <span>Data as of <strong style="color:#e0e0e0">2026-04-12</strong></span>
     <span class="badge badge-blue">Source: Jira (AIPCC)</span>
   </div>
 </div>
@@ -93,22 +93,22 @@ tr:hover td{background:#1f2133}
   <div class="kpi-strip">
     <div class="card">
       <div class="card-title">Current WIP</div>
-      <div class="card-value">445</div>
+      <div class="card-value">544</div>
       <div class="card-sub">In Progress issues (AIPCC)</div>
     </div>
     <div class="card">
       <div class="card-title">30-Day Resolved</div>
-      <div class="card-value">1,293</div>
+      <div class="card-value">1,439</div>
       <div class="card-sub">Issues closed in last 30d</div>
     </div>
     <div class="card">
       <div class="card-title">30-Day Created</div>
-      <div class="card-value">1,517</div>
+      <div class="card-value">1,651</div>
       <div class="card-sub">New issues last 30d</div>
     </div>
     <div class="card">
       <div class="card-title">Backlog (To Do)</div>
-      <div class="card-value">1,086</div>
+      <div class="card-value">1,186</div>
       <div class="card-sub">Awaiting work</div>
     </div>
   </div>
@@ -123,18 +123,18 @@ tr:hover td{background:#1f2133}
       </div>
       <div class="team-desc">AI Platform & Compute Center - Primary project</div>
       <div class="vel-chart">
-        <div class="vel-bar" style="height:46%"><span class="vel-bar-val">194</span><span class="vel-bar-label">W1</span></div>
-        <div class="vel-bar" style="height:52%"><span class="vel-bar-val">223</span><span class="vel-bar-label">W2</span></div>
-        <div class="vel-bar" style="height:100%"><span class="vel-bar-val">426</span><span class="vel-bar-label">W3</span></div>
-        <div class="vel-bar" style="height:83%"><span class="vel-bar-val">354</span><span class="vel-bar-label">W4</span></div>
-        <div class="vel-bar" style="height:59%"><span class="vel-bar-val">253</span><span class="vel-bar-label">W5</span></div>
-        <div class="vel-bar current" style="height:77%"><span class="vel-bar-val">328</span><span class="vel-bar-label">W6</span></div>
+        <div class="vel-bar" style="height:45%"><span class="vel-bar-val">192</span><span class="vel-bar-label">W1</span></div>
+        <div class="vel-bar" style="height:75%"><span class="vel-bar-val">322</span><span class="vel-bar-label">W2</span></div>
+        <div class="vel-bar" style="height:100%"><span class="vel-bar-val">428</span><span class="vel-bar-label">W3</span></div>
+        <div class="vel-bar" style="height:82%"><span class="vel-bar-val">353</span><span class="vel-bar-label">W4</span></div>
+        <div class="vel-bar" style="height:59%"><span class="vel-bar-val">252</span><span class="vel-bar-label">W5</span></div>
+        <div class="vel-bar current" style="height:77%"><span class="vel-bar-val">331</span><span class="vel-bar-label">W6</span></div>
       </div>
       <div style="margin-top:20px">
-        <div class="stat-row"><span class="stat-label">Avg Velocity (6wk)</span><span class="stat-value">296/wk</span></div>
-        <div class="stat-row"><span class="stat-label">WIP</span><span class="stat-value">445</span></div>
-        <div class="stat-row"><span class="stat-label">Throughput (30d)</span><span class="stat-value">1,293</span></div>
-        <div class="stat-row"><span class="stat-label">WIP:Throughput</span><span class="stat-value">0.34</span></div>
+        <div class="stat-row"><span class="stat-label">Avg Velocity (6wk)</span><span class="stat-value">313/wk</span></div>
+        <div class="stat-row"><span class="stat-label">WIP</span><span class="stat-value">544</span></div>
+        <div class="stat-row"><span class="stat-label">Throughput (30d)</span><span class="stat-value">1,439</span></div>
+        <div class="stat-row"><span class="stat-label">WIP:Throughput</span><span class="stat-value">0.38</span></div>
       </div>
     </div>
 
@@ -193,17 +193,17 @@ tr:hover td{background:#1f2133}
     </div>
     <div class="card">
       <div class="card-title" style="color:#34d399">Green</div>
-      <div class="card-value" style="color:#34d399">9</div>
+      <div class="card-value" style="color:#34d399" id="kpiGreen">0</div>
       <div class="card-sub">On track</div>
     </div>
     <div class="card">
       <div class="card-title" style="color:#fbbf24">Yellow</div>
-      <div class="card-value" style="color:#fbbf24">2</div>
+      <div class="card-value" style="color:#fbbf24" id="kpiYellow">0</div>
       <div class="card-sub">Watch closely</div>
     </div>
     <div class="card">
       <div class="card-title" style="color:#f87171">Red</div>
-      <div class="card-value" style="color:#f87171">2</div>
+      <div class="card-value" style="color:#f87171" id="kpiRed">0</div>
       <div class="card-sub">At risk</div>
     </div>
   </div>
@@ -231,14 +231,15 @@ tr:hover td{background:#1f2133}
     <summary>Assumptions & Methodology</summary>
     <div class="assumptions-body">
       <ul>
-        <li><strong>Data source:</strong> Jira project AIPCC on redhat.atlassian.net, queried via REST API v3 on 2026-04-11.</li>
+        <li><strong>Data source:</strong> Jira project AIPCC on redhat.atlassian.net, queried via REST API v3 (search/jql endpoint) on 2026-04-12.</li>
         <li><strong>Target Version field:</strong> customfield_10855 (not fixVersion). Issues queried with <code>issuetype not in (Epic, Feature)</code>.</li>
-        <li><strong>Velocity:</strong> Weekly resolved counts from Jira search over last 6 weeks: W1=194, W2=223, W3=426, W4=354, W5=253, W6=328. Avg=296/wk.</li>
+        <li><strong>Velocity:</strong> Weekly resolved counts from Jira search over last 6 weeks: W1=192, W2=322, W3=428, W4=353, W5=252, W6=331. Avg=313/wk.</li>
         <li><strong>Risk thresholds (Sprint):</strong> Green = remaining work within +10% of avg velocity; Yellow = 10-30% over; Red = >30% over capacity.</li>
         <li><strong>Risk thresholds (Release):</strong> Based on % done, days remaining, and ratio of remaining work to historical throughput.</li>
-        <li><strong>Projects INFERENG, RHAIENG, RHOAIENG:</strong> Return empty results from anonymous API queries. These require authenticated Jira MCP integration (JIRA_URL, JIRA_EMAIL, JIRA_API_TOKEN env vars) to populate.</li>
-        <li><strong>RHELAI versions with 0 issues:</strong> No issues tagged to Target Version in AIPCC. Work may be tracked in RHAIENG/RHOAIENG (currently inaccessible) or not yet planned.</li>
-        <li><strong>Net flow concern:</strong> Created (1,517) exceeds resolved (1,293) by 224 issues/month, indicating growing backlog pressure.</li>
+        <li><strong>Projects INFERENG, RHAIENG, RHOAIENG:</strong> Return 404 / empty results from anonymous API queries. These require authenticated Jira integration (JIRA_URL, JIRA_EMAIL, JIRA_API_TOKEN env vars) to populate.</li>
+        <li><strong>API migration:</strong> Jira deprecated /rest/api/2/search (410 Gone). Data now queried via /rest/api/3/search/jql with cursor-based pagination (no total field).</li>
+        <li><strong>RHELAI versions with 0 issues:</strong> No non-Epic/Feature issues tagged to Target Version in AIPCC. Work may be tracked in RHAIENG/RHOAIENG (currently inaccessible) or not yet planned.</li>
+        <li><strong>Net flow concern:</strong> Created (1,651) exceeds resolved (1,439) by 212 issues/month, indicating growing backlog pressure.</li>
       </ul>
     </div>
   </details>
@@ -261,8 +262,8 @@ const releases = [
   {ver:'rhelai-3.5 GA',product:'RHELAI',date:'2026-08-20',done:0,ip:0,todo:0,total:0}
 ];
 
-const avgVelocity = 296;
-const today = new Date('2026-04-11');
+const avgVelocity = 313;
+const today = new Date('2026-04-12');
 
 function computeRisk(r) {
   if (r.total === 0) {
@@ -295,8 +296,10 @@ function computeRisk(r) {
 function renderReleaseTable() {
   const tbody = document.getElementById('releaseBody');
   tbody.innerHTML = '';
+  let counts = {green:0, yellow:0, red:0};
   releases.forEach(r => {
     const risk = computeRisk(r);
+    counts[risk.level]++;
     const pct = r.total > 0 ? Math.round(r.done / r.total * 100) : 0;
     const dateStr = r.date || 'TBD';
     const daysLeft = r.date ? Math.ceil((new Date(r.date) - today) / 86400000) : null;
@@ -318,6 +321,9 @@ function renderReleaseTable() {
       <td><span class="risk-dot ${risk.level}"></span>${risk.label}</td>
     </tr>`;
   });
+  document.getElementById('kpiGreen').textContent = counts.green;
+  document.getElementById('kpiYellow').textContent = counts.yellow;
+  document.getElementById('kpiRed').textContent = counts.red;
 }
 
 function switchTab(tab) {
