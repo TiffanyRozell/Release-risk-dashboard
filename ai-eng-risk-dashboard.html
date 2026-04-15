@@ -64,7 +64,7 @@ tr:hover td{background:#1f2133}
 <div class="header">
   <h1><span>Risk</span> Dashboard &mdash; AI Engineering</h1>
   <div class="header-meta">
-    <span>Data as of <strong style="color:#e0e0e0">2026-04-12</strong></span>
+    <span>Data as of <strong style="color:#e0e0e0">2026-04-15</strong></span>
     <span class="badge badge-purple">Source: Jira (AIPCC)</span>
   </div>
 </div>
@@ -97,7 +97,7 @@ tr:hover td{background:#1f2133}
   <div class="kpi-strip">
     <div class="card">
       <div class="card-title">Total Versions</div>
-      <div class="card-value">13</div>
+      <div class="card-value">14</div>
       <div class="card-sub">Unreleased tracked</div>
     </div>
     <div class="card">
@@ -140,7 +140,7 @@ tr:hover td{background:#1f2133}
     <summary>Assumptions & Methodology</summary>
     <div class="assumptions-body">
       <ul>
-        <li><strong>Data source:</strong> Jira project AIPCC on redhat.atlassian.net, queried via REST API v3 (search/jql endpoint) on 2026-04-12.</li>
+        <li><strong>Data source:</strong> Jira project AIPCC on redhat.atlassian.net, queried via REST API v3 (<code>/rest/api/3/search/jql</code> endpoint) on 2026-04-15.</li>
         <li><strong>Target Version field:</strong> customfield_10855. Issues filtered by <code>issuetype not in (Epic, Feature)</code>.</li>
         <li><strong>Risk classification:</strong>
           <ul>
@@ -150,10 +150,11 @@ tr:hover td{background:#1f2133}
           </ul>
         </li>
         <li><strong>Projects INFERENG, RHAIENG, RHOAIENG:</strong> Return 404 / empty results from anonymous queries. Require authenticated Jira integration (JIRA_URL, JIRA_EMAIL, JIRA_API_TOKEN).</li>
-        <li><strong>API migration:</strong> Jira deprecated /rest/api/2/search (410 Gone). Data now queried via /rest/api/3/search/jql with cursor-based pagination.</li>
-        <li><strong>Sprint velocity:</strong> Weekly resolved counts: W1=192, W2=322, W3=428, W4=353, W5=252, W6=331. Avg=313/wk (1,878 total over 6 weeks).</li>
+        <li><strong>API:</strong> Jira deprecated /rest/api/2/search (410 Gone). Data queried via /rest/api/3/search/jql with cursor-based pagination.</li>
+        <li><strong>Sprint velocity:</strong> Weekly resolved counts: W1=210, W2=306, W3=451, W4=337, W5=231, W6=354. Avg=315/wk (1,889 total over 6 weeks).</li>
         <li><strong>RHELAI versions with 0 issues:</strong> No non-Epic/Feature issues tagged to Target Version in AIPCC project. Work may be tracked in RHAIENG/RHOAIENG (inaccessible) or planning not yet begun.</li>
-        <li><strong>Aging WIP threshold:</strong> Issues in "In Progress" statusCategory not updated in 14+ days. 208 of 544 WIP items (38.2%) are stale.</li>
+        <li><strong>Aging WIP threshold:</strong> Issues in "In Progress" statusCategory not updated in 14+ days. 211 of 573 WIP items (36.8%) are stale.</li>
+        <li><strong>Change from prior refresh (2026-04-12):</strong> WIP 544&rarr;573 (+29). Aging 208&rarr;211 (+3). Stale rate improved 38.2%&rarr;36.8% due to WIP base growth. Oldest stale item now 30 days.</li>
       </ul>
     </div>
   </details>
@@ -164,22 +165,22 @@ tr:hover td{background:#1f2133}
   <div class="kpi-strip">
     <div class="card">
       <div class="card-title">Aging WIP Items</div>
-      <div class="card-value" style="color:#f87171">208</div>
+      <div class="card-value" style="color:#f87171">211</div>
       <div class="card-sub">In Progress &gt;14 days stale</div>
     </div>
     <div class="card">
       <div class="card-title">Total WIP</div>
-      <div class="card-value">544</div>
+      <div class="card-value">573</div>
       <div class="card-sub">All In Progress issues</div>
     </div>
     <div class="card">
       <div class="card-title">Stale Rate</div>
-      <div class="card-value" style="color:#f87171">38.2%</div>
+      <div class="card-value" style="color:#f87171">36.8%</div>
       <div class="card-sub">Aging / Total WIP</div>
     </div>
     <div class="card">
       <div class="card-title">Oldest Stale</div>
-      <div class="card-value" style="font-size:18px;padding-top:8px">27 days</div>
+      <div class="card-value" style="font-size:18px;padding-top:8px">30 days</div>
       <div class="card-sub">Since last update</div>
     </div>
   </div>
@@ -209,22 +210,22 @@ tr:hover td{background:#1f2133}
   <div class="kpi-strip">
     <div class="card">
       <div class="card-title">WIP : Throughput Ratio</div>
-      <div class="card-value">0.38</div>
+      <div class="card-value">0.39</div>
       <div class="card-sub">Lower is better (&lt;1.0 healthy)</div>
     </div>
     <div class="card">
       <div class="card-title">Created (30d)</div>
-      <div class="card-value">1,651</div>
+      <div class="card-value">1,652</div>
       <div class="card-sub">New issues entering</div>
     </div>
     <div class="card">
       <div class="card-title">Resolved (30d)</div>
-      <div class="card-value" style="color:#34d399">1,439</div>
+      <div class="card-value" style="color:#34d399">1,480</div>
       <div class="card-sub">Issues completed</div>
     </div>
     <div class="card">
       <div class="card-title">Net Flow</div>
-      <div class="card-value" style="color:#fbbf24">+212</div>
+      <div class="card-value" style="color:#fbbf24">+172</div>
       <div class="card-sub">Created - Resolved (positive = growing)</div>
     </div>
   </div>
@@ -234,7 +235,7 @@ tr:hover td{background:#1f2133}
       <div class="section-header">Created vs Resolved (30-Day)</div>
       <div style="display:flex;gap:24px;align-items:center;margin:20px 0">
         <div style="text-align:center;flex:1">
-          <div style="font-size:36px;font-weight:700;color:#60a5fa">1,651</div>
+          <div style="font-size:36px;font-weight:700;color:#60a5fa">1,652</div>
           <div style="font-size:12px;color:#9ca3af;margin-top:4px">Created</div>
           <div class="progress-bar" style="margin-top:8px;height:12px">
             <div class="progress-fill" style="width:100%;background:#60a5fa"></div>
@@ -242,15 +243,15 @@ tr:hover td{background:#1f2133}
         </div>
         <div style="font-size:24px;color:#6b7280">vs</div>
         <div style="text-align:center;flex:1">
-          <div style="font-size:36px;font-weight:700;color:#34d399">1,439</div>
+          <div style="font-size:36px;font-weight:700;color:#34d399">1,480</div>
           <div style="font-size:12px;color:#9ca3af;margin-top:4px">Resolved</div>
           <div class="progress-bar" style="margin-top:8px;height:12px">
-            <div class="progress-fill green" style="width:87%"></div>
+            <div class="progress-fill green" style="width:90%"></div>
           </div>
         </div>
       </div>
       <div style="text-align:center;padding:12px;background:#0f1117;border-radius:8px;font-size:13px;color:#fbbf24">
-        Balance ratio: 1.15 &mdash; Intake exceeds output by 15% (backlog growing)
+        Balance ratio: 1.12 &mdash; Intake exceeds output by 12% (backlog growing)
       </div>
     </div>
 
@@ -263,13 +264,13 @@ tr:hover td{background:#1f2133}
         <tbody>
           <tr>
             <td style="font-weight:600;color:#fff">AIPCC</td>
-            <td>544</td>
-            <td style="color:#34d399">1,439</td>
+            <td>573</td>
+            <td style="color:#34d399">1,480</td>
             <td>
-              <span class="badge badge-green">0.38</span>
+              <span class="badge badge-green">0.39</span>
             </td>
-            <td>1,651</td>
-            <td style="color:#fbbf24">+212</td>
+            <td>1,652</td>
+            <td style="color:#fbbf24">+172</td>
           </tr>
           <tr>
             <td style="font-weight:600;color:#6b7280">INFERENG</td>
@@ -295,49 +296,49 @@ tr:hover td{background:#1f2133}
         <div style="font-size:13px;color:#9ca3af;margin-bottom:8px">WIP Limit Analysis</div>
         <div style="display:flex;justify-content:space-between;margin-bottom:12px">
           <span style="font-size:12px;color:#6b7280">Active WIP</span>
-          <span style="font-size:14px;font-weight:600;color:#fff">544</span>
+          <span style="font-size:14px;font-weight:600;color:#fff">573</span>
         </div>
         <div style="display:flex;justify-content:space-between;margin-bottom:12px">
           <span style="font-size:12px;color:#6b7280">Stale WIP (&gt;14d)</span>
-          <span style="font-size:14px;font-weight:600;color:#f87171">208 (38.2%)</span>
+          <span style="font-size:14px;font-weight:600;color:#f87171">211 (36.8%)</span>
         </div>
         <div style="display:flex;justify-content:space-between">
           <span style="font-size:12px;color:#6b7280">Healthy WIP</span>
-          <span style="font-size:14px;font-weight:600;color:#34d399">336 (61.8%)</span>
+          <span style="font-size:14px;font-weight:600;color:#34d399">362 (63.2%)</span>
         </div>
         <div class="severity-bar" style="margin-top:12px">
-          <div style="width:61.8%;background:#34d399"></div>
-          <div style="width:38.2%;background:#f87171"></div>
+          <div style="width:63.2%;background:#34d399"></div>
+          <div style="width:36.8%;background:#f87171"></div>
         </div>
       </div>
       <div style="padding:16px;background:#0f1117;border-radius:8px">
         <div style="font-size:13px;color:#9ca3af;margin-bottom:8px">Throughput Efficiency</div>
         <div style="display:flex;justify-content:space-between;margin-bottom:12px">
           <span style="font-size:12px;color:#6b7280">Daily Resolve Rate</span>
-          <span style="font-size:14px;font-weight:600;color:#fff">~48/day</span>
+          <span style="font-size:14px;font-weight:600;color:#fff">~49/day</span>
         </div>
         <div style="display:flex;justify-content:space-between;margin-bottom:12px">
           <span style="font-size:12px;color:#6b7280">Weekly Resolve Rate</span>
-          <span style="font-size:14px;font-weight:600;color:#fff">~313/wk</span>
+          <span style="font-size:14px;font-weight:600;color:#fff">~315/wk</span>
         </div>
         <div style="display:flex;justify-content:space-between">
           <span style="font-size:12px;color:#6b7280">Cycle Time (est)</span>
-          <span style="font-size:14px;font-weight:600;color:#fbbf24">~11.3 days</span>
+          <span style="font-size:14px;font-weight:600;color:#fbbf24">~11.7 days</span>
         </div>
       </div>
       <div style="padding:16px;background:#0f1117;border-radius:8px">
         <div style="font-size:13px;color:#9ca3af;margin-bottom:8px">Backlog Pressure</div>
         <div style="display:flex;justify-content:space-between;margin-bottom:12px">
           <span style="font-size:12px;color:#6b7280">Backlog Size</span>
-          <span style="font-size:14px;font-weight:600;color:#fff">1,186</span>
+          <span style="font-size:14px;font-weight:600;color:#fff">1,235</span>
         </div>
         <div style="display:flex;justify-content:space-between;margin-bottom:12px">
           <span style="font-size:12px;color:#6b7280">Weeks to Clear</span>
-          <span style="font-size:14px;font-weight:600;color:#fbbf24">~3.8 wk</span>
+          <span style="font-size:14px;font-weight:600;color:#fbbf24">~3.9 wk</span>
         </div>
         <div style="display:flex;justify-content:space-between">
           <span style="font-size:12px;color:#6b7280">Intake Balance</span>
-          <span style="font-size:14px;font-weight:600;color:#fbbf24">Growing (+15%)</span>
+          <span style="font-size:14px;font-weight:600;color:#fbbf24">Growing (+12%)</span>
         </div>
       </div>
     </div>
@@ -347,29 +348,30 @@ tr:hover td{background:#1f2133}
     <summary>Assumptions & Methodology</summary>
     <div class="assumptions-body">
       <ul>
-        <li><strong>WIP:Throughput ratio:</strong> Current WIP (544) / 30-day resolved (1,439) = 0.38. Values &lt;1.0 indicate healthy flow; &gt;1.5 signals bottleneck.</li>
-        <li><strong>Cycle time estimate:</strong> WIP / daily throughput = 544 / (1,439/30) = ~11.3 days. Healthy WIP (336) yields ~7.0 days effective.</li>
-        <li><strong>Net flow:</strong> Created (1,651) - Resolved (1,439) = +212. Positive value indicates backlog is growing.</li>
-        <li><strong>Aging threshold:</strong> 14 days without update on an In Progress issue. 38.2% stale rate is elevated but improved from 47.6% on 2026-04-11, suggesting some stale items were addressed.</li>
+        <li><strong>WIP:Throughput ratio:</strong> Current WIP (573) / 30-day resolved (1,480) = 0.39. Values &lt;1.0 indicate healthy flow; &gt;1.5 signals bottleneck.</li>
+        <li><strong>Cycle time estimate:</strong> WIP / daily throughput = 573 / (1,480/30) = ~11.7 days. Healthy WIP (362) yields ~7.3 days effective.</li>
+        <li><strong>Net flow:</strong> Created (1,652) - Resolved (1,480) = +172. Positive value indicates backlog is growing (improved from +212 on 2026-04-12).</li>
+        <li><strong>Aging threshold:</strong> 14 days without update on an In Progress issue. 36.8% stale rate has improved from 38.2% on 2026-04-12.</li>
         <li><strong>Data limitations:</strong> Only AIPCC project accessible. INFERENG, RHAIENG, RHOAIENG require Jira MCP auth configuration.</li>
-        <li><strong>API migration:</strong> Jira deprecated /rest/api/2/search (410 Gone). Data now queried via /rest/api/3/search/jql with cursor-based pagination (no total field; counts obtained by full-page iteration with maxResults=5000).</li>
+        <li><strong>API:</strong> Jira deprecated /rest/api/2/search (410 Gone). Data queried via /rest/api/3/search/jql with cursor-based pagination (no total field; counts obtained by full-page iteration with maxResults=5000).</li>
       </ul>
     </div>
   </details>
 </div>
 
 <script>
-const today = new Date('2026-04-12');
+const today = new Date('2026-04-15');
 
 const releases = [
   {ver:'rhoai-3.3',product:'RHOAI',date:null,done:33,ip:0,todo:1,total:34},
-  {ver:'rhoai-3.4',product:'RHOAI',date:null,done:25,ip:2,todo:4,total:31},
-  {ver:'rhoai-3.4.EA1',product:'RHOAI',date:null,done:24,ip:2,todo:2,total:28},
+  {ver:'rhoai-3.4',product:'RHOAI',date:null,done:23,ip:2,todo:3,total:28},
+  {ver:'rhoai-3.4.EA1',product:'RHOAI',date:null,done:25,ip:1,todo:2,total:28},
   {ver:'rhoai-3.4.EA2',product:'RHOAI',date:null,done:3,ip:0,todo:1,total:4},
   {ver:'rhoai-3.5',product:'RHOAI',date:null,done:6,ip:2,todo:3,total:11},
-  {ver:'rhoai-3.5.EA1',product:'RHOAI',date:null,done:14,ip:3,todo:19,total:36},
+  {ver:'rhoai-3.5.EA1',product:'RHOAI',date:null,done:14,ip:4,todo:19,total:37},
   {ver:'rhoai-3.5.EA2',product:'RHOAI',date:null,done:0,ip:0,todo:1,total:1},
   {ver:'rhoai-3.6',product:'RHOAI',date:null,done:0,ip:0,todo:0,total:0},
+  {ver:'rhoai-3.6.EA1',product:'RHOAI',date:null,done:0,ip:0,todo:0,total:0},
   {ver:'rhelai-3.4 EA2',product:'RHELAI',date:'2026-04-16',done:0,ip:0,todo:0,total:0},
   {ver:'rhelai-3.4 GA',product:'RHELAI',date:'2026-05-14',done:0,ip:0,todo:0,total:0},
   {ver:'rhelai-3.5 EA1 release',product:'RHELAI',date:'2026-06-18',done:0,ip:0,todo:0,total:0},
@@ -378,26 +380,26 @@ const releases = [
 ];
 
 const agingItems = [
-  {key:'AIPCC-12398',summary:'Add cvxpy into the RHAI pipeline onboarding collection',status:'In Progress',assignee:'Einat Pacifici',updated:'2026-03-16',days:27},
-  {key:'AIPCC-12408',summary:'Add earth2studio into the RHAI pipeline onboarding collection',status:'In Progress',assignee:'Einat Pacifici',updated:'2026-03-16',days:27},
-  {key:'AIPCC-12412',summary:'Onboard jax into the AIPCC Builder',status:'In Progress',assignee:'Einat Pacifici',updated:'2026-03-16',days:27},
-  {key:'AIPCC-12417',summary:'Add jax into the RHAI pipeline onboarding collection',status:'In Progress',assignee:'Einat Pacifici',updated:'2026-03-16',days:27},
-  {key:'AIPCC-12418',summary:'Onboard lazyllm into the AIPCC Builder',status:'In Progress',assignee:'Einat Pacifici',updated:'2026-03-16',days:27},
-  {key:'AIPCC-12422',summary:'Add lazyllm into the RHAI pipeline onboarding collection',status:'In Progress',assignee:'Einat Pacifici',updated:'2026-03-16',days:27},
-  {key:'AIPCC-12420',summary:'Onboard jupytergis into the AIPCC Builder',status:'In Progress',assignee:'Einat Pacifici',updated:'2026-03-16',days:27},
-  {key:'AIPCC-12423',summary:'Add jupytergis into the RHAI pipeline onboarding collection',status:'In Progress',assignee:'Einat Pacifici',updated:'2026-03-16',days:27},
-  {key:'AIPCC-12427',summary:'Onboard pennylane into the AIPCC Builder',status:'In Progress',assignee:'Einat Pacifici',updated:'2026-03-16',days:27},
-  {key:'AIPCC-12428',summary:'Add pennylane into the RHAI pipeline onboarding collection',status:'In Progress',assignee:'Einat Pacifici',updated:'2026-03-16',days:27},
-  {key:'AIPCC-12429',summary:'Onboard curl_cffi into the AIPCC Builder',status:'In Progress',assignee:'Einat Pacifici',updated:'2026-03-16',days:27},
-  {key:'AIPCC-12430',summary:'Add curl_cffi into the RHAI pipeline onboarding collection',status:'In Progress',assignee:'Einat Pacifici',updated:'2026-03-16',days:27},
-  {key:'AIPCC-12434',summary:'Add mediapipe into the RHAI pipeline onboarding collection',status:'In Progress',assignee:'Einat Pacifici',updated:'2026-03-16',days:27},
-  {key:'AIPCC-12433',summary:'Onboard mediapipe into the AIPCC Builder',status:'In Progress',assignee:'Einat Pacifici',updated:'2026-03-16',days:27},
-  {key:'AIPCC-12352',summary:'Infrastructure: configure fine-grained permissions for mirrors and product pipelines',status:'In Progress',assignee:'Christian Heimes',updated:'2026-03-18',days:25},
-  {key:'AIPCC-4892',summary:'Pytorch Upstream Issue: 160547 export Non-strict export fails with NamedTuple input',status:'In Progress',assignee:'Unassigned',updated:'2026-03-18',days:25},
-  {key:'AIPCC-4663',summary:'[python-wheel-build/fromager] Simplify output directory handling',status:'Review',assignee:'Sean Johnston',updated:'2026-03-18',days:25},
-  {key:'AIPCC-7494',summary:'Inconsistent overflow handling in torch.clamp_min between CPU and CUDA for float16',status:'Review',assignee:'Vishal Goyal',updated:'2026-03-18',days:25},
-  {key:'AIPCC-6720',summary:'Integrate sdg-hub upstream tests into Taskotron',status:'In Progress',assignee:'Frantisek Zatloukal',updated:'2026-03-18',days:25},
-  {key:'AIPCC-1627',summary:'Migrate RHOAI Images to Use AIPCC Wheels',status:'In Progress',assignee:'Frank Jansen',updated:'2026-03-18',days:25}
+  {key:'AIPCC-12398',summary:'Add cvxpy into the RHAI pipeline onboarding collection',status:'In Progress',assignee:'Einat Pacifici',updated:'2026-03-16',days:30},
+  {key:'AIPCC-12408',summary:'Add earth2studio into the RHAI pipeline onboarding collection',status:'In Progress',assignee:'Einat Pacifici',updated:'2026-03-16',days:30},
+  {key:'AIPCC-12412',summary:'Onboard jax into the AIPCC Builder',status:'In Progress',assignee:'Einat Pacifici',updated:'2026-03-16',days:30},
+  {key:'AIPCC-12417',summary:'Add jax into the RHAI pipeline onboarding collection',status:'In Progress',assignee:'Einat Pacifici',updated:'2026-03-16',days:30},
+  {key:'AIPCC-12418',summary:'Onboard lazyllm into the AIPCC Builder',status:'In Progress',assignee:'Einat Pacifici',updated:'2026-03-16',days:30},
+  {key:'AIPCC-12422',summary:'Add lazyllm into the RHAI pipeline onboarding collection',status:'In Progress',assignee:'Einat Pacifici',updated:'2026-03-16',days:30},
+  {key:'AIPCC-12420',summary:'Onboard jupytergis into the AIPCC Builder',status:'In Progress',assignee:'Einat Pacifici',updated:'2026-03-16',days:30},
+  {key:'AIPCC-12423',summary:'Add jupytergis into the RHAI pipeline onboarding collection',status:'In Progress',assignee:'Einat Pacifici',updated:'2026-03-16',days:30},
+  {key:'AIPCC-12427',summary:'Onboard pennylane into the AIPCC Builder',status:'In Progress',assignee:'Einat Pacifici',updated:'2026-03-16',days:30},
+  {key:'AIPCC-12428',summary:'Add pennylane into the RHAI pipeline onboarding collection',status:'In Progress',assignee:'Einat Pacifici',updated:'2026-03-16',days:30},
+  {key:'AIPCC-12429',summary:'Onboard curl_cffi into the AIPCC Builder',status:'In Progress',assignee:'Einat Pacifici',updated:'2026-03-16',days:30},
+  {key:'AIPCC-12430',summary:'Add curl_cffi into the RHAI pipeline onboarding collection',status:'In Progress',assignee:'Einat Pacifici',updated:'2026-03-16',days:30},
+  {key:'AIPCC-12434',summary:'Add mediapipe into the RHAI pipeline onboarding collection',status:'In Progress',assignee:'Einat Pacifici',updated:'2026-03-16',days:30},
+  {key:'AIPCC-12433',summary:'Onboard mediapipe into the AIPCC Builder',status:'In Progress',assignee:'Einat Pacifici',updated:'2026-03-16',days:30},
+  {key:'AIPCC-12352',summary:'Infrastructure: configure fine-grained permissions for mirrors and product pipelines',status:'In Progress',assignee:'Christian Heimes',updated:'2026-03-18',days:28},
+  {key:'AIPCC-4892',summary:'Pytorch Upstream Issue: 160547 export Non-strict export fails with NamedTuple input',status:'In Progress',assignee:'Unassigned',updated:'2026-03-18',days:28},
+  {key:'AIPCC-4663',summary:'[python-wheel-build/fromager] Simplify output directory handling',status:'Review',assignee:'Sean Johnston',updated:'2026-03-18',days:28},
+  {key:'AIPCC-7494',summary:'Inconsistent overflow handling in torch.clamp_min between CPU and CUDA for float16',status:'Review',assignee:'Vishal Goyal',updated:'2026-03-18',days:28},
+  {key:'AIPCC-6720',summary:'Integrate sdg-hub upstream tests into Taskotron',status:'In Progress',assignee:'Frantisek Zatloukal',updated:'2026-03-18',days:28},
+  {key:'AIPCC-1627',summary:'Migrate RHOAI Images to Use AIPCC Wheels',status:'In Progress',assignee:'Frank Jansen',updated:'2026-03-18',days:28}
 ];
 
 function computeRisk(r) {

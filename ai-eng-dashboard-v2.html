@@ -69,7 +69,7 @@ tr:hover td{background:#1f2133}
 <div class="header">
   <h1><span>AI Engineering</span> Dashboard</h1>
   <div class="header-meta">
-    <span>Data as of <strong style="color:#e0e0e0">2026-04-12</strong></span>
+    <span>Data as of <strong style="color:#e0e0e0">2026-04-15</strong></span>
     <span class="badge badge-blue">Source: Jira (AIPCC)</span>
   </div>
 </div>
@@ -93,22 +93,22 @@ tr:hover td{background:#1f2133}
   <div class="kpi-strip">
     <div class="card">
       <div class="card-title">Current WIP</div>
-      <div class="card-value">544</div>
+      <div class="card-value">573</div>
       <div class="card-sub">In Progress issues (AIPCC)</div>
     </div>
     <div class="card">
       <div class="card-title">30-Day Resolved</div>
-      <div class="card-value">1,439</div>
+      <div class="card-value">1,480</div>
       <div class="card-sub">Issues closed in last 30d</div>
     </div>
     <div class="card">
       <div class="card-title">30-Day Created</div>
-      <div class="card-value">1,651</div>
+      <div class="card-value">1,652</div>
       <div class="card-sub">New issues last 30d</div>
     </div>
     <div class="card">
       <div class="card-title">Backlog (To Do)</div>
-      <div class="card-value">1,186</div>
+      <div class="card-value">1,235</div>
       <div class="card-sub">Awaiting work</div>
     </div>
   </div>
@@ -123,18 +123,18 @@ tr:hover td{background:#1f2133}
       </div>
       <div class="team-desc">AI Platform & Compute Center - Primary project</div>
       <div class="vel-chart">
-        <div class="vel-bar" style="height:45%"><span class="vel-bar-val">192</span><span class="vel-bar-label">W1</span></div>
-        <div class="vel-bar" style="height:75%"><span class="vel-bar-val">322</span><span class="vel-bar-label">W2</span></div>
-        <div class="vel-bar" style="height:100%"><span class="vel-bar-val">428</span><span class="vel-bar-label">W3</span></div>
-        <div class="vel-bar" style="height:82%"><span class="vel-bar-val">353</span><span class="vel-bar-label">W4</span></div>
-        <div class="vel-bar" style="height:59%"><span class="vel-bar-val">252</span><span class="vel-bar-label">W5</span></div>
-        <div class="vel-bar current" style="height:77%"><span class="vel-bar-val">331</span><span class="vel-bar-label">W6</span></div>
+        <div class="vel-bar" style="height:47%"><span class="vel-bar-val">210</span><span class="vel-bar-label">W1</span></div>
+        <div class="vel-bar" style="height:68%"><span class="vel-bar-val">306</span><span class="vel-bar-label">W2</span></div>
+        <div class="vel-bar" style="height:100%"><span class="vel-bar-val">451</span><span class="vel-bar-label">W3</span></div>
+        <div class="vel-bar" style="height:75%"><span class="vel-bar-val">337</span><span class="vel-bar-label">W4</span></div>
+        <div class="vel-bar" style="height:51%"><span class="vel-bar-val">231</span><span class="vel-bar-label">W5</span></div>
+        <div class="vel-bar current" style="height:78%"><span class="vel-bar-val">354</span><span class="vel-bar-label">W6</span></div>
       </div>
       <div style="margin-top:20px">
-        <div class="stat-row"><span class="stat-label">Avg Velocity (6wk)</span><span class="stat-value">313/wk</span></div>
-        <div class="stat-row"><span class="stat-label">WIP</span><span class="stat-value">544</span></div>
-        <div class="stat-row"><span class="stat-label">Throughput (30d)</span><span class="stat-value">1,439</span></div>
-        <div class="stat-row"><span class="stat-label">WIP:Throughput</span><span class="stat-value">0.38</span></div>
+        <div class="stat-row"><span class="stat-label">Avg Velocity (6wk)</span><span class="stat-value">315/wk</span></div>
+        <div class="stat-row"><span class="stat-label">WIP</span><span class="stat-value">573</span></div>
+        <div class="stat-row"><span class="stat-label">Throughput (30d)</span><span class="stat-value">1,480</span></div>
+        <div class="stat-row"><span class="stat-label">WIP:Throughput</span><span class="stat-value">0.39</span></div>
       </div>
     </div>
 
@@ -188,7 +188,7 @@ tr:hover td{background:#1f2133}
   <div class="kpi-strip">
     <div class="card">
       <div class="card-title">Tracked Releases</div>
-      <div class="card-value">13</div>
+      <div class="card-value">14</div>
       <div class="card-sub">Active unreleased versions</div>
     </div>
     <div class="card">
@@ -231,15 +231,16 @@ tr:hover td{background:#1f2133}
     <summary>Assumptions & Methodology</summary>
     <div class="assumptions-body">
       <ul>
-        <li><strong>Data source:</strong> Jira project AIPCC on redhat.atlassian.net, queried via REST API v3 (search/jql endpoint) on 2026-04-12.</li>
+        <li><strong>Data source:</strong> Jira project AIPCC on redhat.atlassian.net, queried via REST API v3 (<code>/rest/api/3/search/jql</code> endpoint) on 2026-04-15.</li>
         <li><strong>Target Version field:</strong> customfield_10855 (not fixVersion). Issues queried with <code>issuetype not in (Epic, Feature)</code>.</li>
-        <li><strong>Velocity:</strong> Weekly resolved counts from Jira search over last 6 weeks: W1=192, W2=322, W3=428, W4=353, W5=252, W6=331. Avg=313/wk.</li>
+        <li><strong>Velocity:</strong> Weekly resolved counts from Jira search over last 6 weeks: W1=210, W2=306, W3=451, W4=337, W5=231, W6=354. Avg=315/wk.</li>
         <li><strong>Risk thresholds (Sprint):</strong> Green = remaining work within +10% of avg velocity; Yellow = 10-30% over; Red = >30% over capacity.</li>
         <li><strong>Risk thresholds (Release):</strong> Based on % done, days remaining, and ratio of remaining work to historical throughput.</li>
         <li><strong>Projects INFERENG, RHAIENG, RHOAIENG:</strong> Return 404 / empty results from anonymous API queries. These require authenticated Jira integration (JIRA_URL, JIRA_EMAIL, JIRA_API_TOKEN env vars) to populate.</li>
-        <li><strong>API migration:</strong> Jira deprecated /rest/api/2/search (410 Gone). Data now queried via /rest/api/3/search/jql with cursor-based pagination (no total field).</li>
+        <li><strong>API:</strong> Jira deprecated /rest/api/2/search (410 Gone). Data queried via /rest/api/3/search/jql with cursor-based pagination (no total field; counts obtained by full-page iteration with maxResults=5000).</li>
         <li><strong>RHELAI versions with 0 issues:</strong> No non-Epic/Feature issues tagged to Target Version in AIPCC. Work may be tracked in RHAIENG/RHOAIENG (currently inaccessible) or not yet planned.</li>
-        <li><strong>Net flow concern:</strong> Created (1,651) exceeds resolved (1,439) by 212 issues/month, indicating growing backlog pressure.</li>
+        <li><strong>Net flow concern:</strong> Created (1,652) exceeds resolved (1,480) by 172 issues/month, indicating growing backlog pressure.</li>
+        <li><strong>Change from prior refresh (2026-04-12):</strong> WIP increased 544&rarr;573 (+29). Resolved 30d rose 1,439&rarr;1,480 (+41). Avg velocity 313&rarr;315 (+2). Stale items 208&rarr;211 (+3).</li>
       </ul>
     </div>
   </details>
@@ -248,13 +249,14 @@ tr:hover td{background:#1f2133}
 <script>
 const releases = [
   {ver:'rhoai-3.3',product:'RHOAI',date:null,done:33,ip:0,todo:1,total:34},
-  {ver:'rhoai-3.4',product:'RHOAI',date:null,done:25,ip:2,todo:4,total:31},
-  {ver:'rhoai-3.4.EA1',product:'RHOAI',date:null,done:24,ip:2,todo:2,total:28},
+  {ver:'rhoai-3.4',product:'RHOAI',date:null,done:23,ip:2,todo:3,total:28},
+  {ver:'rhoai-3.4.EA1',product:'RHOAI',date:null,done:25,ip:1,todo:2,total:28},
   {ver:'rhoai-3.4.EA2',product:'RHOAI',date:null,done:3,ip:0,todo:1,total:4},
   {ver:'rhoai-3.5',product:'RHOAI',date:null,done:6,ip:2,todo:3,total:11},
-  {ver:'rhoai-3.5.EA1',product:'RHOAI',date:null,done:14,ip:3,todo:19,total:36},
+  {ver:'rhoai-3.5.EA1',product:'RHOAI',date:null,done:14,ip:4,todo:19,total:37},
   {ver:'rhoai-3.5.EA2',product:'RHOAI',date:null,done:0,ip:0,todo:1,total:1},
   {ver:'rhoai-3.6',product:'RHOAI',date:null,done:0,ip:0,todo:0,total:0},
+  {ver:'rhoai-3.6.EA1',product:'RHOAI',date:null,done:0,ip:0,todo:0,total:0},
   {ver:'rhelai-3.4 EA2',product:'RHELAI',date:'2026-04-16',done:0,ip:0,todo:0,total:0},
   {ver:'rhelai-3.4 GA',product:'RHELAI',date:'2026-05-14',done:0,ip:0,todo:0,total:0},
   {ver:'rhelai-3.5 EA1 release',product:'RHELAI',date:'2026-06-18',done:0,ip:0,todo:0,total:0},
@@ -262,8 +264,8 @@ const releases = [
   {ver:'rhelai-3.5 GA',product:'RHELAI',date:'2026-08-20',done:0,ip:0,todo:0,total:0}
 ];
 
-const avgVelocity = 313;
-const today = new Date('2026-04-12');
+const avgVelocity = 315;
+const today = new Date('2026-04-15');
 
 function computeRisk(r) {
   if (r.total === 0) {
