@@ -26,7 +26,6 @@ body{background:#0f1117;color:#e0e0e0;font-family:-apple-system,BlinkMacSystemFo
 .content{padding:24px 32px}
 .grid{display:grid;gap:20px}
 .grid-4{grid-template-columns:repeat(auto-fill,minmax(260px,1fr))}
-.grid-1{grid-template-columns:1fr}
 .card{background:#1a1b2e;border:1px solid #2a2d3e;border-radius:12px;padding:20px;transition:border-color .2s}
 .card:hover{border-color:#3a3d5e}
 .card-title{font-size:13px;color:#9ca3af;margin-bottom:4px;text-transform:uppercase;letter-spacing:.5px}
@@ -62,6 +61,10 @@ tr:hover td{background:#1f2133}
 .assumptions-body ul{padding-left:20px}
 .no-data{text-align:center;padding:60px 20px;color:#6b7280;font-size:14px}
 .kpi-strip{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:16px;margin-bottom:24px}
+.delta{font-size:11px;margin-left:6px;font-weight:500}
+.delta.up{color:#f87171}
+.delta.down{color:#34d399}
+.delta.neutral{color:#9ca3af}
 </style>
 </head>
 <body>
@@ -69,8 +72,8 @@ tr:hover td{background:#1f2133}
 <div class="header">
   <h1><span>AI Engineering</span> Dashboard</h1>
   <div class="header-meta">
-    <span>Data as of <strong style="color:#e0e0e0">2026-04-15</strong></span>
-    <span class="badge badge-blue">Source: Jira (AIPCC)</span>
+    <span>Data as of <strong style="color:#e0e0e0">2026-04-16</strong></span>
+    <span class="badge badge-blue">Source: Jira (AIPCC, INFERENG, RHAIENG, RHOAIENG)</span>
   </div>
 </div>
 
@@ -93,22 +96,22 @@ tr:hover td{background:#1f2133}
   <div class="kpi-strip">
     <div class="card">
       <div class="card-title">Current WIP</div>
-      <div class="card-value">573</div>
+      <div class="card-value">566<span class="delta down">-7</span></div>
       <div class="card-sub">In Progress issues (AIPCC)</div>
     </div>
     <div class="card">
       <div class="card-title">30-Day Resolved</div>
-      <div class="card-value">1,480</div>
+      <div class="card-value">1,459</div>
       <div class="card-sub">Issues closed in last 30d</div>
     </div>
     <div class="card">
       <div class="card-title">30-Day Created</div>
-      <div class="card-value">1,652</div>
+      <div class="card-value">1,583</div>
       <div class="card-sub">New issues last 30d</div>
     </div>
     <div class="card">
       <div class="card-title">Backlog (To Do)</div>
-      <div class="card-value">1,235</div>
+      <div class="card-value">1,227</div>
       <div class="card-sub">Awaiting work</div>
     </div>
   </div>
@@ -123,17 +126,17 @@ tr:hover td{background:#1f2133}
       </div>
       <div class="team-desc">AI Platform & Compute Center - Primary project</div>
       <div class="vel-chart">
-        <div class="vel-bar" style="height:47%"><span class="vel-bar-val">210</span><span class="vel-bar-label">W1</span></div>
-        <div class="vel-bar" style="height:68%"><span class="vel-bar-val">306</span><span class="vel-bar-label">W2</span></div>
-        <div class="vel-bar" style="height:100%"><span class="vel-bar-val">451</span><span class="vel-bar-label">W3</span></div>
-        <div class="vel-bar" style="height:75%"><span class="vel-bar-val">337</span><span class="vel-bar-label">W4</span></div>
-        <div class="vel-bar" style="height:51%"><span class="vel-bar-val">231</span><span class="vel-bar-label">W5</span></div>
-        <div class="vel-bar current" style="height:78%"><span class="vel-bar-val">354</span><span class="vel-bar-label">W6</span></div>
+        <div class="vel-bar" style="height:60%"><span class="vel-bar-val">254</span><span class="vel-bar-label">W1</span></div>
+        <div class="vel-bar" style="height:99%"><span class="vel-bar-val">416</span><span class="vel-bar-label">W2</span></div>
+        <div class="vel-bar" style="height:100%"><span class="vel-bar-val">420</span><span class="vel-bar-label">W3</span></div>
+        <div class="vel-bar" style="height:55%"><span class="vel-bar-val">232</span><span class="vel-bar-label">W4</span></div>
+        <div class="vel-bar" style="height:65%"><span class="vel-bar-val">274</span><span class="vel-bar-label">W5</span></div>
+        <div class="vel-bar current" style="height:76%"><span class="vel-bar-val">320</span><span class="vel-bar-label">W6</span></div>
       </div>
       <div style="margin-top:20px">
-        <div class="stat-row"><span class="stat-label">Avg Velocity (6wk)</span><span class="stat-value">315/wk</span></div>
-        <div class="stat-row"><span class="stat-label">WIP</span><span class="stat-value">573</span></div>
-        <div class="stat-row"><span class="stat-label">Throughput (30d)</span><span class="stat-value">1,480</span></div>
+        <div class="stat-row"><span class="stat-label">Avg Velocity (6wk)</span><span class="stat-value">319/wk</span></div>
+        <div class="stat-row"><span class="stat-label">WIP</span><span class="stat-value">566</span></div>
+        <div class="stat-row"><span class="stat-label">Throughput (30d)</span><span class="stat-value">1,459</span></div>
         <div class="stat-row"><span class="stat-label">WIP:Throughput</span><span class="stat-value">0.39</span></div>
       </div>
     </div>
@@ -142,13 +145,13 @@ tr:hover td{background:#1f2133}
     <div class="card team-card" data-project="INFERENG">
       <div style="display:flex;justify-content:space-between;align-items:center">
         <h3>INFERENG</h3>
-        <span class="badge badge-yellow">No Access</span>
+        <span class="badge badge-yellow">No Data</span>
       </div>
       <div class="team-desc">Inference Engineering</div>
       <div class="no-data" style="padding:30px 10px">
         <div style="font-size:24px;margin-bottom:8px">&#128274;</div>
-        Project not accessible with current credentials.
-        <br>Configure Jira integration for data.
+        0 issues returned from anonymous Jira API.
+        <br>Project may require authenticated access or uses a different tracking structure.
       </div>
     </div>
 
@@ -156,13 +159,13 @@ tr:hover td{background:#1f2133}
     <div class="card team-card" data-project="RHAIENG">
       <div style="display:flex;justify-content:space-between;align-items:center">
         <h3>RHAIENG</h3>
-        <span class="badge badge-yellow">No Access</span>
+        <span class="badge badge-yellow">No Data</span>
       </div>
       <div class="team-desc">Red Hat AI Engineering</div>
       <div class="no-data" style="padding:30px 10px">
         <div style="font-size:24px;margin-bottom:8px">&#128274;</div>
-        Project not accessible with current credentials.
-        <br>Configure Jira integration for data.
+        0 issues returned from anonymous Jira API.
+        <br>Project may require authenticated access or uses a different tracking structure.
       </div>
     </div>
 
@@ -170,13 +173,13 @@ tr:hover td{background:#1f2133}
     <div class="card team-card" data-project="RHOAIENG">
       <div style="display:flex;justify-content:space-between;align-items:center">
         <h3>RHOAIENG</h3>
-        <span class="badge badge-yellow">No Access</span>
+        <span class="badge badge-yellow">No Data</span>
       </div>
       <div class="team-desc">Red Hat OpenShift AI Engineering</div>
       <div class="no-data" style="padding:30px 10px">
         <div style="font-size:24px;margin-bottom:8px">&#128274;</div>
-        Project not accessible with current credentials.
-        <br>Configure Jira integration for data.
+        0 issues returned from anonymous Jira API.
+        <br>Project may require authenticated access or uses a different tracking structure.
       </div>
     </div>
 
@@ -188,7 +191,7 @@ tr:hover td{background:#1f2133}
   <div class="kpi-strip">
     <div class="card">
       <div class="card-title">Tracked Releases</div>
-      <div class="card-value">14</div>
+      <div class="card-value" id="kpiTotal">0</div>
       <div class="card-sub">Active unreleased versions</div>
     </div>
     <div class="card">
@@ -231,16 +234,16 @@ tr:hover td{background:#1f2133}
     <summary>Assumptions & Methodology</summary>
     <div class="assumptions-body">
       <ul>
-        <li><strong>Data source:</strong> Jira project AIPCC on redhat.atlassian.net, queried via REST API v3 (<code>/rest/api/3/search/jql</code> endpoint) on 2026-04-15.</li>
+        <li><strong>Data source:</strong> Jira project AIPCC on redhat.atlassian.net, queried via REST API v3 (<code>POST /rest/api/3/search/jql</code> endpoint) on 2026-04-16.</li>
         <li><strong>Target Version field:</strong> customfield_10855 (not fixVersion). Issues queried with <code>issuetype not in (Epic, Feature)</code>.</li>
-        <li><strong>Velocity:</strong> Weekly resolved counts from Jira search over last 6 weeks: W1=210, W2=306, W3=451, W4=337, W5=231, W6=354. Avg=315/wk.</li>
+        <li><strong>Velocity:</strong> Weekly resolved counts from Jira search over last 6 weeks: W1=254, W2=416, W3=420, W4=232, W5=274, W6=320. Avg=319/wk.</li>
         <li><strong>Risk thresholds (Sprint):</strong> Green = remaining work within +10% of avg velocity; Yellow = 10-30% over; Red = >30% over capacity.</li>
         <li><strong>Risk thresholds (Release):</strong> Based on % done, days remaining, and ratio of remaining work to historical throughput.</li>
-        <li><strong>Projects INFERENG, RHAIENG, RHOAIENG:</strong> Return 404 / empty results from anonymous API queries. These require authenticated Jira integration (JIRA_URL, JIRA_EMAIL, JIRA_API_TOKEN env vars) to populate.</li>
-        <li><strong>API:</strong> Jira deprecated /rest/api/2/search (410 Gone). Data queried via /rest/api/3/search/jql with cursor-based pagination (no total field; counts obtained by full-page iteration with maxResults=5000).</li>
-        <li><strong>RHELAI versions with 0 issues:</strong> No non-Epic/Feature issues tagged to Target Version in AIPCC. Work may be tracked in RHAIENG/RHOAIENG (currently inaccessible) or not yet planned.</li>
-        <li><strong>Net flow concern:</strong> Created (1,652) exceeds resolved (1,480) by 172 issues/month, indicating growing backlog pressure.</li>
-        <li><strong>Change from prior refresh (2026-04-12):</strong> WIP increased 544&rarr;573 (+29). Resolved 30d rose 1,439&rarr;1,480 (+41). Avg velocity 313&rarr;315 (+2). Stale items 208&rarr;211 (+3).</li>
+        <li><strong>Projects INFERENG, RHAIENG, RHOAIENG:</strong> Return 0 issues from anonymous API queries (HTTP 200 but empty result sets). These require authenticated Jira integration (JIRA_URL, JIRA_EMAIL, JIRA_API_TOKEN env vars) to populate. Configure via Workspace Settings &rarr; Jira.</li>
+        <li><strong>API:</strong> Jira deprecated GET /rest/api/2/search (410 Gone). Data queried via POST /rest/api/3/search/jql with cursor-based pagination (no total field; counts obtained by full-page iteration with maxResults=5000).</li>
+        <li><strong>RHELAI versions with 0 issues:</strong> No non-Epic/Feature issues tagged to Target Version in AIPCC. Work may be tracked in RHAIENG/RHOAIENG (currently returning empty) or not yet planned.</li>
+        <li><strong>Net flow concern:</strong> Created (1,583) exceeds resolved (1,459) by 124 issues/month, indicating growing backlog pressure. This is improved from +172 on 2026-04-15.</li>
+        <li><strong>Change from prior refresh (2026-04-15):</strong> WIP 573&rarr;566 (-7). Resolved 30d 1,480&rarr;1,459 (-21). Created 30d 1,652&rarr;1,583 (-69). Avg velocity 315&rarr;319 (+4). Stale items 211&rarr;206 (-5). Stale rate 36.8%&rarr;36.4%.</li>
       </ul>
     </div>
   </details>
@@ -249,7 +252,7 @@ tr:hover td{background:#1f2133}
 <script>
 const releases = [
   {ver:'rhoai-3.3',product:'RHOAI',date:null,done:33,ip:0,todo:1,total:34},
-  {ver:'rhoai-3.4',product:'RHOAI',date:null,done:23,ip:2,todo:3,total:28},
+  {ver:'rhoai-3.4',product:'RHOAI',date:null,done:23,ip:3,todo:2,total:28},
   {ver:'rhoai-3.4.EA1',product:'RHOAI',date:null,done:25,ip:1,todo:2,total:28},
   {ver:'rhoai-3.4.EA2',product:'RHOAI',date:null,done:3,ip:0,todo:1,total:4},
   {ver:'rhoai-3.5',product:'RHOAI',date:null,done:6,ip:2,todo:3,total:11},
@@ -257,15 +260,18 @@ const releases = [
   {ver:'rhoai-3.5.EA2',product:'RHOAI',date:null,done:0,ip:0,todo:1,total:1},
   {ver:'rhoai-3.6',product:'RHOAI',date:null,done:0,ip:0,todo:0,total:0},
   {ver:'rhoai-3.6.EA1',product:'RHOAI',date:null,done:0,ip:0,todo:0,total:0},
-  {ver:'rhelai-3.4 EA2',product:'RHELAI',date:'2026-04-16',done:0,ip:0,todo:0,total:0},
+  {ver:'rhoai-3.6.EA2',product:'RHOAI',date:null,done:0,ip:0,todo:0,total:0},
+  {ver:'rhoai-3.2',product:'RHOAI',date:null,done:9,ip:0,todo:1,total:10},
+  {ver:'rhoai-3.3.4',product:'RHOAI',date:null,done:0,ip:0,todo:0,total:0},
   {ver:'rhelai-3.4 GA',product:'RHELAI',date:'2026-05-14',done:0,ip:0,todo:0,total:0},
+  {ver:'rhelai-3.5',product:'RHELAI',date:'2026-06-18',done:0,ip:0,todo:0,total:0},
   {ver:'rhelai-3.5 EA1 release',product:'RHELAI',date:'2026-06-18',done:0,ip:0,todo:0,total:0},
   {ver:'rhelai-3.5 EA2 release',product:'RHELAI',date:'2026-07-16',done:0,ip:0,todo:0,total:0},
   {ver:'rhelai-3.5 GA',product:'RHELAI',date:'2026-08-20',done:0,ip:0,todo:0,total:0}
 ];
 
-const avgVelocity = 315;
-const today = new Date('2026-04-15');
+const avgVelocity = 319;
+const today = new Date('2026-04-16');
 
 function computeRisk(r) {
   if (r.total === 0) {
@@ -323,6 +329,7 @@ function renderReleaseTable() {
       <td><span class="risk-dot ${risk.level}"></span>${risk.label}</td>
     </tr>`;
   });
+  document.getElementById('kpiTotal').textContent = releases.length;
   document.getElementById('kpiGreen').textContent = counts.green;
   document.getElementById('kpiYellow').textContent = counts.yellow;
   document.getElementById('kpiRed').textContent = counts.red;
