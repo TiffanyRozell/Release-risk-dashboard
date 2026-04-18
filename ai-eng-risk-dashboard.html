@@ -41,15 +41,18 @@ tr.stale-yellow:hover { background: #3d2e0066; }
 .risk-pill.Red { background: #3d1418; color: #f85149; }
 a { color: #58a6ff; text-decoration: none; }
 a:hover { text-decoration: underline; }
-.summary-card { background: #161b22; border: 1px solid #30363d; border-radius: 10px; padding: 20px; margin-bottom: 20px; display: inline-block; }
-.summary-card .number { font-size: 32px; font-weight: 700; color: #f85149; }
+.summary-cards { display: flex; gap: 16px; flex-wrap: wrap; margin-bottom: 20px; }
+.summary-card { background: #161b22; border: 1px solid #30363d; border-radius: 10px; padding: 20px; display: inline-block; }
+.summary-card .number { font-size: 32px; font-weight: 700; }
+.summary-card .number.red { color: #f85149; }
+.summary-card .number.yellow { color: #d29922; }
+.summary-card .number.green { color: #3fb950; }
 .summary-card .label { font-size: 14px; color: #8b949e; margin-top: 4px; }
 .filter-row { display: flex; gap: 12px; margin-bottom: 16px; align-items: center; flex-wrap: wrap; }
 .flow-cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 16px; margin-bottom: 24px; }
 .flow-card { background: #161b22; border: 1px solid #30363d; border-radius: 10px; padding: 24px; }
 .flow-card h3 { font-size: 16px; color: #f0f6fc; margin-bottom: 16px; }
 .flow-card .metrics { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
-.flow-card .metric { }
 .flow-card .metric .metric-label { font-size: 11px; color: #8b949e; text-transform: uppercase; letter-spacing: 0.5px; }
 .flow-card .metric .metric-value { font-size: 22px; font-weight: 700; color: #f0f6fc; margin-top: 2px; }
 .health-badge { padding: 4px 12px; border-radius: 12px; font-size: 12px; font-weight: 600; display: inline-block; margin-top: 12px; }
@@ -87,7 +90,7 @@ a:hover { text-decoration: underline; }
 <div class="header">
   <h1>AI Engineering Risk Dashboard</h1>
   <div class="header-right">
-    <span class="date-badge">Data as of 2026-04-17</span>
+    <span class="date-badge">Data as of 2026-04-18</span>
     <span class="source-badge">Jira REST API v3</span>
   </div>
 </div>
@@ -111,8 +114,6 @@ a:hover { text-decoration: underline; }
       <select id="productFilter">
         <option value="All">All Products</option>
         <option value="rhoai">rhoai</option>
-        <option value="rhelai">rhelai</option>
-        <option value="RHAII">RHAII</option>
       </select>
       <select id="riskFilter">
         <option value="All">All Risks</option>
@@ -120,6 +121,20 @@ a:hover { text-decoration: underline; }
         <option value="Yellow">Yellow</option>
         <option value="Green">Green</option>
       </select>
+    </div>
+    <div class="summary-cards">
+      <div class="summary-card">
+        <div class="number red">2</div>
+        <div class="label">Red risk versions</div>
+      </div>
+      <div class="summary-card">
+        <div class="number yellow">1</div>
+        <div class="label">Yellow risk versions</div>
+      </div>
+      <div class="summary-card">
+        <div class="number green">5</div>
+        <div class="label">Green risk versions</div>
+      </div>
     </div>
     <table>
       <thead>
@@ -141,9 +156,15 @@ a:hover { text-decoration: underline; }
 
   <!-- Aging WIP Tab -->
   <div id="tab-aging" class="tab-panel">
-    <div class="summary-card">
-      <div class="number">208</div>
-      <div class="label">stale issues (&gt;14 days without update)</div>
+    <div class="summary-cards">
+      <div class="summary-card">
+        <div class="number red">209</div>
+        <div class="label">stale issues (&gt;14 days without update)</div>
+      </div>
+      <div class="summary-card">
+        <div class="number yellow">565</div>
+        <div class="label">total WIP (AIPCC)</div>
+      </div>
     </div>
     <table>
       <thead>
@@ -176,10 +197,11 @@ a:hover { text-decoration: underline; }
     <summary>Assumptions &amp; Methodology</summary>
     <div class="panel">
       <ul>
-        <li><strong>Data source:</strong> Jira REST API v3 (anonymous access)</li>
+        <li><strong>Data source:</strong> Jira REST API v3 (POST /rest/api/3/search/jql, anonymous access).</li>
         <li><strong>INFERENG, RHAIENG, RHOAIENG</strong> require authenticated access; data shown only for AIPCC.</li>
         <li><strong>Velocity</strong> = resolved issues per 2-week window (proxy for sprint velocity since Agile board API requires auth).</li>
-        <li><strong>"Target Version"</strong> (customfield_10855) used for release mapping.</li>
+        <li><strong>"Target Version"</strong> (customfield_10855) used for release mapping, NOT fixVersion.</li>
+        <li><strong>Issue types excluded:</strong> Epic, Feature (per release mapping query).</li>
         <li><strong>Aging WIP</strong> = in-progress issues not updated for &gt;14 days.</li>
         <li><strong>Risk thresholds (Release Burndown):</strong>
           <ul>
@@ -189,18 +211,87 @@ a:hover { text-decoration: underline; }
             <li>No release date: &gt;70% = Green, 50-70% = Yellow, &lt;50% = Red</li>
           </ul>
         </li>
-        <li><strong>Flow health:</strong> WIP:Throughput &lt; 0.5 = Healthy, 0.5-1.0 = Warning, &gt;1.0 = Critical</li>
+        <li><strong>Flow health:</strong> WIP:Throughput ratio &lt; 0.5 = Healthy, 0.5-1.0 = Warning, &gt;1.0 = Critical</li>
       </ul>
     </div>
   </details>
 </div>
 
 <script>
-const burndownRows = [{"name": "RHAII-3.4 EA1", "product": "RHAII", "total": 1, "done": 1, "ip": 0, "todo": 0, "done_pct": 100.0, "days_left": -332, "release_date": "2025-05-20", "risk": "Red", "risk_order": 0}, {"name": "rhoai-3.5.EA1", "product": "rhoai", "total": 43, "done": 16, "ip": 7, "todo": 20, "done_pct": 37.2, "days_left": "N/A", "release_date": "", "risk": "Red", "risk_order": 0}, {"name": "rhoai-3.5.EA2", "product": "rhoai", "total": 1, "done": 0, "ip": 0, "todo": 1, "done_pct": 0.0, "days_left": "N/A", "release_date": "", "risk": "Red", "risk_order": 0}, {"name": "rhoai-3.5", "product": "rhoai", "total": 11, "done": 6, "ip": 2, "todo": 3, "done_pct": 54.5, "days_left": "N/A", "release_date": "", "risk": "Yellow", "risk_order": 1}, {"name": "rhoai-3.2", "product": "rhoai", "total": 10, "done": 9, "ip": 0, "todo": 1, "done_pct": 90.0, "days_left": "N/A", "release_date": "", "risk": "Green", "risk_order": 2}, {"name": "rhoai-3.3", "product": "rhoai", "total": 34, "done": 33, "ip": 0, "todo": 1, "done_pct": 97.1, "days_left": "N/A", "release_date": "", "risk": "Green", "risk_order": 2}, {"name": "rhoai-3.4.EA1", "product": "rhoai", "total": 28, "done": 25, "ip": 1, "todo": 2, "done_pct": 89.3, "days_left": "N/A", "release_date": "", "risk": "Green", "risk_order": 2}, {"name": "rhoai-3.4.EA2", "product": "rhoai", "total": 4, "done": 3, "ip": 0, "todo": 1, "done_pct": 75.0, "days_left": "N/A", "release_date": "", "risk": "Green", "risk_order": 2}, {"name": "rhoai-3.4", "product": "rhoai", "total": 28, "done": 23, "ip": 3, "todo": 2, "done_pct": 82.1, "days_left": "N/A", "release_date": "", "risk": "Green", "risk_order": 2}];
-const agingRows = [{"key": "AIPCC-13607", "summary": "Grant access to quay.io/aipcc/base-images/cpu:3.4.0-1773328752  for CI in opendatahub-io/spark-operator repo", "assignee": "Jakub Rusz", "updated": "2026-04-02", "days_stale": 15}, {"key": "AIPCC-13358", "summary": "Run and Verify all CI jobs for 3.4 EA2 Release", "assignee": "Unassigned", "updated": "2026-04-01", "days_stale": 16}, {"key": "AIPCC-13346", "summary": "Openshift AI Dashboard Integration Exploration", "assignee": "Gerald Trotman", "updated": "2026-03-30", "days_stale": 18}, {"key": "AIPCC-13345", "summary": "[PyTorch][CI] NCCL 2.29.7 NVLS multicast failure on H200 multi-GPU distributed tests", "assignee": "Subin George", "updated": "2026-03-30", "days_stale": 18}, {"key": "AIPCC-13324", "summary": "Add probe tests for pymssql package", "assignee": "Aparna Ayikkara", "updated": "2026-04-02", "days_stale": 15}, {"key": "AIPCC-13312", "summary": "Consolidate and create Probe Test Documentation", "assignee": "Jenna Levy", "updated": "2026-03-30", "days_stale": 18}, {"key": "AIPCC-13310", "summary": "Create Probe Test AI Helper", "assignee": "Jenna Levy", "updated": "2026-03-30", "days_stale": 18}, {"key": "AIPCC-13277", "summary": "Align AIPCC and Inference projects on a consistent \"fixed version\" or \"target version\" naming convention to enable unified Jira filtering", "assignee": "Beth White", "updated": "2026-03-27", "days_stale": 21}, {"key": "AIPCC-13275", "summary": "Implement a mandatory habit of linking all potential release-blocking bugs directly to the top-level release feature (e.g., 3.4 EA2)", "assignee": "Beth White", "updated": "2026-03-27", "days_stale": 21}, {"key": "AIPCC-13273", "summary": "Establish a unified starting point for time measurement by tracking midstream tags and PI verification dates.", "assignee": "Beth White", "updated": "2026-03-27", "days_stale": 21}, {"key": "AIPCC-13272", "summary": "Define and implement end-to-end release timing metrics on the AIPCC dashboard to visualise the transition from first build to production release.", "assignee": "Klara Bezdekova", "updated": "2026-03-27", "days_stale": 21}, {"key": "AIPCC-13270", "summary": "Automated Validation Pipeline and Earlier Cross Team Handoffs", "assignee": "Beth White", "updated": "2026-03-27", "days_stale": 21}, {"key": "AIPCC-13269", "summary": "Centralised Release Blocker and Bug Tracking", "assignee": "Beth White", "updated": "2026-03-27", "days_stale": 21}, {"key": "AIPCC-13268", "summary": "End-to-End Process Ownership and Measurement", "assignee": "Beth White", "updated": "2026-03-27", "days_stale": 21}, {"key": "AIPCC-13267", "summary": "Reducing total time to production", "assignee": "Beth White", "updated": "2026-03-27", "days_stale": 21}, {"key": "AIPCC-13264", "summary": "MaaS E2E Workflow Validation Team", "assignee": "Wesley Spinks", "updated": "2026-03-30", "days_stale": 18}, {"key": "AIPCC-13240", "summary": "Enable Marketplace releases for RHELAI", "assignee": "Victor Mugica Gomez", "updated": "2026-03-27", "days_stale": 21}, {"key": "AIPCC-13226", "summary": "Upstream contribution for Helion ", "assignee": "Priyadarshini Vasanthakumar", "updated": "2026-03-30", "days_stale": 18}, {"key": "AIPCC-13177", "summary": "[Upstream] Run benchmark tests on Pytorch 2.11", "assignee": "Nayan Bhushan Kanganahalli Nagabhushana", "updated": "2026-03-25", "days_stale": 23}, {"key": "AIPCC-13168", "summary": "Pin setuptools-scm<10 to fix build failures from new vcs-versioning dependency", "assignee": "Pavan Kalyan Reddy Cherupally", "updated": "2026-03-27", "days_stale": 21}];
-const flowData = {"AIPCC": {"wip": 571, "throughput": 1355, "created": 1628, "ratio": 0.42, "has_data": true}, "INFERENG": {"wip": 0, "throughput": 0, "created": 0, "ratio": 0, "has_data": false}, "RHAIENG": {"wip": 0, "throughput": 0, "created": 0, "ratio": 0, "has_data": false}, "RHOAIENG": {"wip": 0, "throughput": 0, "created": 0, "ratio": 0, "has_data": false}};
-const authProjects = ["INFERENG", "RHAIENG", "RHOAIENG"];
+const TODAY = new Date('2026-04-18');
 const JIRA_BASE = "https://redhat.atlassian.net/browse";
+
+const burndownRows = [
+  {"name": "rhoai-3.5.EA1", "product": "rhoai", "project": "AIPCC", "total": 42, "done": 16, "ip": 7, "todo": 19, "done_pct": 38.1, "release_date": ""},
+  {"name": "rhoai-3.5.EA2", "product": "rhoai", "project": "AIPCC", "total": 1, "done": 0, "ip": 0, "todo": 1, "done_pct": 0.0, "release_date": ""},
+  {"name": "rhoai-3.5", "product": "rhoai", "project": "AIPCC", "total": 11, "done": 7, "ip": 1, "todo": 3, "done_pct": 63.6, "release_date": ""},
+  {"name": "rhoai-3.4.EA1", "product": "rhoai", "project": "AIPCC", "total": 28, "done": 25, "ip": 1, "todo": 2, "done_pct": 89.3, "release_date": ""},
+  {"name": "rhoai-3.4.EA2", "product": "rhoai", "project": "AIPCC", "total": 4, "done": 3, "ip": 0, "todo": 1, "done_pct": 75.0, "release_date": ""},
+  {"name": "rhoai-3.4", "product": "rhoai", "project": "AIPCC", "total": 28, "done": 24, "ip": 2, "todo": 2, "done_pct": 85.7, "release_date": ""},
+  {"name": "rhoai-3.3", "product": "rhoai", "project": "AIPCC", "total": 34, "done": 33, "ip": 0, "todo": 1, "done_pct": 97.1, "release_date": ""},
+  {"name": "rhoai-3.2", "product": "rhoai", "project": "AIPCC", "total": 10, "done": 10, "ip": 0, "todo": 0, "done_pct": 100.0, "release_date": ""}
+];
+
+// Compute risk for burndown
+burndownRows.forEach(r => {
+  let daysLeft = "N/A";
+  if (r.release_date) {
+    const rd = new Date(r.release_date);
+    daysLeft = Math.round((rd - TODAY) / (1000*60*60*24));
+  }
+  r.days_left = daysLeft;
+
+  if (daysLeft !== "N/A") {
+    if ((r.done_pct < 50 && daysLeft < 14) || daysLeft < 0) {
+      r.risk = "Red"; r.risk_order = 0;
+    } else if (r.done_pct < 70 && daysLeft < 30) {
+      r.risk = "Yellow"; r.risk_order = 1;
+    } else if (r.done_pct >= 70 || daysLeft > 30) {
+      r.risk = "Green"; r.risk_order = 2;
+    } else {
+      r.risk = "Yellow"; r.risk_order = 1;
+    }
+  } else {
+    // No release date
+    if (r.done_pct >= 70) { r.risk = "Green"; r.risk_order = 2; }
+    else if (r.done_pct >= 50) { r.risk = "Yellow"; r.risk_order = 1; }
+    else { r.risk = "Red"; r.risk_order = 0; }
+  }
+});
+
+// Sort by risk severity then total descending
+burndownRows.sort((a, b) => a.risk_order - b.risk_order || b.total - a.total);
+
+const agingRows = [
+  {"key": "AIPCC-12398", "summary": "Add cvxpy into the RHAI pipeline onboarding collection", "assignee": "Einat Pacifici", "updated": "2026-03-16", "days_stale": 33, "project": "AIPCC"},
+  {"key": "AIPCC-12408", "summary": "Add earth2studio into the RHAI pipeline onboarding collection", "assignee": "Einat Pacifici", "updated": "2026-03-16", "days_stale": 33, "project": "AIPCC"},
+  {"key": "AIPCC-12412", "summary": "Onboard jax into the AIPCC Builder", "assignee": "Einat Pacifici", "updated": "2026-03-16", "days_stale": 33, "project": "AIPCC"},
+  {"key": "AIPCC-12417", "summary": "Add jax into the RHAI pipeline onboarding collection", "assignee": "Einat Pacifici", "updated": "2026-03-16", "days_stale": 33, "project": "AIPCC"},
+  {"key": "AIPCC-12418", "summary": "Onboard lazyllm into the AIPCC Builder", "assignee": "Einat Pacifici", "updated": "2026-03-16", "days_stale": 33, "project": "AIPCC"},
+  {"key": "AIPCC-12422", "summary": "Add lazyllm into the RHAI pipeline onboarding collection", "assignee": "Einat Pacifici", "updated": "2026-03-16", "days_stale": 33, "project": "AIPCC"},
+  {"key": "AIPCC-12420", "summary": "Onboard jupytergis into the AIPCC Builder", "assignee": "Einat Pacifici", "updated": "2026-03-16", "days_stale": 33, "project": "AIPCC"},
+  {"key": "AIPCC-12423", "summary": "Add jupytergis into the RHAI pipeline onboarding collection", "assignee": "Einat Pacifici", "updated": "2026-03-16", "days_stale": 33, "project": "AIPCC"},
+  {"key": "AIPCC-12427", "summary": "Onboard pennylane into the AIPCC Builder", "assignee": "Einat Pacifici", "updated": "2026-03-16", "days_stale": 33, "project": "AIPCC"},
+  {"key": "AIPCC-12428", "summary": "Add pennylane into the RHAI pipeline onboarding collection", "assignee": "Einat Pacifici", "updated": "2026-03-16", "days_stale": 33, "project": "AIPCC"},
+  {"key": "AIPCC-12429", "summary": "Onboard curl_cffi into the AIPCC Builder", "assignee": "Einat Pacifici", "updated": "2026-03-16", "days_stale": 33, "project": "AIPCC"},
+  {"key": "AIPCC-12430", "summary": "Add curl_cffi into the RHAI pipeline onboarding collection", "assignee": "Einat Pacifici", "updated": "2026-03-16", "days_stale": 33, "project": "AIPCC"},
+  {"key": "AIPCC-12434", "summary": "Add mediapipe into the RHAI pipeline onboarding collection", "assignee": "Einat Pacifici", "updated": "2026-03-16", "days_stale": 33, "project": "AIPCC"},
+  {"key": "AIPCC-12433", "summary": "Onboard mediapipe into the AIPCC Builder", "assignee": "Einat Pacifici", "updated": "2026-03-16", "days_stale": 33, "project": "AIPCC"},
+  {"key": "AIPCC-12352", "summary": "Infrastructure: configure fine-grained permissions for mirrors and product pipelines", "assignee": "Christian Heimes", "updated": "2026-03-18", "days_stale": 31, "project": "AIPCC"},
+  {"key": "AIPCC-4892", "summary": "Pytorch Upstream Issue: 160547 export Non-strict export fails when tracing with NamedTuple ...", "assignee": "Unassigned", "updated": "2026-03-18", "days_stale": 31, "project": "AIPCC"},
+  {"key": "AIPCC-4663", "summary": "[python-wheel-build/fromager] Simplify output directory handling", "assignee": "Sean Johnston", "updated": "2026-03-18", "days_stale": 31, "project": "AIPCC"},
+  {"key": "AIPCC-7494", "summary": "Inconsistent overflow handling in torch.clamp_min between CPU and CUDA for float16 tensors", "assignee": "Vishal Goyal", "updated": "2026-03-18", "days_stale": 31, "project": "AIPCC"},
+  {"key": "AIPCC-6720", "summary": "Integrate sdg-hub upstream tests into Taskotron", "assignee": "Frantisek Zatloukal", "updated": "2026-03-18", "days_stale": 31, "project": "AIPCC"},
+  {"key": "AIPCC-1627", "summary": "Migrate RHOAI Images to Use AIPCC Wheels", "assignee": "Frank Jansen", "updated": "2026-03-18", "days_stale": 31, "project": "AIPCC"}
+];
+
+const flowData = {
+  "AIPCC": {"wip": 565, "throughput": 1336, "created": 1574, "ratio": 0.42, "has_data": true},
+  "INFERENG": {"wip": 0, "throughput": 0, "created": 0, "ratio": 0, "has_data": false},
+  "RHAIENG": {"wip": 0, "throughput": 0, "created": 0, "ratio": 0, "has_data": false},
+  "RHOAIENG": {"wip": 0, "throughput": 0, "created": 0, "ratio": 0, "has_data": false}
+};
+const authProjects = ["INFERENG", "RHAIENG", "RHOAIENG"];
 
 // Tabs
 document.querySelectorAll('.tab').forEach(tab => {
@@ -223,7 +314,14 @@ function renderBurndown() {
     if (riskFilter !== 'All' && r.risk !== riskFilter) return;
     const tr = document.createElement('tr');
     const riskClass = r.risk;
-    const daysStr = r.days_left === 'N/A' ? 'N/A' : (r.days_left < 0 ? '<span style="color:#f85149;">Overdue (' + Math.abs(r.days_left) + 'd)</span>' : r.days_left + 'd');
+    let daysStr;
+    if (r.days_left === 'N/A') {
+      daysStr = '<span style="color:#8b949e;">N/A</span>';
+    } else if (r.days_left < 0) {
+      daysStr = '<span style="color:#f85149;">Overdue (' + Math.abs(r.days_left) + 'd)</span>';
+    } else {
+      daysStr = r.days_left + 'd';
+    }
     tr.innerHTML = `
       <td>${r.name}</td>
       <td>${r.product}</td>
@@ -280,7 +378,7 @@ renderBurndown();
         <h3>${pk}</h3>
         <div class="auth-notice" style="padding:20px;">
           <div class="icon">&#128274;</div>
-          Authentication required to access this project's data
+          Authentication required
         </div>
       `;
     } else {
@@ -309,13 +407,12 @@ renderBurndown();
   });
 })();
 
-// Dual bar chart (Created vs Resolved per sprint period)
+// Dual bar chart (Created vs Resolved per 2-week period)
 (function() {
   const container = document.getElementById('dualBarChart');
-  const resolved = [518, 373, 443, 682, 646, 592];
-  const labels = ["Jan 23", "Feb 6", "Feb 20", "Mar 6", "Mar 20", "Apr 3"];
-  // Approximate created per period: distribute 30-day created across ~2.14 periods (30/14)
-  const created30d = 1628;
+  const resolved = [517, 389, 440, 749, 605, 588];
+  const labels = ["Jan 24", "Feb 7", "Feb 21", "Mar 7", "Mar 21", "Apr 4"];
+  const created30d = 1574;
   const createdPerPeriod = Math.round(created30d / (30 / 14));
   const maxVal = Math.max(createdPerPeriod, ...resolved);
 
@@ -349,24 +446,14 @@ renderBurndown();
   });
 })();
 
-// Project filter (applies across all tabs)
+// Project filter (applies across tabs)
 document.getElementById('projectFilter').addEventListener('change', function() {
   const val = this.value;
-  // Flow cards
   document.querySelectorAll('.flow-card').forEach(card => {
-    if (val === 'All' || card.dataset.project === val) {
-      card.style.display = '';
-    } else {
-      card.style.display = 'none';
-    }
+    card.style.display = (val === 'All' || card.dataset.project === val) ? '' : 'none';
   });
-  // Chart section
   document.querySelectorAll('.chart-section').forEach(s => {
-    if (val === 'All' || s.dataset.project === val) {
-      s.style.display = '';
-    } else {
-      s.style.display = 'none';
-    }
+    s.style.display = (val === 'All' || s.dataset.project === val) ? '' : 'none';
   });
 });
 </script>
