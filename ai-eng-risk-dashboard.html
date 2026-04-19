@@ -90,8 +90,8 @@ a:hover { text-decoration: underline; }
 <div class="header">
   <h1>AI Engineering Risk Dashboard</h1>
   <div class="header-right">
-    <span class="date-badge">Data as of 2026-04-18</span>
-    <span class="source-badge">Jira REST API v3</span>
+    <span class="date-badge">Data as of 2026-04-19</span>
+    <span class="source-badge">Jira REST API v3 &mdash; Live</span>
   </div>
 </div>
 
@@ -122,20 +122,7 @@ a:hover { text-decoration: underline; }
         <option value="Green">Green</option>
       </select>
     </div>
-    <div class="summary-cards">
-      <div class="summary-card">
-        <div class="number red">2</div>
-        <div class="label">Red risk versions</div>
-      </div>
-      <div class="summary-card">
-        <div class="number yellow">1</div>
-        <div class="label">Yellow risk versions</div>
-      </div>
-      <div class="summary-card">
-        <div class="number green">5</div>
-        <div class="label">Green risk versions</div>
-      </div>
-    </div>
+    <div class="summary-cards" id="burndownSummary"></div>
     <table>
       <thead>
         <tr>
@@ -156,14 +143,24 @@ a:hover { text-decoration: underline; }
 
   <!-- Aging WIP Tab -->
   <div id="tab-aging" class="tab-panel">
+    <div class="filter-row">
+      <select id="agingProjectFilter">
+        <option value="All">All Projects</option>
+        <option value="AIPCC">AIPCC</option>
+      </select>
+    </div>
     <div class="summary-cards">
       <div class="summary-card">
-        <div class="number red">209</div>
+        <div class="number red">144</div>
         <div class="label">stale issues (&gt;14 days without update)</div>
       </div>
       <div class="summary-card">
-        <div class="number yellow">565</div>
+        <div class="number yellow">399</div>
         <div class="label">total WIP (AIPCC)</div>
+      </div>
+      <div class="summary-card">
+        <div class="number" style="color:#8b949e;">36%</div>
+        <div class="label">of WIP is stale</div>
       </div>
     </div>
     <table>
@@ -184,7 +181,7 @@ a:hover { text-decoration: underline; }
   <div id="tab-flow" class="tab-panel">
     <div class="flow-cards" id="flowCards"></div>
     <div class="chart-section" data-project="AIPCC">
-      <h4>Created vs Resolved (AIPCC - 2-week periods)</h4>
+      <h4>Created vs Resolved (AIPCC &mdash; 2-week periods)</h4>
       <div class="legend">
         <div class="legend-item"><div class="legend-dot" style="background:#f85149;"></div> Created (30d avg/period)</div>
         <div class="legend-item"><div class="legend-dot" style="background:#3fb950;"></div> Resolved</div>
@@ -197,12 +194,12 @@ a:hover { text-decoration: underline; }
     <summary>Assumptions &amp; Methodology</summary>
     <div class="panel">
       <ul>
-        <li><strong>Data source:</strong> Jira REST API v3 (POST /rest/api/3/search/jql, anonymous access).</li>
-        <li><strong>INFERENG, RHAIENG, RHOAIENG</strong> require authenticated access; data shown only for AIPCC.</li>
-        <li><strong>Velocity</strong> = resolved issues per 2-week window (proxy for sprint velocity since Agile board API requires auth).</li>
+        <li><strong>Data source:</strong> Jira REST API v3 (POST /rest/api/3/search/jql, anonymous access) queried live on 2026-04-19.</li>
+        <li><strong>INFERENG, RHAIENG, RHOAIENG</strong> returned 0 issues via anonymous search; data shown only for AIPCC. These projects likely require authenticated Jira access.</li>
+        <li><strong>Velocity</strong> = resolved issues per 2-week window (proxy for sprint velocity since Agile board API requires auth). Computed from 6 trailing 14-day periods.</li>
         <li><strong>"Target Version"</strong> (customfield_10855) used for release mapping, NOT fixVersion.</li>
         <li><strong>Issue types excluded:</strong> Epic, Feature (per release mapping query).</li>
-        <li><strong>Aging WIP</strong> = in-progress issues not updated for &gt;14 days.</li>
+        <li><strong>Aging WIP</strong> = in-progress issues not updated for &gt;14 days. Currently 144 of 399 WIP items (36%) are stale.</li>
         <li><strong>Risk thresholds (Release Burndown):</strong>
           <ul>
             <li>Green: &gt;70% done OR &gt;30 days left</li>
@@ -212,13 +209,14 @@ a:hover { text-decoration: underline; }
           </ul>
         </li>
         <li><strong>Flow health:</strong> WIP:Throughput ratio &lt; 0.5 = Healthy, 0.5-1.0 = Warning, &gt;1.0 = Critical</li>
+        <li><strong>Changes vs prior refresh (2026-04-18):</strong> WIP 565 &rarr; 399 (-29%), Aging WIP 209 &rarr; 144 (-31%), 30d throughput 1,336 &rarr; 1,059, 30d created 1,574 &rarr; 1,199.</li>
       </ul>
     </div>
   </details>
 </div>
 
 <script>
-const TODAY = new Date('2026-04-18');
+const TODAY = new Date('2026-04-19');
 const JIRA_BASE = "https://redhat.atlassian.net/browse";
 
 const burndownRows = [
@@ -263,30 +261,30 @@ burndownRows.forEach(r => {
 burndownRows.sort((a, b) => a.risk_order - b.risk_order || b.total - a.total);
 
 const agingRows = [
-  {"key": "AIPCC-12398", "summary": "Add cvxpy into the RHAI pipeline onboarding collection", "assignee": "Einat Pacifici", "updated": "2026-03-16", "days_stale": 33, "project": "AIPCC"},
-  {"key": "AIPCC-12408", "summary": "Add earth2studio into the RHAI pipeline onboarding collection", "assignee": "Einat Pacifici", "updated": "2026-03-16", "days_stale": 33, "project": "AIPCC"},
-  {"key": "AIPCC-12412", "summary": "Onboard jax into the AIPCC Builder", "assignee": "Einat Pacifici", "updated": "2026-03-16", "days_stale": 33, "project": "AIPCC"},
-  {"key": "AIPCC-12417", "summary": "Add jax into the RHAI pipeline onboarding collection", "assignee": "Einat Pacifici", "updated": "2026-03-16", "days_stale": 33, "project": "AIPCC"},
-  {"key": "AIPCC-12418", "summary": "Onboard lazyllm into the AIPCC Builder", "assignee": "Einat Pacifici", "updated": "2026-03-16", "days_stale": 33, "project": "AIPCC"},
-  {"key": "AIPCC-12422", "summary": "Add lazyllm into the RHAI pipeline onboarding collection", "assignee": "Einat Pacifici", "updated": "2026-03-16", "days_stale": 33, "project": "AIPCC"},
-  {"key": "AIPCC-12420", "summary": "Onboard jupytergis into the AIPCC Builder", "assignee": "Einat Pacifici", "updated": "2026-03-16", "days_stale": 33, "project": "AIPCC"},
-  {"key": "AIPCC-12423", "summary": "Add jupytergis into the RHAI pipeline onboarding collection", "assignee": "Einat Pacifici", "updated": "2026-03-16", "days_stale": 33, "project": "AIPCC"},
-  {"key": "AIPCC-12427", "summary": "Onboard pennylane into the AIPCC Builder", "assignee": "Einat Pacifici", "updated": "2026-03-16", "days_stale": 33, "project": "AIPCC"},
-  {"key": "AIPCC-12428", "summary": "Add pennylane into the RHAI pipeline onboarding collection", "assignee": "Einat Pacifici", "updated": "2026-03-16", "days_stale": 33, "project": "AIPCC"},
-  {"key": "AIPCC-12429", "summary": "Onboard curl_cffi into the AIPCC Builder", "assignee": "Einat Pacifici", "updated": "2026-03-16", "days_stale": 33, "project": "AIPCC"},
-  {"key": "AIPCC-12430", "summary": "Add curl_cffi into the RHAI pipeline onboarding collection", "assignee": "Einat Pacifici", "updated": "2026-03-16", "days_stale": 33, "project": "AIPCC"},
-  {"key": "AIPCC-12434", "summary": "Add mediapipe into the RHAI pipeline onboarding collection", "assignee": "Einat Pacifici", "updated": "2026-03-16", "days_stale": 33, "project": "AIPCC"},
-  {"key": "AIPCC-12433", "summary": "Onboard mediapipe into the AIPCC Builder", "assignee": "Einat Pacifici", "updated": "2026-03-16", "days_stale": 33, "project": "AIPCC"},
-  {"key": "AIPCC-12352", "summary": "Infrastructure: configure fine-grained permissions for mirrors and product pipelines", "assignee": "Christian Heimes", "updated": "2026-03-18", "days_stale": 31, "project": "AIPCC"},
-  {"key": "AIPCC-4892", "summary": "Pytorch Upstream Issue: 160547 export Non-strict export fails when tracing with NamedTuple ...", "assignee": "Unassigned", "updated": "2026-03-18", "days_stale": 31, "project": "AIPCC"},
-  {"key": "AIPCC-4663", "summary": "[python-wheel-build/fromager] Simplify output directory handling", "assignee": "Sean Johnston", "updated": "2026-03-18", "days_stale": 31, "project": "AIPCC"},
-  {"key": "AIPCC-7494", "summary": "Inconsistent overflow handling in torch.clamp_min between CPU and CUDA for float16 tensors", "assignee": "Vishal Goyal", "updated": "2026-03-18", "days_stale": 31, "project": "AIPCC"},
-  {"key": "AIPCC-6720", "summary": "Integrate sdg-hub upstream tests into Taskotron", "assignee": "Frantisek Zatloukal", "updated": "2026-03-18", "days_stale": 31, "project": "AIPCC"},
-  {"key": "AIPCC-1627", "summary": "Migrate RHOAI Images to Use AIPCC Wheels", "assignee": "Frank Jansen", "updated": "2026-03-18", "days_stale": 31, "project": "AIPCC"}
+  {"key": "AIPCC-12398", "summary": "Add cvxpy into the RHAI pipeline onboarding collection", "assignee": "Einat Pacifici", "updated": "2026-03-16", "days_stale": 34, "project": "AIPCC"},
+  {"key": "AIPCC-12408", "summary": "Add earth2studio into the RHAI pipeline onboarding collection", "assignee": "Einat Pacifici", "updated": "2026-03-16", "days_stale": 34, "project": "AIPCC"},
+  {"key": "AIPCC-12412", "summary": "Onboard jax into the AIPCC Builder", "assignee": "Einat Pacifici", "updated": "2026-03-16", "days_stale": 34, "project": "AIPCC"},
+  {"key": "AIPCC-12417", "summary": "Add jax into the RHAI pipeline onboarding collection", "assignee": "Einat Pacifici", "updated": "2026-03-16", "days_stale": 34, "project": "AIPCC"},
+  {"key": "AIPCC-12418", "summary": "Onboard lazyllm into the AIPCC Builder", "assignee": "Einat Pacifici", "updated": "2026-03-16", "days_stale": 34, "project": "AIPCC"},
+  {"key": "AIPCC-12422", "summary": "Add lazyllm into the RHAI pipeline onboarding collection", "assignee": "Einat Pacifici", "updated": "2026-03-16", "days_stale": 34, "project": "AIPCC"},
+  {"key": "AIPCC-12420", "summary": "Onboard jupytergis into the AIPCC Builder", "assignee": "Einat Pacifici", "updated": "2026-03-16", "days_stale": 34, "project": "AIPCC"},
+  {"key": "AIPCC-12423", "summary": "Add jupytergis into the RHAI pipeline onboarding collection", "assignee": "Einat Pacifici", "updated": "2026-03-16", "days_stale": 34, "project": "AIPCC"},
+  {"key": "AIPCC-12427", "summary": "Onboard pennylane into the AIPCC Builder", "assignee": "Einat Pacifici", "updated": "2026-03-16", "days_stale": 34, "project": "AIPCC"},
+  {"key": "AIPCC-12428", "summary": "Add pennylane into the RHAI pipeline onboarding collection", "assignee": "Einat Pacifici", "updated": "2026-03-16", "days_stale": 34, "project": "AIPCC"},
+  {"key": "AIPCC-12429", "summary": "Onboard curl_cffi into the AIPCC Builder", "assignee": "Einat Pacifici", "updated": "2026-03-16", "days_stale": 34, "project": "AIPCC"},
+  {"key": "AIPCC-12430", "summary": "Add curl_cffi into the RHAI pipeline onboarding collection", "assignee": "Einat Pacifici", "updated": "2026-03-16", "days_stale": 34, "project": "AIPCC"},
+  {"key": "AIPCC-12434", "summary": "Add mediapipe into the RHAI pipeline onboarding collection", "assignee": "Einat Pacifici", "updated": "2026-03-16", "days_stale": 34, "project": "AIPCC"},
+  {"key": "AIPCC-12433", "summary": "Onboard mediapipe into the AIPCC Builder", "assignee": "Einat Pacifici", "updated": "2026-03-16", "days_stale": 34, "project": "AIPCC"},
+  {"key": "AIPCC-12352", "summary": "Infrastructure: configure fine-grained permissions for mirrors and product pipelines", "assignee": "Christian Heimes", "updated": "2026-03-18", "days_stale": 32, "project": "AIPCC"},
+  {"key": "AIPCC-4892", "summary": "Pytorch Upstream Issue: 160547 export Non-strict export fails when tracing with NamedTuple input", "assignee": "Unassigned", "updated": "2026-03-18", "days_stale": 32, "project": "AIPCC"},
+  {"key": "AIPCC-4663", "summary": "[python-wheel-build/fromager] Simplify output directory handling", "assignee": "Sean Johnston", "updated": "2026-03-18", "days_stale": 32, "project": "AIPCC"},
+  {"key": "AIPCC-7494", "summary": "Inconsistent overflow handling in torch.clamp_min between CPU and CUDA for float16 tensors", "assignee": "Vishal Goyal", "updated": "2026-03-18", "days_stale": 32, "project": "AIPCC"},
+  {"key": "AIPCC-6720", "summary": "Integrate sdg-hub upstream tests into Taskotron", "assignee": "Frantisek Zatloukal", "updated": "2026-03-18", "days_stale": 32, "project": "AIPCC"},
+  {"key": "AIPCC-1627", "summary": "Migrate RHOAI Images to Use AIPCC Wheels", "assignee": "Frank Jansen", "updated": "2026-03-18", "days_stale": 32, "project": "AIPCC"}
 ];
 
 const flowData = {
-  "AIPCC": {"wip": 565, "throughput": 1336, "created": 1574, "ratio": 0.42, "has_data": true},
+  "AIPCC": {"wip": 399, "throughput": 1059, "created": 1199, "ratio": 0.38, "has_data": true},
   "INFERENG": {"wip": 0, "throughput": 0, "created": 0, "ratio": 0, "has_data": false},
   "RHAIENG": {"wip": 0, "throughput": 0, "created": 0, "ratio": 0, "has_data": false},
   "RHOAIENG": {"wip": 0, "throughput": 0, "created": 0, "ratio": 0, "has_data": false}
@@ -309,6 +307,22 @@ function renderBurndown() {
   const prodFilter = document.getElementById('productFilter').value;
   const riskFilter = document.getElementById('riskFilter').value;
   tbody.innerHTML = '';
+
+  let redCount = 0, yellowCount = 0, greenCount = 0;
+  burndownRows.forEach(r => {
+    if (prodFilter !== 'All' && r.product !== prodFilter) return;
+    if (r.risk === 'Red') redCount++;
+    else if (r.risk === 'Yellow') yellowCount++;
+    else greenCount++;
+  });
+
+  const summaryEl = document.getElementById('burndownSummary');
+  summaryEl.innerHTML = `
+    <div class="summary-card"><div class="number red">${redCount}</div><div class="label">Red risk versions</div></div>
+    <div class="summary-card"><div class="number yellow">${yellowCount}</div><div class="label">Yellow risk versions</div></div>
+    <div class="summary-card"><div class="number green">${greenCount}</div><div class="label">Green risk versions</div></div>
+  `;
+
   burndownRows.forEach(r => {
     if (prodFilter !== 'All' && r.product !== prodFilter) return;
     if (riskFilter !== 'All' && r.risk !== riskFilter) return;
@@ -348,18 +362,26 @@ renderBurndown();
 // Aging WIP table
 (function() {
   const tbody = document.getElementById('agingBody');
-  agingRows.forEach(r => {
-    const tr = document.createElement('tr');
-    if (r.days_stale > 30) tr.className = 'stale-red';
-    else if (r.days_stale >= 14) tr.className = 'stale-yellow';
-    tr.innerHTML = `
-      <td><a href="${JIRA_BASE}/${r.key}" target="_blank">${r.key}</a></td>
-      <td>${r.summary}</td>
-      <td>${r.assignee}</td>
-      <td>${r.updated}</td>
-      <td>${r.days_stale}</td>
-    `;
-    tbody.appendChild(tr);
+  function renderAging(filterProject) {
+    tbody.innerHTML = '';
+    agingRows.forEach(r => {
+      if (filterProject !== 'All' && r.project !== filterProject) return;
+      const tr = document.createElement('tr');
+      if (r.days_stale > 30) tr.className = 'stale-red';
+      else if (r.days_stale >= 14) tr.className = 'stale-yellow';
+      tr.innerHTML = `
+        <td><a href="${JIRA_BASE}/${r.key}" target="_blank">${r.key}</a></td>
+        <td>${r.summary}</td>
+        <td>${r.assignee}</td>
+        <td>${r.updated}</td>
+        <td>${r.days_stale}</td>
+      `;
+      tbody.appendChild(tr);
+    });
+  }
+  renderAging('All');
+  document.getElementById('agingProjectFilter').addEventListener('change', function() {
+    renderAging(this.value);
   });
 })();
 
@@ -389,7 +411,7 @@ renderBurndown();
 
       const trendClass = fd.created > fd.throughput ? 'trend-concerning' : 'trend-healthy';
       const trendText = fd.created > fd.throughput
-        ? 'Created > Resolved (backlog growing)'
+        ? 'Created > Resolved (backlog growing +' + (fd.created - fd.throughput) + ')'
         : 'Resolved >= Created (backlog shrinking)';
 
       card.innerHTML = `
@@ -410,9 +432,9 @@ renderBurndown();
 // Dual bar chart (Created vs Resolved per 2-week period)
 (function() {
   const container = document.getElementById('dualBarChart');
-  const resolved = [517, 389, 440, 749, 605, 588];
-  const labels = ["Jan 24", "Feb 7", "Feb 21", "Mar 7", "Mar 21", "Apr 4"];
-  const created30d = 1574;
+  const resolved = [503, 345, 411, 675, 510, 518];
+  const labels = ["Feb 7", "Feb 21", "Mar 7", "Mar 21", "Apr 4", "Apr 18"];
+  const created30d = 1199;
   const createdPerPeriod = Math.round(created30d / (30 / 14));
   const maxVal = Math.max(createdPerPeriod, ...resolved);
 
