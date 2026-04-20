@@ -73,7 +73,7 @@ tr:hover { background: #161b2266; }
 <div class="header">
   <h1>AI Engineering Dashboard</h1>
   <div class="header-right">
-    <span class="date-badge">Data as of 2026-04-19</span>
+    <span class="date-badge">Data as of 2026-04-20</span>
     <span class="source-badge">Jira REST API v3 &mdash; Live</span>
   </div>
 </div>
@@ -95,22 +95,22 @@ tr:hover { background: #161b2266; }
     <div class="kpi-strip">
       <div class="kpi-card">
         <div class="kpi-label">Current WIP</div>
-        <div class="kpi-value">399</div>
-        <div class="kpi-delta delta-down">-166 vs prior refresh</div>
+        <div class="kpi-value">547</div>
+        <div class="kpi-delta delta-up">+148 vs prior refresh</div>
       </div>
       <div class="kpi-card">
         <div class="kpi-label">30-Day Throughput</div>
-        <div class="kpi-value">1,059</div>
+        <div class="kpi-value">1,250</div>
         <div class="kpi-delta delta-neutral">resolved issues</div>
       </div>
       <div class="kpi-card">
         <div class="kpi-label">30-Day Created</div>
-        <div class="kpi-value">1,199</div>
-        <div class="kpi-delta delta-up">+140 net new</div>
+        <div class="kpi-value">1,404</div>
+        <div class="kpi-delta delta-up">+154 net new</div>
       </div>
       <div class="kpi-card">
         <div class="kpi-label">Avg Sprint Velocity</div>
-        <div class="kpi-value">494</div>
+        <div class="kpi-value">548</div>
         <div class="kpi-delta delta-neutral">per 2-week period</div>
       </div>
     </div>
@@ -120,10 +120,10 @@ tr:hover { background: #161b2266; }
       <h3>AIPCC <span class="risk-badge green">On Track</span></h3>
       <div class="chart-container" id="velocityChart"></div>
       <div class="stats-row">
-        <div class="stat">Done: <strong>6,429</strong></div>
-        <div class="stat">In Progress: <strong>399</strong></div>
-        <div class="stat">To Do: <strong>1,051</strong></div>
-        <div class="stat">Aging WIP: <strong style="color:#d29922;">144</strong></div>
+        <div class="stat">Done: <strong>7,464</strong></div>
+        <div class="stat">In Progress: <strong>547</strong></div>
+        <div class="stat">To Do: <strong>1,225</strong></div>
+        <div class="stat">Aging WIP: <strong style="color:#d29922;">207</strong></div>
       </div>
     </div>
 
@@ -179,8 +179,8 @@ tr:hover { background: #161b2266; }
       <summary>Assumptions &amp; Methodology</summary>
       <div class="panel">
         <ul>
-          <li><strong>Data source:</strong> Jira REST API v3 (POST /rest/api/3/search/jql, anonymous access) queried live on 2026-04-19.</li>
-          <li><strong>INFERENG, RHAIENG, RHOAIENG</strong> returned 0 issues via anonymous search; data shown only for AIPCC.</li>
+          <li><strong>Data source:</strong> Jira REST API v3 (POST /rest/api/3/search/jql, anonymous access) queried live on 2026-04-20.</li>
+          <li><strong>INFERENG, RHAIENG, RHOAIENG</strong> returned 0 issues via anonymous search; data shown only for AIPCC. These projects require authenticated Jira access.</li>
           <li><strong>Velocity</strong> = resolved issues per 2-week window (proxy for sprint velocity since Agile board API requires auth). Computed from 6 trailing 14-day periods.</li>
           <li><strong>"Target Version"</strong> (customfield_10855) used for release mapping, NOT fixVersion.</li>
           <li><strong>Issue types excluded:</strong> Epic, Feature (per release mapping query).</li>
@@ -191,8 +191,8 @@ tr:hover { background: #161b2266; }
               <li>Red: remaining &gt; avg_velocity &times; 1.3 (&gt;30% over avg velocity)</li>
             </ul>
           </li>
-          <li><strong>Aging WIP</strong> = in-progress issues not updated for &gt;14 days.</li>
-          <li><strong>KPI deltas</strong> compare to prior refresh (2026-04-18). WIP dropped from 565 &rarr; 399 (-166).</li>
+          <li><strong>Aging WIP</strong> = in-progress issues not updated for &gt;14 days. Currently 207 of 547 WIP items (37.8%) are stale.</li>
+          <li><strong>KPI deltas</strong> compare to prior refresh (2026-04-19). WIP rose from 399 &rarr; 547 (+148). Throughput 1,059 &rarr; 1,250. Created 1,199 &rarr; 1,404. Avg velocity 494 &rarr; 548.</li>
         </ul>
       </div>
     </details>
@@ -200,9 +200,9 @@ tr:hover { background: #161b2266; }
 </div>
 
 <script>
-const velValues = [503, 345, 411, 675, 510, 518];
+const velValues = [524, 382, 441, 750, 604, 587];
 const velLabels = ["Feb 7", "Feb 21", "Mar 7", "Mar 21", "Apr 4", "Apr 18"];
-const avgVelocity = 494;
+const avgVelocity = 548;
 
 const releaseRows = [
   {"name": "rhoai-3.5.EA1", "project": "AIPCC", "total": 42, "done": 16, "ip": 7, "todo": 19, "done_pct": 38.1, "risk": "Green", "risk_order": 2},
