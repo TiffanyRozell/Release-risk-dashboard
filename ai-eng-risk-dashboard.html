@@ -90,7 +90,7 @@ a:hover { text-decoration: underline; }
 <div class="header">
   <h1>AI Engineering Risk Dashboard</h1>
   <div class="header-right">
-    <span class="date-badge">Data as of 2026-04-20</span>
+    <span class="date-badge">Data as of 2026-04-21</span>
     <span class="source-badge">Jira REST API v3 &mdash; Live</span>
   </div>
 </div>
@@ -151,15 +151,15 @@ a:hover { text-decoration: underline; }
     </div>
     <div class="summary-cards">
       <div class="summary-card">
-        <div class="number red">207</div>
+        <div class="number red">156</div>
         <div class="label">stale issues (&gt;14 days without update)</div>
       </div>
       <div class="summary-card">
-        <div class="number yellow">547</div>
+        <div class="number yellow">397</div>
         <div class="label">total WIP (AIPCC)</div>
       </div>
       <div class="summary-card">
-        <div class="number" style="color:#8b949e;">37.8%</div>
+        <div class="number" style="color:#8b949e;">39.3%</div>
         <div class="label">of WIP is stale</div>
       </div>
     </div>
@@ -194,12 +194,12 @@ a:hover { text-decoration: underline; }
     <summary>Assumptions &amp; Methodology</summary>
     <div class="panel">
       <ul>
-        <li><strong>Data source:</strong> Jira REST API v3 (POST /rest/api/3/search/jql, anonymous access) queried live on 2026-04-20.</li>
+        <li><strong>Data source:</strong> Jira REST API v3 (GET /rest/api/3/search/jql, cursor-based pagination, anonymous access) queried live on 2026-04-21.</li>
         <li><strong>INFERENG, RHAIENG, RHOAIENG</strong> returned 0 issues via anonymous search; data shown only for AIPCC. These projects require authenticated Jira access.</li>
         <li><strong>Velocity</strong> = resolved issues per 2-week window (proxy for sprint velocity since Agile board API requires auth). Computed from 6 trailing 14-day periods.</li>
         <li><strong>"Target Version"</strong> (customfield_10855) used for release mapping, NOT fixVersion.</li>
         <li><strong>Issue types excluded:</strong> Epic, Feature (per release mapping query).</li>
-        <li><strong>Aging WIP</strong> = in-progress issues not updated for &gt;14 days. Currently 207 of 547 WIP items (37.8%) are stale.</li>
+        <li><strong>Aging WIP</strong> = in-progress issues not updated for &gt;14 days. Currently 156 of 397 WIP items (39.3%) are stale.</li>
         <li><strong>Risk thresholds (Release Burndown):</strong>
           <ul>
             <li>Green: &gt;70% done OR &gt;30 days left</li>
@@ -209,18 +209,19 @@ a:hover { text-decoration: underline; }
           </ul>
         </li>
         <li><strong>Flow health:</strong> WIP:Throughput ratio &lt; 0.5 = Healthy, 0.5-1.0 = Warning, &gt;1.0 = Critical</li>
-        <li><strong>Changes vs prior refresh (2026-04-19):</strong> WIP 399 &rarr; 547 (+37%), Aging WIP 144 &rarr; 207 (+44%), 30d throughput 1,059 &rarr; 1,250, 30d created 1,199 &rarr; 1,404.</li>
+        <li><strong>Changes vs prior refresh (2026-04-20):</strong> WIP 547 &rarr; 397 (-27%), Aging WIP 207 &rarr; 156 (-25%), 30d throughput 1,250 &rarr; 1,149, 30d created 1,404 &rarr; 1,244.</li>
+        <li><strong>Jira API note:</strong> Red Hat Jira has migrated to v3 cursor-based search (/rest/api/3/search/jql). Old /rest/api/2/search returns 410 Gone. Exact counts obtained via full cursor pagination (maxResults=100 per page).</li>
       </ul>
     </div>
   </details>
 </div>
 
 <script>
-const TODAY = new Date('2026-04-20');
+const TODAY = new Date('2026-04-21');
 const JIRA_BASE = "https://redhat.atlassian.net/browse";
 
 const burndownRows = [
-  {"name": "rhoai-3.5.EA1", "product": "rhoai", "project": "AIPCC", "total": 42, "done": 16, "ip": 7, "todo": 19, "done_pct": 38.1, "release_date": ""},
+  {"name": "rhoai-3.5.EA1", "product": "rhoai", "project": "AIPCC", "total": 58, "done": 22, "ip": 16, "todo": 20, "done_pct": 37.9, "release_date": ""},
   {"name": "rhoai-3.5.EA2", "product": "rhoai", "project": "AIPCC", "total": 1, "done": 0, "ip": 0, "todo": 1, "done_pct": 0.0, "release_date": ""},
   {"name": "rhoai-3.5", "product": "rhoai", "project": "AIPCC", "total": 11, "done": 7, "ip": 1, "todo": 3, "done_pct": 63.6, "release_date": ""},
   {"name": "rhoai-3.4.EA1", "product": "rhoai", "project": "AIPCC", "total": 28, "done": 25, "ip": 1, "todo": 2, "done_pct": 89.3, "release_date": ""},
@@ -261,30 +262,30 @@ burndownRows.forEach(r => {
 burndownRows.sort((a, b) => a.risk_order - b.risk_order || b.total - a.total);
 
 const agingRows = [
-  {"key": "AIPCC-13651", "summary": "torchcomms Upstream Contributions", "assignee": "Sean McGovern", "updated": "2026-04-04", "days_stale": 16, "project": "AIPCC"},
-  {"key": "AIPCC-13607", "summary": "Grant access to quay.io/aipcc/base-images/cpu:3.4.0 for CI in opendatahub-io/spark-operator repo", "assignee": "Jakub Rusz", "updated": "2026-04-02", "days_stale": 18, "project": "AIPCC"},
-  {"key": "AIPCC-13358", "summary": "Run and Verify all CI jobs for 3.4 EA2 Release", "assignee": "Unassigned", "updated": "2026-04-01", "days_stale": 19, "project": "AIPCC"},
-  {"key": "AIPCC-13346", "summary": "Openshift AI Dashboard Integration Exploration", "assignee": "Gerald Trotman", "updated": "2026-03-30", "days_stale": 21, "project": "AIPCC"},
-  {"key": "AIPCC-13345", "summary": "[PyTorch][CI] NCCL 2.29.7 NVLS multicast failure on H200 multi-GPU distributed tests", "assignee": "Subin George", "updated": "2026-03-30", "days_stale": 21, "project": "AIPCC"},
-  {"key": "AIPCC-13324", "summary": "Add probe tests for pymssql package", "assignee": "Aparna Ayikkara", "updated": "2026-04-02", "days_stale": 18, "project": "AIPCC"},
-  {"key": "AIPCC-13312", "summary": "Consolidate and create Probe Test Documentation", "assignee": "Jenna Levy", "updated": "2026-03-30", "days_stale": 21, "project": "AIPCC"},
-  {"key": "AIPCC-13310", "summary": "Create Probe Test AI Helper", "assignee": "Jenna Levy", "updated": "2026-03-30", "days_stale": 21, "project": "AIPCC"},
-  {"key": "AIPCC-13277", "summary": "Align AIPCC and Inference projects on consistent version naming convention", "assignee": "Beth White", "updated": "2026-03-27", "days_stale": 24, "project": "AIPCC"},
-  {"key": "AIPCC-13275", "summary": "Implement mandatory habit of linking release-blocking bugs to top-level release feature", "assignee": "Beth White", "updated": "2026-03-27", "days_stale": 24, "project": "AIPCC"},
-  {"key": "AIPCC-13273", "summary": "Establish unified starting point for time measurement by tracking midstream tags and PI dates", "assignee": "Beth White", "updated": "2026-03-27", "days_stale": 24, "project": "AIPCC"},
-  {"key": "AIPCC-13272", "summary": "Define and implement end-to-end release timing metrics on the AIPCC dashboard", "assignee": "Klara Bezdekova", "updated": "2026-03-27", "days_stale": 24, "project": "AIPCC"},
-  {"key": "AIPCC-13270", "summary": "Automated Validation Pipeline and Earlier Cross Team Handoffs", "assignee": "Beth White", "updated": "2026-03-27", "days_stale": 24, "project": "AIPCC"},
-  {"key": "AIPCC-13269", "summary": "Centralised Release Blocker and Bug Tracking", "assignee": "Beth White", "updated": "2026-03-27", "days_stale": 24, "project": "AIPCC"},
-  {"key": "AIPCC-13268", "summary": "End-to-End Process Ownership and Measurement", "assignee": "Beth White", "updated": "2026-03-27", "days_stale": 24, "project": "AIPCC"},
-  {"key": "AIPCC-13267", "summary": "Reducing total time to production", "assignee": "Beth White", "updated": "2026-03-27", "days_stale": 24, "project": "AIPCC"},
-  {"key": "AIPCC-13264", "summary": "MaaS E2E Workflow Validation Team", "assignee": "Wesley Spinks", "updated": "2026-03-30", "days_stale": 21, "project": "AIPCC"},
-  {"key": "AIPCC-13240", "summary": "Enable Marketplace releases for RHELAI", "assignee": "Victor Mugica Gomez", "updated": "2026-03-27", "days_stale": 24, "project": "AIPCC"},
-  {"key": "AIPCC-13226", "summary": "Upstream contribution for Helion", "assignee": "Priyadarshini Vasanthakumar", "updated": "2026-03-30", "days_stale": 21, "project": "AIPCC"},
-  {"key": "AIPCC-13177", "summary": "[Upstream] Run benchmark tests on Pytorch 2.11", "assignee": "Nayan Bhushan K N", "updated": "2026-03-25", "days_stale": 26, "project": "AIPCC"}
+  {"key": "AIPCC-12398", "summary": "Add cvxpy into the RHAI pipeline onboarding collection", "assignee": "Einat Pacifici", "updated": "2026-03-16", "days_stale": 36, "project": "AIPCC"},
+  {"key": "AIPCC-12408", "summary": "Add earth2studio into the RHAI pipeline onboarding collection", "assignee": "Einat Pacifici", "updated": "2026-03-16", "days_stale": 36, "project": "AIPCC"},
+  {"key": "AIPCC-12412", "summary": "Onboard jax into the AIPCC Builder", "assignee": "Einat Pacifici", "updated": "2026-03-16", "days_stale": 36, "project": "AIPCC"},
+  {"key": "AIPCC-12417", "summary": "Add jax into the RHAI pipeline onboarding collection", "assignee": "Einat Pacifici", "updated": "2026-03-16", "days_stale": 36, "project": "AIPCC"},
+  {"key": "AIPCC-12418", "summary": "Onboard lazyllm into the AIPCC Builder", "assignee": "Einat Pacifici", "updated": "2026-03-16", "days_stale": 36, "project": "AIPCC"},
+  {"key": "AIPCC-12422", "summary": "Add lazyllm into the RHAI pipeline onboarding collection", "assignee": "Einat Pacifici", "updated": "2026-03-16", "days_stale": 36, "project": "AIPCC"},
+  {"key": "AIPCC-12420", "summary": "Onboard jupytergis into the AIPCC Builder", "assignee": "Einat Pacifici", "updated": "2026-03-16", "days_stale": 36, "project": "AIPCC"},
+  {"key": "AIPCC-12423", "summary": "Add jupytergis into the RHAI pipeline onboarding collection", "assignee": "Einat Pacifici", "updated": "2026-03-16", "days_stale": 36, "project": "AIPCC"},
+  {"key": "AIPCC-12427", "summary": "Onboard pennylane into the AIPCC Builder", "assignee": "Einat Pacifici", "updated": "2026-03-16", "days_stale": 36, "project": "AIPCC"},
+  {"key": "AIPCC-12428", "summary": "Add pennylane into the RHAI pipeline onboarding collection", "assignee": "Einat Pacifici", "updated": "2026-03-16", "days_stale": 36, "project": "AIPCC"},
+  {"key": "AIPCC-12429", "summary": "Onboard curl_cffi into the AIPCC Builder", "assignee": "Einat Pacifici", "updated": "2026-03-16", "days_stale": 36, "project": "AIPCC"},
+  {"key": "AIPCC-12430", "summary": "Add curl_cffi into the RHAI pipeline onboarding collection", "assignee": "Einat Pacifici", "updated": "2026-03-16", "days_stale": 36, "project": "AIPCC"},
+  {"key": "AIPCC-12434", "summary": "Add mediapipe into the RHAI pipeline onboarding collection", "assignee": "Einat Pacifici", "updated": "2026-03-16", "days_stale": 36, "project": "AIPCC"},
+  {"key": "AIPCC-12433", "summary": "Onboard mediapipe into the AIPCC Builder", "assignee": "Einat Pacifici", "updated": "2026-03-16", "days_stale": 36, "project": "AIPCC"},
+  {"key": "AIPCC-12352", "summary": "Infrastructure: configure fine-grained permissions for mirrors and product pipelines", "assignee": "Christian Heimes", "updated": "2026-03-18", "days_stale": 34, "project": "AIPCC"},
+  {"key": "AIPCC-4892", "summary": "Pytorch Upstream Issue: 160547 export Non-strict export fails with NamedTuple input", "assignee": "Unassigned", "updated": "2026-03-18", "days_stale": 34, "project": "AIPCC"},
+  {"key": "AIPCC-4663", "summary": "[python-wheel-build/fromager] Simplify output directory handling", "assignee": "Sean Johnston", "updated": "2026-03-18", "days_stale": 34, "project": "AIPCC"},
+  {"key": "AIPCC-7494", "summary": "Inconsistent overflow handling in torch.clamp_min between CPU and CUDA for float16 tensors", "assignee": "Vishal Goyal", "updated": "2026-03-18", "days_stale": 34, "project": "AIPCC"},
+  {"key": "AIPCC-6720", "summary": "Integrate sdg-hub upstream tests into Taskotron", "assignee": "Frantisek Zatloukal", "updated": "2026-03-18", "days_stale": 34, "project": "AIPCC"},
+  {"key": "AIPCC-1627", "summary": "Migrate RHOAI Images to Use AIPCC Wheels", "assignee": "Frank Jansen", "updated": "2026-03-18", "days_stale": 34, "project": "AIPCC"}
 ];
 
 const flowData = {
-  "AIPCC": {"wip": 547, "throughput": 1250, "created": 1404, "ratio": 0.44, "has_data": true},
+  "AIPCC": {"wip": 397, "throughput": 1149, "created": 1244, "ratio": 0.35, "has_data": true},
   "INFERENG": {"wip": 0, "throughput": 0, "created": 0, "ratio": 0, "has_data": false},
   "RHAIENG": {"wip": 0, "throughput": 0, "created": 0, "ratio": 0, "has_data": false},
   "RHOAIENG": {"wip": 0, "throughput": 0, "created": 0, "ratio": 0, "has_data": false}
@@ -432,9 +433,9 @@ renderBurndown();
 // Dual bar chart (Created vs Resolved per 2-week period)
 (function() {
   const container = document.getElementById('dualBarChart');
-  const resolved = [524, 382, 441, 750, 604, 587];
-  const labels = ["Feb 7", "Feb 21", "Mar 7", "Mar 21", "Apr 4", "Apr 18"];
-  const created30d = 1404;
+  const resolved = [500, 378, 407, 693, 481, 586];
+  const labels = ["Feb 3", "Feb 17", "Mar 3", "Mar 17", "Mar 31", "Apr 14"];
+  const created30d = 1244;
   const createdPerPeriod = Math.round(created30d / (30 / 14));
   const maxVal = Math.max(createdPerPeriod, ...resolved);
 
