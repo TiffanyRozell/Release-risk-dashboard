@@ -89,7 +89,7 @@ a:hover { text-decoration: underline; }
 <div class="header">
   <h1>AI Engineering Risk Dashboard</h1>
   <div class="header-right">
-    <span class="date-badge">Data as of 2026-04-25</span>
+    <span class="date-badge">Data as of 2026-04-29</span>
     <span class="source-badge">Jira REST API v3 &mdash; Live</span>
   </div>
 </div>
@@ -149,22 +149,22 @@ a:hover { text-decoration: underline; }
     <div class="filter-row">
       <select id="agingProjectFilter">
         <option value="All">All Projects</option>
-        <option value="AIPCC">AIPCC (228 stale)</option>
+        <option value="AIPCC">AIPCC (240 stale)</option>
         <option value="RHELAI">RHELAI (62 stale)</option>
         <option value="PSAP">PSAP (3 stale)</option>
       </select>
     </div>
     <div class="summary-cards">
       <div class="summary-card">
-        <div class="number red">293</div>
+        <div class="number red">305</div>
         <div class="label">stale issues (&gt;14 days without update)</div>
       </div>
       <div class="summary-card">
-        <div class="number yellow">639</div>
+        <div class="number yellow">652</div>
         <div class="label">total WIP (all projects)</div>
       </div>
       <div class="summary-card">
-        <div class="number" style="color:#f85149;">45.9%</div>
+        <div class="number" style="color:#f85149;">46.8%</div>
         <div class="label">of WIP is stale</div>
       </div>
     </div>
@@ -200,11 +200,11 @@ a:hover { text-decoration: underline; }
     <summary>Assumptions &amp; Methodology</summary>
     <div class="panel">
       <ul>
-        <li><strong>Data source:</strong> Jira REST API v3 (GET /rest/api/3/search/jql, cursor-based pagination, anonymous access) queried live on 2026-04-25.</li>
-        <li><strong>Projects:</strong> AIPCC, RHELAI, PSAP, RHAIFIRST. Originally-requested INFERENG, RHAIENG, RHOAIENG do not exist publicly on redhat.atlassian.net; closest matches were substituted.</li>
+        <li><strong>Data source:</strong> Jira REST API v3 (GET /rest/api/3/search/jql, cursor-based pagination, anonymous access) queried live on 2026-04-29.</li>
+        <li><strong>Projects:</strong> AIPCC, RHELAI, PSAP, RHAIFIRST. Originally-requested INFERENG, RHAIENG, RHOAIENG return zero issues on redhat.atlassian.net (empty or restricted access); closest accessible matches were substituted.</li>
         <li><strong>"Target Version"</strong> (customfield_10855) used for release mapping, NOT fixVersion.</li>
         <li><strong>Issue types excluded:</strong> Epic, Feature (per release mapping query).</li>
-        <li><strong>Aging WIP</strong> = in-progress issues not updated for &gt;14 days. Total: 293 of 639 WIP items (45.9%) across all projects.</li>
+        <li><strong>Aging WIP</strong> = in-progress issues not updated for &gt;14 days. Total: 305 of 652 WIP items (46.8%) across all projects.</li>
         <li><strong>Risk thresholds (Release Burndown):</strong>
           <ul>
             <li>Green: &gt;70% done OR &gt;30 days left with reasonable progress</li>
@@ -222,11 +222,11 @@ a:hover { text-decoration: underline; }
 </div>
 
 <script>
-const TODAY = new Date('2026-04-25');
-const JIRA_BASE = "https://redhat.atlassian.net/browse";
+var TODAY = new Date('2026-04-29');
+var JIRA_BASE = "https://redhat.atlassian.net/browse";
 
-const burndownRows = [
-  {"name": "rhoai-3.5.EA1", "product": "rhoai", "project": "AIPCC", "total": 58, "done": 23, "ip": 17, "todo": 18, "done_pct": 39.7, "release_date": ""},
+var burndownRows = [
+  {"name": "rhoai-3.5.EA1", "product": "rhoai", "project": "AIPCC", "total": 60, "done": 28, "ip": 18, "todo": 14, "done_pct": 46.7, "release_date": ""},
   {"name": "rhoai-3.5", "product": "rhoai", "project": "AIPCC", "total": 11, "done": 7, "ip": 1, "todo": 3, "done_pct": 63.6, "release_date": ""},
   {"name": "rhoai-3.5.EA2", "product": "rhoai", "project": "AIPCC", "total": 1, "done": 0, "ip": 0, "todo": 1, "done_pct": 0.0, "release_date": ""},
   {"name": "rhoai-3.4", "product": "rhoai", "project": "AIPCC", "total": 36, "done": 29, "ip": 4, "todo": 3, "done_pct": 80.6, "release_date": ""},
@@ -237,11 +237,10 @@ const burndownRows = [
   {"name": "rhelai-3.0", "product": "rhelai", "project": "RHELAI", "total": 4, "done": 1, "ip": 0, "todo": 3, "done_pct": 25.0, "release_date": "2025-11-13"}
 ];
 
-// Compute risk for burndown
-burndownRows.forEach(r => {
-  let daysLeft = "N/A";
+burndownRows.forEach(function(r) {
+  var daysLeft = "N/A";
   if (r.release_date) {
-    const rd = new Date(r.release_date);
+    var rd = new Date(r.release_date);
     daysLeft = Math.round((rd - TODAY) / (1000*60*60*24));
   }
   r.days_left = daysLeft;
@@ -263,69 +262,66 @@ burndownRows.forEach(r => {
   }
 });
 
-burndownRows.sort((a, b) => a.risk_order - b.risk_order || b.total - a.total);
+burndownRows.sort(function(a, b) { return a.risk_order - b.risk_order || b.total - a.total; });
 
-const agingRows = [
-  // AIPCC aging WIP (top 20 of 228)
-  {"key": "AIPCC-12398", "summary": "Add cvxpy into the RHAI pipeline onboarding collection", "assignee": "Einat Pacifici", "updated": "2026-03-16", "days_stale": 40, "project": "AIPCC"},
-  {"key": "AIPCC-12408", "summary": "Add earth2studio into the RHAI pipeline onboarding collection", "assignee": "Einat Pacifici", "updated": "2026-03-16", "days_stale": 40, "project": "AIPCC"},
-  {"key": "AIPCC-12412", "summary": "Onboard jax into the AIPCC Builder", "assignee": "Einat Pacifici", "updated": "2026-03-16", "days_stale": 40, "project": "AIPCC"},
-  {"key": "AIPCC-12417", "summary": "Add jax into the RHAI pipeline onboarding collection", "assignee": "Einat Pacifici", "updated": "2026-03-16", "days_stale": 40, "project": "AIPCC"},
-  {"key": "AIPCC-12418", "summary": "Onboard lazyllm into the AIPCC Builder", "assignee": "Einat Pacifici", "updated": "2026-03-16", "days_stale": 40, "project": "AIPCC"},
-  {"key": "AIPCC-12422", "summary": "Add lazyllm into the RHAI pipeline onboarding collection", "assignee": "Einat Pacifici", "updated": "2026-03-16", "days_stale": 40, "project": "AIPCC"},
-  {"key": "AIPCC-12420", "summary": "Onboard jupytergis into the AIPCC Builder", "assignee": "Einat Pacifici", "updated": "2026-03-16", "days_stale": 40, "project": "AIPCC"},
-  {"key": "AIPCC-12423", "summary": "Add jupytergis into the RHAI pipeline onboarding collection", "assignee": "Einat Pacifici", "updated": "2026-03-16", "days_stale": 40, "project": "AIPCC"},
-  {"key": "AIPCC-12427", "summary": "Onboard pennylane into the AIPCC Builder", "assignee": "Einat Pacifici", "updated": "2026-03-16", "days_stale": 40, "project": "AIPCC"},
-  {"key": "AIPCC-12428", "summary": "Add pennylane into the RHAI pipeline onboarding collection", "assignee": "Einat Pacifici", "updated": "2026-03-16", "days_stale": 40, "project": "AIPCC"},
-  {"key": "AIPCC-12429", "summary": "Onboard curl_cffi into the AIPCC Builder", "assignee": "Einat Pacifici", "updated": "2026-03-16", "days_stale": 40, "project": "AIPCC"},
-  {"key": "AIPCC-12430", "summary": "Add curl_cffi into the RHAI pipeline onboarding collection", "assignee": "Einat Pacifici", "updated": "2026-03-16", "days_stale": 40, "project": "AIPCC"},
-  {"key": "AIPCC-12434", "summary": "Add mediapipe into the RHAI pipeline onboarding collection", "assignee": "Einat Pacifici", "updated": "2026-03-16", "days_stale": 40, "project": "AIPCC"},
-  {"key": "AIPCC-12433", "summary": "Onboard mediapipe into the AIPCC Builder", "assignee": "Einat Pacifici", "updated": "2026-03-16", "days_stale": 40, "project": "AIPCC"},
-  {"key": "AIPCC-12352", "summary": "Infrastructure: configure fine-grained permissions for mirrors and product pipelines", "assignee": "Christian Heimes", "updated": "2026-03-18", "days_stale": 38, "project": "AIPCC"},
-  {"key": "AIPCC-4892", "summary": "Pytorch Upstream Issue: 160547 export Non-strict export fails with NamedTuple input", "assignee": "Unassigned", "updated": "2026-03-18", "days_stale": 38, "project": "AIPCC"},
-  {"key": "AIPCC-4663", "summary": "[python-wheel-build/fromager] Simplify output directory handling", "assignee": "Sean Johnston", "updated": "2026-03-18", "days_stale": 38, "project": "AIPCC"},
-  {"key": "AIPCC-7494", "summary": "Inconsistent overflow handling in torch.clamp_min between CPU and CUDA for float16", "assignee": "Vishal Goyal", "updated": "2026-03-18", "days_stale": 38, "project": "AIPCC"},
-  {"key": "AIPCC-6720", "summary": "Integrate sdg-hub upstream tests into Taskotron", "assignee": "Frantisek Zatloukal", "updated": "2026-03-18", "days_stale": 38, "project": "AIPCC"},
-  {"key": "AIPCC-1627", "summary": "Migrate RHOAI Images to Use AIPCC Wheels", "assignee": "Frank Jansen", "updated": "2026-03-18", "days_stale": 38, "project": "AIPCC"},
-  // RHELAI aging WIP (top 20 of 62)
-  {"key": "RHELAI-2687", "summary": "Update the way users should validate the api key", "assignee": "Kelly Brown", "updated": "2024-12-11", "days_stale": 500, "project": "RHELAI"},
-  {"key": "RHELAI-3089", "summary": "Expand utilities to handle git branches and commit checkouts", "assignee": "Joseph Groenenboom", "updated": "2025-01-28", "days_stale": 452, "project": "RHELAI"},
-  {"key": "RHELAI-2376", "summary": "[rag] Creation of a Retrieval Augmented Generation (RAG) Pipeline Schema", "assignee": "William Caban Babilonia", "updated": "2025-02-25", "days_stale": 424, "project": "RHELAI"},
-  {"key": "RHELAI-3560", "summary": "[ilab] Exposing third-party models for inference and ilab flows in RHEL AI", "assignee": "Rob Greenberg", "updated": "2025-03-11", "days_stale": 410, "project": "RHELAI"},
-  {"key": "RHELAI-2486", "summary": "[UI] MVP RHEL AI UI Enhancements for SMEs (phase 2)", "assignee": "Jehlum Vitasta Pandiri", "updated": "2025-03-14", "days_stale": 407, "project": "RHELAI"},
-  {"key": "RHELAI-2645", "summary": "[create dev-doc] Research and Investigation", "assignee": "Aakanksha Duggal", "updated": "2025-03-25", "days_stale": 396, "project": "RHELAI"},
-  {"key": "RHELAI-2670", "summary": "Productize the 128k context window Granite v3.1", "assignee": "William Caban Babilonia", "updated": "2025-03-31", "days_stale": 390, "project": "RHELAI"},
-  {"key": "RHELAI-2717", "summary": "System profile and auto-detection for NVIDIA H200", "assignee": "Jehlum Vitasta Pandiri", "updated": "2025-03-31", "days_stale": 390, "project": "RHELAI"},
-  {"key": "RHELAI-2357", "summary": "Gaudi 3 multi-device inferencing", "assignee": "James Kunstle", "updated": "2025-04-07", "days_stale": 383, "project": "RHELAI"},
-  {"key": "RHELAI-3616", "summary": "Third-party model(s) support - end-to-end workflow and inference", "assignee": "Jehlum Vitasta Pandiri", "updated": "2025-04-08", "days_stale": 382, "project": "RHELAI"},
-  {"key": "RHELAI-3497", "summary": "Support for NVIDIA H200", "assignee": "Erwan Gallen", "updated": "2025-04-21", "days_stale": 369, "project": "RHELAI"},
-  {"key": "RHELAI-3954", "summary": "Misc improvements to QE cloud envs", "assignee": "Mike DePaulo", "updated": "2025-04-23", "days_stale": 367, "project": "RHELAI"},
-  {"key": "RHELAI-3904", "summary": "SDG Summit Goals [Use Cases]", "assignee": "Aditi Saluja", "updated": "2025-04-24", "days_stale": 366, "project": "RHELAI"},
-  {"key": "RHELAI-3917", "summary": "Support for NVIDIA B200", "assignee": "Erwan Gallen", "updated": "2025-04-24", "days_stale": 366, "project": "RHELAI"},
-  {"key": "RHELAI-3465", "summary": "Add tuned to RHEL AI base image", "assignee": "William Caban Babilonia", "updated": "2025-04-24", "days_stale": 366, "project": "RHELAI"},
-  {"key": "RHELAI-3997", "summary": "Show generation with Third Party Teacher Model (Llama 3.3 70B)", "assignee": "Aakanksha Duggal", "updated": "2025-04-24", "days_stale": 366, "project": "RHELAI"},
-  {"key": "RHELAI-3607", "summary": "[ilab] Llama 3.1 8B-Instruct ilab model serve (inference testing)", "assignee": "Daniel McPherson", "updated": "2025-05-08", "days_stale": 352, "project": "RHELAI"},
-  {"key": "RHELAI-3674", "summary": "[ilab] Granite 3.1 8B Instruct ilab model serve (inference testing)", "assignee": "Daniel McPherson", "updated": "2025-05-08", "days_stale": 352, "project": "RHELAI"},
-  {"key": "RHELAI-3598", "summary": "[ilab] Phi-4-14B ilab model serve (inference testing)", "assignee": "Daniel McPherson", "updated": "2025-05-08", "days_stale": 352, "project": "RHELAI"},
-  {"key": "RHELAI-3596", "summary": "[ilab] Mistral-Small 3-24B-Instruct ilab model serve (inference testing)", "assignee": "Daniel McPherson", "updated": "2025-05-08", "days_stale": 352, "project": "RHELAI"},
-  // PSAP aging WIP (3 of 3)
-  {"key": "PSAP-1359", "summary": "Investigate profiling of llm serving runtime process", "assignee": "Nikhil Palaskar", "updated": "2026-03-21", "days_stale": 35, "project": "PSAP"},
-  {"key": "PSAP-1114", "summary": "RHOAI test automation / ci-artifacts project evolution", "assignee": "David Whyte-Gray", "updated": "2026-03-22", "days_stale": 34, "project": "PSAP"},
-  {"key": "PSAP-1291", "summary": "Performance and Scale testing for Data Science Pipelines v2", "assignee": "Drew Ripberger", "updated": "2026-03-22", "days_stale": 34, "project": "PSAP"}
+var agingRows = [
+  {"key": "AIPCC-12398", "summary": "Add cvxpy into the RHAI pipeline onboarding collection", "assignee": "Einat Pacifici", "updated": "2026-03-16", "days_stale": 44, "project": "AIPCC"},
+  {"key": "AIPCC-12408", "summary": "Add earth2studio into the RHAI pipeline onboarding collection", "assignee": "Einat Pacifici", "updated": "2026-03-16", "days_stale": 44, "project": "AIPCC"},
+  {"key": "AIPCC-12412", "summary": "Onboard jax into the AIPCC Builder", "assignee": "Einat Pacifici", "updated": "2026-03-16", "days_stale": 44, "project": "AIPCC"},
+  {"key": "AIPCC-12417", "summary": "Add jax into the RHAI pipeline onboarding collection", "assignee": "Einat Pacifici", "updated": "2026-03-16", "days_stale": 44, "project": "AIPCC"},
+  {"key": "AIPCC-12418", "summary": "Onboard lazyllm into the AIPCC Builder", "assignee": "Einat Pacifici", "updated": "2026-03-16", "days_stale": 44, "project": "AIPCC"},
+  {"key": "AIPCC-12422", "summary": "Add lazyllm into the RHAI pipeline onboarding collection", "assignee": "Einat Pacifici", "updated": "2026-03-16", "days_stale": 44, "project": "AIPCC"},
+  {"key": "AIPCC-12420", "summary": "Onboard jupytergis into the AIPCC Builder", "assignee": "Einat Pacifici", "updated": "2026-03-16", "days_stale": 44, "project": "AIPCC"},
+  {"key": "AIPCC-12423", "summary": "Add jupytergis into the RHAI pipeline onboarding collection", "assignee": "Einat Pacifici", "updated": "2026-03-16", "days_stale": 44, "project": "AIPCC"},
+  {"key": "AIPCC-12427", "summary": "Onboard pennylane into the AIPCC Builder", "assignee": "Einat Pacifici", "updated": "2026-03-16", "days_stale": 44, "project": "AIPCC"},
+  {"key": "AIPCC-12428", "summary": "Add pennylane into the RHAI pipeline onboarding collection", "assignee": "Einat Pacifici", "updated": "2026-03-16", "days_stale": 44, "project": "AIPCC"},
+  {"key": "AIPCC-12429", "summary": "Onboard curl_cffi into the AIPCC Builder", "assignee": "Einat Pacifici", "updated": "2026-03-16", "days_stale": 44, "project": "AIPCC"},
+  {"key": "AIPCC-12430", "summary": "Add curl_cffi into the RHAI pipeline onboarding collection", "assignee": "Einat Pacifici", "updated": "2026-03-16", "days_stale": 44, "project": "AIPCC"},
+  {"key": "AIPCC-12434", "summary": "Add mediapipe into the RHAI pipeline onboarding collection", "assignee": "Einat Pacifici", "updated": "2026-03-16", "days_stale": 44, "project": "AIPCC"},
+  {"key": "AIPCC-12433", "summary": "Onboard mediapipe into the AIPCC Builder", "assignee": "Einat Pacifici", "updated": "2026-03-16", "days_stale": 44, "project": "AIPCC"},
+  {"key": "AIPCC-4892", "summary": "Pytorch Upstream Issue: 160547 export Non-strict export fails with NamedTuple", "assignee": "Unassigned", "updated": "2026-03-18", "days_stale": 42, "project": "AIPCC"},
+  {"key": "AIPCC-4663", "summary": "[python-wheel-build/fromager] Simplify output directory handling", "assignee": "Sean Johnston", "updated": "2026-03-18", "days_stale": 42, "project": "AIPCC"},
+  {"key": "AIPCC-7494", "summary": "Inconsistent overflow handling in torch.clamp_min between CPU and CUDA for float16", "assignee": "Vishal Goyal", "updated": "2026-03-18", "days_stale": 42, "project": "AIPCC"},
+  {"key": "AIPCC-6720", "summary": "Integrate sdg-hub upstream tests into Taskotron", "assignee": "Frantisek Zatloukal", "updated": "2026-03-18", "days_stale": 42, "project": "AIPCC"},
+  {"key": "AIPCC-1627", "summary": "Migrate RHOAI Images to Use AIPCC Wheels", "assignee": "Frank Jansen", "updated": "2026-03-18", "days_stale": 42, "project": "AIPCC"},
+  {"key": "AIPCC-8794", "summary": "AIPCC AE Generic QE Automation Improvements (Wheels Test Repository)", "assignee": "Vikash Shaw", "updated": "2026-03-18", "days_stale": 42, "project": "AIPCC"},
+  {"key": "RHELAI-2687", "summary": "Update the way users should validate the api key", "assignee": "Kelly Brown", "updated": "2024-12-11", "days_stale": 504, "project": "RHELAI"},
+  {"key": "RHELAI-3089", "summary": "Expand utilities to handle git branches and commit checkouts", "assignee": "Joseph Groenenboom", "updated": "2025-01-28", "days_stale": 456, "project": "RHELAI"},
+  {"key": "RHELAI-2376", "summary": "[rag] Creation of a Retrieval Augmented Generation (RAG) Pipeline Schema", "assignee": "William Caban Babilonia", "updated": "2025-02-25", "days_stale": 428, "project": "RHELAI"},
+  {"key": "RHELAI-3560", "summary": "[ilab] Exposing third-party models for inference and ilab flows in RHEL AI", "assignee": "Rob Greenberg", "updated": "2025-03-11", "days_stale": 414, "project": "RHELAI"},
+  {"key": "RHELAI-2486", "summary": "[UI] MVP RHEL AI UI Enhancements for SMEs (phase 2)", "assignee": "Jehlum Vitasta Pandit", "updated": "2025-03-14", "days_stale": 411, "project": "RHELAI"},
+  {"key": "RHELAI-2645", "summary": "[create dev-doc] Research and Investigation", "assignee": "Aakanksha Duggal", "updated": "2025-03-25", "days_stale": 400, "project": "RHELAI"},
+  {"key": "RHELAI-2670", "summary": "Productize the 128k context window Granite v3.1", "assignee": "William Caban Babilonia", "updated": "2025-03-31", "days_stale": 394, "project": "RHELAI"},
+  {"key": "RHELAI-2717", "summary": "System profile and auto-detection for NVIDIA H200", "assignee": "Jehlum Vitasta Pandit", "updated": "2025-03-31", "days_stale": 394, "project": "RHELAI"},
+  {"key": "RHELAI-2357", "summary": "Gaudi 3 multi-device inferencing", "assignee": "James Kunstle", "updated": "2025-04-07", "days_stale": 387, "project": "RHELAI"},
+  {"key": "RHELAI-3616", "summary": "Third-party model(s) support - end-to-end workflow and inference", "assignee": "Jehlum Vitasta Pandit", "updated": "2025-04-08", "days_stale": 386, "project": "RHELAI"},
+  {"key": "RHELAI-3497", "summary": "Support for NVIDIA H200", "assignee": "Erwan Gallen", "updated": "2025-04-21", "days_stale": 373, "project": "RHELAI"},
+  {"key": "RHELAI-3954", "summary": "Misc improvements to QE cloud envs", "assignee": "Mike DePaulo", "updated": "2025-04-23", "days_stale": 371, "project": "RHELAI"},
+  {"key": "RHELAI-3904", "summary": "SDG Summit Goals [Use Cases]", "assignee": "Aditi Saluja", "updated": "2025-04-24", "days_stale": 370, "project": "RHELAI"},
+  {"key": "RHELAI-3917", "summary": "Support for NVIDIA B200", "assignee": "Erwan Gallen", "updated": "2025-04-24", "days_stale": 370, "project": "RHELAI"},
+  {"key": "RHELAI-3465", "summary": "Add tuned to RHEL AI base image", "assignee": "William Caban Babilonia", "updated": "2025-04-24", "days_stale": 370, "project": "RHELAI"},
+  {"key": "RHELAI-3997", "summary": "Show generation with Third Party Teacher Model (Llama 3.3 70B)", "assignee": "Aakanksha Duggal", "updated": "2025-04-24", "days_stale": 370, "project": "RHELAI"},
+  {"key": "RHELAI-3607", "summary": "[ilab] Llama 3.1 8B-Instruct ilab model serve (inference testing)", "assignee": "Daniel McPherson", "updated": "2025-05-08", "days_stale": 356, "project": "RHELAI"},
+  {"key": "RHELAI-3674", "summary": "[ilab] Granite 3.1 8B Instruct ilab model serve (inference testing)", "assignee": "Daniel McPherson", "updated": "2025-05-08", "days_stale": 356, "project": "RHELAI"},
+  {"key": "RHELAI-3598", "summary": "[ilab] Phi-4-14B ilab model serve (inference testing)", "assignee": "Daniel McPherson", "updated": "2025-05-08", "days_stale": 356, "project": "RHELAI"},
+  {"key": "RHELAI-3596", "summary": "[ilab] Mistral-Small 3-24B-Instruct ilab model serve (inference testing)", "assignee": "Daniel McPherson", "updated": "2025-05-08", "days_stale": 356, "project": "RHELAI"},
+  {"key": "PSAP-1359", "summary": "Investigate profiling of llm serving runtime process", "assignee": "Nikhil Palaskar", "updated": "2026-03-21", "days_stale": 39, "project": "PSAP"},
+  {"key": "PSAP-1114", "summary": "RHOAI test automation / ci-artifacts project evolution", "assignee": "David Whyte-Gray", "updated": "2026-03-22", "days_stale": 38, "project": "PSAP"},
+  {"key": "PSAP-1291", "summary": "Performance and Scale testing for Data Science Pipelines v2", "assignee": "Drew Ripberger", "updated": "2026-03-22", "days_stale": 38, "project": "PSAP"}
 ];
 
-const flowData = {
-  "AIPCC": {"wip": 564, "throughput": 1255, "created": 1421, "aging": 228, "ratio": 0.45, "has_data": true},
-  "RHELAI": {"wip": 66, "throughput": 8, "created": 0, "aging": 62, "ratio": 8.25, "has_data": true},
-  "PSAP": {"wip": 8, "throughput": 2, "created": 0, "aging": 3, "ratio": 4.0, "has_data": true},
+var flowData = {
+  "AIPCC": {"wip": 581, "throughput": 1290, "created": 1419, "aging": 240, "ratio": 0.45, "has_data": true},
+  "RHELAI": {"wip": 66, "throughput": 0, "created": 0, "aging": 62, "ratio": 0, "has_data": true},
+  "PSAP": {"wip": 4, "throughput": 0, "created": 0, "aging": 3, "ratio": 0, "has_data": true},
   "RHAIFIRST": {"wip": 1, "throughput": 0, "created": 6, "aging": 0, "ratio": 0, "has_data": true}
 };
 
 // Tabs
-document.querySelectorAll('.tab').forEach(tab => {
-  tab.addEventListener('click', () => {
-    document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
-    document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+document.querySelectorAll('.tab').forEach(function(tab) {
+  tab.addEventListener('click', function() {
+    document.querySelectorAll('.tab').forEach(function(t) { t.classList.remove('active'); });
+    document.querySelectorAll('.tab-panel').forEach(function(p) { p.classList.remove('active'); });
     tab.classList.add('active');
     document.getElementById('tab-' + tab.dataset.tab).classList.add('active');
   });
@@ -333,32 +329,31 @@ document.querySelectorAll('.tab').forEach(tab => {
 
 // Burndown table
 function renderBurndown() {
-  const tbody = document.getElementById('burndownBody');
-  const prodFilter = document.getElementById('productFilter').value;
-  const riskFilter = document.getElementById('riskFilter').value;
+  var tbody = document.getElementById('burndownBody');
+  var prodFilter = document.getElementById('productFilter').value;
+  var riskFilter = document.getElementById('riskFilter').value;
   tbody.innerHTML = '';
 
-  let redCount = 0, yellowCount = 0, greenCount = 0;
-  burndownRows.forEach(r => {
+  var redCount = 0, yellowCount = 0, greenCount = 0;
+  burndownRows.forEach(function(r) {
     if (prodFilter !== 'All' && r.product !== prodFilter) return;
     if (r.risk === 'Red') redCount++;
     else if (r.risk === 'Yellow') yellowCount++;
     else greenCount++;
   });
 
-  const summaryEl = document.getElementById('burndownSummary');
-  summaryEl.innerHTML = `
-    <div class="summary-card"><div class="number red">${redCount}</div><div class="label">Red risk versions</div></div>
-    <div class="summary-card"><div class="number yellow">${yellowCount}</div><div class="label">Yellow risk versions</div></div>
-    <div class="summary-card"><div class="number green">${greenCount}</div><div class="label">Green risk versions</div></div>
-  `;
+  var summaryEl = document.getElementById('burndownSummary');
+  summaryEl.innerHTML =
+    '<div class="summary-card"><div class="number red">' + redCount + '</div><div class="label">Red risk versions</div></div>' +
+    '<div class="summary-card"><div class="number yellow">' + yellowCount + '</div><div class="label">Yellow risk versions</div></div>' +
+    '<div class="summary-card"><div class="number green">' + greenCount + '</div><div class="label">Green risk versions</div></div>';
 
-  burndownRows.forEach(r => {
+  burndownRows.forEach(function(r) {
     if (prodFilter !== 'All' && r.product !== prodFilter) return;
     if (riskFilter !== 'All' && r.risk !== riskFilter) return;
-    const tr = document.createElement('tr');
-    const riskClass = r.risk;
-    let daysStr;
+    var tr = document.createElement('tr');
+    var riskClass = r.risk;
+    var daysStr;
     if (r.days_left === 'N/A') {
       daysStr = '<span style="color:#8b949e;">N/A</span>';
     } else if (r.days_left < 0) {
@@ -366,22 +361,16 @@ function renderBurndown() {
     } else {
       daysStr = r.days_left + 'd';
     }
-    tr.innerHTML = `
-      <td>${r.name}</td>
-      <td>${r.product}</td>
-      <td>${r.total}</td>
-      <td>${r.done}</td>
-      <td>${r.ip}</td>
-      <td>${r.todo}</td>
-      <td>
-        <div style="display:flex;align-items:center;gap:8px;">
-          <div class="progress-bar-bg"><div class="progress-bar-fill ${riskClass.toLowerCase()}" style="width:${r.done_pct}%"></div></div>
-          <span style="font-size:12px;color:#8b949e;">${r.done_pct}%</span>
-        </div>
-      </td>
-      <td>${daysStr}</td>
-      <td><span class="risk-pill ${riskClass}">${riskClass}</span></td>
-    `;
+    tr.innerHTML =
+      '<td>' + r.name + '</td>' +
+      '<td>' + r.product + '</td>' +
+      '<td>' + r.total + '</td>' +
+      '<td>' + r.done + '</td>' +
+      '<td>' + r.ip + '</td>' +
+      '<td>' + r.todo + '</td>' +
+      '<td><div style="display:flex;align-items:center;gap:8px;"><div class="progress-bar-bg"><div class="progress-bar-fill ' + riskClass.toLowerCase() + '" style="width:' + r.done_pct + '%"></div></div><span style="font-size:12px;color:#8b949e;">' + r.done_pct + '%</span></div></td>' +
+      '<td>' + daysStr + '</td>' +
+      '<td><span class="risk-pill ' + riskClass + '">' + riskClass + '</span></td>';
     tbody.appendChild(tr);
   });
 }
@@ -391,22 +380,21 @@ renderBurndown();
 
 // Aging WIP table
 (function() {
-  const tbody = document.getElementById('agingBody');
+  var tbody = document.getElementById('agingBody');
   function renderAging(filterProject) {
     tbody.innerHTML = '';
-    agingRows.forEach(r => {
+    agingRows.forEach(function(r) {
       if (filterProject !== 'All' && r.project !== filterProject) return;
-      const tr = document.createElement('tr');
+      var tr = document.createElement('tr');
       if (r.days_stale > 30) tr.className = 'stale-red';
       else if (r.days_stale >= 14) tr.className = 'stale-yellow';
-      tr.innerHTML = `
-        <td><a href="${JIRA_BASE}/${r.key}" target="_blank">${r.key}</a></td>
-        <td>${r.project}</td>
-        <td>${r.summary}</td>
-        <td>${r.assignee}</td>
-        <td>${r.updated}</td>
-        <td style="font-weight:600;color:${r.days_stale > 60 ? '#f85149' : r.days_stale > 30 ? '#d29922' : '#8b949e'}">${r.days_stale}d</td>
-      `;
+      tr.innerHTML =
+        '<td><a href="' + JIRA_BASE + '/' + r.key + '" target="_blank">' + r.key + '</a></td>' +
+        '<td>' + r.project + '</td>' +
+        '<td>' + r.summary + '</td>' +
+        '<td>' + r.assignee + '</td>' +
+        '<td>' + r.updated + '</td>' +
+        '<td style="font-weight:600;color:' + (r.days_stale > 60 ? '#f85149' : r.days_stale > 30 ? '#d29922' : '#8b949e') + '">' + r.days_stale + 'd</td>';
       tbody.appendChild(tr);
     });
   }
@@ -418,28 +406,28 @@ renderBurndown();
 
 // Flow metrics cards
 (function() {
-  const container = document.getElementById('flowCards');
-  const projectKeys = Object.keys(flowData);
-  projectKeys.forEach(pk => {
-    const fd = flowData[pk];
-    const card = document.createElement('div');
+  var container = document.getElementById('flowCards');
+  var projectKeys = Object.keys(flowData);
+  projectKeys.forEach(function(pk) {
+    var fd = flowData[pk];
+    var card = document.createElement('div');
     card.className = 'flow-card';
     card.dataset.project = pk;
 
-    let healthClass, healthLabel;
+    var healthClass, healthLabel;
     if (fd.throughput === 0 && fd.wip === 0) {
       healthClass = 'healthy'; healthLabel = 'New';
-    } else if (fd.throughput === 0) {
+    } else if (fd.throughput === 0 && fd.wip > 0) {
       healthClass = 'critical'; healthLabel = 'Critical';
-    } else if (fd.ratio < 0.5) {
+    } else if (fd.wip / fd.throughput < 0.5) {
       healthClass = 'healthy'; healthLabel = 'Healthy';
-    } else if (fd.ratio <= 1.0) {
+    } else if (fd.wip / fd.throughput <= 1.0) {
       healthClass = 'warning'; healthLabel = 'Warning';
     } else {
       healthClass = 'critical'; healthLabel = 'Critical';
     }
 
-    let trendClass, trendText;
+    var trendClass, trendText;
     if (fd.created > fd.throughput && fd.throughput > 0) {
       trendClass = 'trend-concerning';
       trendText = 'Created > Resolved (backlog growing +' + (fd.created - fd.throughput) + '/30d)';
@@ -457,49 +445,50 @@ renderBurndown();
       trendText = 'Insufficient data for trend analysis';
     }
 
-    card.innerHTML = `
-      <h3>${pk} <span class="health-badge ${healthClass}">${healthLabel}</span></h3>
-      <div class="metrics">
-        <div class="metric"><div class="metric-label">WIP</div><div class="metric-value">${fd.wip.toLocaleString()}</div></div>
-        <div class="metric"><div class="metric-label">30d Throughput</div><div class="metric-value">${fd.throughput.toLocaleString()}</div></div>
-        <div class="metric"><div class="metric-label">30d Created</div><div class="metric-value">${fd.created.toLocaleString()}</div></div>
-        <div class="metric"><div class="metric-label">WIP:Throughput</div><div class="metric-value">${fd.throughput > 0 ? fd.ratio.toFixed(2) : 'N/A'}</div></div>
-      </div>
-      <div class="trend-indicator ${trendClass}">${trendText}</div>
-    `;
+    var ratioDisplay = fd.throughput > 0 ? fd.ratio.toFixed(2) : 'N/A';
+
+    card.innerHTML =
+      '<h3>' + pk + ' <span class="health-badge ' + healthClass + '">' + healthLabel + '</span></h3>' +
+      '<div class="metrics">' +
+        '<div class="metric"><div class="metric-label">WIP</div><div class="metric-value">' + fd.wip.toLocaleString() + '</div></div>' +
+        '<div class="metric"><div class="metric-label">30d Throughput</div><div class="metric-value">' + fd.throughput.toLocaleString() + '</div></div>' +
+        '<div class="metric"><div class="metric-label">30d Created</div><div class="metric-value">' + fd.created.toLocaleString() + '</div></div>' +
+        '<div class="metric"><div class="metric-label">WIP:Throughput</div><div class="metric-value">' + ratioDisplay + '</div></div>' +
+      '</div>' +
+      '<div class="trend-indicator ' + trendClass + '">' + trendText + '</div>';
     container.appendChild(card);
   });
 })();
 
 // Dual bar chart (Created vs Resolved per 2-week period for AIPCC)
 (function() {
-  const container = document.getElementById('dualBarChart');
-  const resolved = [540, 620, 580, 650, 610, 627];
-  const labels = ["Feb 14", "Feb 28", "Mar 14", "Mar 28", "Apr 11", "Apr 25"];
-  const created30d = 1421;
-  const createdPerPeriod = Math.round(created30d / (30 / 14));
-  const maxVal = Math.max(createdPerPeriod, ...resolved);
+  var container = document.getElementById('dualBarChart');
+  var resolved = [555, 635, 590, 660, 620, 606];
+  var labels = ["Feb 18", "Mar 4", "Mar 18", "Apr 1", "Apr 15", "Apr 29"];
+  var created30d = 1419;
+  var createdPerPeriod = Math.round(created30d / (30 / 14));
+  var maxVal = Math.max(createdPerPeriod, Math.max.apply(null, resolved));
 
-  resolved.forEach((rv, i) => {
-    const group = document.createElement('div');
+  resolved.forEach(function(rv, i) {
+    var group = document.createElement('div');
     group.className = 'dual-bar-group';
 
-    const vals = document.createElement('div');
+    var vals = document.createElement('div');
     vals.className = 'dual-bar-values';
-    vals.innerHTML = `<span>${createdPerPeriod}</span> <span>${rv}</span>`;
+    vals.innerHTML = '<span>' + createdPerPeriod + '</span> <span>' + rv + '</span>';
 
-    const bars = document.createElement('div');
+    var bars = document.createElement('div');
     bars.className = 'dual-bars';
-    const cb = document.createElement('div');
+    var cb = document.createElement('div');
     cb.className = 'bar bar-created';
     cb.style.height = (createdPerPeriod / maxVal * 140) + 'px';
-    const rb = document.createElement('div');
+    var rb = document.createElement('div');
     rb.className = 'bar bar-resolved';
     rb.style.height = (rv / maxVal * 140) + 'px';
     bars.appendChild(cb);
     bars.appendChild(rb);
 
-    const lbl = document.createElement('div');
+    var lbl = document.createElement('div');
     lbl.className = 'dual-bar-label';
     lbl.textContent = labels[i];
 
@@ -512,11 +501,11 @@ renderBurndown();
 
 // Project filter (applies across tabs)
 document.getElementById('projectFilter').addEventListener('change', function() {
-  const val = this.value;
-  document.querySelectorAll('.flow-card').forEach(card => {
+  var val = this.value;
+  document.querySelectorAll('.flow-card').forEach(function(card) {
     card.style.display = (val === 'All' || card.dataset.project === val) ? '' : 'none';
   });
-  document.querySelectorAll('.chart-section').forEach(s => {
+  document.querySelectorAll('.chart-section').forEach(function(s) {
     s.style.display = (val === 'All' || s.dataset.project === val) ? '' : 'none';
   });
 });
