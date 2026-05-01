@@ -69,7 +69,7 @@ tr:hover { background: #161b2266; }
 <div class="header">
   <h1>AI Engineering Dashboard</h1>
   <div class="header-right">
-    <span class="date-badge">Data as of 2026-04-29</span>
+    <span class="date-badge">Data as of 2026-05-01</span>
     <span class="source-badge">Jira REST API v3 &mdash; Live</span>
   </div>
 </div>
@@ -94,23 +94,23 @@ tr:hover { background: #161b2266; }
     <div class="kpi-strip">
       <div class="kpi-card">
         <div class="kpi-label">Current WIP (all)</div>
-        <div class="kpi-value">652</div>
-        <div class="kpi-delta delta-up">AIPCC 581 + RHELAI 66 + PSAP 4 + RHAIFIRST 1</div>
+        <div class="kpi-value">671</div>
+        <div class="kpi-delta delta-up">AIPCC 600 + RHELAI 66 + PSAP 4 + RHAIFIRST 1</div>
       </div>
       <div class="kpi-card">
         <div class="kpi-label">30-Day Throughput</div>
-        <div class="kpi-value">1,290</div>
+        <div class="kpi-value">1,265</div>
         <div class="kpi-delta delta-neutral">resolved issues (all projects)</div>
       </div>
       <div class="kpi-card">
         <div class="kpi-label">30-Day Created</div>
-        <div class="kpi-value">1,425</div>
-        <div class="kpi-delta delta-up">+135 net new</div>
+        <div class="kpi-value">1,399</div>
+        <div class="kpi-delta delta-up">+134 net new</div>
       </div>
       <div class="kpi-card">
         <div class="kpi-label">Aging WIP (&gt;14d)</div>
-        <div class="kpi-value" style="color:#f85149;">305</div>
-        <div class="kpi-delta delta-up">46.8% of all WIP is stale</div>
+        <div class="kpi-value" style="color:#f85149;">308</div>
+        <div class="kpi-delta delta-up">45.9% of all WIP is stale</div>
       </div>
     </div>
 
@@ -119,11 +119,11 @@ tr:hover { background: #161b2266; }
       <h3>AIPCC &mdash; AI Platform Core Components <span class="risk-badge yellow">Backlog Growing</span></h3>
       <div class="chart-container" id="velocityChartAIPCC"></div>
       <div class="stats-row" style="display:flex;gap:24px;margin-top:16px;flex-wrap:wrap;">
-        <div class="stat" style="font-size:14px;color:#8b949e;">Current WIP: <strong style="color:#e0e0e0;">581</strong></div>
-        <div class="stat" style="font-size:14px;color:#8b949e;">30d Resolved: <strong style="color:#e0e0e0;">1,290</strong></div>
-        <div class="stat" style="font-size:14px;color:#8b949e;">30d Created: <strong style="color:#e0e0e0;">1,419</strong></div>
-        <div class="stat" style="font-size:14px;color:#8b949e;">Aging WIP: <strong style="color:#f85149;">240</strong> (41.3%)</div>
-        <div class="stat" style="font-size:14px;color:#8b949e;">90d Resolved: <strong style="color:#e0e0e0;">3,666</strong></div>
+        <div class="stat" style="font-size:14px;color:#8b949e;">Current WIP: <strong style="color:#e0e0e0;">600</strong></div>
+        <div class="stat" style="font-size:14px;color:#8b949e;">30d Resolved: <strong style="color:#e0e0e0;">1,265</strong></div>
+        <div class="stat" style="font-size:14px;color:#8b949e;">30d Created: <strong style="color:#e0e0e0;">1,394</strong></div>
+        <div class="stat" style="font-size:14px;color:#8b949e;">Aging WIP: <strong style="color:#f85149;">243</strong> (40.5%)</div>
+        <div class="stat" style="font-size:14px;color:#8b949e;">90d Resolved: <strong style="color:#e0e0e0;">3,605</strong></div>
       </div>
     </div>
 
@@ -162,12 +162,12 @@ tr:hover { background: #161b2266; }
       <div class="stats-row" style="display:flex;gap:24px;margin-top:16px;flex-wrap:wrap;">
         <div class="stat" style="font-size:14px;color:#8b949e;">Current WIP: <strong style="color:#e0e0e0;">1</strong></div>
         <div class="stat" style="font-size:14px;color:#8b949e;">30d Resolved: <strong style="color:#e0e0e0;">0</strong></div>
-        <div class="stat" style="font-size:14px;color:#8b949e;">30d Created: <strong style="color:#e0e0e0;">6</strong></div>
+        <div class="stat" style="font-size:14px;color:#8b949e;">30d Created: <strong style="color:#e0e0e0;">5</strong></div>
         <div class="stat" style="font-size:14px;color:#8b949e;">Aging WIP: <strong style="color:#3fb950;">0</strong></div>
-        <div class="stat" style="font-size:14px;color:#8b949e;">Total Issues: <strong style="color:#e0e0e0;">8</strong></div>
+        <div class="stat" style="font-size:14px;color:#8b949e;">Total Issues: <strong style="color:#e0e0e0;">13</strong></div>
       </div>
       <div class="inactive-notice" style="margin-top:16px;">
-        New project with 8 total issues. 6 created in the last 30 days. No velocity history yet.
+        New project with growing issue count. 5 created in the last 30 days. No velocity history yet.
       </div>
     </div>
 
@@ -197,7 +197,7 @@ tr:hover { background: #161b2266; }
       <summary>Assumptions &amp; Methodology</summary>
       <div class="panel">
         <ul>
-          <li><strong>Data source:</strong> Jira REST API v3 (GET /rest/api/3/search/jql, cursor-based pagination, anonymous access) queried live on 2026-04-29.</li>
+          <li><strong>Data source:</strong> Jira REST API v3 (GET /rest/api/3/search/jql, cursor-based pagination, anonymous access) queried live on 2026-05-01.</li>
           <li><strong>Projects queried:</strong> AIPCC, RHELAI, PSAP, RHAIFIRST. The originally-requested INFERENG, RHAIENG, and RHOAIENG project keys return zero issues on redhat.atlassian.net (empty or restricted access). The closest accessible matches were substituted.</li>
           <li><strong>Velocity</strong> = resolved issues per 2-week window (proxy for sprint velocity since Agile board API requires auth). Computed from 6 trailing 14-day periods for AIPCC; other projects have insufficient throughput for windowed velocity.</li>
           <li><strong>"Target Version"</strong> (customfield_10855) used for release mapping, NOT fixVersion.</li>
@@ -209,7 +209,7 @@ tr:hover { background: #161b2266; }
               <li>Red: remaining &gt; avg_velocity &times; 1.3 (&gt;30% over avg velocity)</li>
             </ul>
           </li>
-          <li><strong>Aging WIP</strong> = in-progress issues not updated for &gt;14 days. Currently 305 of 652 WIP items (46.8%) are stale across all projects.</li>
+          <li><strong>Aging WIP</strong> = in-progress issues not updated for &gt;14 days. Currently 308 of 671 WIP items (45.9%) are stale across all projects.</li>
           <li><strong>Jira API note:</strong> Red Hat Jira uses v3 cursor-based search (/rest/api/3/search/jql). Counts obtained via paginated result set length (v3 does not return a total field).</li>
         </ul>
       </div>
@@ -218,40 +218,37 @@ tr:hover { background: #161b2266; }
 </div>
 
 <script>
-const aipccVelValues = [555, 635, 590, 660, 620, 606];
-const aipccVelLabels = ["Feb 18", "Mar 4", "Mar 18", "Apr 1", "Apr 15", "Apr 29"];
-const aipccAvgVelocity = Math.round(aipccVelValues.reduce((a,b)=>a+b,0) / aipccVelValues.length);
+var aipccVelValues = [372, 443, 682, 646, 586, 576];
+var aipccVelLabels = ["Feb 06", "Feb 20", "Mar 06", "Mar 20", "Apr 03", "Apr 17"];
+var aipccAvgVelocity = Math.round(aipccVelValues.reduce(function(a,b){return a+b;},0) / aipccVelValues.length);
 
-const rhelaiVelValues = [3, 2, 1, 2, 1, 2];
-const rhelaiVelLabels = ["Feb 18", "Mar 4", "Mar 18", "Apr 1", "Apr 15", "Apr 29"];
-const rhelaiAvgVelocity = Math.round(rhelaiVelValues.reduce((a,b)=>a+b,0) / rhelaiVelValues.length);
+var rhelaiVelValues = [0, 0, 3, 8, 0, 0];
+var rhelaiVelLabels = ["Feb 06", "Feb 20", "Mar 06", "Mar 20", "Apr 03", "Apr 17"];
+var rhelaiAvgVelocity = Math.round(rhelaiVelValues.reduce(function(a,b){return a+b;},0) / rhelaiVelValues.length);
 
-const psapVelValues = [1, 0, 1, 0, 1, 0];
-const psapVelLabels = ["Feb 18", "Mar 4", "Mar 18", "Apr 1", "Apr 15", "Apr 29"];
-const psapAvgVelocity = Math.round(psapVelValues.reduce((a,b)=>a+b,0) / psapVelValues.length);
+var psapVelValues = [1, 0, 1, 1, 0, 0];
+var psapVelLabels = ["Feb 06", "Feb 20", "Mar 06", "Mar 20", "Apr 03", "Apr 17"];
+var psapAvgVelocity = Math.round(psapVelValues.reduce(function(a,b){return a+b;},0) / psapVelValues.length);
 
-const releaseRows = [
-  {"name": "rhoai-3.5.EA1", "project": "AIPCC", "total": 60, "done": 28, "ip": 18, "todo": 14, "done_pct": 46.7, "release_date": ""},
+var releaseRows = [
+  {"name": "rhoai-3.5.EA1", "project": "AIPCC", "total": 60, "done": 29, "ip": 20, "todo": 11, "done_pct": 48.3, "release_date": ""},
   {"name": "rhoai-3.5", "project": "AIPCC", "total": 11, "done": 7, "ip": 1, "todo": 3, "done_pct": 63.6, "release_date": ""},
   {"name": "rhoai-3.5.EA2", "project": "AIPCC", "total": 1, "done": 0, "ip": 0, "todo": 1, "done_pct": 0.0, "release_date": ""},
+  {"name": "RHAII-3.5.EA1", "project": "AIPCC", "total": 6, "done": 0, "ip": 4, "todo": 2, "done_pct": 0.0, "release_date": ""},
   {"name": "rhoai-3.4", "project": "AIPCC", "total": 36, "done": 29, "ip": 4, "todo": 3, "done_pct": 80.6, "release_date": ""},
   {"name": "rhoai-3.4.EA1", "project": "AIPCC", "total": 28, "done": 25, "ip": 1, "todo": 2, "done_pct": 89.3, "release_date": ""},
   {"name": "rhoai-3.4.EA2", "project": "AIPCC", "total": 4, "done": 3, "ip": 0, "todo": 1, "done_pct": 75.0, "release_date": ""},
+  {"name": "RHAII-3.4 EA1", "project": "AIPCC", "total": 1, "done": 1, "ip": 0, "todo": 0, "done_pct": 100.0, "release_date": ""},
   {"name": "rhoai-3.3", "project": "AIPCC", "total": 34, "done": 33, "ip": 0, "todo": 1, "done_pct": 97.1, "release_date": ""},
   {"name": "rhoai-3.2", "project": "AIPCC", "total": 10, "done": 10, "ip": 0, "todo": 0, "done_pct": 100.0, "release_date": ""},
-  {"name": "rhelai-3.4 GA", "project": "AIPCC", "total": 0, "done": 0, "ip": 0, "todo": 0, "done_pct": 0, "release_date": "2026-05-14"},
-  {"name": "rhelai-3.5", "project": "AIPCC", "total": 0, "done": 0, "ip": 0, "todo": 0, "done_pct": 0, "release_date": "2026-06-18"},
-  {"name": "rhelai-3.5 EA1", "project": "AIPCC", "total": 0, "done": 0, "ip": 0, "todo": 0, "done_pct": 0, "release_date": "2026-06-18"},
-  {"name": "rhelai-3.5 EA2", "project": "AIPCC", "total": 0, "done": 0, "ip": 0, "todo": 0, "done_pct": 0, "release_date": "2026-07-16"},
-  {"name": "rhelai-3.5 GA", "project": "AIPCC", "total": 0, "done": 0, "ip": 0, "todo": 0, "done_pct": 0, "release_date": "2026-08-20"},
   {"name": "rhelai-3.0", "project": "RHELAI", "total": 4, "done": 1, "ip": 0, "todo": 3, "done_pct": 25.0, "release_date": "2025-11-13"}
 ];
 
-const filteredReleaseRows = releaseRows.filter(r => r.total > 0);
+var filteredReleaseRows = releaseRows.filter(function(r) { return r.total > 0; });
 
-filteredReleaseRows.forEach(r => {
-  const remaining = r.total - r.done;
-  const vel = r.project === 'AIPCC' ? aipccAvgVelocity : (r.project === 'RHELAI' ? rhelaiAvgVelocity : psapAvgVelocity);
+filteredReleaseRows.forEach(function(r) {
+  var remaining = r.total - r.done;
+  var vel = r.project === 'AIPCC' ? aipccAvgVelocity : (r.project === 'RHELAI' ? rhelaiAvgVelocity : psapAvgVelocity);
   if (remaining > vel * 1.3) {
     r.risk = "Red"; r.risk_order = 0;
   } else if (remaining > vel * 1.1) {
@@ -261,32 +258,32 @@ filteredReleaseRows.forEach(r => {
   }
 });
 
-filteredReleaseRows.sort((a, b) => a.risk_order - b.risk_order || b.total - a.total);
+filteredReleaseRows.sort(function(a, b) { return a.risk_order - b.risk_order || b.total - a.total; });
 
-document.querySelectorAll('.tab').forEach(tab => {
-  tab.addEventListener('click', () => {
-    document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
-    document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+document.querySelectorAll('.tab').forEach(function(tab) {
+  tab.addEventListener('click', function() {
+    document.querySelectorAll('.tab').forEach(function(t) { t.classList.remove('active'); });
+    document.querySelectorAll('.tab-panel').forEach(function(p) { p.classList.remove('active'); });
     tab.classList.add('active');
     document.getElementById('tab-' + tab.dataset.tab).classList.add('active');
   });
 });
 
 function buildVelocityChart(containerId, values, labels, avgVel) {
-  const container = document.getElementById(containerId);
+  var container = document.getElementById(containerId);
   if (!container) return;
-  const maxVal = Math.max(...values, 1);
-  const chartH = 160;
-  values.forEach((v, i) => {
-    const wrapper = document.createElement('div');
+  var maxVal = Math.max.apply(null, values.concat([1]));
+  var chartH = 160;
+  values.forEach(function(v, i) {
+    var wrapper = document.createElement('div');
     wrapper.className = 'bar-wrapper';
-    const valEl = document.createElement('div');
+    var valEl = document.createElement('div');
     valEl.className = 'bar-value';
     valEl.textContent = v;
-    const bar = document.createElement('div');
+    var bar = document.createElement('div');
     bar.className = 'bar ' + (i === values.length - 1 ? 'current' : 'normal');
     bar.style.height = (v / maxVal * chartH) + 'px';
-    const label = document.createElement('div');
+    var label = document.createElement('div');
     label.className = 'bar-label';
     label.textContent = labels[i];
     wrapper.appendChild(valEl);
@@ -294,11 +291,11 @@ function buildVelocityChart(containerId, values, labels, avgVel) {
     wrapper.appendChild(label);
     container.appendChild(wrapper);
   });
-  const lineY = (avgVel / maxVal * chartH);
-  const line = document.createElement('div');
+  var lineY = (avgVel / maxVal * chartH);
+  var line = document.createElement('div');
   line.style.cssText = 'position:absolute;left:0;right:60px;height:2px;background:#d29922;opacity:0.6;bottom:' + (lineY + 20) + 'px;';
   container.appendChild(line);
-  const lineLabel = document.createElement('div');
+  var lineLabel = document.createElement('div');
   lineLabel.className = 'avg-line-label';
   lineLabel.textContent = 'Avg: ' + avgVel;
   lineLabel.style.bottom = (lineY + 20) + 'px';
@@ -310,11 +307,11 @@ buildVelocityChart('velocityChartRHELAI', rhelaiVelValues, rhelaiVelLabels, rhel
 buildVelocityChart('velocityChartPSAP', psapVelValues, psapVelLabels, psapAvgVelocity);
 
 (function() {
-  const tbody = document.getElementById('riskTableBody');
-  filteredReleaseRows.forEach(r => {
-    const tr = document.createElement('tr');
-    const riskClass = r.risk;
-    const relDateStr = r.release_date || 'N/A';
+  var tbody = document.getElementById('riskTableBody');
+  filteredReleaseRows.forEach(function(r) {
+    var tr = document.createElement('tr');
+    var riskClass = r.risk;
+    var relDateStr = r.release_date || 'N/A';
     tr.dataset.project = r.project;
     tr.innerHTML =
       '<td>' + r.name + '</td>' +
@@ -331,11 +328,11 @@ buildVelocityChart('velocityChartPSAP', psapVelValues, psapVelLabels, psapAvgVel
 })();
 
 document.getElementById('projectFilter').addEventListener('change', function() {
-  const val = this.value;
-  document.querySelectorAll('.team-card').forEach(card => {
+  var val = this.value;
+  document.querySelectorAll('.team-card').forEach(function(card) {
     card.style.display = (val === 'All' || card.dataset.project === val) ? '' : 'none';
   });
-  document.querySelectorAll('#riskTableBody tr').forEach(tr => {
+  document.querySelectorAll('#riskTableBody tr').forEach(function(tr) {
     tr.style.display = (val === 'All' || tr.dataset.project === val) ? '' : 'none';
   });
 });
