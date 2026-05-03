@@ -89,7 +89,7 @@ a:hover { text-decoration: underline; }
 <div class="header">
   <h1>AI Engineering Risk Dashboard</h1>
   <div class="header-right">
-    <span class="date-badge">Data as of 2026-05-01</span>
+    <span class="date-badge">Data as of 2026-05-03</span>
     <span class="source-badge">Jira REST API v3 &mdash; Live</span>
   </div>
 </div>
@@ -110,7 +110,6 @@ a:hover { text-decoration: underline; }
 </div>
 
 <div class="content">
-  <!-- Release Burndown Tab -->
   <div id="tab-burndown" class="tab-panel active">
     <div class="filter-row">
       <select id="productFilter">
@@ -145,27 +144,26 @@ a:hover { text-decoration: underline; }
     </table>
   </div>
 
-  <!-- Aging WIP Tab -->
   <div id="tab-aging" class="tab-panel">
     <div class="filter-row">
       <select id="agingProjectFilter">
         <option value="All">All Projects</option>
-        <option value="AIPCC">AIPCC (243 stale)</option>
-        <option value="RHELAI">RHELAI (62 stale)</option>
+        <option value="AIPCC">AIPCC (246 stale)</option>
+        <option value="RHELAI">RHELAI (66 stale)</option>
         <option value="PSAP">PSAP (3 stale)</option>
       </select>
     </div>
     <div class="summary-cards">
       <div class="summary-card">
-        <div class="number red">308</div>
+        <div class="number red">315</div>
         <div class="label">stale issues (&gt;14 days without update)</div>
       </div>
       <div class="summary-card">
-        <div class="number yellow">671</div>
+        <div class="number yellow">711</div>
         <div class="label">total WIP (all projects)</div>
       </div>
       <div class="summary-card">
-        <div class="number" style="color:#f85149;">45.9%</div>
+        <div class="number" style="color:#f85149;">44.3%</div>
         <div class="label">of WIP is stale</div>
       </div>
     </div>
@@ -184,7 +182,6 @@ a:hover { text-decoration: underline; }
     </table>
   </div>
 
-  <!-- Flow Metrics Tab -->
   <div id="tab-flow" class="tab-panel">
     <div class="flow-cards" id="flowCards"></div>
     <div class="chart-section" data-project="AIPCC">
@@ -201,11 +198,11 @@ a:hover { text-decoration: underline; }
     <summary>Assumptions &amp; Methodology</summary>
     <div class="panel">
       <ul>
-        <li><strong>Data source:</strong> Jira REST API v3 (GET /rest/api/3/search/jql, cursor-based pagination, anonymous access) queried live on 2026-05-01.</li>
+        <li><strong>Data source:</strong> Jira REST API v3 (GET /rest/api/3/search/jql, cursor-based pagination, anonymous access) queried live on 2026-05-03.</li>
         <li><strong>Projects:</strong> AIPCC, RHELAI, PSAP, RHAIFIRST. Originally-requested INFERENG, RHAIENG, RHOAIENG return zero issues on redhat.atlassian.net (empty or restricted access); closest accessible matches were substituted.</li>
         <li><strong>"Target Version"</strong> (customfield_10855) used for release mapping, NOT fixVersion.</li>
         <li><strong>Issue types excluded:</strong> Epic, Feature (per release mapping query).</li>
-        <li><strong>Aging WIP</strong> = in-progress issues not updated for &gt;14 days. Total: 308 of 671 WIP items (45.9%) across all projects.</li>
+        <li><strong>Aging WIP</strong> = in-progress issues not updated for &gt;14 days. Total: 315 of 711 WIP items (44.3%) across all projects.</li>
         <li><strong>Risk thresholds (Release Burndown):</strong>
           <ul>
             <li>Green: &gt;70% done OR &gt;30 days left with reasonable progress</li>
@@ -216,14 +213,14 @@ a:hover { text-decoration: underline; }
         </li>
         <li><strong>Flow health (WIP:Throughput ratio):</strong> &lt;0.5 = Healthy, 0.5&ndash;1.0 = Warning, &gt;1.0 = Critical</li>
         <li><strong>Velocity proxy:</strong> Resolved issues per 2-week window derived from 90-day resolved counts. Agile board/sprint APIs require authentication.</li>
-        <li><strong>RHELAI note:</strong> 93.9% of WIP is stale. Zero issues created or resolved in 30 days. Project appears to be in transition or winding down.</li>
+        <li><strong>RHELAI note:</strong> 100% of WIP is stale. Zero issues created or resolved in 30 days. Project appears to be in transition or winding down.</li>
       </ul>
     </div>
   </details>
 </div>
 
 <script>
-var TODAY = new Date('2026-05-01');
+var TODAY = new Date('2026-05-03');
 var JIRA_BASE = "https://redhat.atlassian.net/browse";
 
 var burndownRows = [
@@ -234,7 +231,7 @@ var burndownRows = [
   {"name": "rhoai-3.4", "product": "rhoai", "project": "AIPCC", "total": 36, "done": 29, "ip": 4, "todo": 3, "done_pct": 80.6, "release_date": ""},
   {"name": "rhoai-3.4.EA1", "product": "rhoai", "project": "AIPCC", "total": 28, "done": 25, "ip": 1, "todo": 2, "done_pct": 89.3, "release_date": ""},
   {"name": "rhoai-3.4.EA2", "product": "rhoai", "project": "AIPCC", "total": 4, "done": 3, "ip": 0, "todo": 1, "done_pct": 75.0, "release_date": ""},
-  {"name": "RHAII-3.4 EA1", "product": "rhaii", "project": "AIPCC", "total": 1, "done": 1, "ip": 0, "todo": 0, "done_pct": 100.0, "release_date": ""},
+  {"name": "RHAII-3.4 EA1", "product": "rhaii", "project": "AIPCC", "total": 1, "done": 1, "ip": 0, "todo": 0, "done_pct": 100.0, "release_date": "2025-05-20"},
   {"name": "rhoai-3.3", "product": "rhoai", "project": "AIPCC", "total": 34, "done": 33, "ip": 0, "todo": 1, "done_pct": 97.1, "release_date": ""},
   {"name": "rhoai-3.2", "product": "rhoai", "project": "AIPCC", "total": 10, "done": 10, "ip": 0, "todo": 0, "done_pct": 100.0, "release_date": ""},
   {"name": "rhelai-3.0", "product": "rhelai", "project": "RHELAI", "total": 4, "done": 1, "ip": 0, "todo": 3, "done_pct": 25.0, "release_date": "2025-11-13"}
@@ -268,54 +265,54 @@ burndownRows.forEach(function(r) {
 burndownRows.sort(function(a, b) { return a.risk_order - b.risk_order || b.total - a.total; });
 
 var agingRows = [
-  {"key": "AIPCC-12398", "summary": "Add cvxpy into the RHAI pipeline onboarding collection", "assignee": "Einat Pacifici", "updated": "2026-03-16", "days_stale": 46, "project": "AIPCC"},
-  {"key": "AIPCC-12408", "summary": "Add earth2studio into the RHAI pipeline onboarding collection", "assignee": "Einat Pacifici", "updated": "2026-03-16", "days_stale": 46, "project": "AIPCC"},
-  {"key": "AIPCC-12412", "summary": "Onboard jax into the AIPCC Builder", "assignee": "Einat Pacifici", "updated": "2026-03-16", "days_stale": 46, "project": "AIPCC"},
-  {"key": "AIPCC-12417", "summary": "Add jax into the RHAI pipeline onboarding collection", "assignee": "Einat Pacifici", "updated": "2026-03-16", "days_stale": 46, "project": "AIPCC"},
-  {"key": "AIPCC-12418", "summary": "Onboard lazyllm into the AIPCC Builder", "assignee": "Einat Pacifici", "updated": "2026-03-16", "days_stale": 46, "project": "AIPCC"},
-  {"key": "AIPCC-12422", "summary": "Add lazyllm into the RHAI pipeline onboarding collection", "assignee": "Einat Pacifici", "updated": "2026-03-16", "days_stale": 46, "project": "AIPCC"},
-  {"key": "AIPCC-12420", "summary": "Onboard jupytergis into the AIPCC Builder", "assignee": "Einat Pacifici", "updated": "2026-03-16", "days_stale": 46, "project": "AIPCC"},
-  {"key": "AIPCC-12423", "summary": "Add jupytergis into the RHAI pipeline onboarding collection", "assignee": "Einat Pacifici", "updated": "2026-03-16", "days_stale": 46, "project": "AIPCC"},
-  {"key": "AIPCC-12427", "summary": "Onboard pennylane into the AIPCC Builder", "assignee": "Einat Pacifici", "updated": "2026-03-16", "days_stale": 46, "project": "AIPCC"},
-  {"key": "AIPCC-12428", "summary": "Add pennylane into the RHAI pipeline onboarding collection", "assignee": "Einat Pacifici", "updated": "2026-03-16", "days_stale": 46, "project": "AIPCC"},
-  {"key": "AIPCC-12429", "summary": "Onboard curl_cffi into the AIPCC Builder", "assignee": "Einat Pacifici", "updated": "2026-03-16", "days_stale": 46, "project": "AIPCC"},
-  {"key": "AIPCC-12430", "summary": "Add curl_cffi into the RHAI pipeline onboarding collection", "assignee": "Einat Pacifici", "updated": "2026-03-16", "days_stale": 46, "project": "AIPCC"},
-  {"key": "AIPCC-12434", "summary": "Add mediapipe into the RHAI pipeline onboarding collection", "assignee": "Einat Pacifici", "updated": "2026-03-16", "days_stale": 46, "project": "AIPCC"},
-  {"key": "AIPCC-12433", "summary": "Onboard mediapipe into the AIPCC Builder", "assignee": "Einat Pacifici", "updated": "2026-03-16", "days_stale": 46, "project": "AIPCC"},
-  {"key": "AIPCC-4892", "summary": "Pytorch Upstream Issue: 160547 export Non-strict export fails with NamedTuple input", "assignee": "Unassigned", "updated": "2026-03-18", "days_stale": 44, "project": "AIPCC"},
-  {"key": "AIPCC-4663", "summary": "[python-wheel-build/fromager] Simplify output directory handling", "assignee": "Sean Johnston", "updated": "2026-03-18", "days_stale": 44, "project": "AIPCC"},
-  {"key": "AIPCC-7494", "summary": "Inconsistent overflow handling in torch.clamp_min between CPU and CUDA for float16", "assignee": "Vishal Goyal", "updated": "2026-03-18", "days_stale": 44, "project": "AIPCC"},
-  {"key": "AIPCC-6720", "summary": "Integrate sdg-hub upstream tests into Taskotron", "assignee": "Frantisek Zatloukal", "updated": "2026-03-18", "days_stale": 44, "project": "AIPCC"},
-  {"key": "AIPCC-1627", "summary": "Migrate RHOAI Images to Use AIPCC Wheels", "assignee": "Frank Jansen", "updated": "2026-03-18", "days_stale": 44, "project": "AIPCC"},
-  {"key": "AIPCC-8794", "summary": "AIPCC AE Generic QE Automation Improvements (Wheels Test Repository)", "assignee": "Vikash Shaw", "updated": "2026-03-18", "days_stale": 44, "project": "AIPCC"},
-  {"key": "RHELAI-2687", "summary": "Update the way users should validate the api key", "assignee": "Kelly Brown", "updated": "2024-12-11", "days_stale": 506, "project": "RHELAI"},
-  {"key": "RHELAI-3089", "summary": "Expand utilities to handle git branches and commit checkouts", "assignee": "Joseph Groenenboom", "updated": "2025-01-28", "days_stale": 458, "project": "RHELAI"},
-  {"key": "RHELAI-2376", "summary": "[rag] Creation of a Retrieval Augmented Generation (RAG) Pipeline Schema", "assignee": "William Caban Babilonia", "updated": "2025-02-25", "days_stale": 430, "project": "RHELAI"},
-  {"key": "RHELAI-3560", "summary": "[ilab] Exposing third-party models for inference and ilab flows in RHEL AI", "assignee": "Rob Greenberg", "updated": "2025-03-11", "days_stale": 416, "project": "RHELAI"},
-  {"key": "RHELAI-2486", "summary": "[UI] MVP RHEL AI UI Enhancements for SMEs (phase 2)", "assignee": "Jehlum Vitasta Pandit", "updated": "2025-03-14", "days_stale": 413, "project": "RHELAI"},
-  {"key": "RHELAI-2645", "summary": "[create dev-doc] Research and Investigation", "assignee": "Aakanksha Duggal", "updated": "2025-03-25", "days_stale": 402, "project": "RHELAI"},
-  {"key": "RHELAI-2670", "summary": "Productize the 128k context window Granite v3.1", "assignee": "William Caban Babilonia", "updated": "2025-03-31", "days_stale": 396, "project": "RHELAI"},
-  {"key": "RHELAI-2717", "summary": "System profile and auto-detection for NVIDIA H200", "assignee": "Jehlum Vitasta Pandit", "updated": "2025-03-31", "days_stale": 396, "project": "RHELAI"},
-  {"key": "RHELAI-2357", "summary": "Gaudi 3 multi-device inferencing", "assignee": "James Kunstle", "updated": "2025-04-07", "days_stale": 389, "project": "RHELAI"},
-  {"key": "RHELAI-3616", "summary": "Third-party model(s) support - end-to-end workflow and inference", "assignee": "Jehlum Vitasta Pandit", "updated": "2025-04-08", "days_stale": 388, "project": "RHELAI"},
-  {"key": "RHELAI-3497", "summary": "Support for NVIDIA H200", "assignee": "Erwan Gallen", "updated": "2025-04-21", "days_stale": 375, "project": "RHELAI"},
-  {"key": "RHELAI-3954", "summary": "Misc improvements to QE cloud envs", "assignee": "Mike DePaulo", "updated": "2025-04-23", "days_stale": 373, "project": "RHELAI"},
-  {"key": "RHELAI-3904", "summary": "SDG Summit Goals [Use Cases]", "assignee": "Aditi Saluja", "updated": "2025-04-24", "days_stale": 372, "project": "RHELAI"},
-  {"key": "RHELAI-3917", "summary": "Support for NVIDIA B200", "assignee": "Erwan Gallen", "updated": "2025-04-24", "days_stale": 372, "project": "RHELAI"},
-  {"key": "RHELAI-3465", "summary": "Add tuned to RHEL AI base image", "assignee": "William Caban Babilonia", "updated": "2025-04-24", "days_stale": 372, "project": "RHELAI"},
-  {"key": "RHELAI-3997", "summary": "Show generation with Third Party Teacher Model (Llama 3.3 70B)", "assignee": "Aakanksha Duggal", "updated": "2025-04-24", "days_stale": 372, "project": "RHELAI"},
-  {"key": "RHELAI-3607", "summary": "[ilab] Llama 3.1 8B-Instruct ilab model serve (inference testing)", "assignee": "Daniel McPherson", "updated": "2025-05-08", "days_stale": 358, "project": "RHELAI"},
-  {"key": "RHELAI-3674", "summary": "[ilab] Granite 3.1 8B Instruct ilab model serve (inference testing)", "assignee": "Daniel McPherson", "updated": "2025-05-08", "days_stale": 358, "project": "RHELAI"},
-  {"key": "RHELAI-3598", "summary": "[ilab] Phi-4-14B ilab model serve (inference testing)", "assignee": "Daniel McPherson", "updated": "2025-05-08", "days_stale": 358, "project": "RHELAI"},
-  {"key": "RHELAI-3596", "summary": "[ilab] Mistral-Small 3-24B-Instruct ilab model serve (inference testing)", "assignee": "Daniel McPherson", "updated": "2025-05-08", "days_stale": 358, "project": "RHELAI"},
-  {"key": "PSAP-1359", "summary": "Investigate profiling of llm serving runtime process", "assignee": "Nikhil Palaskar", "updated": "2026-03-21", "days_stale": 41, "project": "PSAP"},
-  {"key": "PSAP-1114", "summary": "RHOAI test automation / ci-artifacts project evolution", "assignee": "David Whyte-Gray", "updated": "2026-03-22", "days_stale": 40, "project": "PSAP"},
-  {"key": "PSAP-1291", "summary": "Performance and Scale testing for Data Science Pipelines v2", "assignee": "Drew Ripberger", "updated": "2026-03-22", "days_stale": 40, "project": "PSAP"}
+  {"key": "AIPCC-12398", "summary": "Add cvxpy into the RHAI pipeline onboarding collection", "assignee": "Einat Pacifici", "updated": "2026-03-16", "days_stale": 48, "project": "AIPCC"},
+  {"key": "AIPCC-12408", "summary": "Add earth2studio into the RHAI pipeline onboarding collection", "assignee": "Einat Pacifici", "updated": "2026-03-16", "days_stale": 48, "project": "AIPCC"},
+  {"key": "AIPCC-12412", "summary": "Onboard jax into the AIPCC Builder", "assignee": "Einat Pacifici", "updated": "2026-03-16", "days_stale": 48, "project": "AIPCC"},
+  {"key": "AIPCC-12417", "summary": "Add jax into the RHAI pipeline onboarding collection", "assignee": "Einat Pacifici", "updated": "2026-03-16", "days_stale": 48, "project": "AIPCC"},
+  {"key": "AIPCC-12418", "summary": "Onboard lazyllm into the AIPCC Builder", "assignee": "Einat Pacifici", "updated": "2026-03-16", "days_stale": 48, "project": "AIPCC"},
+  {"key": "AIPCC-12422", "summary": "Add lazyllm into the RHAI pipeline onboarding collection", "assignee": "Einat Pacifici", "updated": "2026-03-16", "days_stale": 48, "project": "AIPCC"},
+  {"key": "AIPCC-12420", "summary": "Onboard jupytergis into the AIPCC Builder", "assignee": "Einat Pacifici", "updated": "2026-03-16", "days_stale": 48, "project": "AIPCC"},
+  {"key": "AIPCC-12423", "summary": "Add jupytergis into the RHAI pipeline onboarding collection", "assignee": "Einat Pacifici", "updated": "2026-03-16", "days_stale": 48, "project": "AIPCC"},
+  {"key": "AIPCC-12427", "summary": "Onboard pennylane into the AIPCC Builder", "assignee": "Einat Pacifici", "updated": "2026-03-16", "days_stale": 48, "project": "AIPCC"},
+  {"key": "AIPCC-12428", "summary": "Add pennylane into the RHAI pipeline onboarding collection", "assignee": "Einat Pacifici", "updated": "2026-03-16", "days_stale": 48, "project": "AIPCC"},
+  {"key": "AIPCC-12429", "summary": "Onboard curl_cffi into the AIPCC Builder", "assignee": "Einat Pacifici", "updated": "2026-03-16", "days_stale": 48, "project": "AIPCC"},
+  {"key": "AIPCC-12430", "summary": "Add curl_cffi into the RHAI pipeline onboarding collection", "assignee": "Einat Pacifici", "updated": "2026-03-16", "days_stale": 48, "project": "AIPCC"},
+  {"key": "AIPCC-12434", "summary": "Add mediapipe into the RHAI pipeline onboarding collection", "assignee": "Einat Pacifici", "updated": "2026-03-16", "days_stale": 48, "project": "AIPCC"},
+  {"key": "AIPCC-12433", "summary": "Onboard mediapipe into the AIPCC Builder", "assignee": "Einat Pacifici", "updated": "2026-03-16", "days_stale": 48, "project": "AIPCC"},
+  {"key": "AIPCC-4892", "summary": "Pytorch Upstream Issue: 160547 export Non-strict export fails with NamedTuple input", "assignee": "Unassigned", "updated": "2026-03-18", "days_stale": 46, "project": "AIPCC"},
+  {"key": "AIPCC-7494", "summary": "Inconsistent overflow handling in torch.clamp_min between CPU and CUDA for float16", "assignee": "Vishal Goyal", "updated": "2026-03-18", "days_stale": 46, "project": "AIPCC"},
+  {"key": "AIPCC-6720", "summary": "Integrate sdg-hub upstream tests into Taskotron", "assignee": "Frantisek Zatloukal", "updated": "2026-03-18", "days_stale": 46, "project": "AIPCC"},
+  {"key": "AIPCC-1627", "summary": "Migrate RHOAI Images to Use AIPCC Wheels", "assignee": "Frank Jansen", "updated": "2026-03-18", "days_stale": 46, "project": "AIPCC"},
+  {"key": "AIPCC-8794", "summary": "AIPCC AE Generic QE Automation Improvements (Wheels Test Repository)", "assignee": "Vikash Shaw", "updated": "2026-03-18", "days_stale": 46, "project": "AIPCC"},
+  {"key": "AIPCC-8458", "summary": "O1: Reliable Value Delivery", "assignee": "Tom Gundersen", "updated": "2026-03-18", "days_stale": 46, "project": "AIPCC"},
+  {"key": "RHELAI-2687", "summary": "Update the way users should validate the api key", "assignee": "Kelly Brown", "updated": "2024-12-11", "days_stale": 508, "project": "RHELAI"},
+  {"key": "RHELAI-3089", "summary": "Expand utilities to handle git branches and commit checkouts", "assignee": "Joseph Groenenboom", "updated": "2025-01-28", "days_stale": 460, "project": "RHELAI"},
+  {"key": "RHELAI-2376", "summary": "[rag] Creation of a Retrieval Augmented Generation (RAG) Pipeline Schema", "assignee": "William Caban Babilonia", "updated": "2025-02-25", "days_stale": 432, "project": "RHELAI"},
+  {"key": "RHELAI-3560", "summary": "[ilab] Exposing third-party models for inference and ilab flows in RHEL AI", "assignee": "Rob Greenberg", "updated": "2025-03-11", "days_stale": 418, "project": "RHELAI"},
+  {"key": "RHELAI-2486", "summary": "[UI] MVP RHEL AI UI Enhancements for SMEs (phase 2)", "assignee": "Jehlum Vitasta Pandit", "updated": "2025-03-14", "days_stale": 415, "project": "RHELAI"},
+  {"key": "RHELAI-2645", "summary": "[create dev-doc] Research and Investigation", "assignee": "Aakanksha Duggal", "updated": "2025-03-25", "days_stale": 404, "project": "RHELAI"},
+  {"key": "RHELAI-2670", "summary": "Productize the 128k context window Granite v3.1", "assignee": "William Caban Babilonia", "updated": "2025-03-31", "days_stale": 398, "project": "RHELAI"},
+  {"key": "RHELAI-2717", "summary": "System profile and auto-detection for NVIDIA H200", "assignee": "Jehlum Vitasta Pandit", "updated": "2025-03-31", "days_stale": 398, "project": "RHELAI"},
+  {"key": "RHELAI-2357", "summary": "Gaudi 3 multi-device inferencing", "assignee": "James Kunstle", "updated": "2025-04-07", "days_stale": 391, "project": "RHELAI"},
+  {"key": "RHELAI-3616", "summary": "Third-party model(s) support - end-to-end workflow and inference", "assignee": "Jehlum Vitasta Pandit", "updated": "2025-04-08", "days_stale": 390, "project": "RHELAI"},
+  {"key": "RHELAI-3497", "summary": "Support for NVIDIA H200", "assignee": "Erwan Gallen", "updated": "2025-04-21", "days_stale": 377, "project": "RHELAI"},
+  {"key": "RHELAI-3954", "summary": "Misc improvements to QE cloud envs", "assignee": "Mike DePaulo", "updated": "2025-04-23", "days_stale": 375, "project": "RHELAI"},
+  {"key": "RHELAI-3904", "summary": "SDG Summit Goals [Use Cases]", "assignee": "Aditi Saluja", "updated": "2025-04-24", "days_stale": 374, "project": "RHELAI"},
+  {"key": "RHELAI-3917", "summary": "Support for NVIDIA B200", "assignee": "Erwan Gallen", "updated": "2025-04-24", "days_stale": 374, "project": "RHELAI"},
+  {"key": "RHELAI-3465", "summary": "Add tuned to RHEL AI base image", "assignee": "William Caban Babilonia", "updated": "2025-04-24", "days_stale": 374, "project": "RHELAI"},
+  {"key": "RHELAI-3997", "summary": "Show generation with Third Party Teacher Model (Llama 3.3 70B)", "assignee": "Aakanksha Duggal", "updated": "2025-04-24", "days_stale": 374, "project": "RHELAI"},
+  {"key": "RHELAI-3607", "summary": "[ilab] Llama 3.1 8B-Instruct ilab model serve (inference testing)", "assignee": "Daniel McPherson", "updated": "2025-05-08", "days_stale": 360, "project": "RHELAI"},
+  {"key": "RHELAI-3674", "summary": "[ilab] Granite 3.1 8B Instruct ilab model serve (inference testing)", "assignee": "Daniel McPherson", "updated": "2025-05-08", "days_stale": 360, "project": "RHELAI"},
+  {"key": "RHELAI-3598", "summary": "[ilab] Phi-4-14B ilab model serve (inference testing)", "assignee": "Daniel McPherson", "updated": "2025-05-08", "days_stale": 360, "project": "RHELAI"},
+  {"key": "RHELAI-3596", "summary": "[ilab] Mistral-Small 3-24B-Instruct ilab model serve (inference testing)", "assignee": "Daniel McPherson", "updated": "2025-05-08", "days_stale": 360, "project": "RHELAI"},
+  {"key": "PSAP-1359", "summary": "Investigate profiling of llm serving runtime process", "assignee": "Nikhil Palaskar", "updated": "2026-03-21", "days_stale": 43, "project": "PSAP"},
+  {"key": "PSAP-1114", "summary": "RHOAI test automation / ci-artifacts project evolution", "assignee": "David Whyte-Gray", "updated": "2026-03-22", "days_stale": 42, "project": "PSAP"},
+  {"key": "PSAP-1291", "summary": "Performance and Scale testing for Data Science Pipelines v2", "assignee": "Drew Ripberger", "updated": "2026-03-22", "days_stale": 42, "project": "PSAP"}
 ];
 
 var flowData = {
-  "AIPCC": {"wip": 600, "throughput": 1265, "created": 1394, "aging": 243, "ratio": 0.47, "has_data": true},
-  "RHELAI": {"wip": 66, "throughput": 0, "created": 0, "aging": 62, "ratio": 0, "has_data": true},
+  "AIPCC": {"wip": 640, "throughput": 1185, "created": 1384, "aging": 246, "ratio": 0.54, "has_data": true},
+  "RHELAI": {"wip": 66, "throughput": 0, "created": 0, "aging": 66, "ratio": 0, "has_data": true},
   "PSAP": {"wip": 4, "throughput": 0, "created": 0, "aging": 3, "ratio": 0, "has_data": true},
   "RHAIFIRST": {"wip": 1, "throughput": 0, "created": 5, "aging": 0, "ratio": 0, "has_data": true}
 };
@@ -461,9 +458,9 @@ renderBurndown();
 
 (function() {
   var container = document.getElementById('dualBarChart');
-  var resolved = [372, 443, 682, 646, 586, 576];
-  var labels = ["Feb 06", "Feb 20", "Mar 06", "Mar 20", "Apr 03", "Apr 17"];
-  var created30d = 1394;
+  var resolved = [381, 441, 750, 604, 580, 556];
+  var labels = ["Feb 08", "Feb 22", "Mar 08", "Mar 22", "Apr 05", "Apr 19"];
+  var created30d = 1384;
   var createdPerPeriod = Math.round(created30d / (30 / 14));
   var maxVal = Math.max(createdPerPeriod, Math.max.apply(null, resolved));
 
