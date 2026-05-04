@@ -31,7 +31,7 @@ select { background: #21262d; color: #e0e0e0; border: 1px solid #30363d; padding
 .delta-up { color: #f85149; }
 .delta-neutral { color: #8b949e; }
 .team-card { background: #161b22; border: 1px solid #30363d; border-radius: 10px; padding: 24px; margin-bottom: 20px; }
-.team-card h3 { font-size: 18px; color: #f0f6fc; margin-bottom: 16px; display: flex; align-items: center; gap: 12px; }
+.team-card h3 { font-size: 18px; color: #f0f6fc; margin-bottom: 16px; display: flex; align-items: center; gap: 12px; flex-wrap: wrap; }
 .risk-badge { padding: 4px 12px; border-radius: 12px; font-size: 12px; font-weight: 600; }
 .risk-badge.green { background: #1a3a2a; color: #3fb950; }
 .risk-badge.yellow { background: #3d2e00; color: #d29922; }
@@ -45,6 +45,7 @@ select { background: #21262d; color: #e0e0e0; border: 1px solid #30363d; padding
 .bar-value { font-size: 12px; color: #e0e0e0; font-weight: 600; }
 .avg-line-label { position: absolute; right: 0; font-size: 11px; color: #d29922; transform: translateY(-50%); }
 .inactive-notice { background: #21262d; border: 1px solid #30363d; border-radius: 8px; padding: 16px 20px; color: #8b949e; font-size: 14px; line-height: 1.6; }
+.restricted-notice { background: #3d141822; border: 1px solid #3d1418; border-radius: 8px; padding: 16px 20px; color: #f85149; font-size: 14px; line-height: 1.6; }
 table { width: 100%; border-collapse: collapse; }
 th { text-align: left; padding: 12px 16px; background: #161b22; color: #8b949e; font-size: 12px; text-transform: uppercase; letter-spacing: 1px; border-bottom: 1px solid #30363d; }
 td { padding: 12px 16px; border-bottom: 1px solid #21262d; font-size: 14px; }
@@ -69,7 +70,7 @@ tr:hover { background: #161b2266; }
 <div class="header">
   <h1>AI Engineering Dashboard</h1>
   <div class="header-right">
-    <span class="date-badge">Data as of 2026-05-03</span>
+    <span class="date-badge">Data as of 2026-05-04</span>
     <span class="source-badge">Jira REST API v3 &mdash; Live</span>
   </div>
 </div>
@@ -78,6 +79,9 @@ tr:hover { background: #161b2266; }
   <select id="projectFilter">
     <option value="All">All Projects</option>
     <option value="AIPCC">AIPCC &mdash; AI Platform Core Components</option>
+    <option value="INFERENG">INFERENG &mdash; Inference Engineering (restricted)</option>
+    <option value="RHAIENG">RHAIENG &mdash; RH AI Engineering (restricted)</option>
+    <option value="RHOAIENG">RHOAIENG &mdash; RHOAI Engineering (restricted)</option>
     <option value="RHELAI">RHELAI &mdash; Red Hat Enterprise Linux AI</option>
     <option value="PSAP">PSAP &mdash; Perf &amp; Scale for AI Platforms</option>
     <option value="RHAIFIRST">RHAIFIRST &mdash; Red Hat AI First</option>
@@ -93,23 +97,23 @@ tr:hover { background: #161b2266; }
     <div class="kpi-strip">
       <div class="kpi-card">
         <div class="kpi-label">Current WIP (all)</div>
-        <div class="kpi-value">711</div>
-        <div class="kpi-delta delta-up">AIPCC 640 + RHELAI 66 + PSAP 4 + RHAIFIRST 1</div>
+        <div class="kpi-value">694</div>
+        <div class="kpi-delta delta-up">AIPCC 622 + RHELAI 67 + PSAP 4 + RHAIFIRST 1</div>
       </div>
       <div class="kpi-card">
         <div class="kpi-label">30-Day Throughput</div>
-        <div class="kpi-value">1,185</div>
+        <div class="kpi-value">1,161</div>
         <div class="kpi-delta delta-neutral">resolved issues (all projects)</div>
       </div>
       <div class="kpi-card">
         <div class="kpi-label">30-Day Created</div>
-        <div class="kpi-value">1,389</div>
-        <div class="kpi-delta delta-up">+204 net new</div>
+        <div class="kpi-value">1,367</div>
+        <div class="kpi-delta delta-up">+206 net new</div>
       </div>
       <div class="kpi-card">
         <div class="kpi-label">Aging WIP (&gt;14d)</div>
-        <div class="kpi-value" style="color:#f85149;">315</div>
-        <div class="kpi-delta delta-up">44.3% of all WIP is stale</div>
+        <div class="kpi-value" style="color:#f85149;">314</div>
+        <div class="kpi-delta delta-up">45.2% of all WIP is stale</div>
       </div>
     </div>
 
@@ -117,11 +121,31 @@ tr:hover { background: #161b2266; }
       <h3>AIPCC &mdash; AI Platform Core Components <span class="risk-badge yellow">Backlog Growing</span></h3>
       <div class="chart-container" id="velocityChartAIPCC"></div>
       <div class="stats-row" style="display:flex;gap:24px;margin-top:16px;flex-wrap:wrap;">
-        <div class="stat" style="font-size:14px;color:#8b949e;">Current WIP: <strong style="color:#e0e0e0;">640</strong></div>
-        <div class="stat" style="font-size:14px;color:#8b949e;">30d Resolved: <strong style="color:#e0e0e0;">1,185</strong></div>
-        <div class="stat" style="font-size:14px;color:#8b949e;">30d Created: <strong style="color:#e0e0e0;">1,384</strong></div>
-        <div class="stat" style="font-size:14px;color:#8b949e;">Aging WIP: <strong style="color:#f85149;">246</strong> (38.4%)</div>
-        <div class="stat" style="font-size:14px;color:#8b949e;">90d Resolved: <strong style="color:#e0e0e0;">3,709</strong></div>
+        <div class="stat" style="font-size:14px;color:#8b949e;">Current WIP: <strong style="color:#e0e0e0;">622</strong></div>
+        <div class="stat" style="font-size:14px;color:#8b949e;">30d Resolved: <strong style="color:#e0e0e0;">1,161</strong></div>
+        <div class="stat" style="font-size:14px;color:#8b949e;">30d Created: <strong style="color:#e0e0e0;">1,362</strong></div>
+        <div class="stat" style="font-size:14px;color:#8b949e;">Aging WIP: <strong style="color:#f85149;">244</strong> (39.2%)</div>
+      </div>
+    </div>
+
+    <div class="team-card" data-project="INFERENG">
+      <h3>INFERENG &mdash; Inference Engineering <span class="risk-badge red">Restricted</span></h3>
+      <div class="restricted-notice">
+        Project INFERENG returns zero issues via anonymous API access. This project is either empty, access-restricted, or uses a different project key on redhat.atlassian.net. Authenticated Jira access is required to query this project.
+      </div>
+    </div>
+
+    <div class="team-card" data-project="RHAIENG">
+      <h3>RHAIENG &mdash; RH AI Engineering <span class="risk-badge red">Restricted</span></h3>
+      <div class="restricted-notice">
+        Project RHAIENG returns zero issues via anonymous API access. This project is either empty, access-restricted, or uses a different project key on redhat.atlassian.net. Authenticated Jira access is required to query this project.
+      </div>
+    </div>
+
+    <div class="team-card" data-project="RHOAIENG">
+      <h3>RHOAIENG &mdash; RHOAI Engineering <span class="risk-badge red">Restricted</span></h3>
+      <div class="restricted-notice">
+        Project RHOAIENG returns zero issues via anonymous API access. This project is either empty, access-restricted, or uses a different project key on redhat.atlassian.net. Authenticated Jira access is required to query this project.
       </div>
     </div>
 
@@ -129,11 +153,10 @@ tr:hover { background: #161b2266; }
       <h3>RHELAI &mdash; Red Hat Enterprise Linux AI <span class="risk-badge red">Stalled</span></h3>
       <div class="chart-container" id="velocityChartRHELAI"></div>
       <div class="stats-row" style="display:flex;gap:24px;margin-top:16px;flex-wrap:wrap;">
-        <div class="stat" style="font-size:14px;color:#8b949e;">Current WIP: <strong style="color:#e0e0e0;">66</strong></div>
+        <div class="stat" style="font-size:14px;color:#8b949e;">Current WIP: <strong style="color:#e0e0e0;">67</strong></div>
         <div class="stat" style="font-size:14px;color:#8b949e;">30d Resolved: <strong style="color:#e0e0e0;">0</strong></div>
         <div class="stat" style="font-size:14px;color:#8b949e;">30d Created: <strong style="color:#e0e0e0;">0</strong></div>
-        <div class="stat" style="font-size:14px;color:#8b949e;">Aging WIP: <strong style="color:#f85149;">66</strong> (100%)</div>
-        <div class="stat" style="font-size:14px;color:#8b949e;">90d Resolved: <strong style="color:#e0e0e0;">11</strong></div>
+        <div class="stat" style="font-size:14px;color:#8b949e;">Aging WIP: <strong style="color:#f85149;">67</strong> (100%)</div>
       </div>
       <div class="inactive-notice" style="margin-top:16px;">
         100% of in-progress work has not been updated in &gt;14 days. No new issues created or resolved in the last 30 days. This project appears to be winding down or transitioning. Many stale items date back to 2024&ndash;2025.
@@ -148,7 +171,6 @@ tr:hover { background: #161b2266; }
         <div class="stat" style="font-size:14px;color:#8b949e;">30d Resolved: <strong style="color:#e0e0e0;">0</strong></div>
         <div class="stat" style="font-size:14px;color:#8b949e;">30d Created: <strong style="color:#e0e0e0;">0</strong></div>
         <div class="stat" style="font-size:14px;color:#8b949e;">Aging WIP: <strong style="color:#d29922;">3</strong> (75.0%)</div>
-        <div class="stat" style="font-size:14px;color:#8b949e;">90d Resolved: <strong style="color:#e0e0e0;">3</strong></div>
       </div>
     </div>
 
@@ -191,8 +213,8 @@ tr:hover { background: #161b2266; }
       <summary>Assumptions &amp; Methodology</summary>
       <div class="panel">
         <ul>
-          <li><strong>Data source:</strong> Jira REST API v3 (GET /rest/api/3/search/jql, cursor-based pagination, anonymous access) queried live on 2026-05-03.</li>
-          <li><strong>Projects queried:</strong> AIPCC, RHELAI, PSAP, RHAIFIRST. The originally-requested INFERENG, RHAIENG, and RHOAIENG project keys return zero issues on redhat.atlassian.net (empty or restricted access). The closest accessible matches were substituted.</li>
+          <li><strong>Data source:</strong> Jira REST API v3 (GET /rest/api/3/search/jql, cursor-based pagination, anonymous access) queried live on 2026-05-04.</li>
+          <li><strong>Projects queried:</strong> AIPCC, INFERENG, RHAIENG, RHOAIENG (requested); RHELAI, PSAP, RHAIFIRST (related). INFERENG, RHAIENG, and RHOAIENG return zero issues on redhat.atlassian.net (empty or restricted access). Data from accessible related projects is included.</li>
           <li><strong>Velocity</strong> = resolved issues per 2-week window (proxy for sprint velocity since Agile board API requires auth). Computed from 6 trailing 14-day periods for AIPCC; other projects have insufficient throughput for windowed velocity.</li>
           <li><strong>"Target Version"</strong> (customfield_10855) used for release mapping, NOT fixVersion.</li>
           <li><strong>Issue types excluded:</strong> Epic, Feature (per release mapping query).</li>
@@ -203,7 +225,7 @@ tr:hover { background: #161b2266; }
               <li>Red: remaining &gt; avg_velocity &times; 1.3 (&gt;30% over avg velocity)</li>
             </ul>
           </li>
-          <li><strong>Aging WIP</strong> = in-progress issues not updated for &gt;14 days. Currently 315 of 711 WIP items (44.3%) are stale across all projects.</li>
+          <li><strong>Aging WIP</strong> = in-progress issues not updated for &gt;14 days. Currently 314 of 694 WIP items (45.2%) are stale across all projects.</li>
           <li><strong>Jira API note:</strong> Red Hat Jira uses v3 cursor-based search (/rest/api/3/search/jql). Counts obtained via paginated result set length (v3 does not return a total field). Board/sprint APIs require authentication.</li>
         </ul>
       </div>
@@ -212,17 +234,17 @@ tr:hover { background: #161b2266; }
 </div>
 
 <script>
-var aipccVelValues = [381, 441, 750, 604, 580, 556];
+var aipccVelValues = [381, 441, 750, 604, 580, 555];
 var aipccVelLabels = ["Feb 08", "Feb 22", "Mar 08", "Mar 22", "Apr 05", "Apr 19"];
 var aipccAvgVelocity = Math.round(aipccVelValues.reduce(function(a,b){return a+b;},0) / aipccVelValues.length);
 
-var rhelaiVelValues = [0, 0, 3, 8, 0, 0];
+var rhelaiVelValues = [0, 0, 0, 0, 0, 0];
 var rhelaiVelLabels = ["Feb 08", "Feb 22", "Mar 08", "Mar 22", "Apr 05", "Apr 19"];
-var rhelaiAvgVelocity = Math.round(rhelaiVelValues.reduce(function(a,b){return a+b;},0) / rhelaiVelValues.length);
+var rhelaiAvgVelocity = 0;
 
-var psapVelValues = [1, 0, 1, 1, 0, 0];
+var psapVelValues = [0, 0, 0, 0, 0, 0];
 var psapVelLabels = ["Feb 08", "Feb 22", "Mar 08", "Mar 22", "Apr 05", "Apr 19"];
-var psapAvgVelocity = Math.round(psapVelValues.reduce(function(a,b){return a+b;},0) / psapVelValues.length);
+var psapAvgVelocity = 0;
 
 var releaseRows = [
   {"name": "rhoai-3.5.EA1", "project": "AIPCC", "total": 60, "done": 29, "ip": 20, "todo": 11, "done_pct": 48.3, "release_date": ""},
@@ -232,7 +254,7 @@ var releaseRows = [
   {"name": "rhoai-3.4", "project": "AIPCC", "total": 36, "done": 29, "ip": 4, "todo": 3, "done_pct": 80.6, "release_date": ""},
   {"name": "rhoai-3.4.EA1", "project": "AIPCC", "total": 28, "done": 25, "ip": 1, "todo": 2, "done_pct": 89.3, "release_date": ""},
   {"name": "rhoai-3.4.EA2", "project": "AIPCC", "total": 4, "done": 3, "ip": 0, "todo": 1, "done_pct": 75.0, "release_date": ""},
-  {"name": "RHAII-3.4 EA1", "project": "AIPCC", "total": 1, "done": 1, "ip": 0, "todo": 0, "done_pct": 100.0, "release_date": "2025-05-20"},
+  {"name": "RHAII-3.4 EA1", "project": "AIPCC", "total": 1, "done": 1, "ip": 0, "todo": 0, "done_pct": 100.0, "release_date": ""},
   {"name": "rhoai-3.3", "project": "AIPCC", "total": 34, "done": 33, "ip": 0, "todo": 1, "done_pct": 97.1, "release_date": ""},
   {"name": "rhoai-3.2", "project": "AIPCC", "total": 10, "done": 10, "ip": 0, "todo": 0, "done_pct": 100.0, "release_date": ""},
   {"name": "rhelai-3.0", "project": "RHELAI", "total": 4, "done": 1, "ip": 0, "todo": 3, "done_pct": 25.0, "release_date": "2025-11-13"}
@@ -243,7 +265,9 @@ var filteredReleaseRows = releaseRows.filter(function(r) { return r.total > 0; }
 filteredReleaseRows.forEach(function(r) {
   var remaining = r.total - r.done;
   var vel = r.project === 'AIPCC' ? aipccAvgVelocity : (r.project === 'RHELAI' ? rhelaiAvgVelocity : psapAvgVelocity);
-  if (remaining > vel * 1.3) {
+  if (vel === 0 && remaining > 0) {
+    r.risk = "Red"; r.risk_order = 0;
+  } else if (remaining > vel * 1.3) {
     r.risk = "Red"; r.risk_order = 0;
   } else if (remaining > vel * 1.1) {
     r.risk = "Yellow"; r.risk_order = 1;
@@ -285,15 +309,17 @@ function buildVelocityChart(containerId, values, labels, avgVel) {
     wrapper.appendChild(label);
     container.appendChild(wrapper);
   });
-  var lineY = (avgVel / maxVal * chartH);
-  var line = document.createElement('div');
-  line.style.cssText = 'position:absolute;left:0;right:60px;height:2px;background:#d29922;opacity:0.6;bottom:' + (lineY + 20) + 'px;';
-  container.appendChild(line);
-  var lineLabel = document.createElement('div');
-  lineLabel.className = 'avg-line-label';
-  lineLabel.textContent = 'Avg: ' + avgVel;
-  lineLabel.style.bottom = (lineY + 20) + 'px';
-  container.appendChild(lineLabel);
+  if (avgVel > 0) {
+    var lineY = (avgVel / maxVal * chartH);
+    var line = document.createElement('div');
+    line.style.cssText = 'position:absolute;left:0;right:60px;height:2px;background:#d29922;opacity:0.6;bottom:' + (lineY + 20) + 'px;';
+    container.appendChild(line);
+    var lineLabel = document.createElement('div');
+    lineLabel.className = 'avg-line-label';
+    lineLabel.textContent = 'Avg: ' + avgVel;
+    lineLabel.style.bottom = (lineY + 20) + 'px';
+    container.appendChild(lineLabel);
+  }
 }
 
 buildVelocityChart('velocityChartAIPCC', aipccVelValues, aipccVelLabels, aipccAvgVelocity);
