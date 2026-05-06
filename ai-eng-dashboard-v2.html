@@ -5,357 +5,488 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>AI Engineering Dashboard</title>
 <style>
-* { margin: 0; padding: 0; box-sizing: border-box; }
-body { background: #0f1117; color: #e0e0e0; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; }
-.header { background: #161b22; padding: 20px 32px; border-bottom: 1px solid #30363d; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 12px; }
-.header h1 { font-size: 22px; color: #f0f6fc; }
-.header-right { display: flex; align-items: center; gap: 16px; }
-.date-badge { background: #21262d; color: #8b949e; padding: 6px 14px; border-radius: 6px; font-size: 13px; }
-.source-badge { background: #1a3a2a; color: #3fb950; padding: 6px 14px; border-radius: 6px; font-size: 12px; }
-.controls { padding: 16px 32px; display: flex; gap: 16px; align-items: center; flex-wrap: wrap; }
-select { background: #21262d; color: #e0e0e0; border: 1px solid #30363d; padding: 8px 14px; border-radius: 6px; font-size: 14px; cursor: pointer; }
-.tabs { display: flex; gap: 0; }
-.tab { padding: 10px 24px; background: #21262d; color: #8b949e; border: 1px solid #30363d; cursor: pointer; font-size: 14px; transition: all 0.2s; }
-.tab:first-child { border-radius: 6px 0 0 6px; }
-.tab:last-child { border-radius: 0 6px 6px 0; }
-.tab.active { background: #388bfd33; color: #58a6ff; border-color: #388bfd; }
-.content { padding: 24px 32px; }
-.tab-panel { display: none; }
-.tab-panel.active { display: block; }
-.kpi-strip { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 16px; margin-bottom: 24px; }
-.kpi-card { background: #161b22; border: 1px solid #30363d; border-radius: 10px; padding: 20px; }
-.kpi-label { font-size: 12px; color: #8b949e; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 8px; }
-.kpi-value { font-size: 32px; font-weight: 700; color: #f0f6fc; }
-.kpi-delta { font-size: 13px; margin-top: 4px; }
-.delta-down { color: #3fb950; }
-.delta-up { color: #f85149; }
-.delta-neutral { color: #8b949e; }
-.team-card { background: #161b22; border: 1px solid #30363d; border-radius: 10px; padding: 24px; margin-bottom: 20px; }
-.team-card h3 { font-size: 18px; color: #f0f6fc; margin-bottom: 16px; display: flex; align-items: center; gap: 12px; flex-wrap: wrap; }
-.risk-badge { padding: 4px 12px; border-radius: 12px; font-size: 12px; font-weight: 600; }
-.risk-badge.green { background: #1a3a2a; color: #3fb950; }
-.risk-badge.yellow { background: #3d2e00; color: #d29922; }
-.risk-badge.red { background: #3d1418; color: #f85149; }
-.chart-container { position: relative; height: 200px; display: flex; align-items: flex-end; gap: 12px; padding: 0 8px; margin: 16px 0; }
-.bar-wrapper { flex: 1; display: flex; flex-direction: column; align-items: center; gap: 4px; }
-.bar { width: 100%; border-radius: 4px 4px 0 0; transition: height 0.4s; min-height: 2px; }
-.bar.normal { background: #388bfd; }
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+body { background: #0f1117; color: #e0e0e0; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, sans-serif; line-height: 1.6; }
+a { color: #58a6ff; text-decoration: none; }
+
+/* Header */
+.header { background: #161b22; border-bottom: 1px solid #30363d; padding: 20px 32px; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 12px; }
+.header h1 { font-size: 22px; font-weight: 600; color: #f0f6fc; }
+.header-badges { display: flex; gap: 10px; align-items: center; flex-wrap: wrap; }
+.badge { font-size: 12px; padding: 4px 10px; border-radius: 12px; font-weight: 500; }
+.badge-date { background: #21262d; color: #8b949e; border: 1px solid #30363d; }
+.badge-source { background: #1a3a2a; color: #3fb950; border: 1px solid #23863680; }
+
+/* Layout */
+.container { max-width: 1400px; margin: 0 auto; padding: 24px 32px; }
+
+/* Controls */
+.controls { display: flex; align-items: center; gap: 16px; margin-bottom: 20px; flex-wrap: wrap; }
+.controls label { font-size: 14px; color: #8b949e; }
+.controls select { background: #161b22; color: #e0e0e0; border: 1px solid #30363d; border-radius: 6px; padding: 6px 12px; font-size: 14px; cursor: pointer; }
+.controls select:focus { outline: none; border-color: #388bfd; }
+
+/* Tabs */
+.tabs { display: flex; gap: 4px; margin-bottom: 24px; }
+.tab-btn { background: #21262d; color: #8b949e; border: 1px solid #30363d; border-radius: 6px 6px 0 0; padding: 10px 24px; font-size: 14px; font-weight: 500; cursor: pointer; transition: all 0.2s; }
+.tab-btn:hover { color: #e0e0e0; }
+.tab-btn.active { background: rgba(56, 139, 253, 0.2); color: #58a6ff; border-color: #388bfd55; }
+.tab-content { display: none; }
+.tab-content.active { display: block; }
+
+/* KPI Strip */
+.kpi-strip { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 16px; margin-bottom: 28px; }
+.kpi-card { background: #161b22; border: 1px solid #30363d; border-radius: 10px; padding: 18px 20px; }
+.kpi-card .kpi-label { font-size: 12px; color: #8b949e; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 4px; }
+.kpi-card .kpi-value { font-size: 32px; font-weight: 700; color: #f0f6fc; }
+.kpi-card .kpi-value.red { color: #f85149; }
+.kpi-card .kpi-delta { font-size: 12px; color: #8b949e; margin-top: 2px; }
+.kpi-card .kpi-delta.delta-up { color: #f85149; }
+
+/* Team Cards */
+.team-cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(420px, 1fr)); gap: 20px; }
+.team-card { background: #161b22; border: 1px solid #30363d; border-radius: 10px; padding: 22px; }
+.team-card-header { display: flex; align-items: center; gap: 10px; margin-bottom: 16px; flex-wrap: wrap; }
+.team-card-header h3 { font-size: 16px; font-weight: 600; color: #f0f6fc; }
+.risk-badge { font-size: 11px; padding: 2px 10px; border-radius: 10px; font-weight: 600; white-space: nowrap; }
+.risk-green { background: #1a3a2a; color: #3fb950; }
+.risk-yellow { background: #3d2e00; color: #d29922; }
+.risk-red { background: #3d1418; color: #f85149; }
+
+/* Bar Chart */
+.chart-container { margin-bottom: 16px; }
+.chart-title { font-size: 12px; color: #8b949e; margin-bottom: 8px; }
+.bar-chart { display: flex; align-items: flex-end; gap: 8px; height: 140px; position: relative; padding-bottom: 24px; border-bottom: 1px solid #30363d; }
+.bar-wrapper { flex: 1; display: flex; flex-direction: column; align-items: center; height: 100%; justify-content: flex-end; position: relative; }
+.bar { width: 100%; max-width: 48px; border-radius: 4px 4px 0 0; background: #388bfd; transition: height 0.3s; position: relative; min-height: 2px; }
 .bar.current { background: #3fb950; }
-.bar-label { font-size: 11px; color: #8b949e; white-space: nowrap; }
-.bar-value { font-size: 12px; color: #e0e0e0; font-weight: 600; }
-.avg-line-label { position: absolute; right: 0; font-size: 11px; color: #d29922; transform: translateY(-50%); }
-.inactive-notice { background: #21262d; border: 1px solid #30363d; border-radius: 8px; padding: 16px 20px; color: #8b949e; font-size: 14px; line-height: 1.6; }
-.restricted-notice { background: #3d141822; border: 1px solid #3d1418; border-radius: 8px; padding: 16px 20px; color: #f85149; font-size: 14px; line-height: 1.6; }
-table { width: 100%; border-collapse: collapse; }
-th { text-align: left; padding: 12px 16px; background: #161b22; color: #8b949e; font-size: 12px; text-transform: uppercase; letter-spacing: 1px; border-bottom: 1px solid #30363d; }
-td { padding: 12px 16px; border-bottom: 1px solid #21262d; font-size: 14px; }
-tr:hover { background: #161b2266; }
-.progress-bar-bg { background: #21262d; border-radius: 4px; height: 8px; width: 120px; overflow: hidden; }
-.progress-bar-fill { height: 100%; border-radius: 4px; }
-.progress-bar-fill.green { background: #3fb950; }
-.progress-bar-fill.yellow { background: #d29922; }
-.progress-bar-fill.red { background: #f85149; }
-.risk-pill { padding: 3px 10px; border-radius: 10px; font-size: 12px; font-weight: 600; display: inline-block; }
-.risk-pill.Green { background: #1a3a2a; color: #3fb950; }
-.risk-pill.Yellow { background: #3d2e00; color: #d29922; }
-.risk-pill.Red { background: #3d1418; color: #f85149; }
-.assumptions { margin-top: 32px; }
-.assumptions summary { cursor: pointer; color: #8b949e; font-size: 14px; padding: 12px 0; }
-.assumptions .panel { background: #161b22; border: 1px solid #30363d; border-radius: 8px; padding: 20px; margin-top: 8px; font-size: 13px; color: #8b949e; line-height: 1.8; }
-.assumptions ul { padding-left: 20px; }
+.bar-value { font-size: 10px; color: #8b949e; text-align: center; margin-bottom: 4px; }
+.bar-label { font-size: 10px; color: #8b949e; text-align: center; position: absolute; bottom: -22px; white-space: nowrap; }
+.avg-line { position: absolute; left: 0; right: 0; border-top: 2px dashed #d29922; z-index: 2; pointer-events: none; }
+.avg-label { position: absolute; right: 0; top: -16px; font-size: 10px; color: #d29922; white-space: nowrap; }
+
+/* Stats */
+.stats-row { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 12px; }
+.stat { font-size: 13px; color: #8b949e; }
+.stat strong { color: #e0e0e0; font-weight: 600; }
+.stat .red { color: #f85149; }
+
+/* Notices */
+.restricted-notice { border: 1px solid #f85149; border-radius: 8px; padding: 14px 18px; margin-top: 8px; background: rgba(248, 81, 73, 0.06); font-size: 13px; color: #f0a0a0; line-height: 1.5; }
+.info-notice { border: 1px solid #30363d; border-radius: 8px; padding: 14px 18px; margin-top: 12px; background: rgba(56, 139, 253, 0.05); font-size: 13px; color: #8b949e; line-height: 1.5; }
+
+/* Release Risk Table */
+.table-wrap { overflow-x: auto; }
+table { width: 100%; border-collapse: collapse; font-size: 14px; }
+thead th { text-align: left; padding: 10px 14px; background: #161b22; border-bottom: 2px solid #30363d; color: #8b949e; font-weight: 600; font-size: 12px; text-transform: uppercase; letter-spacing: 0.5px; white-space: nowrap; }
+tbody td { padding: 10px 14px; border-bottom: 1px solid #21262d; vertical-align: middle; }
+tbody tr:hover { background: #1c2028; }
+.progress-cell { min-width: 160px; }
+.progress-bar-bg { background: #21262d; border-radius: 6px; height: 8px; width: 100%; overflow: hidden; display: inline-block; vertical-align: middle; margin-right: 8px; }
+.progress-bar-fill { height: 100%; border-radius: 6px; transition: width 0.3s; }
+.progress-bar-fill.fill-green { background: #3fb950; }
+.progress-bar-fill.fill-yellow { background: #d29922; }
+.progress-bar-fill.fill-red { background: #f85149; }
+.progress-text { font-size: 12px; color: #8b949e; white-space: nowrap; }
+.risk-pill { display: inline-block; font-size: 11px; padding: 2px 10px; border-radius: 10px; font-weight: 600; }
+
+/* Assumptions */
+.assumptions-panel { margin-top: 32px; background: #161b22; border: 1px solid #30363d; border-radius: 10px; overflow: hidden; }
+.assumptions-toggle { display: flex; align-items: center; gap: 8px; width: 100%; background: none; border: none; color: #8b949e; padding: 14px 20px; font-size: 14px; cursor: pointer; text-align: left; font-weight: 500; }
+.assumptions-toggle:hover { color: #e0e0e0; }
+.assumptions-toggle .arrow { transition: transform 0.2s; display: inline-block; }
+.assumptions-toggle.open .arrow { transform: rotate(90deg); }
+.assumptions-body { display: none; padding: 0 20px 20px 20px; }
+.assumptions-body.open { display: block; }
+.assumptions-body ul { list-style: disc; margin-left: 20px; margin-top: 8px; }
+.assumptions-body li { font-size: 13px; color: #8b949e; margin-bottom: 6px; line-height: 1.5; }
+.assumptions-body li strong { color: #c9d1d9; }
+.assumptions-body ul ul { margin-top: 4px; }
 </style>
 </head>
 <body>
 
 <div class="header">
   <h1>AI Engineering Dashboard</h1>
-  <div class="header-right">
-    <span class="date-badge">Data as of 2026-05-04</span>
-    <span class="source-badge">Jira REST API v3 &mdash; Live</span>
+  <div class="header-badges">
+    <span class="badge badge-date">Data as of 2026-05-06</span>
+    <span class="badge badge-source">Jira REST API v3 &mdash; Live</span>
   </div>
 </div>
 
-<div class="controls">
-  <select id="projectFilter">
-    <option value="All">All Projects</option>
-    <option value="AIPCC">AIPCC &mdash; AI Platform Core Components</option>
-    <option value="INFERENG">INFERENG &mdash; Inference Engineering (restricted)</option>
-    <option value="RHAIENG">RHAIENG &mdash; RH AI Engineering (restricted)</option>
-    <option value="RHOAIENG">RHOAIENG &mdash; RHOAI Engineering (restricted)</option>
-    <option value="RHELAI">RHELAI &mdash; Red Hat Enterprise Linux AI</option>
-    <option value="PSAP">PSAP &mdash; Perf &amp; Scale for AI Platforms</option>
-    <option value="RHAIFIRST">RHAIFIRST &mdash; Red Hat AI First</option>
-  </select>
+<div class="container">
+
+  <!-- Controls -->
+  <div class="controls">
+    <label for="projectFilter">Project:</label>
+    <select id="projectFilter">
+      <option value="all">All Projects</option>
+      <option value="AIPCC">AIPCC &mdash; AI Platform Core Components</option>
+      <option value="INFERENG">INFERENG &mdash; Inference Engineering (restricted)</option>
+      <option value="RHAIENG">RHAIENG &mdash; RH AI Engineering (restricted)</option>
+      <option value="RHOAIENG">RHOAIENG &mdash; RHOAI Engineering (restricted)</option>
+      <option value="RHELAI">RHELAI &mdash; Red Hat Enterprise Linux AI</option>
+      <option value="PSAP">PSAP &mdash; Perf &amp; Scale for AI Platforms</option>
+      <option value="RHAIFIRST">RHAIFIRST &mdash; Red Hat AI First</option>
+    </select>
+  </div>
+
+  <!-- Tabs -->
   <div class="tabs">
-    <div class="tab active" data-tab="throughput">Sprint Throughput</div>
-    <div class="tab" data-tab="risk">Release Risk</div>
+    <button class="tab-btn active" data-tab="sprint">Sprint Throughput</button>
+    <button class="tab-btn" data-tab="release">Release Risk</button>
   </div>
-</div>
 
-<div class="content">
-  <div id="tab-throughput" class="tab-panel active">
+  <!-- Sprint Throughput Tab -->
+  <div id="tab-sprint" class="tab-content active">
+
+    <!-- KPI Strip -->
     <div class="kpi-strip">
       <div class="kpi-card">
         <div class="kpi-label">Current WIP (all)</div>
-        <div class="kpi-value">694</div>
-        <div class="kpi-delta delta-up">AIPCC 622 + RHELAI 67 + PSAP 4 + RHAIFIRST 1</div>
+        <div class="kpi-value">685</div>
+        <div class="kpi-delta">AIPCC 613 + RHELAI 67 + PSAP 3 + RHAIFIRST 2</div>
       </div>
       <div class="kpi-card">
         <div class="kpi-label">30-Day Throughput</div>
-        <div class="kpi-value">1,161</div>
-        <div class="kpi-delta delta-neutral">resolved issues (all projects)</div>
+        <div class="kpi-value">1,327</div>
+        <div class="kpi-delta">resolved issues (all projects)</div>
       </div>
       <div class="kpi-card">
         <div class="kpi-label">30-Day Created</div>
-        <div class="kpi-value">1,367</div>
-        <div class="kpi-delta delta-up">+206 net new</div>
+        <div class="kpi-value">1,561</div>
+        <div class="kpi-delta delta-up">+234 net new</div>
       </div>
       <div class="kpi-card">
         <div class="kpi-label">Aging WIP (&gt;14d)</div>
-        <div class="kpi-value" style="color:#f85149;">314</div>
-        <div class="kpi-delta delta-up">45.2% of all WIP is stale</div>
+        <div class="kpi-value red">331</div>
+        <div class="kpi-delta">48.3% of all WIP is stale</div>
       </div>
     </div>
 
-    <div class="team-card" data-project="AIPCC">
-      <h3>AIPCC &mdash; AI Platform Core Components <span class="risk-badge yellow">Backlog Growing</span></h3>
-      <div class="chart-container" id="velocityChartAIPCC"></div>
-      <div class="stats-row" style="display:flex;gap:24px;margin-top:16px;flex-wrap:wrap;">
-        <div class="stat" style="font-size:14px;color:#8b949e;">Current WIP: <strong style="color:#e0e0e0;">622</strong></div>
-        <div class="stat" style="font-size:14px;color:#8b949e;">30d Resolved: <strong style="color:#e0e0e0;">1,161</strong></div>
-        <div class="stat" style="font-size:14px;color:#8b949e;">30d Created: <strong style="color:#e0e0e0;">1,362</strong></div>
-        <div class="stat" style="font-size:14px;color:#8b949e;">Aging WIP: <strong style="color:#f85149;">244</strong> (39.2%)</div>
-      </div>
-    </div>
+    <!-- Team Cards -->
+    <div class="team-cards">
 
-    <div class="team-card" data-project="INFERENG">
-      <h3>INFERENG &mdash; Inference Engineering <span class="risk-badge red">Restricted</span></h3>
-      <div class="restricted-notice">
-        Project INFERENG returns zero issues via anonymous API access. This project is either empty, access-restricted, or uses a different project key on redhat.atlassian.net. Authenticated Jira access is required to query this project.
+      <!-- AIPCC -->
+      <div class="team-card" data-project="AIPCC">
+        <div class="team-card-header">
+          <h3>AIPCC &mdash; AI Platform Core Components</h3>
+          <span class="risk-badge risk-yellow">Backlog Growing</span>
+        </div>
+        <div class="chart-container">
+          <div class="chart-title">Velocity (resolved issues per 2-week sprint)</div>
+          <div class="bar-chart" id="chart-aipcc"></div>
+        </div>
+        <div class="stats-row">
+          <span class="stat"><strong>WIP:</strong> 613</span>
+          <span class="stat"><strong>30d Resolved:</strong> 1,326</span>
+          <span class="stat"><strong>30d Created:</strong> 1,554</span>
+          <span class="stat"><strong>Aging WIP:</strong> <span class="red">260 (42.4%)</span></span>
+        </div>
       </div>
-    </div>
 
-    <div class="team-card" data-project="RHAIENG">
-      <h3>RHAIENG &mdash; RH AI Engineering <span class="risk-badge red">Restricted</span></h3>
-      <div class="restricted-notice">
-        Project RHAIENG returns zero issues via anonymous API access. This project is either empty, access-restricted, or uses a different project key on redhat.atlassian.net. Authenticated Jira access is required to query this project.
+      <!-- INFERENG -->
+      <div class="team-card" data-project="INFERENG">
+        <div class="team-card-header">
+          <h3>INFERENG &mdash; Inference Engineering</h3>
+          <span class="risk-badge risk-red">Restricted</span>
+        </div>
+        <div class="restricted-notice">
+          Project INFERENG returns zero issues via anonymous API access. This project is either empty, access-restricted, or uses a different project key on redhat.atlassian.net. Authenticated Jira access is required to query this project.
+        </div>
       </div>
-    </div>
 
-    <div class="team-card" data-project="RHOAIENG">
-      <h3>RHOAIENG &mdash; RHOAI Engineering <span class="risk-badge red">Restricted</span></h3>
-      <div class="restricted-notice">
-        Project RHOAIENG returns zero issues via anonymous API access. This project is either empty, access-restricted, or uses a different project key on redhat.atlassian.net. Authenticated Jira access is required to query this project.
+      <!-- RHAIENG -->
+      <div class="team-card" data-project="RHAIENG">
+        <div class="team-card-header">
+          <h3>RHAIENG &mdash; RH AI Engineering</h3>
+          <span class="risk-badge risk-red">Restricted</span>
+        </div>
+        <div class="restricted-notice">
+          Project RHAIENG returns zero issues via anonymous API access. This project is either empty, access-restricted, or uses a different project key on redhat.atlassian.net. Authenticated Jira access is required to query this project.
+        </div>
       </div>
-    </div>
 
-    <div class="team-card" data-project="RHELAI">
-      <h3>RHELAI &mdash; Red Hat Enterprise Linux AI <span class="risk-badge red">Stalled</span></h3>
-      <div class="chart-container" id="velocityChartRHELAI"></div>
-      <div class="stats-row" style="display:flex;gap:24px;margin-top:16px;flex-wrap:wrap;">
-        <div class="stat" style="font-size:14px;color:#8b949e;">Current WIP: <strong style="color:#e0e0e0;">67</strong></div>
-        <div class="stat" style="font-size:14px;color:#8b949e;">30d Resolved: <strong style="color:#e0e0e0;">0</strong></div>
-        <div class="stat" style="font-size:14px;color:#8b949e;">30d Created: <strong style="color:#e0e0e0;">0</strong></div>
-        <div class="stat" style="font-size:14px;color:#8b949e;">Aging WIP: <strong style="color:#f85149;">67</strong> (100%)</div>
+      <!-- RHOAIENG -->
+      <div class="team-card" data-project="RHOAIENG">
+        <div class="team-card-header">
+          <h3>RHOAIENG &mdash; RHOAI Engineering</h3>
+          <span class="risk-badge risk-red">Restricted</span>
+        </div>
+        <div class="restricted-notice">
+          Project RHOAIENG returns zero issues via anonymous API access. This project is either empty, access-restricted, or uses a different project key on redhat.atlassian.net. Authenticated Jira access is required to query this project.
+        </div>
       </div>
-      <div class="inactive-notice" style="margin-top:16px;">
-        100% of in-progress work has not been updated in &gt;14 days. No new issues created or resolved in the last 30 days. This project appears to be winding down or transitioning. Many stale items date back to 2024&ndash;2025.
-      </div>
-    </div>
 
-    <div class="team-card" data-project="PSAP">
-      <h3>PSAP &mdash; Performance &amp; Scale for AI Platforms <span class="risk-badge yellow">Low Activity</span></h3>
-      <div class="chart-container" id="velocityChartPSAP"></div>
-      <div class="stats-row" style="display:flex;gap:24px;margin-top:16px;flex-wrap:wrap;">
-        <div class="stat" style="font-size:14px;color:#8b949e;">Current WIP: <strong style="color:#e0e0e0;">4</strong></div>
-        <div class="stat" style="font-size:14px;color:#8b949e;">30d Resolved: <strong style="color:#e0e0e0;">0</strong></div>
-        <div class="stat" style="font-size:14px;color:#8b949e;">30d Created: <strong style="color:#e0e0e0;">0</strong></div>
-        <div class="stat" style="font-size:14px;color:#8b949e;">Aging WIP: <strong style="color:#d29922;">3</strong> (75.0%)</div>
+      <!-- RHELAI -->
+      <div class="team-card" data-project="RHELAI">
+        <div class="team-card-header">
+          <h3>RHELAI &mdash; Red Hat Enterprise Linux AI</h3>
+          <span class="risk-badge risk-red">Stalled</span>
+        </div>
+        <div class="chart-container">
+          <div class="chart-title">Velocity (resolved issues per 2-week sprint)</div>
+          <div class="bar-chart" id="chart-rhelai"></div>
+        </div>
+        <div class="stats-row">
+          <span class="stat"><strong>WIP:</strong> 67</span>
+          <span class="stat"><strong>30d Resolved:</strong> 0</span>
+          <span class="stat"><strong>30d Created:</strong> 0</span>
+          <span class="stat"><strong>Aging WIP:</strong> <span class="red">67 (100%)</span></span>
+        </div>
+        <div class="info-notice">
+          100% of in-progress work has not been updated in &gt;14 days. No new issues created or resolved in the last 30 days. This project appears to be winding down or transitioning.
+        </div>
       </div>
-    </div>
 
-    <div class="team-card" data-project="RHAIFIRST">
-      <h3>RHAIFIRST &mdash; Red Hat AI First <span class="risk-badge green">New Project</span></h3>
-      <div class="stats-row" style="display:flex;gap:24px;margin-top:16px;flex-wrap:wrap;">
-        <div class="stat" style="font-size:14px;color:#8b949e;">Current WIP: <strong style="color:#e0e0e0;">1</strong></div>
-        <div class="stat" style="font-size:14px;color:#8b949e;">30d Resolved: <strong style="color:#e0e0e0;">0</strong></div>
-        <div class="stat" style="font-size:14px;color:#8b949e;">30d Created: <strong style="color:#e0e0e0;">5</strong></div>
-        <div class="stat" style="font-size:14px;color:#8b949e;">Aging WIP: <strong style="color:#3fb950;">0</strong></div>
-        <div class="stat" style="font-size:14px;color:#8b949e;">Total Issues: <strong style="color:#e0e0e0;">6</strong></div>
+      <!-- PSAP -->
+      <div class="team-card" data-project="PSAP">
+        <div class="team-card-header">
+          <h3>PSAP &mdash; Perf &amp; Scale for AI Platforms</h3>
+          <span class="risk-badge risk-yellow">Low Activity</span>
+        </div>
+        <div class="chart-container">
+          <div class="chart-title">Velocity (resolved issues per 2-week sprint)</div>
+          <div class="bar-chart" id="chart-psap"></div>
+        </div>
+        <div class="stats-row">
+          <span class="stat"><strong>WIP:</strong> 3</span>
+          <span class="stat"><strong>30d Resolved:</strong> 1</span>
+          <span class="stat"><strong>30d Created:</strong> 0</span>
+          <span class="stat"><strong>Aging WIP:</strong> <span class="red">3 (100%)</span></span>
+        </div>
       </div>
-      <div class="inactive-notice" style="margin-top:16px;">
-        New project with growing issue count. 5 created in the last 30 days. No velocity history yet.
-      </div>
-    </div>
 
+      <!-- RHAIFIRST -->
+      <div class="team-card" data-project="RHAIFIRST">
+        <div class="team-card-header">
+          <h3>RHAIFIRST &mdash; Red Hat AI First</h3>
+          <span class="risk-badge risk-green">New Project</span>
+        </div>
+        <div class="stats-row">
+          <span class="stat"><strong>WIP:</strong> 2</span>
+          <span class="stat"><strong>30d Resolved:</strong> 0</span>
+          <span class="stat"><strong>30d Created:</strong> 7</span>
+          <span class="stat"><strong>Aging WIP:</strong> 1</span>
+          <span class="stat"><strong>Total Issues:</strong> ~10</span>
+        </div>
+        <div class="info-notice">
+          New project with growing issue count. 7 created in the last 30 days. No velocity history yet.
+        </div>
+      </div>
+
+    </div>
   </div>
 
-  <div id="tab-risk" class="tab-panel">
-    <table>
-      <thead>
-        <tr>
-          <th>Version</th>
-          <th>Project</th>
-          <th>Release Date</th>
-          <th>Total</th>
-          <th>Done</th>
-          <th>IP</th>
-          <th>ToDo</th>
-          <th>Progress</th>
-          <th>Risk</th>
-        </tr>
-      </thead>
-      <tbody id="riskTableBody">
-      </tbody>
-    </table>
+  <!-- Release Risk Tab -->
+  <div id="tab-release" class="tab-content">
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>Version</th>
+            <th>Project</th>
+            <th>Release Date</th>
+            <th>Total</th>
+            <th>Done</th>
+            <th>IP</th>
+            <th>ToDo</th>
+            <th>Progress</th>
+            <th>Risk</th>
+          </tr>
+        </thead>
+        <tbody id="release-tbody"></tbody>
+      </table>
+    </div>
 
-    <details class="assumptions">
-      <summary>Assumptions &amp; Methodology</summary>
-      <div class="panel">
+    <!-- Assumptions -->
+    <div class="assumptions-panel">
+      <button class="assumptions-toggle" id="assumptionsToggle">
+        <span class="arrow">&#9654;</span>&nbsp; Assumptions &amp; Methodology
+      </button>
+      <div class="assumptions-body" id="assumptionsBody">
         <ul>
-          <li><strong>Data source:</strong> Jira REST API v3 (GET /rest/api/3/search/jql, cursor-based pagination, anonymous access) queried live on 2026-05-04.</li>
-          <li><strong>Projects queried:</strong> AIPCC, INFERENG, RHAIENG, RHOAIENG (requested); RHELAI, PSAP, RHAIFIRST (related). INFERENG, RHAIENG, and RHOAIENG return zero issues on redhat.atlassian.net (empty or restricted access). Data from accessible related projects is included.</li>
-          <li><strong>Velocity</strong> = resolved issues per 2-week window (proxy for sprint velocity since Agile board API requires auth). Computed from 6 trailing 14-day periods for AIPCC; other projects have insufficient throughput for windowed velocity.</li>
-          <li><strong>"Target Version"</strong> (customfield_10855) used for release mapping, NOT fixVersion.</li>
-          <li><strong>Issue types excluded:</strong> Epic, Feature (per release mapping query).</li>
-          <li><strong>Risk thresholds (Release Risk):</strong>
+          <li><strong>Data source:</strong> Jira REST API v3, queried live on 2026-05-06.</li>
+          <li><strong>Projects queried:</strong> AIPCC, INFERENG, RHAIENG, RHOAIENG (requested); RHELAI, PSAP, RHAIFIRST (related). INFERENG, RHAIENG, and RHOAIENG return zero issues via anonymous API access (restricted).</li>
+          <li><strong>Velocity</strong> = resolved issues per 2-week window (sprint-aligned). The average velocity displayed is the arithmetic mean of the six most recent windows.</li>
+          <li><strong>Target Version</strong> (<code>customfield_10855</code>) is used for release mapping, <strong>NOT</strong> <code>fixVersion</code>. This matches Red Hat's Jira configuration for AIPCC and related projects.</li>
+          <li><strong>Issue types excluded:</strong> Epic, Feature. Only Stories, Tasks, Bugs, and Sub-tasks are counted.</li>
+          <li><strong>Risk thresholds:</strong>
             <ul>
-              <li>Green: remaining &le; avg_velocity &times; 1.1 (within +10% of avg velocity)</li>
-              <li>Yellow: remaining &le; avg_velocity &times; 1.3 (10-30% over avg velocity)</li>
-              <li>Red: remaining &gt; avg_velocity &times; 1.3 (&gt;30% over avg velocity)</li>
+              <li><span style="color:#f85149;font-weight:600;">Red</span> &mdash; remaining &gt; velocity &times; 1.3, or velocity = 0 with remaining &gt; 0</li>
+              <li><span style="color:#d29922;font-weight:600;">Yellow</span> &mdash; remaining &gt; velocity &times; 1.1</li>
+              <li><span style="color:#3fb950;font-weight:600;">Green</span> &mdash; remaining &le; velocity &times; 1.1</li>
             </ul>
           </li>
-          <li><strong>Aging WIP</strong> = in-progress issues not updated for &gt;14 days. Currently 314 of 694 WIP items (45.2%) are stale across all projects.</li>
-          <li><strong>Jira API note:</strong> Red Hat Jira uses v3 cursor-based search (/rest/api/3/search/jql). Counts obtained via paginated result set length (v3 does not return a total field). Board/sprint APIs require authentication.</li>
+          <li><strong>Aging WIP</strong> = in-progress issues whose last update was more than 14 days ago. Currently 331 of 685 WIP items (48.3%) are stale.</li>
         </ul>
       </div>
-    </details>
+    </div>
   </div>
+
 </div>
 
 <script>
-var aipccVelValues = [381, 441, 750, 604, 580, 555];
-var aipccVelLabels = ["Feb 08", "Feb 22", "Mar 08", "Mar 22", "Apr 05", "Apr 19"];
-var aipccAvgVelocity = Math.round(aipccVelValues.reduce(function(a,b){return a+b;},0) / aipccVelValues.length);
-
-var rhelaiVelValues = [0, 0, 0, 0, 0, 0];
-var rhelaiVelLabels = ["Feb 08", "Feb 22", "Mar 08", "Mar 22", "Apr 05", "Apr 19"];
-var rhelaiAvgVelocity = 0;
-
-var psapVelValues = [0, 0, 0, 0, 0, 0];
-var psapVelLabels = ["Feb 08", "Feb 22", "Mar 08", "Mar 22", "Apr 05", "Apr 19"];
-var psapAvgVelocity = 0;
-
-var releaseRows = [
-  {"name": "rhoai-3.5.EA1", "project": "AIPCC", "total": 60, "done": 29, "ip": 20, "todo": 11, "done_pct": 48.3, "release_date": ""},
-  {"name": "rhoai-3.5", "project": "AIPCC", "total": 11, "done": 7, "ip": 1, "todo": 3, "done_pct": 63.6, "release_date": ""},
-  {"name": "rhoai-3.5.EA2", "project": "AIPCC", "total": 1, "done": 0, "ip": 0, "todo": 1, "done_pct": 0.0, "release_date": ""},
-  {"name": "RHAII-3.5.EA1", "project": "AIPCC", "total": 6, "done": 0, "ip": 4, "todo": 2, "done_pct": 0.0, "release_date": ""},
-  {"name": "rhoai-3.4", "project": "AIPCC", "total": 36, "done": 29, "ip": 4, "todo": 3, "done_pct": 80.6, "release_date": ""},
-  {"name": "rhoai-3.4.EA1", "project": "AIPCC", "total": 28, "done": 25, "ip": 1, "todo": 2, "done_pct": 89.3, "release_date": ""},
-  {"name": "rhoai-3.4.EA2", "project": "AIPCC", "total": 4, "done": 3, "ip": 0, "todo": 1, "done_pct": 75.0, "release_date": ""},
-  {"name": "RHAII-3.4 EA1", "project": "AIPCC", "total": 1, "done": 1, "ip": 0, "todo": 0, "done_pct": 100.0, "release_date": ""},
-  {"name": "rhoai-3.3", "project": "AIPCC", "total": 34, "done": 33, "ip": 0, "todo": 1, "done_pct": 97.1, "release_date": ""},
-  {"name": "rhoai-3.2", "project": "AIPCC", "total": 10, "done": 10, "ip": 0, "todo": 0, "done_pct": 100.0, "release_date": ""},
-  {"name": "rhelai-3.0", "project": "RHELAI", "total": 4, "done": 1, "ip": 0, "todo": 3, "done_pct": 25.0, "release_date": "2025-11-13"}
-];
-
-var filteredReleaseRows = releaseRows.filter(function(r) { return r.total > 0; });
-
-filteredReleaseRows.forEach(function(r) {
-  var remaining = r.total - r.done;
-  var vel = r.project === 'AIPCC' ? aipccAvgVelocity : (r.project === 'RHELAI' ? rhelaiAvgVelocity : psapAvgVelocity);
-  if (vel === 0 && remaining > 0) {
-    r.risk = "Red"; r.risk_order = 0;
-  } else if (remaining > vel * 1.3) {
-    r.risk = "Red"; r.risk_order = 0;
-  } else if (remaining > vel * 1.1) {
-    r.risk = "Yellow"; r.risk_order = 1;
-  } else {
-    r.risk = "Green"; r.risk_order = 2;
-  }
-});
-
-filteredReleaseRows.sort(function(a, b) { return a.risk_order - b.risk_order || b.total - a.total; });
-
-document.querySelectorAll('.tab').forEach(function(tab) {
-  tab.addEventListener('click', function() {
-    document.querySelectorAll('.tab').forEach(function(t) { t.classList.remove('active'); });
-    document.querySelectorAll('.tab-panel').forEach(function(p) { p.classList.remove('active'); });
-    tab.classList.add('active');
-    document.getElementById('tab-' + tab.dataset.tab).classList.add('active');
-  });
-});
-
-function buildVelocityChart(containerId, values, labels, avgVel) {
-  var container = document.getElementById(containerId);
-  if (!container) return;
-  var maxVal = Math.max.apply(null, values.concat([1]));
-  var chartH = 160;
-  values.forEach(function(v, i) {
-    var wrapper = document.createElement('div');
-    wrapper.className = 'bar-wrapper';
-    var valEl = document.createElement('div');
-    valEl.className = 'bar-value';
-    valEl.textContent = v;
-    var bar = document.createElement('div');
-    bar.className = 'bar ' + (i === values.length - 1 ? 'current' : 'normal');
-    bar.style.height = (v / maxVal * chartH) + 'px';
-    var label = document.createElement('div');
-    label.className = 'bar-label';
-    label.textContent = labels[i];
-    wrapper.appendChild(valEl);
-    wrapper.appendChild(bar);
-    wrapper.appendChild(label);
-    container.appendChild(wrapper);
-  });
-  if (avgVel > 0) {
-    var lineY = (avgVel / maxVal * chartH);
-    var line = document.createElement('div');
-    line.style.cssText = 'position:absolute;left:0;right:60px;height:2px;background:#d29922;opacity:0.6;bottom:' + (lineY + 20) + 'px;';
-    container.appendChild(line);
-    var lineLabel = document.createElement('div');
-    lineLabel.className = 'avg-line-label';
-    lineLabel.textContent = 'Avg: ' + avgVel;
-    lineLabel.style.bottom = (lineY + 20) + 'px';
-    container.appendChild(lineLabel);
-  }
-}
-
-buildVelocityChart('velocityChartAIPCC', aipccVelValues, aipccVelLabels, aipccAvgVelocity);
-buildVelocityChart('velocityChartRHELAI', rhelaiVelValues, rhelaiVelLabels, rhelaiAvgVelocity);
-buildVelocityChart('velocityChartPSAP', psapVelValues, psapVelLabels, psapAvgVelocity);
-
 (function() {
-  var tbody = document.getElementById('riskTableBody');
-  filteredReleaseRows.forEach(function(r) {
+
+  /* ── Bar Chart Renderer ── */
+  function renderBarChart(containerId, values, labels, avg) {
+    var container = document.getElementById(containerId);
+    if (!container) return;
+    var maxVal = Math.max.apply(null, values);
+    if (maxVal === 0) maxVal = 1;
+    var chartHeight = 116;
+
+    values.forEach(function(v, i) {
+      var wrapper = document.createElement('div');
+      wrapper.className = 'bar-wrapper';
+
+      var valLabel = document.createElement('div');
+      valLabel.className = 'bar-value';
+      valLabel.textContent = v;
+      wrapper.appendChild(valLabel);
+
+      var bar = document.createElement('div');
+      var h = Math.max(2, (v / maxVal) * chartHeight);
+      bar.className = 'bar' + (i === values.length - 1 ? ' current' : '');
+      bar.style.height = h + 'px';
+      wrapper.appendChild(bar);
+
+      var lbl = document.createElement('div');
+      lbl.className = 'bar-label';
+      lbl.textContent = labels[i];
+      wrapper.appendChild(lbl);
+
+      container.appendChild(wrapper);
+    });
+
+    if (avg !== undefined && avg > 0) {
+      var line = document.createElement('div');
+      line.className = 'avg-line';
+      line.style.bottom = (24 + (avg / maxVal) * chartHeight) + 'px';
+
+      var avgLabel = document.createElement('div');
+      avgLabel.className = 'avg-label';
+      avgLabel.textContent = 'avg ' + avg;
+      line.appendChild(avgLabel);
+      container.appendChild(line);
+    }
+  }
+
+  renderBarChart('chart-aipcc',
+    [412, 480, 791, 516, 657, 557],
+    ['Feb 11', 'Feb 25', 'Mar 11', 'Mar 25', 'Apr 08', 'Apr 22'],
+    569
+  );
+  renderBarChart('chart-rhelai',
+    [0, 0, 3, 8, 0, 0],
+    ['Feb 11', 'Feb 25', 'Mar 11', 'Mar 25', 'Apr 08', 'Apr 22'],
+    1.8
+  );
+  renderBarChart('chart-psap',
+    [0, 0, 2, 0, 0, 1],
+    ['Feb 11', 'Feb 25', 'Mar 11', 'Mar 25', 'Apr 08', 'Apr 22'],
+    0.5
+  );
+
+  /* ── Release Risk Table ── */
+  var releases = [
+    {name:"rhoai-3.5.EA1",project:"AIPCC",total:62,done:33,ip:18,todo:11,done_pct:53.2,release_date:""},
+    {name:"RHAII-3.5.EA1",project:"AIPCC",total:35,done:11,ip:8,todo:16,done_pct:31.4,release_date:""},
+    {name:"rhoai-3.4",project:"AIPCC",total:36,done:29,ip:4,todo:3,done_pct:80.6,release_date:""},
+    {name:"rhoai-3.4.EA1",project:"AIPCC",total:28,done:25,ip:1,todo:2,done_pct:89.3,release_date:""},
+    {name:"rhoai-3.5",project:"AIPCC",total:11,done:7,ip:1,todo:3,done_pct:63.6,release_date:""},
+    {name:"rhoai-3.3",project:"AIPCC",total:34,done:33,ip:0,todo:1,done_pct:97.1,release_date:""},
+    {name:"rhoai-3.2",project:"AIPCC",total:10,done:10,ip:0,todo:0,done_pct:100.0,release_date:""},
+    {name:"rhoai-3.4.EA2",project:"AIPCC",total:4,done:3,ip:0,todo:1,done_pct:75.0,release_date:""},
+    {name:"rhoai-3.5.EA2",project:"AIPCC",total:1,done:0,ip:0,todo:1,done_pct:0.0,release_date:""},
+    {name:"RHAII-3.4 EA1",project:"AIPCC",total:1,done:1,ip:0,todo:0,done_pct:100.0,release_date:""},
+    {name:"rhelai-3.0",project:"RHELAI",total:4,done:1,ip:0,todo:3,done_pct:25.0,release_date:"2025-11-13"}
+  ];
+
+  var velocities = { AIPCC: 569, RHELAI: 1.8, PSAP: 0.5, RHAIFIRST: 0 };
+
+  function calcRisk(r) {
+    var vel = velocities[r.project] || 0;
+    var remaining = r.total - r.done;
+    if (remaining <= 0) return { label: 'Green', cls: 'risk-green', fill: 'fill-green', order: 2 };
+    if (vel === 0) return { label: 'Red', cls: 'risk-red', fill: 'fill-red', order: 0 };
+    if (remaining > vel * 1.3) return { label: 'Red', cls: 'risk-red', fill: 'fill-red', order: 0 };
+    if (remaining > vel * 1.1) return { label: 'Yellow', cls: 'risk-yellow', fill: 'fill-yellow', order: 1 };
+    return { label: 'Green', cls: 'risk-green', fill: 'fill-green', order: 2 };
+  }
+
+  releases.forEach(function(r) { r.risk = calcRisk(r); });
+  releases.sort(function(a, b) {
+    if (a.risk.order !== b.risk.order) return a.risk.order - b.risk.order;
+    return b.total - a.total;
+  });
+
+  var tbody = document.getElementById('release-tbody');
+  releases.forEach(function(r) {
     var tr = document.createElement('tr');
-    var riskClass = r.risk;
-    var relDateStr = r.release_date || 'N/A';
-    tr.dataset.project = r.project;
+    tr.setAttribute('data-project', r.project);
     tr.innerHTML =
       '<td>' + r.name + '</td>' +
       '<td>' + r.project + '</td>' +
-      '<td>' + relDateStr + '</td>' +
+      '<td>' + (r.release_date || '&mdash;') + '</td>' +
       '<td>' + r.total + '</td>' +
       '<td>' + r.done + '</td>' +
       '<td>' + r.ip + '</td>' +
       '<td>' + r.todo + '</td>' +
-      '<td><div style="display:flex;align-items:center;gap:8px;"><div class="progress-bar-bg"><div class="progress-bar-fill ' + riskClass.toLowerCase() + '" style="width:' + r.done_pct + '%"></div></div><span style="font-size:12px;color:#8b949e;">' + r.done_pct + '%</span></div></td>' +
-      '<td><span class="risk-pill ' + riskClass + '">' + riskClass + '</span></td>';
+      '<td class="progress-cell">' +
+        '<div style="display:flex;align-items:center;gap:8px;">' +
+          '<div class="progress-bar-bg" style="flex:1;">' +
+            '<div class="progress-bar-fill ' + r.risk.fill + '" style="width:' + r.done_pct + '%;"></div>' +
+          '</div>' +
+          '<span class="progress-text">' + r.done_pct + '%</span>' +
+        '</div>' +
+      '</td>' +
+      '<td><span class="risk-pill ' + r.risk.cls + '">' + r.risk.label + '</span></td>';
     tbody.appendChild(tr);
   });
-})();
 
-document.getElementById('projectFilter').addEventListener('change', function() {
-  var val = this.value;
-  document.querySelectorAll('.team-card').forEach(function(card) {
-    card.style.display = (val === 'All' || card.dataset.project === val) ? '' : 'none';
+  /* ── Tab Switching ── */
+  var tabBtns = document.querySelectorAll('.tab-btn');
+  tabBtns.forEach(function(btn) {
+    btn.addEventListener('click', function() {
+      tabBtns.forEach(function(b) { b.classList.remove('active'); });
+      btn.classList.add('active');
+      document.querySelectorAll('.tab-content').forEach(function(tc) { tc.classList.remove('active'); });
+      document.getElementById('tab-' + btn.getAttribute('data-tab')).classList.add('active');
+    });
   });
-  document.querySelectorAll('#riskTableBody tr').forEach(function(tr) {
-    tr.style.display = (val === 'All' || tr.dataset.project === val) ? '' : 'none';
+
+  /* ── Project Filter ── */
+  var filterSelect = document.getElementById('projectFilter');
+  filterSelect.addEventListener('change', function() {
+    var val = filterSelect.value;
+    document.querySelectorAll('.team-card').forEach(function(card) {
+      if (val === 'all' || card.getAttribute('data-project') === val) {
+        card.style.display = '';
+      } else {
+        card.style.display = 'none';
+      }
+    });
+    document.querySelectorAll('#release-tbody tr').forEach(function(row) {
+      if (val === 'all' || row.getAttribute('data-project') === val) {
+        row.style.display = '';
+      } else {
+        row.style.display = 'none';
+      }
+    });
   });
-});
+
+  /* ── Assumptions Toggle ── */
+  var toggle = document.getElementById('assumptionsToggle');
+  var body = document.getElementById('assumptionsBody');
+  toggle.addEventListener('click', function() {
+    toggle.classList.toggle('open');
+    body.classList.toggle('open');
+  });
+
+})();
 </script>
+
 </body>
 </html>

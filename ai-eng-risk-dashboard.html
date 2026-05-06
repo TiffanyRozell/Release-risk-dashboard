@@ -5,99 +5,136 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>AI Engineering Risk Dashboard</title>
 <style>
-* { margin: 0; padding: 0; box-sizing: border-box; }
-body { background: #0f1117; color: #e0e0e0; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; }
-.header { background: #161b22; padding: 20px 32px; border-bottom: 1px solid #30363d; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 12px; }
-.header h1 { font-size: 22px; color: #f0f6fc; }
-.header-right { display: flex; align-items: center; gap: 16px; }
-.date-badge { background: #21262d; color: #8b949e; padding: 6px 14px; border-radius: 6px; font-size: 13px; }
-.source-badge { background: #1a3a2a; color: #3fb950; padding: 6px 14px; border-radius: 6px; font-size: 12px; }
-.controls { padding: 16px 32px; display: flex; gap: 16px; align-items: center; flex-wrap: wrap; }
-select { background: #21262d; color: #e0e0e0; border: 1px solid #30363d; padding: 8px 14px; border-radius: 6px; font-size: 14px; cursor: pointer; }
-.tabs { display: flex; gap: 0; }
-.tab { padding: 10px 24px; background: #21262d; color: #8b949e; border: 1px solid #30363d; cursor: pointer; font-size: 14px; transition: all 0.2s; }
-.tab:first-child { border-radius: 6px 0 0 6px; }
-.tab:last-child { border-radius: 0 6px 6px 0; }
-.tab.active { background: #388bfd33; color: #58a6ff; border-color: #388bfd; }
-.content { padding: 24px 32px; }
-.tab-panel { display: none; }
-.tab-panel.active { display: block; }
-table { width: 100%; border-collapse: collapse; margin-top: 16px; }
-th { text-align: left; padding: 12px 16px; background: #161b22; color: #8b949e; font-size: 12px; text-transform: uppercase; letter-spacing: 1px; border-bottom: 1px solid #30363d; position: sticky; top: 0; }
-td { padding: 12px 16px; border-bottom: 1px solid #21262d; font-size: 14px; }
-tr:hover { background: #161b2266; }
-tr.stale-red { background: #3d141833; }
-tr.stale-red:hover { background: #3d141866; }
-tr.stale-yellow { background: #3d2e0033; }
-tr.stale-yellow:hover { background: #3d2e0066; }
-.progress-bar-bg { background: #21262d; border-radius: 4px; height: 8px; width: 120px; overflow: hidden; }
-.progress-bar-fill { height: 100%; border-radius: 4px; }
-.progress-bar-fill.green { background: #3fb950; }
-.progress-bar-fill.yellow { background: #d29922; }
-.progress-bar-fill.red { background: #f85149; }
-.risk-pill { padding: 3px 10px; border-radius: 10px; font-size: 12px; font-weight: 600; display: inline-block; }
-.risk-pill.Green { background: #1a3a2a; color: #3fb950; }
-.risk-pill.Yellow { background: #3d2e00; color: #d29922; }
-.risk-pill.Red { background: #3d1418; color: #f85149; }
-a { color: #58a6ff; text-decoration: none; }
-a:hover { text-decoration: underline; }
-.summary-cards { display: flex; gap: 16px; flex-wrap: wrap; margin-bottom: 20px; }
-.summary-card { background: #161b22; border: 1px solid #30363d; border-radius: 10px; padding: 20px; display: inline-block; min-width: 160px; }
-.summary-card .number { font-size: 32px; font-weight: 700; }
-.summary-card .number.red { color: #f85149; }
-.summary-card .number.yellow { color: #d29922; }
-.summary-card .number.green { color: #3fb950; }
-.summary-card .label { font-size: 14px; color: #8b949e; margin-top: 4px; }
-.filter-row { display: flex; gap: 12px; margin-bottom: 16px; align-items: center; flex-wrap: wrap; }
-.flow-cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 16px; margin-bottom: 24px; }
-.flow-card { background: #161b22; border: 1px solid #30363d; border-radius: 10px; padding: 24px; }
-.flow-card h3 { font-size: 16px; color: #f0f6fc; margin-bottom: 16px; display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
-.flow-card .metrics { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
-.flow-card .metric .metric-label { font-size: 11px; color: #8b949e; text-transform: uppercase; letter-spacing: 0.5px; }
-.flow-card .metric .metric-value { font-size: 22px; font-weight: 700; color: #f0f6fc; margin-top: 2px; }
-.health-badge { padding: 4px 12px; border-radius: 12px; font-size: 12px; font-weight: 600; display: inline-block; }
-.health-badge.healthy { background: #1a3a2a; color: #3fb950; }
-.health-badge.warning { background: #3d2e00; color: #d29922; }
-.health-badge.critical { background: #3d1418; color: #f85149; }
-.health-badge.restricted { background: #21262d; color: #8b949e; }
-.trend-indicator { font-size: 13px; margin-top: 12px; padding-top: 12px; border-top: 1px solid #21262d; }
-.trend-concerning { color: #f85149; }
-.trend-healthy { color: #3fb950; }
-.trend-neutral { color: #8b949e; }
-.chart-section { background: #161b22; border: 1px solid #30363d; border-radius: 10px; padding: 24px; margin-top: 20px; }
-.chart-section h4 { font-size: 15px; color: #f0f6fc; margin-bottom: 16px; }
-.dual-bar-chart { display: flex; align-items: flex-end; gap: 24px; height: 180px; padding: 0 8px; }
-.dual-bar-group { flex: 1; display: flex; flex-direction: column; align-items: center; gap: 4px; }
-.dual-bars { display: flex; gap: 4px; align-items: flex-end; width: 100%; height: 150px; }
-.dual-bars .bar { flex: 1; border-radius: 3px 3px 0 0; min-height: 2px; }
-.bar-created { background: #f85149; opacity: 0.8; }
-.bar-resolved { background: #3fb950; opacity: 0.8; }
-.dual-bar-label { font-size: 11px; color: #8b949e; }
-.dual-bar-values { display: flex; gap: 4px; font-size: 10px; }
-.dual-bar-values span:first-child { color: #f85149; }
-.dual-bar-values span:last-child { color: #3fb950; }
-.legend { display: flex; gap: 16px; margin-bottom: 12px; }
-.legend-item { display: flex; align-items: center; gap: 6px; font-size: 12px; color: #8b949e; }
-.legend-dot { width: 10px; height: 10px; border-radius: 2px; }
-.assumptions { margin-top: 32px; }
-.assumptions summary { cursor: pointer; color: #8b949e; font-size: 14px; padding: 12px 0; }
-.assumptions .panel { background: #161b22; border: 1px solid #30363d; border-radius: 8px; padding: 20px; margin-top: 8px; font-size: 13px; color: #8b949e; line-height: 1.8; }
-.assumptions ul { padding-left: 20px; }
+  *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+  body{background:#0f1117;color:#e0e0e0;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Helvetica,Arial,sans-serif;line-height:1.5;min-height:100vh}
+  a{color:#58a6ff;text-decoration:none}
+  a:hover{text-decoration:underline}
+
+  /* Header */
+  .header{background:#161b22;border-bottom:1px solid #30363d;padding:16px 24px;display:flex;align-items:center;flex-wrap:wrap;gap:12px}
+  .header h1{font-size:20px;font-weight:600;color:#f0f6fc}
+  .badge{display:inline-flex;align-items:center;padding:2px 10px;border-radius:12px;font-size:12px;font-weight:500}
+  .badge-date{background:#21262d;color:#8b949e;border:1px solid #30363d}
+  .badge-source{background:#0d1117;color:#58a6ff;border:1px solid #30363d}
+
+  /* Controls */
+  .controls{padding:12px 24px;display:flex;align-items:center;gap:12px;flex-wrap:wrap;border-bottom:1px solid #30363d;background:#161b22}
+  select{background:#0d1117;color:#c9d1d9;border:1px solid #30363d;border-radius:6px;padding:5px 10px;font-size:13px;cursor:pointer}
+  select:focus{outline:none;border-color:#58a6ff}
+
+  /* Tabs */
+  .tabs{display:flex;gap:4px;padding:8px 24px 0;background:#0f1117}
+  .tab-btn{padding:8px 16px;border:none;background:#21262d;color:#8b949e;font-size:13px;font-weight:500;cursor:pointer;border-radius:6px 6px 0 0;transition:background .15s,color .15s}
+  .tab-btn:hover{color:#c9d1d9}
+  .tab-btn.active{background:rgba(56,139,253,0.2);color:#58a6ff}
+  .tab-content{display:none;padding:16px 24px 24px}
+  .tab-content.active{display:block}
+
+  /* Filter row */
+  .filter-row{display:flex;gap:12px;align-items:center;flex-wrap:wrap;margin-bottom:16px}
+  .filter-row label{font-size:12px;color:#8b949e;text-transform:uppercase;letter-spacing:0.5px}
+
+  /* Summary cards */
+  .summary-cards{display:flex;gap:12px;margin-bottom:16px;flex-wrap:wrap}
+  .summary-card{background:#161b22;border:1px solid #30363d;border-radius:8px;padding:14px 20px;min-width:140px;text-align:center}
+  .summary-card .sc-value{font-size:28px;font-weight:700;color:#f0f6fc}
+  .summary-card .sc-label{font-size:11px;text-transform:uppercase;letter-spacing:0.5px;color:#8b949e;margin-top:2px}
+  .summary-card.sc-red .sc-value{color:#f85149}
+  .summary-card.sc-yellow .sc-value{color:#d29922}
+  .summary-card.sc-green .sc-value{color:#3fb950}
+  .summary-card.sc-blue .sc-value{color:#58a6ff}
+
+  /* Tables */
+  .table-wrap{overflow-x:auto;border:1px solid #30363d;border-radius:8px}
+  table{width:100%;border-collapse:collapse;font-size:13px}
+  th{background:#161b22;color:#8b949e;font-weight:600;text-transform:uppercase;font-size:11px;letter-spacing:0.5px;padding:10px 12px;text-align:left;border-bottom:1px solid #30363d;position:sticky;top:0;z-index:1}
+  td{padding:8px 12px;border-bottom:1px solid #21262d;color:#c9d1d9}
+  tr:hover td{background:#161b2299}
+  tr.stale-red td{background:rgba(61,20,24,0.2)}
+  tr.stale-yellow td{background:rgba(61,46,0,0.2)}
+
+  /* Risk pills */
+  .risk-pill{display:inline-block;padding:2px 10px;border-radius:12px;font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:0.5px}
+  .risk-green{background:#1a3a2a;color:#3fb950}
+  .risk-yellow{background:#3d2e00;color:#d29922}
+  .risk-red{background:#3d1418;color:#f85149}
+
+  /* Progress bar */
+  .progress-bar{background:#21262d;border-radius:4px;height:8px;width:100%;min-width:80px;overflow:hidden}
+  .progress-fill{height:100%;border-radius:4px;transition:width .3s}
+  .progress-fill.pf-green{background:#3fb950}
+  .progress-fill.pf-yellow{background:#d29922}
+  .progress-fill.pf-red{background:#f85149}
+  .pct-text{font-size:11px;color:#8b949e;margin-top:2px}
+
+  /* Days left */
+  .days-overdue{color:#f85149;font-weight:600}
+  .days-na{color:#8b949e;font-style:italic}
+
+  /* Health badges */
+  .health-badge{display:inline-block;padding:2px 10px;border-radius:12px;font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:0.5px}
+  .health-healthy{background:#1a3a2a;color:#3fb950}
+  .health-warning{background:#3d2e00;color:#d29922}
+  .health-critical{background:#3d1418;color:#f85149}
+  .health-restricted{background:#21262d;color:#8b949e}
+
+  /* Flow cards */
+  .flow-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(340px,1fr));gap:16px}
+  .flow-card{background:#161b22;border:1px solid #30363d;border-radius:8px;padding:16px 20px}
+  .flow-card-header{display:flex;align-items:center;gap:10px;margin-bottom:14px}
+  .flow-card-header h3{font-size:15px;font-weight:600;color:#f0f6fc}
+  .metrics-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px 16px;margin-bottom:12px}
+  .metric-label{font-size:11px;text-transform:uppercase;letter-spacing:0.5px;color:#8b949e}
+  .metric-value{font-size:22px;font-weight:700;color:#f0f6fc}
+  .trend-indicator{font-size:12px;padding:6px 10px;border-radius:6px;margin-top:4px}
+  .trend-healthy{background:#1a3a2a33;color:#3fb950}
+  .trend-concerning{background:#3d141833;color:#f85149}
+  .trend-neutral{background:#21262d;color:#8b949e}
+
+  /* Dual bar chart */
+  .chart-container{margin-top:16px;background:#161b22;border:1px solid #30363d;border-radius:8px;padding:16px 20px}
+  .chart-title{font-size:14px;font-weight:600;color:#f0f6fc;margin-bottom:4px}
+  .chart-legend{display:flex;gap:16px;margin-bottom:10px;font-size:12px}
+  .legend-item{display:flex;align-items:center;gap:6px}
+  .legend-swatch{width:12px;height:12px;border-radius:2px}
+  .legend-swatch.swatch-created{background:#f85149;opacity:0.8}
+  .legend-swatch.swatch-resolved{background:#3fb950;opacity:0.8}
+  .chart-bars{display:flex;align-items:flex-end;gap:12px;height:180px}
+  .chart-group{display:flex;flex-direction:column;align-items:center;flex:1}
+  .bar-pair{display:flex;gap:3px;align-items:flex-end;height:160px;width:100%}
+  .bar{flex:1;border-radius:3px 3px 0 0;min-width:16px;position:relative;transition:height .3s}
+  .bar.bar-created{background:#f85149;opacity:0.8}
+  .bar.bar-resolved{background:#3fb950;opacity:0.8}
+  .bar-value{position:absolute;top:-18px;left:50%;transform:translateX(-50%);font-size:10px;font-weight:600;color:#c9d1d9;white-space:nowrap}
+  .chart-label{font-size:11px;color:#8b949e;margin-top:4px;text-align:center}
+
+  /* Assumptions */
+  .assumptions{margin-top:24px}
+  details{background:#161b22;border:1px solid #30363d;border-radius:8px}
+  summary{padding:12px 16px;font-size:14px;font-weight:600;color:#f0f6fc;cursor:pointer;list-style:none}
+  summary::-webkit-details-marker{display:none}
+  summary::before{content:'+ ';color:#8b949e;font-family:monospace}
+  details[open] summary::before{content:'- '}
+  .assumptions-body{padding:0 16px 16px;font-size:13px;color:#8b949e;line-height:1.7}
+  .assumptions-body ul{margin-left:20px;margin-top:4px}
+  .assumptions-body li{margin-bottom:4px}
+  .assumptions-body strong{color:#c9d1d9}
 </style>
 </head>
 <body>
 
+<!-- Header -->
 <div class="header">
   <h1>AI Engineering Risk Dashboard</h1>
-  <div class="header-right">
-    <span class="date-badge">Data as of 2026-05-04</span>
-    <span class="source-badge">Jira REST API v3 &mdash; Live</span>
-  </div>
+  <span class="badge badge-date">Data as of 2026-05-06</span>
+  <span class="badge badge-source">Jira REST API v3 &mdash; Live</span>
 </div>
 
+<!-- Controls -->
 <div class="controls">
-  <select id="projectFilter">
-    <option value="All">All Projects</option>
+  <label for="projectSelector" style="font-size:12px;color:#8b949e;text-transform:uppercase;letter-spacing:0.5px">Project:</label>
+  <select id="projectSelector" onchange="onProjectChange()">
+    <option value="all">All Projects</option>
     <option value="AIPCC">AIPCC</option>
     <option value="RHELAI">RHELAI</option>
     <option value="PSAP">PSAP</option>
@@ -106,30 +143,39 @@ a:hover { text-decoration: underline; }
     <option value="RHAIENG">RHAIENG (restricted)</option>
     <option value="RHOAIENG">RHOAIENG (restricted)</option>
   </select>
-  <div class="tabs">
-    <div class="tab active" data-tab="burndown">Release Burndown</div>
-    <div class="tab" data-tab="aging">Aging WIP</div>
-    <div class="tab" data-tab="flow">Flow Metrics</div>
-  </div>
 </div>
 
-<div class="content">
-  <div id="tab-burndown" class="tab-panel active">
-    <div class="filter-row">
-      <select id="productFilter">
-        <option value="All">All Products</option>
-        <option value="rhoai">RHOAI</option>
-        <option value="rhelai">RHELAI</option>
-        <option value="rhaii">RHAII</option>
+<!-- Tabs -->
+<div class="tabs">
+  <button class="tab-btn active" data-tab="burndown" onclick="switchTab('burndown')">Release Burndown</button>
+  <button class="tab-btn" data-tab="aging" onclick="switchTab('aging')">Aging WIP</button>
+  <button class="tab-btn" data-tab="flow" onclick="switchTab('flow')">Flow Metrics</button>
+</div>
+
+<!-- Release Burndown Tab -->
+<div id="tab-burndown" class="tab-content active">
+  <div class="filter-row">
+    <div>
+      <label for="productFilter">Product:</label>
+      <select id="productFilter" onchange="renderBurndown()">
+        <option value="all">All Products</option>
+        <option value="rhoai">rhoai</option>
+        <option value="rhelai">rhelai</option>
+        <option value="rhaii">rhaii</option>
       </select>
-      <select id="riskFilter">
-        <option value="All">All Risks</option>
+    </div>
+    <div>
+      <label for="riskFilter">Risk:</label>
+      <select id="riskFilter" onchange="renderBurndown()">
+        <option value="all">All Risks</option>
         <option value="Red">Red</option>
         <option value="Yellow">Yellow</option>
         <option value="Green">Green</option>
       </select>
     </div>
-    <div class="summary-cards" id="burndownSummary"></div>
+  </div>
+  <div id="burndownSummary" class="summary-cards"></div>
+  <div class="table-wrap">
     <table>
       <thead>
         <tr>
@@ -147,30 +193,28 @@ a:hover { text-decoration: underline; }
       <tbody id="burndownBody"></tbody>
     </table>
   </div>
+</div>
 
-  <div id="tab-aging" class="tab-panel">
-    <div class="filter-row">
-      <select id="agingProjectFilter">
-        <option value="All">All Projects</option>
-        <option value="AIPCC">AIPCC (244 stale)</option>
+<!-- Aging WIP Tab -->
+<div id="tab-aging" class="tab-content">
+  <div class="filter-row">
+    <div>
+      <label for="agingProjectFilter">Project:</label>
+      <select id="agingProjectFilter" onchange="renderAging()">
+        <option value="all">All Projects</option>
+        <option value="AIPCC">AIPCC (260 stale)</option>
         <option value="RHELAI">RHELAI (67 stale)</option>
         <option value="PSAP">PSAP (3 stale)</option>
+        <option value="RHAIFIRST">RHAIFIRST (1 stale)</option>
       </select>
     </div>
-    <div class="summary-cards">
-      <div class="summary-card">
-        <div class="number red">314</div>
-        <div class="label">stale issues (&gt;14 days without update)</div>
-      </div>
-      <div class="summary-card">
-        <div class="number yellow">694</div>
-        <div class="label">total WIP (all projects)</div>
-      </div>
-      <div class="summary-card">
-        <div class="number" style="color:#f85149;">45.2%</div>
-        <div class="label">of WIP is stale</div>
-      </div>
-    </div>
+  </div>
+  <div id="agingSummary" class="summary-cards">
+    <div class="summary-card sc-red"><div class="sc-value">331</div><div class="sc-label">Stale Issues</div></div>
+    <div class="summary-card sc-blue"><div class="sc-value">685</div><div class="sc-label">Total WIP</div></div>
+    <div class="summary-card sc-yellow"><div class="sc-value">48.3%</div><div class="sc-label">Stale Rate</div></div>
+  </div>
+  <div class="table-wrap" style="max-height:600px;overflow-y:auto">
     <table>
       <thead>
         <tr>
@@ -185,337 +229,320 @@ a:hover { text-decoration: underline; }
       <tbody id="agingBody"></tbody>
     </table>
   </div>
+</div>
 
-  <div id="tab-flow" class="tab-panel">
-    <div class="flow-cards" id="flowCards"></div>
-    <div class="chart-section" data-project="AIPCC">
-      <h4>Created vs Resolved &mdash; AIPCC (2-week periods)</h4>
-      <div class="legend">
-        <div class="legend-item"><div class="legend-dot" style="background:#f85149;"></div> Created (estimated per period)</div>
-        <div class="legend-item"><div class="legend-dot" style="background:#3fb950;"></div> Resolved</div>
-      </div>
-      <div class="dual-bar-chart" id="dualBarChart"></div>
-    </div>
-  </div>
+<!-- Flow Metrics Tab -->
+<div id="tab-flow" class="tab-content">
+  <div id="flowGrid" class="flow-grid"></div>
+  <div id="flowChart"></div>
+</div>
 
-  <details class="assumptions">
+<!-- Assumptions -->
+<div class="assumptions" style="padding:0 24px 24px">
+  <details>
     <summary>Assumptions &amp; Methodology</summary>
-    <div class="panel">
+    <div class="assumptions-body">
       <ul>
-        <li><strong>Data source:</strong> Jira REST API v3 (GET /rest/api/3/search/jql, cursor-based pagination, anonymous access) queried live on 2026-05-04.</li>
-        <li><strong>Projects:</strong> AIPCC, RHELAI, PSAP, RHAIFIRST (accessible). Originally-requested INFERENG, RHAIENG, RHOAIENG return zero issues on redhat.atlassian.net (empty or restricted access); closest accessible matches were included.</li>
-        <li><strong>"Target Version"</strong> (customfield_10855) used for release mapping, NOT fixVersion.</li>
-        <li><strong>Issue types excluded:</strong> Epic, Feature (per release mapping query).</li>
-        <li><strong>Aging WIP</strong> = in-progress issues not updated for &gt;14 days. Total: 314 of 694 WIP items (45.2%) across all projects.</li>
-        <li><strong>Risk thresholds (Release Burndown):</strong>
-          <ul>
-            <li>Green: &gt;70% done OR &gt;30 days left with reasonable progress</li>
-            <li>Yellow: &lt;70% done AND &lt;30 days left</li>
-            <li>Red: &lt;50% done AND &lt;14 days left, or overdue</li>
-            <li>No release date: &gt;70% = Green, 50-70% = Yellow, &lt;50% = Red</li>
-          </ul>
-        </li>
-        <li><strong>Flow health (WIP:Throughput ratio):</strong> &lt;0.5 = Healthy, 0.5&ndash;1.0 = Warning, &gt;1.0 = Critical</li>
-        <li><strong>Velocity proxy:</strong> Resolved issues per 2-week window derived from resolved date ranges. Agile board/sprint APIs require authentication.</li>
-        <li><strong>RHELAI note:</strong> 100% of WIP is stale (67 items). Zero issues created or resolved in 30 days. Project appears to be in transition or winding down.</li>
-        <li><strong>Restricted projects:</strong> INFERENG, RHAIENG, RHOAIENG return no data via anonymous access. Configure Jira authentication to include these projects.</li>
+        <li><strong>Data source:</strong> Jira REST API v3 queried live on 2026-05-06</li>
+        <li><strong>Projects:</strong> AIPCC, RHELAI, PSAP, RHAIFIRST accessible. INFERENG, RHAIENG, RHOAIENG restricted.</li>
+        <li><strong>Target Version</strong> (customfield_10855) used, NOT fixVersion</li>
+        <li><strong>Issue types excluded:</strong> Epic, Feature</li>
+        <li><strong>Aging WIP</strong> = in-progress issues not updated &gt;14 days. Total: 331 of 685 WIP (48.3%)</li>
+        <li><strong>Risk thresholds for Release Burndown:</strong> Green &gt;70% done OR &gt;30d left, Yellow &lt;70% and &lt;30d, Red &lt;50% and &lt;14d or overdue. No release date: &gt;70%=Green, 50&ndash;70%=Yellow, &lt;50%=Red</li>
+        <li><strong>Flow health:</strong> WIP:Throughput &lt;0.5=Healthy, 0.5&ndash;1.0=Warning, &gt;1.0=Critical</li>
+        <li><strong>Velocity proxy:</strong> Resolved issues per 2-week window</li>
+        <li><strong>RHELAI note:</strong> 100% stale, appears to be in transition</li>
+        <li><strong>Restricted projects:</strong> INFERENG, RHAIENG, RHOAIENG returned 403/permission errors &mdash; no data available</li>
       </ul>
     </div>
   </details>
 </div>
 
 <script>
-var TODAY = new Date('2026-05-04');
-var JIRA_BASE = "https://redhat.atlassian.net/browse";
+var TODAY = new Date('2026-05-06');
 
+/* ===== DATA ===== */
 var burndownRows = [
-  {"name": "rhoai-3.5.EA1", "product": "rhoai", "project": "AIPCC", "total": 60, "done": 29, "ip": 20, "todo": 11, "done_pct": 48.3, "release_date": ""},
-  {"name": "rhoai-3.5", "product": "rhoai", "project": "AIPCC", "total": 11, "done": 7, "ip": 1, "todo": 3, "done_pct": 63.6, "release_date": ""},
-  {"name": "rhoai-3.5.EA2", "product": "rhoai", "project": "AIPCC", "total": 1, "done": 0, "ip": 0, "todo": 1, "done_pct": 0.0, "release_date": ""},
-  {"name": "RHAII-3.5.EA1", "product": "rhaii", "project": "AIPCC", "total": 6, "done": 0, "ip": 4, "todo": 2, "done_pct": 0.0, "release_date": ""},
-  {"name": "rhoai-3.4", "product": "rhoai", "project": "AIPCC", "total": 36, "done": 29, "ip": 4, "todo": 3, "done_pct": 80.6, "release_date": ""},
-  {"name": "rhoai-3.4.EA1", "product": "rhoai", "project": "AIPCC", "total": 28, "done": 25, "ip": 1, "todo": 2, "done_pct": 89.3, "release_date": ""},
-  {"name": "rhoai-3.4.EA2", "product": "rhoai", "project": "AIPCC", "total": 4, "done": 3, "ip": 0, "todo": 1, "done_pct": 75.0, "release_date": ""},
-  {"name": "RHAII-3.4 EA1", "product": "rhaii", "project": "AIPCC", "total": 1, "done": 1, "ip": 0, "todo": 0, "done_pct": 100.0, "release_date": ""},
-  {"name": "rhoai-3.3", "product": "rhoai", "project": "AIPCC", "total": 34, "done": 33, "ip": 0, "todo": 1, "done_pct": 97.1, "release_date": ""},
-  {"name": "rhoai-3.2", "product": "rhoai", "project": "AIPCC", "total": 10, "done": 10, "ip": 0, "todo": 0, "done_pct": 100.0, "release_date": ""},
-  {"name": "rhelai-3.0", "product": "rhelai", "project": "RHELAI", "total": 4, "done": 1, "ip": 0, "todo": 3, "done_pct": 25.0, "release_date": "2025-11-13"}
+  {"name":"rhoai-3.5.EA1","product":"rhoai","project":"AIPCC","total":62,"done":33,"ip":18,"todo":11,"done_pct":53.2,"release_date":""},
+  {"name":"RHAII-3.5.EA1","product":"rhaii","project":"AIPCC","total":35,"done":11,"ip":8,"todo":16,"done_pct":31.4,"release_date":""},
+  {"name":"rhoai-3.4","product":"rhoai","project":"AIPCC","total":36,"done":29,"ip":4,"todo":3,"done_pct":80.6,"release_date":""},
+  {"name":"rhoai-3.4.EA1","product":"rhoai","project":"AIPCC","total":28,"done":25,"ip":1,"todo":2,"done_pct":89.3,"release_date":""},
+  {"name":"rhoai-3.5","product":"rhoai","project":"AIPCC","total":11,"done":7,"ip":1,"todo":3,"done_pct":63.6,"release_date":""},
+  {"name":"rhoai-3.3","product":"rhoai","project":"AIPCC","total":34,"done":33,"ip":0,"todo":1,"done_pct":97.1,"release_date":""},
+  {"name":"rhoai-3.2","product":"rhoai","project":"AIPCC","total":10,"done":10,"ip":0,"todo":0,"done_pct":100.0,"release_date":""},
+  {"name":"rhoai-3.4.EA2","product":"rhoai","project":"AIPCC","total":4,"done":3,"ip":0,"todo":1,"done_pct":75.0,"release_date":""},
+  {"name":"rhoai-3.5.EA2","product":"rhoai","project":"AIPCC","total":1,"done":0,"ip":0,"todo":1,"done_pct":0.0,"release_date":""},
+  {"name":"RHAII-3.4 EA1","product":"rhaii","project":"AIPCC","total":1,"done":1,"ip":0,"todo":0,"done_pct":100.0,"release_date":""},
+  {"name":"rhelai-3.0","product":"rhelai","project":"RHELAI","total":4,"done":1,"ip":0,"todo":3,"done_pct":25.0,"release_date":"2025-11-13"}
 ];
 
-burndownRows.forEach(function(r) {
-  var daysLeft = "N/A";
-  if (r.release_date) {
-    var rd = new Date(r.release_date);
-    daysLeft = Math.round((rd - TODAY) / (1000*60*60*24));
-  }
-  r.days_left = daysLeft;
-
-  if (daysLeft !== "N/A") {
-    if ((r.done_pct < 50 && daysLeft < 14) || daysLeft < 0) {
-      r.risk = "Red"; r.risk_order = 0;
-    } else if (r.done_pct < 70 && daysLeft < 30) {
-      r.risk = "Yellow"; r.risk_order = 1;
-    } else if (r.done_pct >= 70 || daysLeft > 30) {
-      r.risk = "Green"; r.risk_order = 2;
-    } else {
-      r.risk = "Yellow"; r.risk_order = 1;
-    }
-  } else {
-    if (r.done_pct >= 70) { r.risk = "Green"; r.risk_order = 2; }
-    else if (r.done_pct >= 50) { r.risk = "Yellow"; r.risk_order = 1; }
-    else { r.risk = "Red"; r.risk_order = 0; }
-  }
-});
-
-burndownRows.sort(function(a, b) { return a.risk_order - b.risk_order || b.total - a.total; });
-
 var agingRows = [
-  {"key": "RHELAI-2687", "summary": "Update the way users should validate the api key", "assignee": "Kelly Brown", "updated": "2024-12-11", "days_stale": 509, "project": "RHELAI"},
-  {"key": "RHELAI-3089", "summary": "Expand utilities to handle git branches and commit checkouts", "assignee": "Joseph Groenenboom", "updated": "2025-01-28", "days_stale": 461, "project": "RHELAI"},
-  {"key": "RHELAI-2376", "summary": "[rag] Creation of a Retrieval Augmented Generation (RAG) Pipeline Schema", "assignee": "William Caban Babilonia", "updated": "2025-02-25", "days_stale": 433, "project": "RHELAI"},
-  {"key": "RHELAI-3560", "summary": "[ilab] Exposing third-party models for inference and ilab flows in RHEL AI", "assignee": "Rob Greenberg", "updated": "2025-03-11", "days_stale": 419, "project": "RHELAI"},
-  {"key": "RHELAI-2486", "summary": "[UI] MVP RHEL AI UI Enhancements for SMEs (phase 2)", "assignee": "Jehlum Vitasta Pandit", "updated": "2025-03-14", "days_stale": 416, "project": "RHELAI"},
-  {"key": "RHELAI-2645", "summary": "[create dev-doc] Research and Investigation", "assignee": "Aakanksha Duggal", "updated": "2025-03-25", "days_stale": 405, "project": "RHELAI"},
-  {"key": "RHELAI-2670", "summary": "Productize the 128k context window Granite v3.1", "assignee": "William Caban Babilonia", "updated": "2025-03-31", "days_stale": 399, "project": "RHELAI"},
-  {"key": "RHELAI-2717", "summary": "System profile and auto-detection for NVIDIA H200", "assignee": "Jehlum Vitasta Pandit", "updated": "2025-03-31", "days_stale": 399, "project": "RHELAI"},
-  {"key": "RHELAI-2357", "summary": "Gaudi 3 multi-device inferencing", "assignee": "James Kunstle", "updated": "2025-04-07", "days_stale": 392, "project": "RHELAI"},
-  {"key": "RHELAI-3616", "summary": "Third-party model(s) support - end-to-end workflow and inference", "assignee": "Jehlum Vitasta Pandit", "updated": "2025-04-08", "days_stale": 391, "project": "RHELAI"},
-  {"key": "RHELAI-3497", "summary": "Support for NVIDIA H200", "assignee": "Erwan Gallen", "updated": "2025-04-21", "days_stale": 378, "project": "RHELAI"},
-  {"key": "RHELAI-3954", "summary": "Misc improvements to QE cloud envs", "assignee": "Mike DePaulo", "updated": "2025-04-23", "days_stale": 376, "project": "RHELAI"},
-  {"key": "RHELAI-3904", "summary": "SDG Summit Goals [Use Cases]", "assignee": "Aditi Saluja", "updated": "2025-04-24", "days_stale": 375, "project": "RHELAI"},
-  {"key": "RHELAI-3917", "summary": "Support for NVIDIA B200", "assignee": "Erwan Gallen", "updated": "2025-04-24", "days_stale": 375, "project": "RHELAI"},
-  {"key": "RHELAI-3465", "summary": "Add tuned to RHEL AI base image", "assignee": "William Caban Babilonia", "updated": "2025-04-24", "days_stale": 375, "project": "RHELAI"},
-  {"key": "RHELAI-3997", "summary": "Show generation with Third Party Teacher Model (Llama 3.3 70B)", "assignee": "Aakanksha Duggal", "updated": "2025-04-24", "days_stale": 375, "project": "RHELAI"},
-  {"key": "RHELAI-3607", "summary": "[ilab] Llama 3.1 8B-Instruct ilab model serve (inference testing)", "assignee": "Daniel McPherson", "updated": "2025-05-08", "days_stale": 361, "project": "RHELAI"},
-  {"key": "RHELAI-3674", "summary": "[ilab] Granite 3.1 8B Instruct ilab model serve (inference testing)", "assignee": "Daniel McPherson", "updated": "2025-05-08", "days_stale": 361, "project": "RHELAI"},
-  {"key": "RHELAI-3598", "summary": "[ilab] Phi-4-14B ilab model serve (inference testing)", "assignee": "Daniel McPherson", "updated": "2025-05-08", "days_stale": 361, "project": "RHELAI"},
-  {"key": "RHELAI-3596", "summary": "[ilab] Mistral-Small 3-24B-Instruct ilab model serve (inference testing)", "assignee": "Daniel McPherson", "updated": "2025-05-08", "days_stale": 361, "project": "RHELAI"},
-  {"key": "AIPCC-12398", "summary": "Add cvxpy into the RHAI pipeline onboarding collection", "assignee": "Einat Pacifici", "updated": "2026-03-16", "days_stale": 49, "project": "AIPCC"},
-  {"key": "AIPCC-12408", "summary": "Add earth2studio into the RHAI pipeline onboarding collection", "assignee": "Einat Pacifici", "updated": "2026-03-16", "days_stale": 49, "project": "AIPCC"},
-  {"key": "AIPCC-12412", "summary": "Onboard jax into the AIPCC Builder", "assignee": "Einat Pacifici", "updated": "2026-03-16", "days_stale": 49, "project": "AIPCC"},
-  {"key": "AIPCC-12417", "summary": "Add jax into the RHAI pipeline onboarding collection", "assignee": "Einat Pacifici", "updated": "2026-03-16", "days_stale": 49, "project": "AIPCC"},
-  {"key": "AIPCC-12418", "summary": "Onboard lazyllm into the AIPCC Builder", "assignee": "Einat Pacifici", "updated": "2026-03-16", "days_stale": 49, "project": "AIPCC"},
-  {"key": "AIPCC-12422", "summary": "Add lazyllm into the RHAI pipeline onboarding collection", "assignee": "Einat Pacifici", "updated": "2026-03-16", "days_stale": 49, "project": "AIPCC"},
-  {"key": "AIPCC-12420", "summary": "Onboard jupytergis into the AIPCC Builder", "assignee": "Einat Pacifici", "updated": "2026-03-16", "days_stale": 49, "project": "AIPCC"},
-  {"key": "AIPCC-12423", "summary": "Add jupytergis into the RHAI pipeline onboarding collection", "assignee": "Einat Pacifici", "updated": "2026-03-16", "days_stale": 49, "project": "AIPCC"},
-  {"key": "AIPCC-12427", "summary": "Onboard pennylane into the AIPCC Builder", "assignee": "Einat Pacifici", "updated": "2026-03-16", "days_stale": 49, "project": "AIPCC"},
-  {"key": "AIPCC-12428", "summary": "Add pennylane into the RHAI pipeline onboarding collection", "assignee": "Einat Pacifici", "updated": "2026-03-16", "days_stale": 49, "project": "AIPCC"},
-  {"key": "AIPCC-12429", "summary": "Onboard curl_cffi into the AIPCC Builder", "assignee": "Einat Pacifici", "updated": "2026-03-16", "days_stale": 49, "project": "AIPCC"},
-  {"key": "AIPCC-12430", "summary": "Add curl_cffi into the RHAI pipeline onboarding collection", "assignee": "Einat Pacifici", "updated": "2026-03-16", "days_stale": 49, "project": "AIPCC"},
-  {"key": "AIPCC-12434", "summary": "Add mediapipe into the RHAI pipeline onboarding collection", "assignee": "Einat Pacifici", "updated": "2026-03-16", "days_stale": 49, "project": "AIPCC"},
-  {"key": "AIPCC-12433", "summary": "Onboard mediapipe into the AIPCC Builder", "assignee": "Einat Pacifici", "updated": "2026-03-16", "days_stale": 49, "project": "AIPCC"},
-  {"key": "AIPCC-4892", "summary": "Pytorch Upstream Issue: 160547 export Non-strict export fails with NamedTuple input", "assignee": "Unassigned", "updated": "2026-03-18", "days_stale": 47, "project": "AIPCC"},
-  {"key": "AIPCC-7494", "summary": "Inconsistent overflow handling in torch.clamp_min between CPU and CUDA for float16", "assignee": "Vishal Goyal", "updated": "2026-03-18", "days_stale": 47, "project": "AIPCC"},
-  {"key": "AIPCC-6720", "summary": "Integrate sdg-hub upstream tests into Taskotron", "assignee": "Frantisek Zatloukal", "updated": "2026-03-18", "days_stale": 47, "project": "AIPCC"},
-  {"key": "AIPCC-1627", "summary": "Migrate RHOAI Images to Use AIPCC Wheels", "assignee": "Frank Jansen", "updated": "2026-03-18", "days_stale": 47, "project": "AIPCC"},
-  {"key": "AIPCC-8794", "summary": "AIPCC AE Generic QE Automation Improvements (Wheels Test Repository)", "assignee": "Vikash Shaw", "updated": "2026-03-18", "days_stale": 47, "project": "AIPCC"},
-  {"key": "AIPCC-8458", "summary": "O1: Reliable Value Delivery", "assignee": "Tom Gundersen", "updated": "2026-03-18", "days_stale": 47, "project": "AIPCC"},
-  {"key": "PSAP-1359", "summary": "Investigate profiling of llm serving runtime process", "assignee": "Nikhil Palaskar", "updated": "2026-03-21", "days_stale": 44, "project": "PSAP"},
-  {"key": "PSAP-1114", "summary": "RHOAI test automation / ci-artifacts project evolution", "assignee": "David Whyte-Gray", "updated": "2026-03-22", "days_stale": 43, "project": "PSAP"},
-  {"key": "PSAP-1291", "summary": "Performance and Scale testing for Data Science Pipelines v2", "assignee": "Drew Ripberger", "updated": "2026-03-22", "days_stale": 43, "project": "PSAP"}
+  {"key":"RHELAI-4524","summary":"Missing --expected-size argument in aws c3 cp command","assignee":"Kelly Brown","updated":"2025-07-01","days_stale":309,"project":"RHELAI"},
+  {"key":"RHELAI-4521","summary":"Please list AWS instance types among supported hardware","assignee":"Kelly Brown","updated":"2025-07-01","days_stale":309,"project":"RHELAI"},
+  {"key":"RHELAI-4516","summary":"Unclear support status of single L40S AWS instances","assignee":"Kelly Brown","updated":"2025-07-09","days_stale":301,"project":"RHELAI"},
+  {"key":"RHELAI-4654","summary":"[certification] Evaluation with MMLU benchmark failure","assignee":"Unassigned","updated":"2025-07-16","days_stale":294,"project":"RHELAI"},
+  {"key":"RHELAI-4517","summary":"Upgrade instructions in release notes do not work","assignee":"Kelly Brown","updated":"2025-07-24","days_stale":286,"project":"RHELAI"},
+  {"key":"RHELAI-4515","summary":"[Certification] Evaluation using Mt Bench failed Azure","assignee":"Unassigned","updated":"2025-08-13","days_stale":266,"project":"RHELAI"},
+  {"key":"RHELAI-4655","summary":"DIIP unable to authenticate against registry.redhat.io","assignee":"Courtney Pacheco","updated":"2025-08-21","days_stale":258,"project":"RHELAI"},
+  {"key":"RHELAI-4597","summary":"Connect with Agentic/MCP Team for needs & objectives","assignee":"Charli Allen","updated":"2025-08-21","days_stale":258,"project":"RHELAI"},
+  {"key":"RHELAI-4749","summary":"Review & Document GitHub CI/CD Security Best Practices","assignee":"Charli Allen","updated":"2025-09-02","days_stale":246,"project":"RHELAI"},
+  {"key":"RHELAI-4511","summary":"Update 1.5.1 release note with correct INTEL Gaudi 3 name","assignee":"Kelly Brown","updated":"2025-09-22","days_stale":226,"project":"RHELAI"},
+  {"key":"RHELAI-4514","summary":"[Certification] Evaluation using Mt Bench failed 8xMI300","assignee":"Unassigned","updated":"2025-09-24","days_stale":224,"project":"RHELAI"},
+  {"key":"RHELAI-4290","summary":"[instructlab/training] CI: test large e2e job with use_liger","assignee":"Unassigned","updated":"2025-10-08","days_stale":210,"project":"RHELAI"},
+  {"key":"RHELAI-4289","summary":"[instructlab/training] Rewrite smoke tests as pytest","assignee":"Unassigned","updated":"2025-10-10","days_stale":208,"project":"RHELAI"},
+  {"key":"RHELAI-4287","summary":"[instructlab/training] refactor data processing output file path","assignee":"Unassigned","updated":"2025-10-12","days_stale":206,"project":"RHELAI"},
+  {"key":"RHELAI-4286","summary":"[instructlab/training] Decouple data processing from training","assignee":"Unassigned","updated":"2025-10-13","days_stale":205,"project":"RHELAI"},
+  {"key":"RHELAI-4993","summary":"RHEL AI 1.4 to 1.5 change log documentation","assignee":"William Caban Babilonia","updated":"2025-11-17","days_stale":170,"project":"RHELAI"},
+  {"key":"RHELAI-4288","summary":"[instructlab/training] Add package versions + commit hash to logs","assignee":"Unassigned","updated":"2026-01-09","days_stale":117,"project":"RHELAI"},
+  {"key":"PSAP-1359","summary":"Investigate profiling of llm serving runtime process","assignee":"Nikhil Palaskar","updated":"2026-03-21","days_stale":46,"project":"PSAP"},
+  {"key":"PSAP-1291","summary":"Performance and Scale testing for Data Science Pipelines v2","assignee":"Drew Ripberger","updated":"2026-03-22","days_stale":45,"project":"PSAP"},
+  {"key":"PSAP-1114","summary":"RHOAI test automation / ci-artifacts project evolution","assignee":"David Whyte-Gray","updated":"2026-03-22","days_stale":45,"project":"PSAP"},
+  {"key":"AIPCC-14274","summary":"Setup Openshift for PyTorch team","assignee":"Sanjay Patel","updated":"2026-04-14","days_stale":22,"project":"AIPCC"},
+  {"key":"AIPCC-14334","summary":"Refactor the repo to use ai-agentic-lib","assignee":"Emilien Macchi","updated":"2026-04-16","days_stale":20,"project":"AIPCC"},
+  {"key":"AIPCC-14327","summary":"Catalyst Lab Phase 2 — POC Experimentation & Observability Exploration","assignee":"Gerald Trotman","updated":"2026-04-16","days_stale":20,"project":"AIPCC"},
+  {"key":"AIPCC-14465","summary":"Create a automated confluence pages publishing capability","assignee":"Erle Marion","updated":"2026-04-17","days_stale":19,"project":"AIPCC"},
+  {"key":"AIPCC-14437","summary":"List of modules: its functionality, audience and owner","assignee":"Erle Marion","updated":"2026-04-17","days_stale":19,"project":"AIPCC"},
+  {"key":"AIPCC-14308","summary":"Investigate incident management policy for AIPCC build failures","assignee":"Ryan Petrello","updated":"2026-04-17","days_stale":19,"project":"AIPCC"},
+  {"key":"RHELAI-4285","summary":"[instructlab/training] CPU Offloading w/ FSDP gradient accumulation broken","assignee":"Unassigned","updated":"2026-04-18","days_stale":18,"project":"RHELAI"},
+  {"key":"RHELAI-4284","summary":"[instructlab/training] Misleading overall_throughput calculation","assignee":"Unassigned","updated":"2026-04-18","days_stale":18,"project":"RHELAI"},
+  {"key":"AIPCC-14526","summary":"Director Revamp Quality Sprint","assignee":"Adam Drew","updated":"2026-04-20","days_stale":16,"project":"AIPCC"},
+  {"key":"AIPCC-14662","summary":"Investigate requirements for this phase","assignee":"Kim Tam","updated":"2026-04-21","days_stale":15,"project":"AIPCC"},
+  {"key":"AIPCC-14660","summary":"Requirements","assignee":"Kim Tam","updated":"2026-04-21","days_stale":15,"project":"AIPCC"},
+  {"key":"AIPCC-14636","summary":"[AI ENG Release Process] - Execution","assignee":"Kim Tam","updated":"2026-04-21","days_stale":15,"project":"AIPCC"},
+  {"key":"AIPCC-14619","summary":"Create probe tests for autogluon","assignee":"Einat Pacifici","updated":"2026-04-21","days_stale":15,"project":"AIPCC"},
+  {"key":"AIPCC-14617","summary":"Add autogluon into the RHAI pipeline onboarding collection","assignee":"Einat Pacifici","updated":"2026-04-21","days_stale":15,"project":"AIPCC"},
+  {"key":"AIPCC-14616","summary":"Onboard autogluon into the AIPCC Builder","assignee":"Einat Pacifici","updated":"2026-04-21","days_stale":15,"project":"AIPCC"},
+  {"key":"AIPCC-14471","summary":"Write an ADR about pushing images to quay on every merge to main","assignee":"Robby Callicotte","updated":"2026-04-21","days_stale":15,"project":"AIPCC"},
+  {"key":"AIPCC-14436","summary":"Org Pulse - Confluence Documentation","assignee":"Erle Marion","updated":"2026-04-21","days_stale":15,"project":"AIPCC"},
+  {"key":"AIPCC-14307","summary":"Refactor test/dynamo/test_repros.py","assignee":"Riya Punia","updated":"2026-04-21","days_stale":15,"project":"AIPCC"},
+  {"key":"RHAIFIRST-8","summary":"Auto create outcome for RFEs that get split up","assignee":"Jessica Forrester","updated":"2026-04-21","days_stale":15,"project":"RHAIFIRST"},
+  {"key":"AIPCC-14575","summary":"Analyze impact and investigate ABI compatibility for gperftools","assignee":"Lukas Brabec","updated":"2026-04-22","days_stale":14,"project":"AIPCC"}
 ];
 
 var flowData = {
-  "AIPCC": {"wip": 622, "throughput": 1161, "created": 1362, "aging": 244, "ratio": 0.54, "has_data": true},
-  "RHELAI": {"wip": 67, "throughput": 0, "created": 0, "aging": 67, "ratio": 0, "has_data": true},
-  "PSAP": {"wip": 4, "throughput": 0, "created": 0, "aging": 3, "ratio": 0, "has_data": true},
-  "RHAIFIRST": {"wip": 1, "throughput": 0, "created": 5, "aging": 0, "ratio": 0, "has_data": true},
-  "INFERENG": {"wip": 0, "throughput": 0, "created": 0, "aging": 0, "ratio": 0, "has_data": false},
-  "RHAIENG": {"wip": 0, "throughput": 0, "created": 0, "aging": 0, "ratio": 0, "has_data": false},
-  "RHOAIENG": {"wip": 0, "throughput": 0, "created": 0, "aging": 0, "ratio": 0, "has_data": false}
+  "AIPCC":{"wip":613,"throughput":1326,"created":1554,"aging":260,"ratio":0.46,"has_data":true},
+  "RHELAI":{"wip":67,"throughput":0,"created":0,"aging":67,"ratio":0,"has_data":true},
+  "PSAP":{"wip":3,"throughput":1,"created":0,"aging":3,"ratio":3.0,"has_data":true},
+  "RHAIFIRST":{"wip":2,"throughput":0,"created":7,"aging":1,"ratio":0,"has_data":true},
+  "INFERENG":{"wip":0,"throughput":0,"created":0,"aging":0,"ratio":0,"has_data":false},
+  "RHAIENG":{"wip":0,"throughput":0,"created":0,"aging":0,"ratio":0,"has_data":false},
+  "RHOAIENG":{"wip":0,"throughput":0,"created":0,"aging":0,"ratio":0,"has_data":false}
 };
 
-document.querySelectorAll('.tab').forEach(function(tab) {
-  tab.addEventListener('click', function() {
-    document.querySelectorAll('.tab').forEach(function(t) { t.classList.remove('active'); });
-    document.querySelectorAll('.tab-panel').forEach(function(p) { p.classList.remove('active'); });
-    tab.classList.add('active');
-    document.getElementById('tab-' + tab.dataset.tab).classList.add('active');
-  });
+var resolvedBiweekly = [412, 480, 791, 516, 657, 557];
+var biweeklyLabels = ["Feb 11", "Feb 25", "Mar 11", "Mar 25", "Apr 08", "Apr 22"];
+var createdPerPeriod = Math.round(1554 / (30/14)); // 725
+
+/* ===== RISK LOGIC ===== */
+function computeRisk(row) {
+  var pct = row.done_pct;
+  if (row.release_date) {
+    var rd = new Date(row.release_date);
+    var diff = Math.floor((rd - TODAY) / (1000*60*60*24));
+    row.days_left = diff;
+    if ((pct < 50 && diff < 14) || diff < 0) { row.risk = 'Red'; row.risk_order = 0; }
+    else if (pct < 70 && diff < 30) { row.risk = 'Yellow'; row.risk_order = 1; }
+    else { row.risk = 'Green'; row.risk_order = 2; }
+  } else {
+    row.days_left = null;
+    if (pct >= 70) { row.risk = 'Green'; row.risk_order = 2; }
+    else if (pct >= 50) { row.risk = 'Yellow'; row.risk_order = 1; }
+    else { row.risk = 'Red'; row.risk_order = 0; }
+  }
+  return row;
+}
+
+burndownRows.forEach(function(r){ computeRisk(r); });
+burndownRows.sort(function(a,b){
+  if (a.risk_order !== b.risk_order) return a.risk_order - b.risk_order;
+  return b.total - a.total;
 });
 
-function renderBurndown() {
-  var tbody = document.getElementById('burndownBody');
-  var prodFilter = document.getElementById('productFilter').value;
-  var riskFilter = document.getElementById('riskFilter').value;
-  tbody.innerHTML = '';
+/* ===== TABS ===== */
+function switchTab(id) {
+  document.querySelectorAll('.tab-btn').forEach(function(b){ b.classList.remove('active'); });
+  document.querySelectorAll('.tab-content').forEach(function(c){ c.classList.remove('active'); });
+  document.querySelector('.tab-btn[data-tab="'+id+'"]').classList.add('active');
+  document.getElementById('tab-'+id).classList.add('active');
+  if (id === 'flow') renderFlow();
+}
 
-  var redCount = 0, yellowCount = 0, greenCount = 0;
-  burndownRows.forEach(function(r) {
-    if (prodFilter !== 'All' && r.product !== prodFilter) return;
-    if (r.risk === 'Red') redCount++;
-    else if (r.risk === 'Yellow') yellowCount++;
-    else greenCount++;
+/* ===== PROJECT SELECTOR ===== */
+function onProjectChange() {
+  renderBurndown();
+  renderAging();
+  if (document.getElementById('tab-flow').classList.contains('active')) renderFlow();
+}
+
+/* ===== BURNDOWN RENDER ===== */
+function renderBurndown() {
+  var product = document.getElementById('productFilter').value;
+  var risk = document.getElementById('riskFilter').value;
+  var proj = document.getElementById('projectSelector').value;
+
+  var filtered = burndownRows.filter(function(r){
+    if (product !== 'all' && r.product !== product) return false;
+    if (risk !== 'all' && r.risk !== risk) return false;
+    if (proj !== 'all' && r.project !== proj) return false;
+    return true;
   });
 
+  // Summary
+  var counts = {Red:0, Yellow:0, Green:0};
+  filtered.forEach(function(r){ counts[r.risk]++; });
   var summaryEl = document.getElementById('burndownSummary');
   summaryEl.innerHTML =
-    '<div class="summary-card"><div class="number red">' + redCount + '</div><div class="label">Red risk versions</div></div>' +
-    '<div class="summary-card"><div class="number yellow">' + yellowCount + '</div><div class="label">Yellow risk versions</div></div>' +
-    '<div class="summary-card"><div class="number green">' + greenCount + '</div><div class="label">Green risk versions</div></div>';
+    '<div class="summary-card sc-red"><div class="sc-value">'+counts.Red+'</div><div class="sc-label">Red Risk</div></div>'+
+    '<div class="summary-card sc-yellow"><div class="sc-value">'+counts.Yellow+'</div><div class="sc-label">Yellow Risk</div></div>'+
+    '<div class="summary-card sc-green"><div class="sc-value">'+counts.Green+'</div><div class="sc-label">Green Risk</div></div>';
 
-  burndownRows.forEach(function(r) {
-    if (prodFilter !== 'All' && r.product !== prodFilter) return;
-    if (riskFilter !== 'All' && r.risk !== riskFilter) return;
-    var tr = document.createElement('tr');
-    var riskClass = r.risk;
-    var daysStr;
-    if (r.days_left === 'N/A') {
-      daysStr = '<span style="color:#8b949e;">N/A</span>';
+  // Table
+  var tbody = document.getElementById('burndownBody');
+  var html = '';
+  filtered.forEach(function(r){
+    var pillClass = r.risk === 'Red' ? 'risk-red' : r.risk === 'Yellow' ? 'risk-yellow' : 'risk-green';
+    var fillClass = r.done_pct >= 70 ? 'pf-green' : r.done_pct >= 50 ? 'pf-yellow' : 'pf-red';
+    var daysHtml;
+    if (r.days_left === null) {
+      daysHtml = '<span class="days-na">N/A</span>';
     } else if (r.days_left < 0) {
-      daysStr = '<span style="color:#f85149;">Overdue (' + Math.abs(r.days_left) + 'd)</span>';
+      daysHtml = '<span class="days-overdue">Overdue ('+Math.abs(r.days_left)+'d)</span>';
     } else {
-      daysStr = r.days_left + 'd';
+      daysHtml = r.days_left + 'd';
     }
-    tr.innerHTML =
-      '<td>' + r.name + '</td>' +
-      '<td>' + r.product + '</td>' +
-      '<td>' + r.total + '</td>' +
-      '<td>' + r.done + '</td>' +
-      '<td>' + r.ip + '</td>' +
-      '<td>' + r.todo + '</td>' +
-      '<td><div style="display:flex;align-items:center;gap:8px;"><div class="progress-bar-bg"><div class="progress-bar-fill ' + riskClass.toLowerCase() + '" style="width:' + r.done_pct + '%"></div></div><span style="font-size:12px;color:#8b949e;">' + r.done_pct + '%</span></div></td>' +
-      '<td>' + daysStr + '</td>' +
-      '<td><span class="risk-pill ' + riskClass + '">' + riskClass + '</span></td>';
-    tbody.appendChild(tr);
+    html += '<tr>'+
+      '<td>'+r.name+'</td>'+
+      '<td>'+r.product+'</td>'+
+      '<td>'+r.total+'</td>'+
+      '<td>'+r.done+'</td>'+
+      '<td>'+r.ip+'</td>'+
+      '<td>'+r.todo+'</td>'+
+      '<td><div class="progress-bar"><div class="progress-fill '+fillClass+'" style="width:'+r.done_pct+'%"></div></div><div class="pct-text">'+r.done_pct+'%</div></td>'+
+      '<td>'+daysHtml+'</td>'+
+      '<td><span class="risk-pill '+pillClass+'">'+r.risk+'</span></td>'+
+      '</tr>';
   });
+  tbody.innerHTML = html;
 }
-document.getElementById('productFilter').addEventListener('change', renderBurndown);
-document.getElementById('riskFilter').addEventListener('change', renderBurndown);
-renderBurndown();
 
-(function() {
+/* ===== AGING RENDER ===== */
+function renderAging() {
+  var proj = document.getElementById('agingProjectFilter').value;
+  var globalProj = document.getElementById('projectSelector').value;
+  var filtered = agingRows.filter(function(r){
+    if (proj !== 'all' && r.project !== proj) return false;
+    if (globalProj !== 'all' && r.project !== globalProj) return false;
+    return true;
+  });
+  filtered.sort(function(a,b){ return b.days_stale - a.days_stale; });
+
   var tbody = document.getElementById('agingBody');
-  function renderAging(filterProject) {
-    tbody.innerHTML = '';
-    agingRows.forEach(function(r) {
-      if (filterProject !== 'All' && r.project !== filterProject) return;
-      var tr = document.createElement('tr');
-      if (r.days_stale > 30) tr.className = 'stale-red';
-      else if (r.days_stale >= 14) tr.className = 'stale-yellow';
-      tr.innerHTML =
-        '<td><a href="' + JIRA_BASE + '/' + r.key + '" target="_blank">' + r.key + '</a></td>' +
-        '<td>' + r.project + '</td>' +
-        '<td>' + r.summary + '</td>' +
-        '<td>' + r.assignee + '</td>' +
-        '<td>' + r.updated + '</td>' +
-        '<td style="font-weight:600;color:' + (r.days_stale > 60 ? '#f85149' : r.days_stale > 30 ? '#d29922' : '#8b949e') + '">' + r.days_stale + 'd</td>';
-      tbody.appendChild(tr);
-    });
-  }
-  renderAging('All');
-  document.getElementById('agingProjectFilter').addEventListener('change', function() {
-    renderAging(this.value);
+  var html = '';
+  filtered.forEach(function(r){
+    var rowClass = r.days_stale > 30 ? 'stale-red' : (r.days_stale >= 14 ? 'stale-yellow' : '');
+    html += '<tr class="'+rowClass+'">'+
+      '<td><a href="https://redhat.atlassian.net/browse/'+r.key+'" target="_blank">'+r.key+'</a></td>'+
+      '<td>'+r.project+'</td>'+
+      '<td>'+r.summary+'</td>'+
+      '<td>'+r.assignee+'</td>'+
+      '<td>'+r.updated+'</td>'+
+      '<td>'+r.days_stale+'</td>'+
+      '</tr>';
   });
-})();
+  tbody.innerHTML = html;
+}
 
-(function() {
-  var container = document.getElementById('flowCards');
-  var projectKeys = Object.keys(flowData);
-  projectKeys.forEach(function(pk) {
-    var fd = flowData[pk];
-    var card = document.createElement('div');
-    card.className = 'flow-card';
-    card.dataset.project = pk;
+/* ===== FLOW RENDER ===== */
+function renderFlow() {
+  var proj = document.getElementById('projectSelector').value;
+  var grid = document.getElementById('flowGrid');
+  var chartArea = document.getElementById('flowChart');
+  var html = '';
+  var projects = Object.keys(flowData);
 
-    var healthClass, healthLabel;
-    if (!fd.has_data) {
-      healthClass = 'restricted'; healthLabel = 'No Data';
-    } else if (fd.throughput === 0 && fd.wip === 0) {
-      healthClass = 'healthy'; healthLabel = 'New';
-    } else if (fd.throughput === 0 && fd.wip > 0) {
-      healthClass = 'critical'; healthLabel = 'Critical';
-    } else if (fd.wip / fd.throughput < 0.5) {
-      healthClass = 'healthy'; healthLabel = 'Healthy';
-    } else if (fd.wip / fd.throughput <= 1.0) {
-      healthClass = 'warning'; healthLabel = 'Warning';
+  projects.forEach(function(p){
+    if (proj !== 'all' && p !== proj) return;
+    var d = flowData[p];
+
+    // Health badge
+    var badgeClass, badgeText;
+    if (!d.has_data) {
+      badgeClass = 'health-restricted'; badgeText = 'No Data';
+    } else if (d.throughput === 0 && d.wip === 0) {
+      badgeClass = 'health-healthy'; badgeText = 'New';
+    } else if (d.throughput === 0 && d.wip > 0) {
+      badgeClass = 'health-critical'; badgeText = 'Critical';
+    } else if (d.wip / d.throughput < 0.5) {
+      badgeClass = 'health-healthy'; badgeText = 'Healthy';
+    } else if (d.wip / d.throughput <= 1.0) {
+      badgeClass = 'health-warning'; badgeText = 'Warning';
     } else {
-      healthClass = 'critical'; healthLabel = 'Critical';
+      badgeClass = 'health-critical'; badgeText = 'Critical';
     }
 
+    // Trend
     var trendClass, trendText;
-    if (!fd.has_data) {
-      trendClass = 'trend-neutral';
-      trendText = 'Project restricted or empty via anonymous API access';
-    } else if (fd.created > fd.throughput && fd.throughput > 0) {
-      trendClass = 'trend-concerning';
-      trendText = 'Created > Resolved (backlog growing +' + (fd.created - fd.throughput) + '/30d)';
-    } else if (fd.throughput > 0 && fd.created <= fd.throughput) {
-      trendClass = 'trend-healthy';
-      trendText = 'Resolved >= Created (backlog stable or shrinking)';
-    } else if (fd.throughput === 0 && fd.created > 0) {
-      trendClass = 'trend-concerning';
-      trendText = 'Creating issues but none resolved in 30d';
-    } else if (fd.throughput === 0 && fd.created === 0 && fd.wip > 0) {
-      trendClass = 'trend-concerning';
-      trendText = 'No activity in 30 days with ' + fd.wip + ' items still in progress';
+    if (!d.has_data) {
+      trendClass = 'trend-neutral'; trendText = 'Project restricted or empty';
+    } else if (d.created > d.throughput && d.throughput > 0) {
+      var delta = d.created - d.throughput;
+      trendClass = 'trend-concerning'; trendText = 'Created > Resolved (backlog growing +' + delta + '/30d)';
+    } else if (d.throughput > 0 && d.created <= d.throughput) {
+      trendClass = 'trend-healthy'; trendText = 'Resolved >= Created';
+    } else if (d.throughput === 0 && d.created > 0) {
+      trendClass = 'trend-concerning'; trendText = 'Creating issues but none resolved';
+    } else if (d.throughput === 0 && d.created === 0 && d.wip > 0) {
+      trendClass = 'trend-concerning'; trendText = 'No activity in 30 days with ' + d.wip + ' items in progress';
     } else {
-      trendClass = 'trend-neutral';
-      trendText = 'Insufficient data for trend analysis';
+      trendClass = 'trend-neutral'; trendText = 'No activity';
     }
 
-    var ratioDisplay = fd.throughput > 0 ? fd.ratio.toFixed(2) : 'N/A';
+    var ratioDisplay = d.has_data ? d.ratio.toFixed(2) : 'N/A';
 
-    card.innerHTML =
-      '<h3>' + pk + ' <span class="health-badge ' + healthClass + '">' + healthLabel + '</span></h3>' +
-      '<div class="metrics">' +
-        '<div class="metric"><div class="metric-label">WIP</div><div class="metric-value">' + fd.wip.toLocaleString() + '</div></div>' +
-        '<div class="metric"><div class="metric-label">30d Throughput</div><div class="metric-value">' + fd.throughput.toLocaleString() + '</div></div>' +
-        '<div class="metric"><div class="metric-label">30d Created</div><div class="metric-value">' + fd.created.toLocaleString() + '</div></div>' +
-        '<div class="metric"><div class="metric-label">WIP:Throughput</div><div class="metric-value">' + ratioDisplay + '</div></div>' +
-      '</div>' +
-      '<div class="trend-indicator ' + trendClass + '">' + trendText + '</div>';
-    container.appendChild(card);
+    html += '<div class="flow-card">'+
+      '<div class="flow-card-header"><h3>'+p+'</h3><span class="health-badge '+badgeClass+'">'+badgeText+'</span></div>'+
+      '<div class="metrics-grid">'+
+        '<div><div class="metric-label">WIP</div><div class="metric-value">'+d.wip+'</div></div>'+
+        '<div><div class="metric-label">30d Throughput</div><div class="metric-value">'+d.throughput+'</div></div>'+
+        '<div><div class="metric-label">30d Created</div><div class="metric-value">'+d.created+'</div></div>'+
+        '<div><div class="metric-label">WIP:Throughput</div><div class="metric-value">'+ratioDisplay+'</div></div>'+
+      '</div>'+
+      '<div class="trend-indicator '+trendClass+'">'+trendText+'</div>'+
+    '</div>';
   });
-})();
+  grid.innerHTML = html;
 
-(function() {
-  var container = document.getElementById('dualBarChart');
-  var resolved = [381, 441, 750, 604, 580, 555];
-  var labels = ["Feb 08", "Feb 22", "Mar 08", "Mar 22", "Apr 05", "Apr 19"];
-  var created30d = 1362;
-  var createdPerPeriod = Math.round(created30d / (30 / 14));
-  var maxVal = Math.max(createdPerPeriod, Math.max.apply(null, resolved));
+  // Chart - only show for AIPCC context
+  if (proj === 'all' || proj === 'AIPCC') {
+    var maxVal = Math.max.apply(null, resolvedBiweekly.concat([createdPerPeriod]));
+    var chartHtml = '<div class="chart-container">'+
+      '<div class="chart-title">AIPCC: Created vs Resolved (Biweekly)</div>'+
+      '<div class="chart-legend">'+
+        '<div class="legend-item"><div class="legend-swatch swatch-created"></div><span>Created (est. '+createdPerPeriod+'/period)</span></div>'+
+        '<div class="legend-item"><div class="legend-swatch swatch-resolved"></div><span>Resolved</span></div>'+
+      '</div>'+
+      '<div class="chart-bars">';
+    for (var i = 0; i < biweeklyLabels.length; i++) {
+      var resolvedH = Math.round((resolvedBiweekly[i] / maxVal) * 150);
+      var createdH = Math.round((createdPerPeriod / maxVal) * 150);
+      chartHtml += '<div class="chart-group">'+
+        '<div class="bar-pair">'+
+          '<div class="bar bar-created" style="height:'+createdH+'px"><div class="bar-value">'+createdPerPeriod+'</div></div>'+
+          '<div class="bar bar-resolved" style="height:'+resolvedH+'px"><div class="bar-value">'+resolvedBiweekly[i]+'</div></div>'+
+        '</div>'+
+        '<div class="chart-label">'+biweeklyLabels[i]+'</div>'+
+      '</div>';
+    }
+    chartHtml += '</div></div>';
+    chartArea.innerHTML = chartHtml;
+  } else {
+    chartArea.innerHTML = '';
+  }
+}
 
-  resolved.forEach(function(rv, i) {
-    var group = document.createElement('div');
-    group.className = 'dual-bar-group';
-
-    var vals = document.createElement('div');
-    vals.className = 'dual-bar-values';
-    vals.innerHTML = '<span>' + createdPerPeriod + '</span> <span>' + rv + '</span>';
-
-    var bars = document.createElement('div');
-    bars.className = 'dual-bars';
-    var cb = document.createElement('div');
-    cb.className = 'bar bar-created';
-    cb.style.height = (createdPerPeriod / maxVal * 140) + 'px';
-    var rb = document.createElement('div');
-    rb.className = 'bar bar-resolved';
-    rb.style.height = (rv / maxVal * 140) + 'px';
-    bars.appendChild(cb);
-    bars.appendChild(rb);
-
-    var lbl = document.createElement('div');
-    lbl.className = 'dual-bar-label';
-    lbl.textContent = labels[i];
-
-    group.appendChild(vals);
-    group.appendChild(bars);
-    group.appendChild(lbl);
-    container.appendChild(group);
-  });
-})();
-
-document.getElementById('projectFilter').addEventListener('change', function() {
-  var val = this.value;
-  document.querySelectorAll('.flow-card').forEach(function(card) {
-    card.style.display = (val === 'All' || card.dataset.project === val) ? '' : 'none';
-  });
-  document.querySelectorAll('.chart-section').forEach(function(s) {
-    s.style.display = (val === 'All' || s.dataset.project === val) ? '' : 'none';
-  });
-});
+/* ===== INIT ===== */
+renderBurndown();
+renderAging();
 </script>
 </body>
 </html>
