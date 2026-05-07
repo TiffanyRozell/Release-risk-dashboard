@@ -126,7 +126,7 @@
 <!-- Header -->
 <div class="header">
   <h1>AI Engineering Risk Dashboard</h1>
-  <span class="badge badge-date">Data as of 2026-05-06</span>
+  <span class="badge badge-date">Data as of 2026-05-07</span>
   <span class="badge badge-source">Jira REST API v3 &mdash; Live</span>
 </div>
 
@@ -202,17 +202,17 @@
       <label for="agingProjectFilter">Project:</label>
       <select id="agingProjectFilter" onchange="renderAging()">
         <option value="all">All Projects</option>
-        <option value="AIPCC">AIPCC (260 stale)</option>
-        <option value="RHELAI">RHELAI (67 stale)</option>
+        <option value="AIPCC">AIPCC (251 stale)</option>
+        <option value="RHELAI">RHELAI (66 stale)</option>
         <option value="PSAP">PSAP (3 stale)</option>
         <option value="RHAIFIRST">RHAIFIRST (1 stale)</option>
       </select>
     </div>
   </div>
   <div id="agingSummary" class="summary-cards">
-    <div class="summary-card sc-red"><div class="sc-value">331</div><div class="sc-label">Stale Issues</div></div>
-    <div class="summary-card sc-blue"><div class="sc-value">685</div><div class="sc-label">Total WIP</div></div>
-    <div class="summary-card sc-yellow"><div class="sc-value">48.3%</div><div class="sc-label">Stale Rate</div></div>
+    <div class="summary-card sc-red"><div class="sc-value">321</div><div class="sc-label">Stale Issues</div></div>
+    <div class="summary-card sc-blue"><div class="sc-value">717</div><div class="sc-label">Total WIP</div></div>
+    <div class="summary-card sc-yellow"><div class="sc-value">44.8%</div><div class="sc-label">Stale Rate</div></div>
   </div>
   <div class="table-wrap" style="max-height:600px;overflow-y:auto">
     <table>
@@ -243,95 +243,93 @@
     <summary>Assumptions &amp; Methodology</summary>
     <div class="assumptions-body">
       <ul>
-        <li><strong>Data source:</strong> Jira REST API v3 queried live on 2026-05-06</li>
-        <li><strong>Projects:</strong> AIPCC, RHELAI, PSAP, RHAIFIRST accessible. INFERENG, RHAIENG, RHOAIENG restricted.</li>
+        <li><strong>Data source:</strong> Jira REST API v3 queried live on 2026-05-07</li>
+        <li><strong>Projects:</strong> AIPCC, RHELAI, PSAP, RHAIFIRST accessible. INFERENG, RHAIENG, RHOAIENG restricted (401/permission errors).</li>
         <li><strong>Target Version</strong> (customfield_10855) used, NOT fixVersion</li>
         <li><strong>Issue types excluded:</strong> Epic, Feature</li>
-        <li><strong>Aging WIP</strong> = in-progress issues not updated &gt;14 days. Total: 331 of 685 WIP (48.3%)</li>
+        <li><strong>Aging WIP</strong> = in-progress issues not updated &gt;14 days. Total: 321 of 717 WIP (44.8%)</li>
         <li><strong>Risk thresholds for Release Burndown:</strong> Green &gt;70% done OR &gt;30d left, Yellow &lt;70% and &lt;30d, Red &lt;50% and &lt;14d or overdue. No release date: &gt;70%=Green, 50&ndash;70%=Yellow, &lt;50%=Red</li>
         <li><strong>Flow health:</strong> WIP:Throughput &lt;0.5=Healthy, 0.5&ndash;1.0=Warning, &gt;1.0=Critical</li>
-        <li><strong>Velocity proxy:</strong> Resolved issues per 2-week window</li>
-        <li><strong>RHELAI note:</strong> 100% stale, appears to be in transition</li>
-        <li><strong>Restricted projects:</strong> INFERENG, RHAIENG, RHOAIENG returned 403/permission errors &mdash; no data available</li>
+        <li><strong>Velocity proxy:</strong> Resolved issues per 2-week window (AIPCC avg 600/sprint)</li>
+        <li><strong>AIPCC backlog trend:</strong> +355 net issues in 30 days (1,693 created vs 1,338 resolved, 26% growth)</li>
+        <li><strong>RHELAI note:</strong> 100% stale, 0 throughput in 30d, appears frozen or in transition</li>
+        <li><strong>Restricted projects:</strong> INFERENG, RHAIENG, RHOAIENG returned 401/permission errors &mdash; configure Jira MCP integration via Integrations page</li>
       </ul>
     </div>
   </details>
 </div>
 
 <script>
-var TODAY = new Date('2026-05-06');
+var TODAY = new Date('2026-05-07');
 
 /* ===== DATA ===== */
 var burndownRows = [
-  {"name":"rhoai-3.5.EA1","product":"rhoai","project":"AIPCC","total":62,"done":33,"ip":18,"todo":11,"done_pct":53.2,"release_date":""},
-  {"name":"RHAII-3.5.EA1","product":"rhaii","project":"AIPCC","total":35,"done":11,"ip":8,"todo":16,"done_pct":31.4,"release_date":""},
-  {"name":"rhoai-3.4","product":"rhoai","project":"AIPCC","total":36,"done":29,"ip":4,"todo":3,"done_pct":80.6,"release_date":""},
-  {"name":"rhoai-3.4.EA1","product":"rhoai","project":"AIPCC","total":28,"done":25,"ip":1,"todo":2,"done_pct":89.3,"release_date":""},
-  {"name":"rhoai-3.5","product":"rhoai","project":"AIPCC","total":11,"done":7,"ip":1,"todo":3,"done_pct":63.6,"release_date":""},
+  {"name":"rhoai-3.5.EA1","product":"rhoai","project":"AIPCC","total":56,"done":34,"ip":12,"todo":10,"done_pct":60.7,"release_date":""},
+  {"name":"rhoai-3.4","product":"rhoai","project":"AIPCC","total":36,"done":31,"ip":2,"todo":3,"done_pct":86.1,"release_date":""},
   {"name":"rhoai-3.3","product":"rhoai","project":"AIPCC","total":34,"done":33,"ip":0,"todo":1,"done_pct":97.1,"release_date":""},
-  {"name":"rhoai-3.2","product":"rhoai","project":"AIPCC","total":10,"done":10,"ip":0,"todo":0,"done_pct":100.0,"release_date":""},
-  {"name":"rhoai-3.4.EA2","product":"rhoai","project":"AIPCC","total":4,"done":3,"ip":0,"todo":1,"done_pct":75.0,"release_date":""},
-  {"name":"rhoai-3.5.EA2","product":"rhoai","project":"AIPCC","total":1,"done":0,"ip":0,"todo":1,"done_pct":0.0,"release_date":""},
-  {"name":"RHAII-3.4 EA1","product":"rhaii","project":"AIPCC","total":1,"done":1,"ip":0,"todo":0,"done_pct":100.0,"release_date":""},
-  {"name":"rhelai-3.0","product":"rhelai","project":"RHELAI","total":4,"done":1,"ip":0,"todo":3,"done_pct":25.0,"release_date":"2025-11-13"}
+  {"name":"rhoai-3.5.EA2","product":"rhoai","project":"AIPCC","total":14,"done":1,"ip":5,"todo":8,"done_pct":7.1,"release_date":""},
+  {"name":"rhoai-3.5","product":"rhoai","project":"AIPCC","total":11,"done":7,"ip":1,"todo":3,"done_pct":63.6,"release_date":""},
+  {"name":"rhelai-3.5 EA2 release","product":"rhelai","project":"AIPCC","total":7,"done":3,"ip":2,"todo":2,"done_pct":42.9,"release_date":"2026-07-16"},
+  {"name":"RHAII-3.5.EA1","product":"rhaii","project":"AIPCC","total":6,"done":2,"ip":2,"todo":2,"done_pct":33.3,"release_date":""}
 ];
 
 var agingRows = [
-  {"key":"RHELAI-4524","summary":"Missing --expected-size argument in aws c3 cp command","assignee":"Kelly Brown","updated":"2025-07-01","days_stale":309,"project":"RHELAI"},
-  {"key":"RHELAI-4521","summary":"Please list AWS instance types among supported hardware","assignee":"Kelly Brown","updated":"2025-07-01","days_stale":309,"project":"RHELAI"},
-  {"key":"RHELAI-4516","summary":"Unclear support status of single L40S AWS instances","assignee":"Kelly Brown","updated":"2025-07-09","days_stale":301,"project":"RHELAI"},
-  {"key":"RHELAI-4654","summary":"[certification] Evaluation with MMLU benchmark failure","assignee":"Unassigned","updated":"2025-07-16","days_stale":294,"project":"RHELAI"},
-  {"key":"RHELAI-4517","summary":"Upgrade instructions in release notes do not work","assignee":"Kelly Brown","updated":"2025-07-24","days_stale":286,"project":"RHELAI"},
-  {"key":"RHELAI-4515","summary":"[Certification] Evaluation using Mt Bench failed Azure","assignee":"Unassigned","updated":"2025-08-13","days_stale":266,"project":"RHELAI"},
-  {"key":"RHELAI-4655","summary":"DIIP unable to authenticate against registry.redhat.io","assignee":"Courtney Pacheco","updated":"2025-08-21","days_stale":258,"project":"RHELAI"},
-  {"key":"RHELAI-4597","summary":"Connect with Agentic/MCP Team for needs & objectives","assignee":"Charli Allen","updated":"2025-08-21","days_stale":258,"project":"RHELAI"},
-  {"key":"RHELAI-4749","summary":"Review & Document GitHub CI/CD Security Best Practices","assignee":"Charli Allen","updated":"2025-09-02","days_stale":246,"project":"RHELAI"},
-  {"key":"RHELAI-4511","summary":"Update 1.5.1 release note with correct INTEL Gaudi 3 name","assignee":"Kelly Brown","updated":"2025-09-22","days_stale":226,"project":"RHELAI"},
-  {"key":"RHELAI-4514","summary":"[Certification] Evaluation using Mt Bench failed 8xMI300","assignee":"Unassigned","updated":"2025-09-24","days_stale":224,"project":"RHELAI"},
-  {"key":"RHELAI-4290","summary":"[instructlab/training] CI: test large e2e job with use_liger","assignee":"Unassigned","updated":"2025-10-08","days_stale":210,"project":"RHELAI"},
-  {"key":"RHELAI-4289","summary":"[instructlab/training] Rewrite smoke tests as pytest","assignee":"Unassigned","updated":"2025-10-10","days_stale":208,"project":"RHELAI"},
-  {"key":"RHELAI-4287","summary":"[instructlab/training] refactor data processing output file path","assignee":"Unassigned","updated":"2025-10-12","days_stale":206,"project":"RHELAI"},
-  {"key":"RHELAI-4286","summary":"[instructlab/training] Decouple data processing from training","assignee":"Unassigned","updated":"2025-10-13","days_stale":205,"project":"RHELAI"},
-  {"key":"RHELAI-4993","summary":"RHEL AI 1.4 to 1.5 change log documentation","assignee":"William Caban Babilonia","updated":"2025-11-17","days_stale":170,"project":"RHELAI"},
-  {"key":"RHELAI-4288","summary":"[instructlab/training] Add package versions + commit hash to logs","assignee":"Unassigned","updated":"2026-01-09","days_stale":117,"project":"RHELAI"},
-  {"key":"PSAP-1359","summary":"Investigate profiling of llm serving runtime process","assignee":"Nikhil Palaskar","updated":"2026-03-21","days_stale":46,"project":"PSAP"},
-  {"key":"PSAP-1291","summary":"Performance and Scale testing for Data Science Pipelines v2","assignee":"Drew Ripberger","updated":"2026-03-22","days_stale":45,"project":"PSAP"},
-  {"key":"PSAP-1114","summary":"RHOAI test automation / ci-artifacts project evolution","assignee":"David Whyte-Gray","updated":"2026-03-22","days_stale":45,"project":"PSAP"},
-  {"key":"AIPCC-14274","summary":"Setup Openshift for PyTorch team","assignee":"Sanjay Patel","updated":"2026-04-14","days_stale":22,"project":"AIPCC"},
-  {"key":"AIPCC-14334","summary":"Refactor the repo to use ai-agentic-lib","assignee":"Emilien Macchi","updated":"2026-04-16","days_stale":20,"project":"AIPCC"},
-  {"key":"AIPCC-14327","summary":"Catalyst Lab Phase 2 — POC Experimentation & Observability Exploration","assignee":"Gerald Trotman","updated":"2026-04-16","days_stale":20,"project":"AIPCC"},
-  {"key":"AIPCC-14465","summary":"Create a automated confluence pages publishing capability","assignee":"Erle Marion","updated":"2026-04-17","days_stale":19,"project":"AIPCC"},
-  {"key":"AIPCC-14437","summary":"List of modules: its functionality, audience and owner","assignee":"Erle Marion","updated":"2026-04-17","days_stale":19,"project":"AIPCC"},
-  {"key":"AIPCC-14308","summary":"Investigate incident management policy for AIPCC build failures","assignee":"Ryan Petrello","updated":"2026-04-17","days_stale":19,"project":"AIPCC"},
-  {"key":"RHELAI-4285","summary":"[instructlab/training] CPU Offloading w/ FSDP gradient accumulation broken","assignee":"Unassigned","updated":"2026-04-18","days_stale":18,"project":"RHELAI"},
-  {"key":"RHELAI-4284","summary":"[instructlab/training] Misleading overall_throughput calculation","assignee":"Unassigned","updated":"2026-04-18","days_stale":18,"project":"RHELAI"},
-  {"key":"AIPCC-14526","summary":"Director Revamp Quality Sprint","assignee":"Adam Drew","updated":"2026-04-20","days_stale":16,"project":"AIPCC"},
-  {"key":"AIPCC-14662","summary":"Investigate requirements for this phase","assignee":"Kim Tam","updated":"2026-04-21","days_stale":15,"project":"AIPCC"},
-  {"key":"AIPCC-14660","summary":"Requirements","assignee":"Kim Tam","updated":"2026-04-21","days_stale":15,"project":"AIPCC"},
-  {"key":"AIPCC-14636","summary":"[AI ENG Release Process] - Execution","assignee":"Kim Tam","updated":"2026-04-21","days_stale":15,"project":"AIPCC"},
-  {"key":"AIPCC-14619","summary":"Create probe tests for autogluon","assignee":"Einat Pacifici","updated":"2026-04-21","days_stale":15,"project":"AIPCC"},
-  {"key":"AIPCC-14617","summary":"Add autogluon into the RHAI pipeline onboarding collection","assignee":"Einat Pacifici","updated":"2026-04-21","days_stale":15,"project":"AIPCC"},
-  {"key":"AIPCC-14616","summary":"Onboard autogluon into the AIPCC Builder","assignee":"Einat Pacifici","updated":"2026-04-21","days_stale":15,"project":"AIPCC"},
-  {"key":"AIPCC-14471","summary":"Write an ADR about pushing images to quay on every merge to main","assignee":"Robby Callicotte","updated":"2026-04-21","days_stale":15,"project":"AIPCC"},
-  {"key":"AIPCC-14436","summary":"Org Pulse - Confluence Documentation","assignee":"Erle Marion","updated":"2026-04-21","days_stale":15,"project":"AIPCC"},
-  {"key":"AIPCC-14307","summary":"Refactor test/dynamo/test_repros.py","assignee":"Riya Punia","updated":"2026-04-21","days_stale":15,"project":"AIPCC"},
-  {"key":"RHAIFIRST-8","summary":"Auto create outcome for RFEs that get split up","assignee":"Jessica Forrester","updated":"2026-04-21","days_stale":15,"project":"RHAIFIRST"},
-  {"key":"AIPCC-14575","summary":"Analyze impact and investigate ABI compatibility for gperftools","assignee":"Lukas Brabec","updated":"2026-04-22","days_stale":14,"project":"AIPCC"}
+  {"key":"RHELAI-4524","summary":"Missing --expected-size argument in aws c3 cp command","assignee":"Kelly Brown","updated":"2025-07-01","days_stale":310,"project":"RHELAI"},
+  {"key":"RHELAI-4521","summary":"Please list AWS instance types among supported hardware","assignee":"Kelly Brown","updated":"2025-07-01","days_stale":310,"project":"RHELAI"},
+  {"key":"RHELAI-4516","summary":"Unclear support status of single L40S AWS instances","assignee":"Kelly Brown","updated":"2025-07-09","days_stale":302,"project":"RHELAI"},
+  {"key":"RHELAI-4654","summary":"[certification] Evaluation with MMLU benchmark failure","assignee":"Unassigned","updated":"2025-07-16","days_stale":295,"project":"RHELAI"},
+  {"key":"RHELAI-4517","summary":"Upgrade instructions in release notes do not work","assignee":"Kelly Brown","updated":"2025-07-24","days_stale":287,"project":"RHELAI"},
+  {"key":"RHELAI-4515","summary":"[Certification] Evaluation using Mt Bench failed Azure","assignee":"Unassigned","updated":"2025-08-13","days_stale":267,"project":"RHELAI"},
+  {"key":"RHELAI-4655","summary":"DIIP unable to authenticate against registry.redhat.io","assignee":"Courtney Pacheco","updated":"2025-08-21","days_stale":259,"project":"RHELAI"},
+  {"key":"RHELAI-4597","summary":"Connect with Agentic/MCP Team for needs & objectives","assignee":"Charli Allen","updated":"2025-08-21","days_stale":259,"project":"RHELAI"},
+  {"key":"RHELAI-4749","summary":"Review & Document GitHub CI/CD Security Best Practices","assignee":"Charli Allen","updated":"2025-09-02","days_stale":247,"project":"RHELAI"},
+  {"key":"RHELAI-4511","summary":"Update 1.5.1 release note with correct INTEL Gaudi 3 name","assignee":"Kelly Brown","updated":"2025-09-22","days_stale":227,"project":"RHELAI"},
+  {"key":"RHELAI-4514","summary":"[Certification] Evaluation using Mt Bench failed 8xMI300","assignee":"Unassigned","updated":"2025-09-24","days_stale":225,"project":"RHELAI"},
+  {"key":"RHELAI-4290","summary":"[instructlab/training] CI: test large e2e job with use_liger","assignee":"Unassigned","updated":"2025-10-08","days_stale":211,"project":"RHELAI"},
+  {"key":"RHELAI-4289","summary":"[instructlab/training] Rewrite smoke tests as pytest","assignee":"Unassigned","updated":"2025-10-10","days_stale":209,"project":"RHELAI"},
+  {"key":"RHELAI-4287","summary":"[instructlab/training] refactor data processing output file path","assignee":"Unassigned","updated":"2025-10-12","days_stale":207,"project":"RHELAI"},
+  {"key":"RHELAI-4286","summary":"[instructlab/training] Decouple data processing from training","assignee":"Unassigned","updated":"2025-10-13","days_stale":206,"project":"RHELAI"},
+  {"key":"RHELAI-4993","summary":"RHEL AI 1.4 to 1.5 change log documentation","assignee":"William Caban Babilonia","updated":"2025-11-17","days_stale":171,"project":"RHELAI"},
+  {"key":"RHELAI-4288","summary":"[instructlab/training] Add package versions + commit hash to logs","assignee":"Unassigned","updated":"2026-01-09","days_stale":118,"project":"RHELAI"},
+  {"key":"AIPCC-12398","summary":"Add cvxpy into the RHAI pipeline onboarding collection","assignee":"Einat Pacifici","updated":"2026-03-16","days_stale":52,"project":"AIPCC"},
+  {"key":"AIPCC-12408","summary":"Add earth2studio into the RHAI pipeline onboarding collection","assignee":"Einat Pacifici","updated":"2026-03-16","days_stale":52,"project":"AIPCC"},
+  {"key":"AIPCC-12412","summary":"Onboard jax into the AIPCC Builder","assignee":"Einat Pacifici","updated":"2026-03-16","days_stale":52,"project":"AIPCC"},
+  {"key":"AIPCC-12417","summary":"Add jax into the RHAI pipeline onboarding collection","assignee":"Einat Pacifici","updated":"2026-03-16","days_stale":52,"project":"AIPCC"},
+  {"key":"AIPCC-12418","summary":"Onboard lazyllm into the AIPCC Builder","assignee":"Einat Pacifici","updated":"2026-03-16","days_stale":52,"project":"AIPCC"},
+  {"key":"AIPCC-12422","summary":"Add lazyllm into the RHAI pipeline onboarding collection","assignee":"Einat Pacifici","updated":"2026-03-16","days_stale":52,"project":"AIPCC"},
+  {"key":"AIPCC-12420","summary":"Onboard jupytergis into the AIPCC Builder","assignee":"Einat Pacifici","updated":"2026-03-16","days_stale":52,"project":"AIPCC"},
+  {"key":"AIPCC-12423","summary":"Add jupytergis into the RHAI pipeline onboarding collection","assignee":"Einat Pacifici","updated":"2026-03-16","days_stale":52,"project":"AIPCC"},
+  {"key":"AIPCC-12427","summary":"Onboard pennylane into the AIPCC Builder","assignee":"Einat Pacifici","updated":"2026-03-16","days_stale":52,"project":"AIPCC"},
+  {"key":"AIPCC-12428","summary":"Add pennylane into the RHAI pipeline onboarding collection","assignee":"Einat Pacifici","updated":"2026-03-16","days_stale":52,"project":"AIPCC"},
+  {"key":"AIPCC-12429","summary":"Onboard curl_cffi into the AIPCC Builder","assignee":"Einat Pacifici","updated":"2026-03-16","days_stale":52,"project":"AIPCC"},
+  {"key":"AIPCC-12430","summary":"Add curl_cffi into the RHAI pipeline onboarding collection","assignee":"Einat Pacifici","updated":"2026-03-16","days_stale":52,"project":"AIPCC"},
+  {"key":"AIPCC-12434","summary":"Add mediapipe into the RHAI pipeline onboarding collection","assignee":"Einat Pacifici","updated":"2026-03-16","days_stale":52,"project":"AIPCC"},
+  {"key":"AIPCC-12433","summary":"Onboard mediapipe into the AIPCC Builder","assignee":"Einat Pacifici","updated":"2026-03-16","days_stale":52,"project":"AIPCC"},
+  {"key":"AIPCC-4892","summary":"Pytorch Upstream Issue: 160547 export Non-strict export fails","assignee":"Unassigned","updated":"2026-03-18","days_stale":50,"project":"AIPCC"},
+  {"key":"AIPCC-7494","summary":"Inconsistent overflow handling in torch.clamp_min","assignee":"Vishal Goyal","updated":"2026-03-18","days_stale":50,"project":"AIPCC"},
+  {"key":"AIPCC-6720","summary":"Integrate sdg-hub upstream tests into Taskotron","assignee":"Frantisek Zatloukal","updated":"2026-03-18","days_stale":50,"project":"AIPCC"},
+  {"key":"AIPCC-1627","summary":"Migrate RHOAI Images to Use AIPCC Wheels","assignee":"Frank Jansen","updated":"2026-03-18","days_stale":50,"project":"AIPCC"},
+  {"key":"AIPCC-8794","summary":"AIPCC AE Generic QE Automation Improvements (Wheels Test Repository)","assignee":"Vikash Shaw","updated":"2026-03-18","days_stale":50,"project":"AIPCC"},
+  {"key":"AIPCC-8458","summary":"O1: Reliable Value Delivery","assignee":"Tom Gundersen","updated":"2026-03-18","days_stale":50,"project":"AIPCC"},
+  {"key":"PSAP-1359","summary":"Investigate profiling of llm serving runtime process","assignee":"Nikhil Palaskar","updated":"2026-03-21","days_stale":47,"project":"PSAP"},
+  {"key":"PSAP-1291","summary":"Performance and Scale testing for Data Science Pipelines v2","assignee":"Drew Ripberger","updated":"2026-03-22","days_stale":46,"project":"PSAP"},
+  {"key":"PSAP-1114","summary":"RHOAI test automation / ci-artifacts project evolution","assignee":"David Whyte-Gray","updated":"2026-03-22","days_stale":46,"project":"PSAP"},
+  {"key":"RHAIFIRST-8","summary":"Auto create outcome for RFEs that get split up","assignee":"Jessica Forrester","updated":"2026-04-21","days_stale":16,"project":"RHAIFIRST"}
 ];
 
 var flowData = {
-  "AIPCC":{"wip":613,"throughput":1326,"created":1554,"aging":260,"ratio":0.46,"has_data":true},
-  "RHELAI":{"wip":67,"throughput":0,"created":0,"aging":67,"ratio":0,"has_data":true},
+  "AIPCC":{"wip":645,"throughput":1338,"created":1693,"aging":251,"ratio":0.48,"has_data":true},
+  "RHELAI":{"wip":66,"throughput":0,"created":0,"aging":66,"ratio":0,"has_data":true},
   "PSAP":{"wip":3,"throughput":1,"created":0,"aging":3,"ratio":3.0,"has_data":true},
-  "RHAIFIRST":{"wip":2,"throughput":0,"created":7,"aging":1,"ratio":0,"has_data":true},
+  "RHAIFIRST":{"wip":3,"throughput":0,"created":8,"aging":1,"ratio":0,"has_data":true},
   "INFERENG":{"wip":0,"throughput":0,"created":0,"aging":0,"ratio":0,"has_data":false},
   "RHAIENG":{"wip":0,"throughput":0,"created":0,"aging":0,"ratio":0,"has_data":false},
   "RHOAIENG":{"wip":0,"throughput":0,"created":0,"aging":0,"ratio":0,"has_data":false}
 };
 
-var resolvedBiweekly = [412, 480, 791, 516, 657, 557];
-var biweeklyLabels = ["Feb 11", "Feb 25", "Mar 11", "Mar 25", "Apr 08", "Apr 22"];
-var createdPerPeriod = Math.round(1554 / (30/14)); // 725
+var resolvedBiweekly = [480, 791, 516, 657, 557];
+var biweeklyLabels = ["Feb 25", "Mar 11", "Mar 25", "Apr 08", "Apr 22"];
+var createdPerPeriod = Math.round(1693 / (30/14));
 
 /* ===== RISK LOGIC ===== */
 function computeRisk(row) {
@@ -387,7 +385,6 @@ function renderBurndown() {
     return true;
   });
 
-  // Summary
   var counts = {Red:0, Yellow:0, Green:0};
   filtered.forEach(function(r){ counts[r.risk]++; });
   var summaryEl = document.getElementById('burndownSummary');
@@ -396,7 +393,6 @@ function renderBurndown() {
     '<div class="summary-card sc-yellow"><div class="sc-value">'+counts.Yellow+'</div><div class="sc-label">Yellow Risk</div></div>'+
     '<div class="summary-card sc-green"><div class="sc-value">'+counts.Green+'</div><div class="sc-label">Green Risk</div></div>';
 
-  // Table
   var tbody = document.getElementById('burndownBody');
   var html = '';
   filtered.forEach(function(r){
@@ -464,7 +460,6 @@ function renderFlow() {
     if (proj !== 'all' && p !== proj) return;
     var d = flowData[p];
 
-    // Health badge
     var badgeClass, badgeText;
     if (!d.has_data) {
       badgeClass = 'health-restricted'; badgeText = 'No Data';
@@ -480,7 +475,6 @@ function renderFlow() {
       badgeClass = 'health-critical'; badgeText = 'Critical';
     }
 
-    // Trend
     var trendClass, trendText;
     if (!d.has_data) {
       trendClass = 'trend-neutral'; trendText = 'Project restricted or empty';
@@ -512,7 +506,6 @@ function renderFlow() {
   });
   grid.innerHTML = html;
 
-  // Chart - only show for AIPCC context
   if (proj === 'all' || proj === 'AIPCC') {
     var maxVal = Math.max.apply(null, resolvedBiweekly.concat([createdPerPeriod]));
     var chartHtml = '<div class="chart-container">'+

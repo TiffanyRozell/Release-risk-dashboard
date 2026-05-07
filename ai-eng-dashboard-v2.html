@@ -109,7 +109,7 @@ tbody tr:hover { background: #1c2028; }
 <div class="header">
   <h1>AI Engineering Dashboard</h1>
   <div class="header-badges">
-    <span class="badge badge-date">Data as of 2026-05-06</span>
+    <span class="badge badge-date">Data as of 2026-05-07</span>
     <span class="badge badge-source">Jira REST API v3 &mdash; Live</span>
   </div>
 </div>
@@ -144,23 +144,23 @@ tbody tr:hover { background: #1c2028; }
     <div class="kpi-strip">
       <div class="kpi-card">
         <div class="kpi-label">Current WIP (all)</div>
-        <div class="kpi-value">685</div>
-        <div class="kpi-delta">AIPCC 613 + RHELAI 67 + PSAP 3 + RHAIFIRST 2</div>
+        <div class="kpi-value">717</div>
+        <div class="kpi-delta">AIPCC 645 + RHELAI 66 + PSAP 3 + RHAIFIRST 3</div>
       </div>
       <div class="kpi-card">
         <div class="kpi-label">30-Day Throughput</div>
-        <div class="kpi-value">1,327</div>
+        <div class="kpi-value">1,339</div>
         <div class="kpi-delta">resolved issues (all projects)</div>
       </div>
       <div class="kpi-card">
         <div class="kpi-label">30-Day Created</div>
-        <div class="kpi-value">1,561</div>
-        <div class="kpi-delta delta-up">+234 net new</div>
+        <div class="kpi-value">1,701</div>
+        <div class="kpi-delta delta-up">+362 net new</div>
       </div>
       <div class="kpi-card">
         <div class="kpi-label">Aging WIP (&gt;14d)</div>
-        <div class="kpi-value red">331</div>
-        <div class="kpi-delta">48.3% of all WIP is stale</div>
+        <div class="kpi-value red">321</div>
+        <div class="kpi-delta">44.8% of all WIP is stale</div>
       </div>
     </div>
 
@@ -178,10 +178,10 @@ tbody tr:hover { background: #1c2028; }
           <div class="bar-chart" id="chart-aipcc"></div>
         </div>
         <div class="stats-row">
-          <span class="stat"><strong>WIP:</strong> 613</span>
-          <span class="stat"><strong>30d Resolved:</strong> 1,326</span>
-          <span class="stat"><strong>30d Created:</strong> 1,554</span>
-          <span class="stat"><strong>Aging WIP:</strong> <span class="red">260 (42.4%)</span></span>
+          <span class="stat"><strong>WIP:</strong> 645</span>
+          <span class="stat"><strong>30d Resolved:</strong> 1,338</span>
+          <span class="stat"><strong>30d Created:</strong> 1,693</span>
+          <span class="stat"><strong>Aging WIP:</strong> <span class="red">251 (38.9%)</span></span>
         </div>
       </div>
 
@@ -192,7 +192,7 @@ tbody tr:hover { background: #1c2028; }
           <span class="risk-badge risk-red">Restricted</span>
         </div>
         <div class="restricted-notice">
-          Project INFERENG returns zero issues via anonymous API access. This project is either empty, access-restricted, or uses a different project key on redhat.atlassian.net. Authenticated Jira access is required to query this project.
+          Project INFERENG returns zero issues via anonymous API access. This project is access-restricted on redhat.atlassian.net. Authenticated Jira access (API token via Integrations page) is required to query this project.
         </div>
       </div>
 
@@ -203,7 +203,7 @@ tbody tr:hover { background: #1c2028; }
           <span class="risk-badge risk-red">Restricted</span>
         </div>
         <div class="restricted-notice">
-          Project RHAIENG returns zero issues via anonymous API access. This project is either empty, access-restricted, or uses a different project key on redhat.atlassian.net. Authenticated Jira access is required to query this project.
+          Project RHAIENG returns zero issues via anonymous API access. This project is access-restricted on redhat.atlassian.net. Authenticated Jira access (API token via Integrations page) is required to query this project.
         </div>
       </div>
 
@@ -214,7 +214,7 @@ tbody tr:hover { background: #1c2028; }
           <span class="risk-badge risk-red">Restricted</span>
         </div>
         <div class="restricted-notice">
-          Project RHOAIENG returns zero issues via anonymous API access. This project is either empty, access-restricted, or uses a different project key on redhat.atlassian.net. Authenticated Jira access is required to query this project.
+          Project RHOAIENG returns zero issues via anonymous API access. This project is access-restricted on redhat.atlassian.net. Authenticated Jira access (API token via Integrations page) is required to query this project.
         </div>
       </div>
 
@@ -229,13 +229,13 @@ tbody tr:hover { background: #1c2028; }
           <div class="bar-chart" id="chart-rhelai"></div>
         </div>
         <div class="stats-row">
-          <span class="stat"><strong>WIP:</strong> 67</span>
+          <span class="stat"><strong>WIP:</strong> 66</span>
           <span class="stat"><strong>30d Resolved:</strong> 0</span>
           <span class="stat"><strong>30d Created:</strong> 0</span>
-          <span class="stat"><strong>Aging WIP:</strong> <span class="red">67 (100%)</span></span>
+          <span class="stat"><strong>Aging WIP:</strong> <span class="red">66 (100%)</span></span>
         </div>
         <div class="info-notice">
-          100% of in-progress work has not been updated in &gt;14 days. No new issues created or resolved in the last 30 days. This project appears to be winding down or transitioning.
+          100% of in-progress work has not been updated in &gt;14 days. No new issues created or resolved in the last 30 days. Only 11 resolved in the last 90 days. This project appears to be winding down or transitioning.
         </div>
       </div>
 
@@ -264,14 +264,14 @@ tbody tr:hover { background: #1c2028; }
           <span class="risk-badge risk-green">New Project</span>
         </div>
         <div class="stats-row">
-          <span class="stat"><strong>WIP:</strong> 2</span>
+          <span class="stat"><strong>WIP:</strong> 3</span>
           <span class="stat"><strong>30d Resolved:</strong> 0</span>
-          <span class="stat"><strong>30d Created:</strong> 7</span>
+          <span class="stat"><strong>30d Created:</strong> 8</span>
           <span class="stat"><strong>Aging WIP:</strong> 1</span>
-          <span class="stat"><strong>Total Issues:</strong> ~10</span>
+          <span class="stat"><strong>Total Issues:</strong> ~11</span>
         </div>
         <div class="info-notice">
-          New project with growing issue count. 7 created in the last 30 days. No velocity history yet.
+          New project with growing issue count. 8 created in the last 30 days. No velocity history yet. No versions defined.
         </div>
       </div>
 
@@ -306,11 +306,11 @@ tbody tr:hover { background: #1c2028; }
       </button>
       <div class="assumptions-body" id="assumptionsBody">
         <ul>
-          <li><strong>Data source:</strong> Jira REST API v3, queried live on 2026-05-06.</li>
+          <li><strong>Data source:</strong> Jira REST API v3, queried live on 2026-05-07.</li>
           <li><strong>Projects queried:</strong> AIPCC, INFERENG, RHAIENG, RHOAIENG (requested); RHELAI, PSAP, RHAIFIRST (related). INFERENG, RHAIENG, and RHOAIENG return zero issues via anonymous API access (restricted).</li>
-          <li><strong>Velocity</strong> = resolved issues per 2-week window (sprint-aligned). The average velocity displayed is the arithmetic mean of the six most recent windows.</li>
+          <li><strong>Velocity</strong> = resolved issues per 2-week window (sprint-aligned). The average velocity displayed is the arithmetic mean of the five most recent complete windows.</li>
           <li><strong>Target Version</strong> (<code>customfield_10855</code>) is used for release mapping, <strong>NOT</strong> <code>fixVersion</code>. This matches Red Hat's Jira configuration for AIPCC and related projects.</li>
-          <li><strong>Issue types excluded:</strong> Epic, Feature. Only Stories, Tasks, Bugs, and Sub-tasks are counted.</li>
+          <li><strong>Issue types excluded:</strong> Epic, Feature. Only Stories, Tasks, Bugs, Sub-tasks, and Spikes are counted.</li>
           <li><strong>Risk thresholds:</strong>
             <ul>
               <li><span style="color:#f85149;font-weight:600;">Red</span> &mdash; remaining &gt; velocity &times; 1.3, or velocity = 0 with remaining &gt; 0</li>
@@ -318,7 +318,10 @@ tbody tr:hover { background: #1c2028; }
               <li><span style="color:#3fb950;font-weight:600;">Green</span> &mdash; remaining &le; velocity &times; 1.1</li>
             </ul>
           </li>
-          <li><strong>Aging WIP</strong> = in-progress issues whose last update was more than 14 days ago. Currently 331 of 685 WIP items (48.3%) are stale.</li>
+          <li><strong>Aging WIP</strong> = in-progress issues whose last update was more than 14 days ago. Currently 321 of 717 WIP items (44.8%) are stale.</li>
+          <li><strong>AIPCC backlog trend:</strong> 1,693 issues created vs 1,338 resolved in 30 days (+355 net, 26% growth rate).</li>
+          <li><strong>RHELAI:</strong> 100% stale WIP, 0 throughput in 30d (11 in 90d). Appears to be in transition or freeze.</li>
+          <li><strong>Restricted projects:</strong> INFERENG, RHAIENG, RHOAIENG return 401/permission errors &mdash; configure Jira MCP integration via Integrations page for access.</li>
         </ul>
       </div>
     </div>
@@ -329,7 +332,7 @@ tbody tr:hover { background: #1c2028; }
 <script>
 (function() {
 
-  /* ── Bar Chart Renderer ── */
+  /* == Bar Chart Renderer == */
   function renderBarChart(containerId, values, labels, avg) {
     var container = document.getElementById(containerId);
     if (!container) return;
@@ -374,37 +377,33 @@ tbody tr:hover { background: #1c2028; }
   }
 
   renderBarChart('chart-aipcc',
-    [412, 480, 791, 516, 657, 557],
-    ['Feb 11', 'Feb 25', 'Mar 11', 'Mar 25', 'Apr 08', 'Apr 22'],
-    569
+    [480, 791, 516, 657, 557],
+    ['Feb 25', 'Mar 11', 'Mar 25', 'Apr 08', 'Apr 22'],
+    600
   );
   renderBarChart('chart-rhelai',
-    [0, 0, 3, 8, 0, 0],
-    ['Feb 11', 'Feb 25', 'Mar 11', 'Mar 25', 'Apr 08', 'Apr 22'],
-    1.8
+    [0, 0, 3, 8, 0],
+    ['Feb 25', 'Mar 11', 'Mar 25', 'Apr 08', 'Apr 22'],
+    2.2
   );
   renderBarChart('chart-psap',
-    [0, 0, 2, 0, 0, 1],
-    ['Feb 11', 'Feb 25', 'Mar 11', 'Mar 25', 'Apr 08', 'Apr 22'],
-    0.5
+    [0, 0, 2, 0, 1],
+    ['Feb 25', 'Mar 11', 'Mar 25', 'Apr 08', 'Apr 22'],
+    0.6
   );
 
-  /* ── Release Risk Table ── */
+  /* == Release Risk Table == */
   var releases = [
-    {name:"rhoai-3.5.EA1",project:"AIPCC",total:62,done:33,ip:18,todo:11,done_pct:53.2,release_date:""},
-    {name:"RHAII-3.5.EA1",project:"AIPCC",total:35,done:11,ip:8,todo:16,done_pct:31.4,release_date:""},
-    {name:"rhoai-3.4",project:"AIPCC",total:36,done:29,ip:4,todo:3,done_pct:80.6,release_date:""},
-    {name:"rhoai-3.4.EA1",project:"AIPCC",total:28,done:25,ip:1,todo:2,done_pct:89.3,release_date:""},
-    {name:"rhoai-3.5",project:"AIPCC",total:11,done:7,ip:1,todo:3,done_pct:63.6,release_date:""},
+    {name:"rhoai-3.5.EA1",project:"AIPCC",total:56,done:34,ip:12,todo:10,done_pct:60.7,release_date:""},
+    {name:"rhoai-3.4",project:"AIPCC",total:36,done:31,ip:2,todo:3,done_pct:86.1,release_date:""},
     {name:"rhoai-3.3",project:"AIPCC",total:34,done:33,ip:0,todo:1,done_pct:97.1,release_date:""},
-    {name:"rhoai-3.2",project:"AIPCC",total:10,done:10,ip:0,todo:0,done_pct:100.0,release_date:""},
-    {name:"rhoai-3.4.EA2",project:"AIPCC",total:4,done:3,ip:0,todo:1,done_pct:75.0,release_date:""},
-    {name:"rhoai-3.5.EA2",project:"AIPCC",total:1,done:0,ip:0,todo:1,done_pct:0.0,release_date:""},
-    {name:"RHAII-3.4 EA1",project:"AIPCC",total:1,done:1,ip:0,todo:0,done_pct:100.0,release_date:""},
-    {name:"rhelai-3.0",project:"RHELAI",total:4,done:1,ip:0,todo:3,done_pct:25.0,release_date:"2025-11-13"}
+    {name:"rhoai-3.5.EA2",project:"AIPCC",total:14,done:1,ip:5,todo:8,done_pct:7.1,release_date:""},
+    {name:"rhoai-3.5",project:"AIPCC",total:11,done:7,ip:1,todo:3,done_pct:63.6,release_date:""},
+    {name:"rhelai-3.5 EA2 release",project:"AIPCC",total:7,done:3,ip:2,todo:2,done_pct:42.9,release_date:"2026-07-16"},
+    {name:"RHAII-3.5.EA1",project:"AIPCC",total:6,done:2,ip:2,todo:2,done_pct:33.3,release_date:""}
   ];
 
-  var velocities = { AIPCC: 569, RHELAI: 1.8, PSAP: 0.5, RHAIFIRST: 0 };
+  var velocities = { AIPCC: 600, RHELAI: 2.2, PSAP: 0.6, RHAIFIRST: 0 };
 
   function calcRisk(r) {
     var vel = velocities[r.project] || 0;
@@ -446,7 +445,7 @@ tbody tr:hover { background: #1c2028; }
     tbody.appendChild(tr);
   });
 
-  /* ── Tab Switching ── */
+  /* == Tab Switching == */
   var tabBtns = document.querySelectorAll('.tab-btn');
   tabBtns.forEach(function(btn) {
     btn.addEventListener('click', function() {
@@ -457,7 +456,7 @@ tbody tr:hover { background: #1c2028; }
     });
   });
 
-  /* ── Project Filter ── */
+  /* == Project Filter == */
   var filterSelect = document.getElementById('projectFilter');
   filterSelect.addEventListener('change', function() {
     var val = filterSelect.value;
@@ -477,7 +476,7 @@ tbody tr:hover { background: #1c2028; }
     });
   });
 
-  /* ── Assumptions Toggle ── */
+  /* == Assumptions Toggle == */
   var toggle = document.getElementById('assumptionsToggle');
   var body = document.getElementById('assumptionsBody');
   toggle.addEventListener('click', function() {
