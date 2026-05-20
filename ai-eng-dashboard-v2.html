@@ -87,6 +87,7 @@ tr:hover{background:#1c2128}
 .kpi.warn .value{color:#d29922}
 .kpi.danger .value{color:#f85149}
 .kpi.neutral .value{color:#58a6ff}
+.stale-note{font-size:11px;color:#484f58;text-align:center;padding:4px 0;font-style:italic}
 @media(max-width:768px){.grid{grid-template-columns:1fr}.sprint-info{grid-template-columns:repeat(3,1fr)}}
 </style>
 </head>
@@ -98,7 +99,7 @@ tr:hover{background:#1c2128}
       <div class="meta">Sprint Throughput &amp; Release Risk</div>
     </div>
     <div class="meta" style="text-align:right">
-      <div>Data as of <strong style="color:#e6edf3">2026-05-19</strong></div>
+      <div>Data as of <strong style="color:#e6edf3">2026-05-20</strong></div>
       <div>Source: redhat.atlassian.net</div>
     </div>
   </div>
@@ -127,12 +128,13 @@ tr:hover{background:#1c2128}
   <div class="tab-content active" id="tab-sprint">
     <div id="sprint-AIPCC">
       <div class="kpi-row">
-        <div class="kpi neutral"><div class="value">591</div><div class="label">Current WIP</div></div>
-        <div class="kpi ok"><div class="value">1,534</div><div class="label">30d Throughput</div></div>
-        <div class="kpi danger"><div class="value">1,636</div><div class="label">30d Created</div></div>
-        <div class="kpi warn"><div class="value">258</div><div class="label">Aging WIP (&gt;14d)</div></div>
+        <div class="kpi neutral"><div class="value">600</div><div class="label">Current WIP</div></div>
+        <div class="kpi ok"><div class="value">1,543</div><div class="label">30d Throughput</div></div>
+        <div class="kpi danger"><div class="value">1,683</div><div class="label">30d Created</div></div>
+        <div class="kpi warn"><div class="value">226</div><div class="label">Aging WIP (&gt;14d)</div></div>
       </div>
       <div class="section-title">AIPCC Sprint Teams</div>
+      <div class="stale-note">Sprint board data from May 19 &mdash; Agile API requires authentication to refresh</div>
       <div class="grid">
 
         <div class="card">
@@ -239,18 +241,17 @@ tr:hover{background:#1c2128}
     <summary>Assumptions &amp; Methodology</summary>
     <div class="body">
       <ul>
-        <li><strong>Data source:</strong> Jira REST API v3 at redhat.atlassian.net, queried 2026-05-19 via <code>/rest/api/3/search/jql</code> (cursor-based pagination, maxResults=5000).</li>
+        <li><strong>Data source:</strong> Jira REST API v3 at redhat.atlassian.net, queried 2026-05-20 via <code>/rest/api/3/search/jql</code> (cursor-based pagination, maxResults=5000).</li>
         <li><strong>AIPCC</strong> is publicly accessible. <strong>INFERENG, RHAIENG, RHOAIENG</strong> require authentication (JQL returns empty result sets without credentials).</li>
+        <li><strong>Sprint board data</strong> is carried forward from May 19. The Agile API (<code>/rest/agile/1.0</code>) requires authentication and could not be refreshed. KPIs (WIP, throughput, aging, created) are live from today's JQL queries.</li>
         <li><strong>Sprint risk</strong> compares current sprint item count against closed-sprint average velocity: <span class="badge green" style="font-size:10px">Green</span> = within +10%, <span class="badge yellow" style="font-size:10px">Yellow</span> = 10-30% over, <span class="badge red" style="font-size:10px">Red</span> = &gt;30% over.</li>
         <li><strong>Release issues</strong> use the "Target Version" custom field (cf[10855]), NOT fixVersion. Issue types Epic and Feature are excluded.</li>
-        <li><strong>Board mapping:</strong> Development Platform (board 3719), Workflow Validation (board 3723), AIPCC Accelerators (board 3729), Productization (board 3731), PyTorch (board 3735). MidstreamIntegration (board 10378) has no active sprint.</li>
-        <li><strong>Accelerators</strong> transitioned from Kanban to Scrum since last refresh &mdash; now runs biweekly sprints. Ecosystems board no longer appears in Jira board listing.</li>
-        <li><strong>Active sprints:</strong> DP Sprint 32 (ending today), WV Sprint 33 (just started), Accelerators 33 (just started), Productization Sprint 32 (ending today), PyTorch Sprint 32 (ended May 18).</li>
+        <li><strong>Board mapping (from prior auth session):</strong> Development Platform (board 3719), Workflow Validation (board 3723), AIPCC Accelerators (board 3729), Productization (board 3731), PyTorch (board 3735). MidstreamIntegration (board 10378) has no active sprint.</li>
         <li><strong>Velocity</strong> = count of issues in "Done" statusCategory per closed sprint (last 5 sprints). DP avg 81, WV avg 39, Accelerators avg 31, Productization avg 49, PyTorch avg 150.</li>
         <li><strong>Release risk</strong> is based on completion percentage: <span class="badge green" style="font-size:10px">Green</span> = &ge;80%, <span class="badge yellow" style="font-size:10px">Yellow</span> = 50-79%, <span class="badge red" style="font-size:10px">Red</span> = &lt;50%.</li>
         <li><strong>statusCategory grouping:</strong> "Done" = resolved/closed, "In Progress" = active work, "To Do" = not started.</li>
-        <li><strong>Changes from May 18:</strong> WIP 631&rarr;591 (-40), throughput 1442&rarr;1534 (+92), created 1564&rarr;1636 (+72), aging WIP 236&rarr;258 (+22). Accelerators now shows sprint data. RHAII-3.5 EA1 ip changed 11&rarr;11, rhoai-3.5.EA1 ip 11&rarr;12.</li>
-        <li>60 unreleased versions exist in AIPCC; 14 currently have issues with Target Version set (rhoai-3.0 now tracked at 100%).</li>
+        <li><strong>Changes from May 19:</strong> WIP 591&rarr;600 (+9), throughput 1,534&rarr;1,543 (+9), created 1,636&rarr;1,683 (+47), aging WIP 258&rarr;226 (-32, improved). rhoai-3.5.EA1 done 66&rarr;69, rhoai-3.5.EA2 total 38&rarr;50, RHAII-3.5 EA1 total 39&rarr;42, rhoai-3.4 total 37&rarr;36.</li>
+        <li>60 unreleased versions exist in AIPCC; 14 currently have issues with Target Version set.</li>
       </ul>
     </div>
   </details>
@@ -271,11 +272,11 @@ var RELEASE_DATA = [
   { ver:'rhoai-3.3', product:'RHOAI', total:34, done:33, ip:0, todo:1 },
   { ver:'rhoai-3.4.EA1', product:'RHOAI', total:28, done:25, ip:1, todo:2 },
   { ver:'rhoai-3.4.EA2', product:'RHOAI', total:4, done:3, ip:0, todo:1 },
-  { ver:'rhoai-3.4', product:'RHOAI', total:37, done:31, ip:3, todo:3 },
-  { ver:'rhoai-3.5.EA1', product:'RHOAI', total:85, done:66, ip:12, todo:7 },
-  { ver:'rhoai-3.5.EA2', product:'RHOAI', total:38, done:13, ip:11, todo:14 },
+  { ver:'rhoai-3.4', product:'RHOAI', total:36, done:30, ip:3, todo:3 },
+  { ver:'rhoai-3.5.EA1', product:'RHOAI', total:83, done:69, ip:8, todo:6 },
+  { ver:'rhoai-3.5.EA2', product:'RHOAI', total:50, done:20, ip:12, todo:18 },
   { ver:'rhoai-3.5', product:'RHOAI', total:11, done:7, ip:2, todo:2 },
-  { ver:'RHAII-3.5 EA1', product:'RHAII', total:39, done:22, ip:11, todo:6 },
+  { ver:'RHAII-3.5 EA1', product:'RHAII', total:42, done:22, ip:11, todo:9 },
   { ver:'RHAII-3.5 EA2', product:'RHAII', total:3, done:2, ip:1, todo:0 },
   { ver:'RHAII-3.5', product:'RHAII', total:10, done:0, ip:5, todo:5 },
   { ver:'rhelai-3.5 EA1 release', product:'RHELAI', total:23, done:11, ip:7, todo:5 },
