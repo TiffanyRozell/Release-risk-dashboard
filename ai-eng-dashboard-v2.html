@@ -6,368 +6,277 @@
 <title>AI Engineering Dashboard v2</title>
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
-body{background:#0f1117;color:#c9d1d9;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Oxygen,sans-serif;font-size:14px;line-height:1.5}
-.header{background:#161b22;border-bottom:1px solid #30363d;padding:16px 24px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px}
-.header h1{font-size:20px;color:#f0f6fc;font-weight:600}
-.header .meta{font-size:12px;color:#8b949e}
-.controls{display:flex;gap:12px;align-items:center;flex-wrap:wrap}
-.controls select,.controls button{background:#21262d;color:#c9d1d9;border:1px solid #30363d;padding:6px 12px;border-radius:6px;font-size:13px;cursor:pointer}
-.controls select:hover,.controls button:hover{border-color:#58a6ff}
-.controls button.active{background:#1f6feb;border-color:#1f6feb;color:#fff}
-.tabs{display:flex;gap:0;background:#161b22;border-bottom:1px solid #30363d;padding:0 24px}
-.tab{padding:10px 20px;cursor:pointer;color:#8b949e;border-bottom:2px solid transparent;font-size:14px;font-weight:500;transition:all .2s}
-.tab:hover{color:#c9d1d9}
-.tab.active{color:#58a6ff;border-bottom-color:#58a6ff}
-.content{padding:24px;max-width:1400px;margin:0 auto}
-.hidden{display:none}
-.card-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(380px,1fr));gap:16px;margin-top:16px}
-.card{background:#161b22;border:1px solid #30363d;border-radius:8px;padding:20px;position:relative}
-.card-title{font-size:15px;font-weight:600;color:#f0f6fc;margin-bottom:4px;display:flex;align-items:center;gap:8px}
-.card-subtitle{font-size:12px;color:#8b949e;margin-bottom:16px}
-.badge{display:inline-block;padding:2px 8px;border-radius:12px;font-size:11px;font-weight:600;text-transform:uppercase}
-.badge-green{background:rgba(63,185,80,.15);color:#3fb950}
-.badge-yellow{background:rgba(210,153,34,.15);color:#d29922}
-.badge-red{background:rgba(248,81,73,.15);color:#f85149}
-.badge-gray{background:rgba(139,148,158,.15);color:#8b949e}
-.metric-row{display:flex;justify-content:space-between;margin-bottom:8px}
-.metric-label{color:#8b949e;font-size:13px}
-.metric-value{color:#f0f6fc;font-weight:600;font-size:13px}
-.velocity-chart{margin-top:12px;height:80px;display:flex;align-items:flex-end;gap:4px}
-.velocity-bar{background:#1f6feb;border-radius:3px 3px 0 0;min-width:24px;flex:1;transition:height .3s;position:relative}
-.velocity-bar:hover{background:#58a6ff}
-.velocity-bar .tooltip{display:none;position:absolute;bottom:100%;left:50%;transform:translateX(-50%);background:#30363d;color:#f0f6fc;padding:4px 8px;border-radius:4px;font-size:11px;white-space:nowrap;z-index:10}
-.velocity-bar:hover .tooltip{display:block}
-.velocity-label{text-align:center;font-size:10px;color:#8b949e;margin-top:4px}
-table{width:100%;border-collapse:collapse;margin-top:16px}
-th{text-align:left;padding:10px 12px;background:#161b22;color:#8b949e;font-weight:600;font-size:12px;text-transform:uppercase;letter-spacing:.5px;border-bottom:1px solid #30363d}
-td{padding:10px 12px;border-bottom:1px solid #21262d;font-size:13px}
+body{background:#0f1117;color:#e6e6e6;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;padding:20px}
+h1{font-size:1.6rem;font-weight:600;margin-bottom:4px}
+.subtitle{color:#8b949e;font-size:0.85rem;margin-bottom:16px}
+.tabs{display:flex;gap:8px;margin-bottom:20px;border-bottom:1px solid #30363d;padding-bottom:8px}
+.tab{padding:8px 18px;border-radius:6px 6px 0 0;cursor:pointer;font-size:0.9rem;color:#8b949e;border:1px solid transparent;transition:all .2s}
+.tab:hover{color:#e6e6e6;background:#161b22}
+.tab.active{color:#58a6ff;border-color:#30363d;border-bottom-color:#0f1117;background:#0f1117}
+.tab-content{display:none}
+.tab-content.active{display:block}
+.project-selector{display:flex;gap:8px;margin-bottom:20px;flex-wrap:wrap}
+.project-btn{padding:6px 16px;border-radius:20px;cursor:pointer;font-size:0.85rem;border:1px solid #30363d;background:#161b22;color:#8b949e;transition:all .2s}
+.project-btn:hover{border-color:#58a6ff;color:#c9d1d9}
+.project-btn.active{background:#1f6feb;border-color:#1f6feb;color:#fff}
+.cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(380px,1fr));gap:16px;margin-bottom:24px}
+.card{background:#161b22;border:1px solid #30363d;border-radius:10px;padding:20px;transition:border-color .2s}
+.card:hover{border-color:#58a6ff}
+.card-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:12px}
+.card-title{font-size:1rem;font-weight:600}
+.badge{padding:3px 10px;border-radius:12px;font-size:0.75rem;font-weight:600;text-transform:uppercase}
+.badge-green{background:#1b4332;color:#52c41a}
+.badge-yellow{background:#3d3200;color:#faad14}
+.badge-red{background:#3d1111;color:#ff4d4f}
+.badge-gray{background:#21262d;color:#8b949e}
+.metrics{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:16px}
+.metric{text-align:center}
+.metric-value{font-size:1.4rem;font-weight:700;color:#58a6ff}
+.metric-label{font-size:0.75rem;color:#8b949e;margin-top:2px}
+.chart-bar{height:8px;background:#21262d;border-radius:4px;overflow:hidden;margin-top:8px}
+.chart-fill{height:100%;border-radius:4px;transition:width .5s}
+.chart-fill.green{background:linear-gradient(90deg,#52c41a,#73d13d)}
+.chart-fill.yellow{background:linear-gradient(90deg,#faad14,#ffc53d)}
+.chart-fill.red{background:linear-gradient(90deg,#ff4d4f,#ff7875)}
+.velocity-chart{display:flex;align-items:flex-end;gap:4px;height:80px;margin-top:12px;padding-top:4px}
+.vel-bar{flex:1;border-radius:3px 3px 0 0;background:#1f6feb;min-width:20px;position:relative;transition:height .5s}
+.vel-bar .vel-label{position:absolute;bottom:-18px;left:50%;transform:translateX(-50%);font-size:0.65rem;color:#8b949e;white-space:nowrap}
+.vel-bar .vel-value{position:absolute;top:-18px;left:50%;transform:translateX(-50%);font-size:0.7rem;color:#c9d1d9}
+table{width:100%;border-collapse:collapse;background:#161b22;border-radius:10px;overflow:hidden}
+th{background:#21262d;padding:10px 14px;text-align:left;font-size:0.8rem;color:#8b949e;font-weight:600;text-transform:uppercase;letter-spacing:0.5px}
+td{padding:10px 14px;border-top:1px solid #30363d;font-size:0.85rem}
 tr:hover td{background:#1c2128}
-.progress-bar{height:8px;background:#21262d;border-radius:4px;overflow:hidden;min-width:120px}
-.progress-fill{height:100%;border-radius:4px;display:flex}
-.progress-done{background:#3fb950}
-.progress-ip{background:#d29922}
-.progress-todo{background:#484f58}
-.pct{font-size:12px;color:#8b949e;margin-left:8px}
-.assumptions{background:#161b22;border:1px solid #30363d;border-radius:8px;margin-top:24px}
-.assumptions-header{padding:12px 16px;cursor:pointer;display:flex;align-items:center;justify-content:space-between;color:#8b949e;font-size:13px}
-.assumptions-header:hover{color:#c9d1d9}
-.assumptions-body{padding:0 16px 16px;font-size:12px;color:#8b949e;line-height:1.8}
-.assumptions-body.collapsed{display:none}
-.summary-row{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:16px;margin-bottom:24px}
-.summary-card{background:#161b22;border:1px solid #30363d;border-radius:8px;padding:16px;text-align:center}
-.summary-card .value{font-size:28px;font-weight:700;color:#f0f6fc}
-.summary-card .label{font-size:12px;color:#8b949e;margin-top:4px}
-.risk-indicator{width:10px;height:10px;border-radius:50%;display:inline-block}
-.risk-green{background:#3fb950}
-.risk-yellow{background:#d29922}
-.risk-red{background:#f85149}
-.chart-legend{display:flex;gap:16px;margin-top:8px;font-size:11px;color:#8b949e}
-.chart-legend span{display:flex;align-items:center;gap:4px}
-.chart-legend .dot{width:8px;height:8px;border-radius:2px}
-.no-data{text-align:center;padding:40px;color:#484f58;font-size:14px}
-.auth-note{background:rgba(210,153,34,.1);border:1px solid rgba(210,153,34,.3);border-radius:6px;padding:12px 16px;margin-bottom:16px;font-size:12px;color:#d29922}
+.progress-bar{width:100%;height:8px;background:#21262d;border-radius:4px;overflow:hidden;position:relative}
+.progress-fill{height:100%;border-radius:4px}
+.progress-text{font-size:0.75rem;color:#8b949e;margin-top:3px}
+.assumptions{margin-top:30px;background:#161b22;border:1px solid #30363d;border-radius:10px;overflow:hidden}
+.assumptions-header{padding:12px 16px;cursor:pointer;display:flex;justify-content:space-between;align-items:center;font-size:0.85rem;color:#8b949e}
+.assumptions-header:hover{background:#1c2128}
+.assumptions-body{padding:0 16px 16px;font-size:0.8rem;color:#6e7681;line-height:1.6;display:none}
+.assumptions-body.open{display:block}
+.assumptions-body ul{padding-left:20px}
+.summary-row{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-bottom:24px}
+.summary-card{background:#161b22;border:1px solid #30363d;border-radius:10px;padding:16px;text-align:center}
+.summary-card .big{font-size:2rem;font-weight:700}
+.summary-card .label{font-size:0.8rem;color:#8b949e;margin-top:4px}
+.no-data{color:#484f58;font-style:italic;padding:20px;text-align:center}
+.table-wrap{border-radius:10px;overflow:hidden;border:1px solid #30363d}
 </style>
 </head>
 <body>
-<div class="header">
-  <div>
-    <h1>AI Engineering Dashboard</h1>
-    <div class="meta">Data as of 2026-05-26 &bull; Source: redhat.atlassian.net &bull; Auto-refreshed from Jira REST API</div>
-  </div>
-  <div class="controls">
-    <select id="projectFilter">
-      <option value="all">All Projects</option>
-      <option value="AIPCC">AIPCC — AI Platform Core Components</option>
-      <option value="RHELAI">RHELAI — Red Hat Enterprise Linux AI</option>
-      <option value="PSAP">PSAP — Perf & Scale for AI Platforms</option>
-      <option value="INFERENG">INFERENG (Auth Required)</option>
-      <option value="RHAIENG">RHAIENG (Auth Required)</option>
-      <option value="RHOAIENG">RHOAIENG (Auth Required)</option>
-    </select>
-  </div>
+
+<h1>AI Engineering Dashboard</h1>
+<div class="subtitle">Data as of 2026-05-27 &bull; Source: redhat.atlassian.net &bull; Projects: AIPCC, RHELAI, RHODS</div>
+
+<div class="project-selector">
+  <button class="project-btn active" onclick="filterProject('all')">All Projects</button>
+  <button class="project-btn" onclick="filterProject('AIPCC')">AIPCC</button>
+  <button class="project-btn" onclick="filterProject('RHELAI')">RHELAI</button>
+  <button class="project-btn" onclick="filterProject('RHODS')">RHODS</button>
 </div>
+
 <div class="tabs">
-  <div class="tab active" data-tab="sprint" onclick="switchTab('sprint')">Sprint Throughput</div>
-  <div class="tab" data-tab="release" onclick="switchTab('release')">Release Risk</div>
+  <div class="tab active" onclick="switchTab('sprint')">Sprint Throughput</div>
+  <div class="tab" onclick="switchTab('release')">Release Risk</div>
 </div>
-<div class="content">
-  <!-- SPRINT THROUGHPUT TAB -->
-  <div id="tab-sprint">
-    <div class="auth-note">
-      Note: Projects INFERENG, RHAIENG, and RHOAIENG were not found on the public Jira API — they may require authentication or use different project keys. Sprint/board data requires Jira Agile API authentication; velocity shown is derived from 30-day resolved issue counts.
-    </div>
-    <div class="summary-row">
-      <div class="summary-card"><div class="value" id="totalWip">687</div><div class="label">Total WIP</div></div>
-      <div class="summary-card"><div class="value" id="totalThroughput">1,507</div><div class="label">30-Day Throughput</div></div>
-      <div class="summary-card"><div class="value" id="totalCreated">1,634</div><div class="label">30-Day Created</div></div>
-      <div class="summary-card"><div class="value" id="totalAging">297</div><div class="label">Aging WIP (&gt;14d)</div></div>
-    </div>
-    <div class="card-grid" id="sprintCards"></div>
+
+<div id="sprint" class="tab-content active">
+  <div class="summary-row">
+    <div class="summary-card"><div class="big" style="color:#58a6ff">1,571</div><div class="label">30-Day Resolved (All)</div></div>
+    <div class="summary-card"><div class="big" style="color:#faad14">758</div><div class="label">Active WIP (All)</div></div>
+    <div class="summary-card"><div class="big" style="color:#52c41a">1,683</div><div class="label">30-Day Created (All)</div></div>
+    <div class="summary-card"><div class="big" style="color:#ff4d4f">193</div><div class="label">Aging WIP (All)</div></div>
   </div>
-  <!-- RELEASE RISK TAB -->
-  <div id="tab-release" class="hidden">
-    <div class="summary-row">
-      <div class="summary-card"><div class="value" id="relCount">5</div><div class="label">Tracked Releases</div></div>
-      <div class="summary-card"><div class="value badge badge-red" id="relRed" style="font-size:24px">2</div><div class="label">High Risk</div></div>
-      <div class="summary-card"><div class="value badge badge-yellow" id="relYellow" style="font-size:24px">1</div><div class="label">Medium Risk</div></div>
-      <div class="summary-card"><div class="value badge badge-green" id="relGreen" style="font-size:24px">2</div><div class="label">On Track</div></div>
+
+  <div class="cards" id="sprint-cards">
+
+    <!-- AIPCC Card -->
+    <div class="card" data-project="AIPCC">
+      <div class="card-header">
+        <div class="card-title">AIPCC <span style="color:#8b949e;font-weight:400;font-size:0.8rem">AI Platform Core Components</span></div>
+        <span class="badge badge-green">Healthy</span>
+      </div>
+      <div class="metrics">
+        <div class="metric"><div class="metric-value">1,569</div><div class="metric-label">30d Resolved</div></div>
+        <div class="metric"><div class="metric-value">614</div><div class="metric-label">Current WIP</div></div>
+        <div class="metric"><div class="metric-value">1,683</div><div class="metric-label">30d Created</div></div>
+      </div>
+      <div style="font-size:0.8rem;color:#8b949e;margin-bottom:4px">Throughput (30-day rolling &bull; Kanban)</div>
+      <div class="velocity-chart">
+        <div class="vel-bar" style="height:100%;background:#1f6feb"><div class="vel-value">1,569</div><div class="vel-label">Current</div></div>
+      </div>
+      <div style="margin-top:24px;font-size:0.75rem;color:#6e7681">
+        WIP:Throughput Ratio: <strong style="color:#52c41a">0.39</strong> &bull; Aging WIP: <strong style="color:#faad14">51</strong> (8.3% of WIP)
+      </div>
     </div>
-    <table id="releaseTable">
-      <thead>
-        <tr>
-          <th>Project</th>
-          <th>Version</th>
-          <th>Release Date</th>
-          <th>Total</th>
-          <th>Progress</th>
-          <th>Done</th>
-          <th>In Progress</th>
-          <th>To Do</th>
-          <th>Risk</th>
-        </tr>
-      </thead>
-      <tbody id="releaseBody"></tbody>
-    </table>
+
+    <!-- RHELAI Card -->
+    <div class="card" data-project="RHELAI">
+      <div class="card-header">
+        <div class="card-title">RHELAI <span style="color:#8b949e;font-weight:400;font-size:0.8rem">Red Hat Enterprise Linux AI</span></div>
+        <span class="badge badge-red">At Risk</span>
+      </div>
+      <div class="metrics">
+        <div class="metric"><div class="metric-value">1</div><div class="metric-label">30d Resolved</div></div>
+        <div class="metric"><div class="metric-value">66</div><div class="metric-label">Current WIP</div></div>
+        <div class="metric"><div class="metric-value">0</div><div class="metric-label">30d Created</div></div>
+      </div>
+      <div style="font-size:0.8rem;color:#8b949e;margin-bottom:4px">Throughput (30-day rolling &bull; Kanban)</div>
+      <div class="velocity-chart">
+        <div class="vel-bar" style="height:5%;background:#ff4d4f;min-height:4px"><div class="vel-value">1</div><div class="vel-label">Current</div></div>
+      </div>
+      <div style="margin-top:24px;font-size:0.75rem;color:#6e7681">
+        WIP:Throughput Ratio: <strong style="color:#ff4d4f">66.0</strong> &bull; Aging WIP: <strong style="color:#ff4d4f">64</strong> (97.0% of WIP)
+      </div>
+    </div>
+
+    <!-- RHODS Card -->
+    <div class="card" data-project="RHODS">
+      <div class="card-header">
+        <div class="card-title">RHODS <span style="color:#8b949e;font-weight:400;font-size:0.8rem">Red Hat OpenShift Data Science</span></div>
+        <span class="badge badge-red">At Risk</span>
+      </div>
+      <div class="metrics">
+        <div class="metric"><div class="metric-value">1</div><div class="metric-label">30d Resolved</div></div>
+        <div class="metric"><div class="metric-value">78</div><div class="metric-label">Current WIP</div></div>
+        <div class="metric"><div class="metric-value">0</div><div class="metric-label">30d Created</div></div>
+      </div>
+      <div style="font-size:0.8rem;color:#8b949e;margin-bottom:4px">Throughput (30-day rolling &bull; Kanban)</div>
+      <div class="velocity-chart">
+        <div class="vel-bar" style="height:5%;background:#ff4d4f;min-height:4px"><div class="vel-value">1</div><div class="vel-label">Current</div></div>
+      </div>
+      <div style="margin-top:24px;font-size:0.75rem;color:#6e7681">
+        WIP:Throughput Ratio: <strong style="color:#ff4d4f">78.0</strong> &bull; Aging WIP: <strong style="color:#ff4d4f">78</strong> (100.0% of WIP)
+      </div>
+    </div>
+
   </div>
-  <!-- ASSUMPTIONS -->
-  <div class="assumptions">
-    <div class="assumptions-header" onclick="toggleAssumptions()">
-      <span>Assumptions &amp; Methodology</span>
-      <span id="assumptionsArrow">&#9660;</span>
-    </div>
-    <div class="assumptions-body collapsed" id="assumptionsBody">
-      <p><strong>Data Source:</strong> Jira REST API v3 at redhat.atlassian.net (unauthenticated access).</p>
-      <p><strong>Projects Queried:</strong> AIPCC, RHELAI, PSAP are publicly accessible. INFERENG, RHAIENG, RHOAIENG were not found — they either require authentication, use different keys, or are on a different Jira instance.</p>
-      <p><strong>Sprint Velocity:</strong> True sprint velocity requires Jira Agile API authentication (board/sprint endpoints). The "velocity" shown here is the 30-day resolved issue count, used as a proxy. Kanban boards use the same metric.</p>
-      <p><strong>Target Version Field:</strong> Issue counts per release use the "Target Version" custom field (customfield_10855) where available, with fixVersion as fallback.</p>
-      <p><strong>Risk Calculation (Sprint):</strong> Green = WIP:Throughput ratio &le; 1.1x (healthy flow). Yellow = ratio 1.1–1.3x. Red = ratio &gt; 1.3x or throughput near zero.</p>
-      <p><strong>Risk Calculation (Release):</strong> Green = within +10% of average velocity to complete remaining work. Yellow = 10–30% over capacity. Red = &gt;30% over capacity or overdue.</p>
-      <p><strong>Aging WIP:</strong> Issues in "In Progress" status category with last update &gt; 14 days ago.</p>
-      <p><strong>Limitations:</strong> Custom field queries may return incomplete results without authentication. Board/sprint/velocity data from Jira Agile API is not available without auth.</p>
-    </div>
+</div>
+
+<div id="release" class="tab-content">
+  <div class="table-wrap">
+  <table>
+    <thead>
+      <tr>
+        <th>Project</th>
+        <th>Version</th>
+        <th>Release Date</th>
+        <th>Total</th>
+        <th>Done</th>
+        <th>In Progress</th>
+        <th>To Do</th>
+        <th>Progress</th>
+        <th>Risk</th>
+      </tr>
+    </thead>
+    <tbody id="release-tbody">
+      <tr data-project="AIPCC">
+        <td>AIPCC</td><td>RHAII-3.5 EA1</td><td>2026-06-02</td>
+        <td>44</td><td>28</td><td>7</td><td>9</td>
+        <td><div class="progress-bar"><div class="progress-fill" style="width:63.6%;background:#faad14"></div></div><div class="progress-text">63.6% complete</div></td>
+        <td><span class="badge badge-yellow">Yellow</span></td>
+      </tr>
+      <tr data-project="AIPCC">
+        <td>AIPCC</td><td>rhelai-3.5 EA1 release</td><td>2026-06-18</td>
+        <td>25</td><td>12</td><td>7</td><td>6</td>
+        <td><div class="progress-bar"><div class="progress-fill" style="width:48%;background:#faad14"></div></div><div class="progress-text">48.0% complete</div></td>
+        <td><span class="badge badge-yellow">Yellow</span></td>
+      </tr>
+      <tr data-project="AIPCC">
+        <td>AIPCC</td><td>RHAII-3.5</td><td>2026-06-17</td>
+        <td>10</td><td>0</td><td>5</td><td>5</td>
+        <td><div class="progress-bar"><div class="progress-fill" style="width:0%;background:#ff4d4f"></div></div><div class="progress-text">0.0% complete</div></td>
+        <td><span class="badge badge-red">Red</span></td>
+      </tr>
+      <tr data-project="AIPCC">
+        <td>AIPCC</td><td>RHAII-3.5 EA2</td><td>2026-06-30</td>
+        <td>7</td><td>2</td><td>1</td><td>4</td>
+        <td><div class="progress-bar"><div class="progress-fill" style="width:28.6%;background:#ff4d4f"></div></div><div class="progress-text">28.6% complete</div></td>
+        <td><span class="badge badge-yellow">Yellow</span></td>
+      </tr>
+      <tr data-project="AIPCC">
+        <td>AIPCC</td><td>rhelai-3.5 EA2 release</td><td>2026-07-16</td>
+        <td>11</td><td>4</td><td>1</td><td>6</td>
+        <td><div class="progress-bar"><div class="progress-fill" style="width:36.4%;background:#faad14"></div></div><div class="progress-text">36.4% complete</div></td>
+        <td><span class="badge badge-green">Green</span></td>
+      </tr>
+      <tr data-project="AIPCC">
+        <td>AIPCC</td><td>rhoai-3.0</td><td>2025-11-13</td>
+        <td>14</td><td>14</td><td>0</td><td>0</td>
+        <td><div class="progress-bar"><div class="progress-fill" style="width:100%;background:#52c41a"></div></div><div class="progress-text">100.0% complete</div></td>
+        <td><span class="badge badge-green">Green</span></td>
+      </tr>
+      <tr data-project="AIPCC">
+        <td>AIPCC</td><td>rhoai-3.2</td><td>N/A</td>
+        <td>10</td><td>10</td><td>0</td><td>0</td>
+        <td><div class="progress-bar"><div class="progress-fill" style="width:100%;background:#52c41a"></div></div><div class="progress-text">100.0% complete</div></td>
+        <td><span class="badge badge-green">Green</span></td>
+      </tr>
+      <tr data-project="RHELAI">
+        <td>RHELAI</td><td>rhelai-3.0</td><td>2025-11-13</td>
+        <td>4</td><td>1</td><td>0</td><td>3</td>
+        <td><div class="progress-bar"><div class="progress-fill" style="width:25%;background:#ff4d4f"></div></div><div class="progress-text">25.0% complete</div></td>
+        <td><span class="badge badge-red">Red</span></td>
+      </tr>
+      <tr data-project="RHODS">
+        <td colspan="9" class="no-data">RHODS: No issues assigned to unreleased versions via Target Version field</td>
+      </tr>
+    </tbody>
+  </table>
+  </div>
+</div>
+
+<div class="assumptions">
+  <div class="assumptions-header" onclick="toggleAssumptions(this)">
+    <span>Assumptions & Methodology</span>
+    <span id="assumptions-arrow">&#9654;</span>
+  </div>
+  <div class="assumptions-body" id="assumptions-body">
+    <ul>
+      <li><strong>Data source:</strong> Jira REST API v3 (unauthenticated) at redhat.atlassian.net, queried 2026-05-27.</li>
+      <li><strong>Projects queried:</strong> AIPCC (AI Platform Core Components), RHELAI (Red Hat Enterprise Linux AI), RHODS (Red Hat OpenShift Data Science). The requested keys INFERENG, RHAIENG, and RHOAIENG do not exist in this Jira instance; RHELAI and RHODS are the closest matches.</li>
+      <li><strong>Version issues:</strong> Queried using "Target Version" (customfield_10855), not fixVersion. Only versions with &ge;1 issue are shown.</li>
+      <li><strong>Sprint data:</strong> Board and sprint APIs require authentication. Kanban-style 30-day throughput is used instead.</li>
+      <li><strong>Risk calculation (Release):</strong>
+        <ul>
+          <li><strong>Green:</strong> &ge;70% done OR &gt;30 days remaining</li>
+          <li><strong>Yellow:</strong> &lt;70% done AND &lt;30 days remaining, or progress is borderline</li>
+          <li><strong>Red:</strong> &lt;50% done AND &lt;14 days remaining, or overdue</li>
+        </ul>
+      </li>
+      <li><strong>Risk calculation (Sprint/Team):</strong>
+        <ul>
+          <li><strong>Green:</strong> WIP:Throughput ratio &lt;1.0 and aging WIP &lt;15%</li>
+          <li><strong>Yellow:</strong> Ratio 1.0–3.0 or aging 15–50%</li>
+          <li><strong>Red:</strong> Ratio &gt;3.0 or aging &gt;50%</li>
+        </ul>
+      </li>
+      <li><strong>Aging WIP:</strong> Issues in "In Progress" statusCategory with last update &gt;14 days ago.</li>
+      <li><strong>Throughput:</strong> Issues resolved in the last 30 days.</li>
+      <li><strong>WIP count note:</strong> AIPCC WIP (614) differs from aging WIP (51), indicating active work. RHELAI and RHODS show near-100% aging, suggesting these projects may have moved to other trackers or are in maintenance mode.</li>
+    </ul>
   </div>
 </div>
 
 <script>
-const DATA = {
-  projects: {
-    AIPCC: {
-      name: "AI Platform Core Components",
-      key: "AIPCC",
-      wip: 618,
-      throughput_30d: 1505,
-      created_30d: 1633,
-      aging_wip: 230,
-      velocity_proxy: [248, 262, 275, 290, 310, 1505],
-      velocity_labels: ["Oct","Nov","Dec","Jan","Feb","30d Avg"],
-      accessible: true
-    },
-    RHELAI: {
-      name: "Red Hat Enterprise Linux AI",
-      key: "RHELAI",
-      wip: 66,
-      throughput_30d: 1,
-      created_30d: 0,
-      aging_wip: 64,
-      velocity_proxy: [3, 5, 2, 4, 1, 1],
-      velocity_labels: ["Oct","Nov","Dec","Jan","Feb","30d Avg"],
-      accessible: true
-    },
-    PSAP: {
-      name: "Perf & Scale for AI Platforms",
-      key: "PSAP",
-      wip: 3,
-      throughput_30d: 1,
-      created_30d: 1,
-      aging_wip: 3,
-      velocity_proxy: [2, 1, 3, 2, 1, 1],
-      velocity_labels: ["Oct","Nov","Dec","Jan","Feb","30d Avg"],
-      accessible: true
-    },
-    INFERENG: {
-      name: "Inference Engineering",
-      key: "INFERENG",
-      wip: null, throughput_30d: null, created_30d: null, aging_wip: null,
-      velocity_proxy: [], velocity_labels: [],
-      accessible: false
-    },
-    RHAIENG: {
-      name: "RHAI Engineering",
-      key: "RHAIENG",
-      wip: null, throughput_30d: null, created_30d: null, aging_wip: null,
-      velocity_proxy: [], velocity_labels: [],
-      accessible: false
-    },
-    RHOAIENG: {
-      name: "RHOAI Engineering",
-      key: "RHOAIENG",
-      wip: null, throughput_30d: null, created_30d: null, aging_wip: null,
-      velocity_proxy: [], velocity_labels: [],
-      accessible: false
-    }
-  },
-  releases: [
-    {project:"AIPCC",version:"RHAII-3.5 EA1",release:"2026-05-07",total:42,done:24,ip:10,todo:8},
-    {project:"AIPCC",version:"RHAII-3.5 EA2",release:"2026-05-28",total:7,done:2,ip:1,todo:4},
-    {project:"AIPCC",version:"RHAII-3.5",release:"2026-06-17",total:10,done:0,ip:5,todo:5},
-    {project:"AIPCC",version:"RHAII-3.6",release:"2026-09-17",total:0,done:0,ip:0,todo:0},
-    {project:"AIPCC",version:"rhoai-3.0",release:"2025-11-13",total:14,done:14,ip:0,todo:0},
-    {project:"RHELAI",version:"rhelai-3.0",release:"2025-11-13",total:4,done:1,ip:0,todo:3}
-  ]
-};
-
-function getRiskBadge(proj) {
-  if (!proj.accessible) return '<span class="badge badge-gray">NO DATA</span>';
-  const ratio = proj.wip / Math.max(proj.throughput_30d, 1);
-  if (proj.throughput_30d === 0 && proj.wip > 0) return '<span class="badge badge-red">HIGH</span>';
-  if (ratio <= 1.1) return '<span class="badge badge-green">HEALTHY</span>';
-  if (ratio <= 1.3) return '<span class="badge badge-yellow">WATCH</span>';
-  return '<span class="badge badge-red">AT RISK</span>';
+function switchTab(tabId){
+  document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));
+  document.querySelectorAll('.tab-content').forEach(t=>t.classList.remove('active'));
+  document.getElementById(tabId).classList.add('active');
+  event.target.classList.add('active');
 }
-
-function getReleaseRisk(rel) {
-  if (rel.total === 0) return {level:'gray',label:'NO DATA'};
-  const pct = rel.done / rel.total;
-  const now = new Date('2026-05-26');
-  const rd = new Date(rel.release);
-  const daysLeft = Math.ceil((rd - now) / 86400000);
-  if (pct >= 0.7 || daysLeft > 30) return {level:'green',label:'ON TRACK'};
-  if (pct >= 0.5 && daysLeft >= 14) return {level:'yellow',label:'WATCH'};
-  return {level:'red',label:'AT RISK'};
-}
-
-function renderSprintCards(filter) {
-  const container = document.getElementById('sprintCards');
-  container.innerHTML = '';
-  const projects = DATA.projects;
-  let totalWip=0, totalTp=0, totalCr=0, totalAg=0;
-
-  for (const [key, p] of Object.entries(projects)) {
-    if (filter !== 'all' && key !== filter) continue;
-    if (p.accessible) {
-      totalWip += p.wip;
-      totalTp += p.throughput_30d;
-      totalCr += p.created_30d;
-      totalAg += p.aging_wip;
-    }
-
-    const card = document.createElement('div');
-    card.className = 'card';
-    card.setAttribute('data-project', key);
-
-    if (!p.accessible) {
-      card.innerHTML = `
-        <div class="card-title">${p.key} <span class="badge badge-gray">AUTH REQUIRED</span></div>
-        <div class="card-subtitle">${p.name}</div>
-        <div class="no-data">This project requires Jira authentication to access.<br>Configure credentials in Workspace Settings.</div>`;
-    } else {
-      const maxVel = Math.max(...p.velocity_proxy, 1);
-      const bars = p.velocity_proxy.map((v, i) => {
-        const h = Math.max((v / maxVel) * 70, 4);
-        return `<div style="flex:1;text-align:center"><div class="velocity-bar" style="height:${h}px"><span class="tooltip">${v} issues</span></div><div class="velocity-label">${p.velocity_labels[i]||''}</div></div>`;
-      }).join('');
-
-      const agingPct = p.wip > 0 ? ((p.aging_wip / p.wip) * 100).toFixed(0) : 0;
-      const wipRatio = (p.wip / Math.max(p.throughput_30d, 1)).toFixed(2);
-
-      card.innerHTML = `
-        <div class="card-title">${p.key} ${getRiskBadge(p)}</div>
-        <div class="card-subtitle">${p.name}</div>
-        <div class="metric-row"><span class="metric-label">Current WIP</span><span class="metric-value">${p.wip.toLocaleString()}</span></div>
-        <div class="metric-row"><span class="metric-label">30-Day Throughput</span><span class="metric-value">${p.throughput_30d.toLocaleString()}</span></div>
-        <div class="metric-row"><span class="metric-label">30-Day Created</span><span class="metric-value">${p.created_30d.toLocaleString()}</span></div>
-        <div class="metric-row"><span class="metric-label">Aging WIP (&gt;14d)</span><span class="metric-value">${p.aging_wip} (${agingPct}% of WIP)</span></div>
-        <div class="metric-row"><span class="metric-label">WIP:Throughput Ratio</span><span class="metric-value">${wipRatio}x</span></div>
-        <div style="margin-top:12px;font-size:12px;color:#8b949e">Velocity Trend (resolved issues)</div>
-        <div class="velocity-chart">${bars}</div>`;
-    }
-    container.appendChild(card);
-  }
-
-  document.getElementById('totalWip').textContent = totalWip.toLocaleString();
-  document.getElementById('totalThroughput').textContent = totalTp.toLocaleString();
-  document.getElementById('totalCreated').textContent = totalCr.toLocaleString();
-  document.getElementById('totalAging').textContent = totalAg.toLocaleString();
-}
-
-function renderReleaseTable(filter) {
-  const tbody = document.getElementById('releaseBody');
-  tbody.innerHTML = '';
-  let reds=0, yellows=0, greens=0, count=0;
-
-  const releases = DATA.releases.filter(r => filter === 'all' || r.project === filter);
-  releases.sort((a,b) => {
-    const ra = getReleaseRisk(a), rb = getReleaseRisk(b);
-    const order = {red:0,yellow:1,green:2,gray:3};
-    return (order[ra.level]||9) - (order[rb.level]||9);
+function filterProject(project){
+  document.querySelectorAll('.project-btn').forEach(b=>{b.classList.remove('active');if(b.textContent.trim()===project||b.textContent.trim()==='All Projects'&&project==='all')b.classList.add('active')});
+  document.querySelectorAll('[data-project]').forEach(el=>{
+    el.style.display=(project==='all'||el.dataset.project===project)?'':'none';
   });
-
-  for (const r of releases) {
-    if (r.total === 0 && r.version !== 'RHAII-3.6') continue;
-    const risk = getReleaseRisk(r);
-    count++;
-    if (risk.level==='red') reds++;
-    else if (risk.level==='yellow') yellows++;
-    else if (risk.level==='green') greens++;
-
-    const pct = r.total > 0 ? ((r.done/r.total)*100).toFixed(0) : 0;
-    const donePct = r.total>0?(r.done/r.total*100):0;
-    const ipPct = r.total>0?(r.ip/r.total*100):0;
-    const todoPct = r.total>0?(r.todo/r.total*100):0;
-
-    const tr = document.createElement('tr');
-    tr.innerHTML = `
-      <td><strong>${r.project}</strong></td>
-      <td>${r.version}</td>
-      <td>${r.release || 'TBD'}</td>
-      <td>${r.total}</td>
-      <td>
-        <div style="display:flex;align-items:center">
-          <div class="progress-bar">
-            <div class="progress-fill">
-              <div class="progress-done" style="width:${donePct}%"></div>
-              <div class="progress-ip" style="width:${ipPct}%"></div>
-              <div class="progress-todo" style="width:${todoPct}%"></div>
-            </div>
-          </div>
-          <span class="pct">${pct}%</span>
-        </div>
-      </td>
-      <td style="color:#3fb950">${r.done}</td>
-      <td style="color:#d29922">${r.ip}</td>
-      <td style="color:#8b949e">${r.todo}</td>
-      <td><span class="badge badge-${risk.level}">${risk.label}</span></td>`;
-    tbody.appendChild(tr);
-  }
-
-  document.getElementById('relCount').textContent = count;
-  document.getElementById('relRed').textContent = reds;
-  document.getElementById('relYellow').textContent = yellows;
-  document.getElementById('relGreen').textContent = greens;
 }
-
-function switchTab(tab) {
-  document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
-  document.querySelector(`[data-tab="${tab}"]`).classList.add('active');
-  document.getElementById('tab-sprint').classList.toggle('hidden', tab !== 'sprint');
-  document.getElementById('tab-release').classList.toggle('hidden', tab !== 'release');
+function toggleAssumptions(el){
+  const body=document.getElementById('assumptions-body');
+  const arrow=document.getElementById('assumptions-arrow');
+  body.classList.toggle('open');
+  arrow.textContent=body.classList.contains('open')?'▼':'▶';
 }
-
-function toggleAssumptions() {
-  const body = document.getElementById('assumptionsBody');
-  const arrow = document.getElementById('assumptionsArrow');
-  body.classList.toggle('collapsed');
-  arrow.textContent = body.classList.contains('collapsed') ? '▼' : '▲';
-}
-
-document.getElementById('projectFilter').addEventListener('change', function() {
-  const filter = this.value;
-  renderSprintCards(filter);
-  renderReleaseTable(filter);
-});
-
-renderSprintCards('all');
-renderReleaseTable('all');
 </script>
 </body>
 </html>
