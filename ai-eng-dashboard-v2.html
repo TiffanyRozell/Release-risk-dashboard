@@ -61,12 +61,17 @@ tr:hover td{background:#1c2128}
 .summary-card .label{font-size:0.8rem;color:#8b949e;margin-top:4px}
 .no-data{color:#484f58;font-style:italic;padding:20px;text-align:center}
 .table-wrap{border-radius:10px;overflow:hidden;border:1px solid #30363d}
+.auth-notice{background:#1c1917;border:1px solid #78350f;border-radius:8px;padding:12px 16px;margin-bottom:16px;font-size:0.85rem;color:#fbbf24}
 </style>
 </head>
 <body>
 
 <h1>AI Engineering Dashboard</h1>
-<div class="subtitle">Data as of 2026-05-27 &bull; Source: redhat.atlassian.net &bull; Projects: AIPCC, RHELAI, RHODS</div>
+<div class="subtitle">Data as of 2026-05-30 &bull; Source: redhat.atlassian.net &bull; Projects: AIPCC, INFERENG, RHAIENG, RHOAIENG</div>
+
+<div class="auth-notice">
+  INFERENG, RHAIENG, and RHOAIENG require Jira authentication and returned no data. Displaying data from accessible related projects: AIPCC (direct), RHELAI (closest match to RHAIENG), RHODS (closest match to RHOAIENG).
+</div>
 
 <div class="project-selector">
   <button class="project-btn active" onclick="filterProject('all')">All Projects</button>
@@ -82,10 +87,10 @@ tr:hover td{background:#1c2128}
 
 <div id="sprint" class="tab-content active">
   <div class="summary-row">
-    <div class="summary-card"><div class="big" style="color:#58a6ff">1,571</div><div class="label">30-Day Resolved (All)</div></div>
-    <div class="summary-card"><div class="big" style="color:#faad14">758</div><div class="label">Active WIP (All)</div></div>
-    <div class="summary-card"><div class="big" style="color:#52c41a">1,683</div><div class="label">30-Day Created (All)</div></div>
-    <div class="summary-card"><div class="big" style="color:#ff4d4f">193</div><div class="label">Aging WIP (All)</div></div>
+    <div class="summary-card"><div class="big" style="color:#58a6ff">1,442</div><div class="label">30-Day Resolved (All)</div></div>
+    <div class="summary-card"><div class="big" style="color:#faad14">551</div><div class="label">Active WIP (All)</div></div>
+    <div class="summary-card"><div class="big" style="color:#52c41a">1,545</div><div class="label">30-Day Created (All)</div></div>
+    <div class="summary-card"><div class="big" style="color:#ff4d4f">141</div><div class="label">Aging WIP (All)</div></div>
   </div>
 
   <div class="cards" id="sprint-cards">
@@ -97,16 +102,16 @@ tr:hover td{background:#1c2128}
         <span class="badge badge-green">Healthy</span>
       </div>
       <div class="metrics">
-        <div class="metric"><div class="metric-value">1,569</div><div class="metric-label">30d Resolved</div></div>
-        <div class="metric"><div class="metric-value">614</div><div class="metric-label">Current WIP</div></div>
-        <div class="metric"><div class="metric-value">1,683</div><div class="metric-label">30d Created</div></div>
+        <div class="metric"><div class="metric-value">1,441</div><div class="metric-label">30d Resolved</div></div>
+        <div class="metric"><div class="metric-value">450</div><div class="metric-label">Current WIP</div></div>
+        <div class="metric"><div class="metric-value">1,545</div><div class="metric-label">30d Created</div></div>
       </div>
       <div style="font-size:0.8rem;color:#8b949e;margin-bottom:4px">Throughput (30-day rolling &bull; Kanban)</div>
       <div class="velocity-chart">
-        <div class="vel-bar" style="height:100%;background:#1f6feb"><div class="vel-value">1,569</div><div class="vel-label">Current</div></div>
+        <div class="vel-bar" style="height:100%;background:#1f6feb"><div class="vel-value">1,441</div><div class="vel-label">Current</div></div>
       </div>
       <div style="margin-top:24px;font-size:0.75rem;color:#6e7681">
-        WIP:Throughput Ratio: <strong style="color:#52c41a">0.39</strong> &bull; Aging WIP: <strong style="color:#faad14">51</strong> (8.3% of WIP)
+        WIP:Throughput Ratio: <strong style="color:#52c41a">0.31</strong> &bull; Aging WIP: <strong style="color:#faad14">43</strong> (9.6% of WIP)
       </div>
     </div>
 
@@ -118,7 +123,7 @@ tr:hover td{background:#1c2128}
       </div>
       <div class="metrics">
         <div class="metric"><div class="metric-value">1</div><div class="metric-label">30d Resolved</div></div>
-        <div class="metric"><div class="metric-value">66</div><div class="metric-label">Current WIP</div></div>
+        <div class="metric"><div class="metric-value">40</div><div class="metric-label">Current WIP</div></div>
         <div class="metric"><div class="metric-value">0</div><div class="metric-label">30d Created</div></div>
       </div>
       <div style="font-size:0.8rem;color:#8b949e;margin-bottom:4px">Throughput (30-day rolling &bull; Kanban)</div>
@@ -126,7 +131,7 @@ tr:hover td{background:#1c2128}
         <div class="vel-bar" style="height:5%;background:#ff4d4f;min-height:4px"><div class="vel-value">1</div><div class="vel-label">Current</div></div>
       </div>
       <div style="margin-top:24px;font-size:0.75rem;color:#6e7681">
-        WIP:Throughput Ratio: <strong style="color:#ff4d4f">66.0</strong> &bull; Aging WIP: <strong style="color:#ff4d4f">64</strong> (97.0% of WIP)
+        WIP:Throughput Ratio: <strong style="color:#ff4d4f">40.0</strong> &bull; Aging WIP: <strong style="color:#ff4d4f">38</strong> (95.0% of WIP)
       </div>
     </div>
 
@@ -137,16 +142,16 @@ tr:hover td{background:#1c2128}
         <span class="badge badge-red">At Risk</span>
       </div>
       <div class="metrics">
-        <div class="metric"><div class="metric-value">1</div><div class="metric-label">30d Resolved</div></div>
-        <div class="metric"><div class="metric-value">78</div><div class="metric-label">Current WIP</div></div>
+        <div class="metric"><div class="metric-value">0</div><div class="metric-label">30d Resolved</div></div>
+        <div class="metric"><div class="metric-value">61</div><div class="metric-label">Current WIP</div></div>
         <div class="metric"><div class="metric-value">0</div><div class="metric-label">30d Created</div></div>
       </div>
       <div style="font-size:0.8rem;color:#8b949e;margin-bottom:4px">Throughput (30-day rolling &bull; Kanban)</div>
       <div class="velocity-chart">
-        <div class="vel-bar" style="height:5%;background:#ff4d4f;min-height:4px"><div class="vel-value">1</div><div class="vel-label">Current</div></div>
+        <div class="vel-bar" style="height:5%;background:#ff4d4f;min-height:4px"><div class="vel-value">0</div><div class="vel-label">Current</div></div>
       </div>
       <div style="margin-top:24px;font-size:0.75rem;color:#6e7681">
-        WIP:Throughput Ratio: <strong style="color:#ff4d4f">78.0</strong> &bull; Aging WIP: <strong style="color:#ff4d4f">78</strong> (100.0% of WIP)
+        WIP:Throughput Ratio: <strong style="color:#ff4d4f">&infin;</strong> &bull; Aging WIP: <strong style="color:#ff4d4f">60</strong> (98.4% of WIP)
       </div>
     </div>
 
@@ -172,45 +177,45 @@ tr:hover td{background:#1c2128}
     <tbody id="release-tbody">
       <tr data-project="AIPCC">
         <td>AIPCC</td><td>RHAII-3.5 EA1</td><td>2026-06-02</td>
-        <td>44</td><td>28</td><td>7</td><td>9</td>
-        <td><div class="progress-bar"><div class="progress-fill" style="width:63.6%;background:#faad14"></div></div><div class="progress-text">63.6% complete</div></td>
-        <td><span class="badge badge-yellow">Yellow</span></td>
-      </tr>
-      <tr data-project="AIPCC">
-        <td>AIPCC</td><td>rhelai-3.5 EA1 release</td><td>2026-06-18</td>
-        <td>25</td><td>12</td><td>7</td><td>6</td>
-        <td><div class="progress-bar"><div class="progress-fill" style="width:48%;background:#faad14"></div></div><div class="progress-text">48.0% complete</div></td>
-        <td><span class="badge badge-yellow">Yellow</span></td>
+        <td>49</td><td>39</td><td>7</td><td>3</td>
+        <td><div class="progress-bar"><div class="progress-fill" style="width:79.6%;background:#52c41a"></div></div><div class="progress-text">79.6% complete</div></td>
+        <td><span class="badge badge-green">Green</span></td>
       </tr>
       <tr data-project="AIPCC">
         <td>AIPCC</td><td>RHAII-3.5</td><td>2026-06-17</td>
         <td>10</td><td>0</td><td>5</td><td>5</td>
         <td><div class="progress-bar"><div class="progress-fill" style="width:0%;background:#ff4d4f"></div></div><div class="progress-text">0.0% complete</div></td>
-        <td><span class="badge badge-red">Red</span></td>
-      </tr>
-      <tr data-project="AIPCC">
-        <td>AIPCC</td><td>RHAII-3.5 EA2</td><td>2026-06-30</td>
-        <td>7</td><td>2</td><td>1</td><td>4</td>
-        <td><div class="progress-bar"><div class="progress-fill" style="width:28.6%;background:#ff4d4f"></div></div><div class="progress-text">28.6% complete</div></td>
         <td><span class="badge badge-yellow">Yellow</span></td>
       </tr>
       <tr data-project="AIPCC">
+        <td>AIPCC</td><td>rhelai-3.5 EA1 release</td><td>2026-06-18</td>
+        <td>30</td><td>20</td><td>7</td><td>3</td>
+        <td><div class="progress-bar"><div class="progress-fill" style="width:66.7%;background:#faad14"></div></div><div class="progress-text">66.7% complete</div></td>
+        <td><span class="badge badge-yellow">Yellow</span></td>
+      </tr>
+      <tr data-project="AIPCC">
+        <td>AIPCC</td><td>RHAII-3.5 EA2</td><td>2026-06-30</td>
+        <td>7</td><td>3</td><td>1</td><td>3</td>
+        <td><div class="progress-bar"><div class="progress-fill" style="width:42.9%;background:#faad14"></div></div><div class="progress-text">42.9% complete</div></td>
+        <td><span class="badge badge-green">Green</span></td>
+      </tr>
+      <tr data-project="AIPCC">
         <td>AIPCC</td><td>rhelai-3.5 EA2 release</td><td>2026-07-16</td>
-        <td>11</td><td>4</td><td>1</td><td>6</td>
-        <td><div class="progress-bar"><div class="progress-fill" style="width:36.4%;background:#faad14"></div></div><div class="progress-text">36.4% complete</div></td>
+        <td>11</td><td>5</td><td>1</td><td>5</td>
+        <td><div class="progress-bar"><div class="progress-fill" style="width:45.5%;background:#faad14"></div></div><div class="progress-text">45.5% complete</div></td>
         <td><span class="badge badge-green">Green</span></td>
       </tr>
       <tr data-project="AIPCC">
-        <td>AIPCC</td><td>rhoai-3.0</td><td>2025-11-13</td>
-        <td>14</td><td>14</td><td>0</td><td>0</td>
+        <td>AIPCC</td><td>RHAII-3.5 GA</td><td>2026-07-30</td>
+        <td>2</td><td>2</td><td>0</td><td>0</td>
         <td><div class="progress-bar"><div class="progress-fill" style="width:100%;background:#52c41a"></div></div><div class="progress-text">100.0% complete</div></td>
         <td><span class="badge badge-green">Green</span></td>
       </tr>
       <tr data-project="AIPCC">
-        <td>AIPCC</td><td>rhoai-3.2</td><td>N/A</td>
-        <td>10</td><td>10</td><td>0</td><td>0</td>
-        <td><div class="progress-bar"><div class="progress-fill" style="width:100%;background:#52c41a"></div></div><div class="progress-text">100.0% complete</div></td>
-        <td><span class="badge badge-green">Green</span></td>
+        <td>AIPCC</td><td>RHAII-3.6</td><td>2026-09-17</td>
+        <td>0</td><td>0</td><td>0</td><td>0</td>
+        <td><div class="progress-bar"><div class="progress-fill" style="width:0%;background:#21262d"></div></div><div class="progress-text">No issues tagged</div></td>
+        <td><span class="badge badge-gray">N/A</span></td>
       </tr>
       <tr data-project="RHELAI">
         <td>RHELAI</td><td>rhelai-3.0</td><td>2025-11-13</td>
@@ -219,64 +224,56 @@ tr:hover td{background:#1c2128}
         <td><span class="badge badge-red">Red</span></td>
       </tr>
       <tr data-project="RHODS">
-        <td colspan="9" class="no-data">RHODS: No issues assigned to unreleased versions via Target Version field</td>
+        <td colspan="9" class="no-data">RHODS &mdash; No unreleased versions with active issues found via Target Version field</td>
       </tr>
     </tbody>
   </table>
   </div>
 </div>
 
+<!-- Assumptions Panel -->
 <div class="assumptions">
-  <div class="assumptions-header" onclick="toggleAssumptions(this)">
-    <span>Assumptions & Methodology</span>
+  <div class="assumptions-header" onclick="toggleAssumptions()">
+    <span>Assumptions &amp; Methodology</span>
     <span id="assumptions-arrow">&#9654;</span>
   </div>
   <div class="assumptions-body" id="assumptions-body">
     <ul>
-      <li><strong>Data source:</strong> Jira REST API v3 (unauthenticated) at redhat.atlassian.net, queried 2026-05-27.</li>
-      <li><strong>Projects queried:</strong> AIPCC (AI Platform Core Components), RHELAI (Red Hat Enterprise Linux AI), RHODS (Red Hat OpenShift Data Science). The requested keys INFERENG, RHAIENG, and RHOAIENG do not exist in this Jira instance; RHELAI and RHODS are the closest matches.</li>
-      <li><strong>Version issues:</strong> Queried using "Target Version" (customfield_10855), not fixVersion. Only versions with &ge;1 issue are shown.</li>
-      <li><strong>Sprint data:</strong> Board and sprint APIs require authentication. Kanban-style 30-day throughput is used instead.</li>
-      <li><strong>Risk calculation (Release):</strong>
-        <ul>
-          <li><strong>Green:</strong> &ge;70% done OR &gt;30 days remaining</li>
-          <li><strong>Yellow:</strong> &lt;70% done AND &lt;30 days remaining, or progress is borderline</li>
-          <li><strong>Red:</strong> &lt;50% done AND &lt;14 days remaining, or overdue</li>
-        </ul>
-      </li>
-      <li><strong>Risk calculation (Sprint/Team):</strong>
-        <ul>
-          <li><strong>Green:</strong> WIP:Throughput ratio &lt;1.0 and aging WIP &lt;15%</li>
-          <li><strong>Yellow:</strong> Ratio 1.0–3.0 or aging 15–50%</li>
-          <li><strong>Red:</strong> Ratio &gt;3.0 or aging &gt;50%</li>
-        </ul>
-      </li>
-      <li><strong>Aging WIP:</strong> Issues in "In Progress" statusCategory with last update &gt;14 days ago.</li>
-      <li><strong>Throughput:</strong> Issues resolved in the last 30 days.</li>
-      <li><strong>WIP count note:</strong> AIPCC WIP (614) differs from aging WIP (51), indicating active work. RHELAI and RHODS show near-100% aging, suggesting these projects may have moved to other trackers or are in maintenance mode.</li>
+      <li><strong>Data source:</strong> Jira REST API v3 at redhat.atlassian.net, queried 2026-05-30.</li>
+      <li><strong>Project access:</strong> INFERENG, RHAIENG, and RHOAIENG project keys require Jira authentication and returned no issues. Dashboard uses accessible projects: AIPCC (direct match), RHELAI (closest to RHAIENG), RHODS (closest to RHOAIENG). Configure Jira credentials in the Ambient Integrations page for full access.</li>
+      <li><strong>Throughput:</strong> 30-day rolling resolved count (Kanban boards). No sprint-based velocity available without board API auth.</li>
+      <li><strong>Release issues:</strong> Queried using <code>"Target Version" (customfield_10855)</code>, not fixVersion, filtered to exclude Epic and Feature issue types.</li>
+      <li><strong>Risk (Sprint):</strong> Green = WIP:Throughput &lt; 1.5 and aging &lt; 20%; Yellow = ratio 1.5&ndash;3.0 or aging 20&ndash;50%; Red = ratio &gt; 3.0 or aging &gt; 50%.</li>
+      <li><strong>Risk (Release):</strong> Green = &gt;70% done OR &gt;30d remaining; Yellow = &lt;70% done AND &lt;30d remaining; Red = &lt;50% done AND &lt;14d remaining, or overdue.</li>
+      <li><strong>RHELAI &amp; RHODS:</strong> Near-zero 30-day throughput suggests these projects may have migrated work to AIPCC or other trackers. Aging WIP items are likely stale.</li>
+      <li><strong>Status categories:</strong> Done = Jira statusCategory "Done"; In Progress = "In Progress"; To Do = "To Do".</li>
     </ul>
   </div>
 </div>
 
 <script>
-function switchTab(tabId){
+function switchTab(tab){
   document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));
   document.querySelectorAll('.tab-content').forEach(t=>t.classList.remove('active'));
-  document.getElementById(tabId).classList.add('active');
   event.target.classList.add('active');
+  document.getElementById(tab).classList.add('active');
 }
-function filterProject(project){
-  document.querySelectorAll('.project-btn').forEach(b=>{b.classList.remove('active');if(b.textContent.trim()===project||b.textContent.trim()==='All Projects'&&project==='all')b.classList.add('active')});
+
+function filterProject(proj){
+  document.querySelectorAll('.project-btn').forEach(b=>b.classList.remove('active'));
+  event.target.classList.add('active');
   document.querySelectorAll('[data-project]').forEach(el=>{
-    el.style.display=(project==='all'||el.dataset.project===project)?'':'none';
+    el.style.display=(proj==='all'||el.dataset.project===proj)?'':'none';
   });
 }
-function toggleAssumptions(el){
-  const body=document.getElementById('assumptions-body');
-  const arrow=document.getElementById('assumptions-arrow');
+
+function toggleAssumptions(){
+  var body=document.getElementById('assumptions-body');
+  var arrow=document.getElementById('assumptions-arrow');
   body.classList.toggle('open');
-  arrow.textContent=body.classList.contains('open')?'▼':'▶';
+  arrow.innerHTML=body.classList.contains('open')?'&#9660;':'&#9654;';
 }
 </script>
+
 </body>
 </html>
