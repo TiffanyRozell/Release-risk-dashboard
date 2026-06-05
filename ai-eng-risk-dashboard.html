@@ -67,10 +67,10 @@ tr:hover td{background:#1c2128}
 <body>
 
 <h1>AI Engineering Risk Dashboard</h1>
-<div class="subtitle">Data as of 2026-06-04 &bull; Source: redhat.atlassian.net &bull; Projects: AIPCC, INFERENG, RHAIENG, RHOAIENG</div>
+<div class="subtitle">Data as of 2026-06-05 &bull; Source: redhat.atlassian.net &bull; Projects: AIPCC, INFERENG, RHAIENG, RHOAIENG</div>
 
 <div class="auth-notice">
-  INFERENG, RHAIENG, and RHOAIENG require Jira authentication. Displaying data from accessible projects: AIPCC, RHELAI (proxy for RHAIENG), RHODS (proxy for RHOAIENG). Configure Jira credentials on the Ambient Integrations page for full access.
+  INFERENG, RHAIENG, and RHOAIENG require Jira authentication and returned no data. Displaying live data for AIPCC only. Configure Jira credentials on the Ambient Integrations page for full multi-project coverage.
 </div>
 
 <div class="tabs">
@@ -85,7 +85,6 @@ tr:hover td{background:#1c2128}
     <span class="filter-label">Product:</span>
     <button class="filter-btn active" onclick="filterBurndown('all','product',this)">All</button>
     <button class="filter-btn" onclick="filterBurndown('AIPCC','product',this)">AIPCC</button>
-    <button class="filter-btn" onclick="filterBurndown('RHELAI','product',this)">RHELAI</button>
     <span class="filter-label" style="margin-left:16px">Risk:</span>
     <button class="filter-btn active" onclick="filterBurndown('all','risk',this)">All</button>
     <button class="filter-btn" onclick="filterBurndown('red','risk',this)">Red</button>
@@ -119,15 +118,13 @@ tr:hover td{background:#1c2128}
   <div class="filters">
     <span class="filter-label">Project:</span>
     <button class="filter-btn active" onclick="filterAging('all',this)">All</button>
-    <button class="filter-btn" onclick="filterAging('AIPCC',this)">AIPCC (54)</button>
-    <button class="filter-btn" onclick="filterAging('RHELAI',this)">RHELAI (66)</button>
-    <button class="filter-btn" onclick="filterAging('RHODS',this)">RHODS (77)</button>
+    <button class="filter-btn" onclick="filterAging('AIPCC',this)">AIPCC (46)</button>
   </div>
 
   <div class="summary-row">
-    <div class="summary-card"><div class="big" style="color:#ff4d4f">197</div><div class="label">Total Aging Items (&gt;14d)</div></div>
-    <div class="summary-card"><div class="big" style="color:#faad14">855</div><div class="label">Total WIP</div></div>
-    <div class="summary-card"><div class="big" style="color:#8b949e">23.0%</div><div class="label">Aging as % of WIP</div></div>
+    <div class="summary-card"><div class="big" style="color:#ff4d4f">46</div><div class="label">Total Aging Items (&gt;14d)</div></div>
+    <div class="summary-card"><div class="big" style="color:#faad14">706</div><div class="label">Total WIP</div></div>
+    <div class="summary-card"><div class="big" style="color:#8b949e">6.5%</div><div class="label">Aging as % of WIP</div></div>
   </div>
 
   <div class="table-wrap">
@@ -159,258 +156,214 @@ tr:hover td{background:#1c2128}
         <span class="badge badge-green">Healthy</span>
       </div>
       <div class="flow-metrics">
-        <div class="flow-metric"><div class="val" style="color:#58a6ff">711</div><div class="lbl">WIP</div></div>
-        <div class="flow-metric"><div class="val" style="color:#52c41a">1,673</div><div class="lbl">Throughput (30d)</div></div>
-        <div class="flow-metric"><div class="val" style="color:#faad14">1,860</div><div class="lbl">Created (30d)</div></div>
+        <div class="flow-metric"><div class="val" style="color:#58a6ff">706</div><div class="lbl">WIP</div></div>
+        <div class="flow-metric"><div class="val" style="color:#52c41a">1,662</div><div class="lbl">Throughput (30d)</div></div>
+        <div class="flow-metric"><div class="val" style="color:#faad14">1,883</div><div class="lbl">Created (30d)</div></div>
         <div class="flow-metric"><div class="val" style="color:#c9d1d9">0.42</div><div class="lbl">WIP:Throughput</div></div>
       </div>
       <div class="ratio-bar" style="margin-top:16px">
         <span class="filter-label">Created vs Resolved:</span>
         <div class="ratio-bar-track">
-          <div class="ratio-bar-fill" style="width:47.4%;background:#52c41a" title="Resolved: 1673"></div>
+          <div class="ratio-bar-fill" style="width:46.9%;background:#52c41a" title="Resolved: 1662"></div>
         </div>
-        <span class="ratio-label" style="color:#faad14">1.11x</span>
+        <span class="ratio-label" style="color:#faad14">1.13x</span>
       </div>
-      <div style="font-size:0.75rem;color:#6e7681;margin-top:8px">Net flow: +187 issues/30d (backlog growing slightly)</div>
+      <div style="font-size:0.75rem;color:#6e7681;margin-top:8px">Net flow: +221 issues/30d (backlog growing slightly)</div>
     </div>
 
-    <!-- RHELAI Flow -->
-    <div class="flow-card">
+    <!-- INFERENG Placeholder -->
+    <div class="flow-card" style="opacity:0.6">
       <div class="flow-card-header">
-        <div class="flow-card-title">RHELAI</div>
-        <span class="badge badge-red">Critical</span>
+        <div class="flow-card-title">INFERENG</div>
+        <span class="badge badge-gray">No Auth</span>
       </div>
-      <div class="flow-metrics">
-        <div class="flow-metric"><div class="val" style="color:#ff4d4f">66</div><div class="lbl">WIP</div></div>
-        <div class="flow-metric"><div class="val" style="color:#ff4d4f">1</div><div class="lbl">Throughput (30d)</div></div>
-        <div class="flow-metric"><div class="val" style="color:#8b949e">0</div><div class="lbl">Created (30d)</div></div>
-        <div class="flow-metric"><div class="val" style="color:#ff4d4f">66.0</div><div class="lbl">WIP:Throughput</div></div>
-      </div>
-      <div class="ratio-bar" style="margin-top:16px">
-        <span class="filter-label">Created vs Resolved:</span>
-        <div class="ratio-bar-track">
-          <div class="ratio-bar-fill" style="width:100%;background:#52c41a" title="Resolved: 1"></div>
-        </div>
-        <span class="ratio-label" style="color:#52c41a">0.0x</span>
-      </div>
-      <div style="font-size:0.75rem;color:#6e7681;margin-top:8px">Near-zero throughput with 66 stale WIP items. Project likely transitioned to AIPCC or in maintenance mode.</div>
+      <div class="no-data">Requires Jira authentication</div>
     </div>
 
-    <!-- RHODS Flow -->
-    <div class="flow-card">
+    <!-- RHAIENG Placeholder -->
+    <div class="flow-card" style="opacity:0.6">
       <div class="flow-card-header">
-        <div class="flow-card-title">RHODS</div>
-        <span class="badge badge-red">Critical</span>
+        <div class="flow-card-title">RHAIENG</div>
+        <span class="badge badge-gray">No Auth</span>
       </div>
-      <div class="flow-metrics">
-        <div class="flow-metric"><div class="val" style="color:#ff4d4f">78</div><div class="lbl">WIP</div></div>
-        <div class="flow-metric"><div class="val" style="color:#ff4d4f">1</div><div class="lbl">Throughput (30d)</div></div>
-        <div class="flow-metric"><div class="val" style="color:#8b949e">0</div><div class="lbl">Created (30d)</div></div>
-        <div class="flow-metric"><div class="val" style="color:#ff4d4f">78.0</div><div class="lbl">WIP:Throughput</div></div>
+      <div class="no-data">Requires Jira authentication</div>
+    </div>
+
+    <!-- RHOAIENG Placeholder -->
+    <div class="flow-card" style="opacity:0.6">
+      <div class="flow-card-header">
+        <div class="flow-card-title">RHOAIENG</div>
+        <span class="badge badge-gray">No Auth</span>
       </div>
-      <div class="ratio-bar" style="margin-top:16px">
-        <span class="filter-label">Created vs Resolved:</span>
-        <div class="ratio-bar-track">
-          <div class="ratio-bar-fill" style="width:0%;background:#52c41a" title="Resolved: 1"></div>
-        </div>
-        <span class="ratio-label" style="color:#ff4d4f">N/A</span>
-      </div>
-      <div style="font-size:0.75rem;color:#6e7681;margin-top:8px">Zero intake and near-zero throughput. 77 of 78 WIP items are stale (&gt;14d). Project appears fully transitioned to a different tracker.</div>
+      <div class="no-data">Requires Jira authentication</div>
     </div>
 
   </div>
 </div>
 
-<!-- Assumptions Panel -->
 <div class="assumptions">
-  <div class="assumptions-header" onclick="toggleAssumptions()">
+  <div class="assumptions-header" onclick="this.nextElementSibling.classList.toggle('open')">
     <span>Assumptions &amp; Methodology</span>
-    <span id="assumptions-arrow">&#9654;</span>
+    <span>&#9660;</span>
   </div>
-  <div class="assumptions-body" id="assumptions-body">
+  <div class="assumptions-body">
     <ul>
-      <li><strong>Data source:</strong> Jira REST API (search/jql endpoint) at redhat.atlassian.net, queried 2026-06-04.</li>
-      <li><strong>Project access:</strong> INFERENG, RHAIENG, and RHOAIENG project keys require Jira authentication and returned empty results via anonymous API access. Dashboard uses accessible projects: AIPCC (direct match), RHELAI (proxy for RHAIENG), RHODS (proxy for RHOAIENG). To include all requested projects, configure Jira credentials on the Ambient Integrations page.</li>
-      <li><strong>Release Burndown risk:</strong> Green = &gt;70% done OR &gt;30d remaining; Yellow = &lt;70% done AND &lt;30d remaining; Red = &lt;50% done AND &lt;14d remaining, or overdue.</li>
-      <li><strong>Release issues:</strong> Queried using <code>"Target Version" (customfield_10855)</code>, not fixVersion, filtered to exclude Epic and Feature issue types.</li>
-      <li><strong>Aging WIP:</strong> Issues in Jira statusCategory "In Progress" with last update &gt;14 days ago. Top 20 per project shown, sorted by stalest first.</li>
-      <li><strong>Flow Metrics:</strong> WIP = current In Progress count; Throughput = issues resolved in last 30 days; Created = issues created in last 30 days. WIP:Throughput ratio &lt;1.5 = Healthy, 1.5&ndash;3.0 = Warning, &gt;3.0 = Critical.</li>
-      <li><strong>RHELAI &amp; RHODS:</strong> Near-zero throughput and high aging percentages suggest these trackers are legacy. Active development likely tracked in AIPCC or authenticated-only projects (RHOAIENG, RHAIENG, INFERENG).</li>
-      <li><strong>Days stale:</strong> Calculated from each issue's "updated" timestamp to 2026-06-04.</li>
+      <li><strong>Data source:</strong> Jira REST API v3 at redhat.atlassian.net, queried 2026-06-05.</li>
+      <li><strong>Projects accessible:</strong> Only AIPCC is publicly accessible. INFERENG, RHAIENG, and RHOAIENG require Jira authentication and returned no data.</li>
+      <li><strong>WIP:</strong> Issues with statusCategory = "In Progress" (includes statuses: In Progress, Review, Code Review, Development, etc.).</li>
+      <li><strong>Aging WIP:</strong> statusCategory = "In Progress" AND updated < -14d. Days stale calculated from last update date to 2026-06-05.</li>
+      <li><strong>Throughput:</strong> 30-day resolved = statusCategory=Done AND resolved >= -30d.</li>
+      <li><strong>Created:</strong> Issues with created >= -30d regardless of status.</li>
+      <li><strong>WIP:Throughput Ratio:</strong> Current WIP / 30-day throughput. Lower is better. &lt;1.0 = healthy, 1.0-2.0 = caution, &gt;2.0 = critical.</li>
+      <li><strong>Release data:</strong> Uses "Target Version" custom field (customfield_10855), NOT fixVersion. Excludes Epic and Feature issue types.</li>
+      <li><strong>Release Risk:</strong> Red = overdue with remaining work, or &lt;50% done with &lt;14d left. Yellow = &lt;70% done with &lt;30d left. Green = &gt;70% done or &gt;30d remaining.</li>
+      <li><strong>Severity sort:</strong> 1 (Red) &gt; 2 (Yellow) &gt; 3 (Green). Within same severity, sorted by days remaining ascending.</li>
     </ul>
   </div>
 </div>
 
 <script>
-var TODAY = new Date('2026-06-04');
-
-var burndownData = [
-  {project:'AIPCC',version:'RHAII-3.5 EA1',date:'2026-06-02',total:49,done:43,ip:6,todo:0,risk:'red',severity:1},
-  {project:'AIPCC',version:'RHAII-3.5',date:'2026-06-17',total:10,done:0,ip:5,todo:5,risk:'red',severity:1},
-  {project:'RHELAI',version:'rhelai-3.0',date:'2025-11-13',total:4,done:1,ip:0,todo:3,risk:'red',severity:1},
-  {project:'AIPCC',version:'RHAII-3.5 EA2',date:'2026-06-30',total:10,done:1,ip:5,todo:4,risk:'yellow',severity:2},
-  {project:'AIPCC',version:'rhelai-3.5 EA1 release',date:'2026-06-18',total:30,done:24,ip:6,todo:0,risk:'green',severity:3},
-  {project:'AIPCC',version:'rhelai-3.5 EA2 release',date:'2026-07-16',total:11,done:5,ip:1,todo:5,risk:'green',severity:3},
-  {project:'AIPCC',version:'RHAII-3.5 GA',date:'2026-07-30',total:23,done:4,ip:0,todo:19,risk:'green',severity:3},
-  {project:'AIPCC',version:'PyTorch 2.13',date:'2026-06-08',total:0,done:0,ip:0,todo:0,risk:'gray',severity:4},
-  {project:'AIPCC',version:'rhelai-3.5 GA',date:'2026-08-20',total:0,done:0,ip:0,todo:0,risk:'gray',severity:4},
-  {project:'AIPCC',version:'RHAII-3.6',date:'2026-09-17',total:0,done:0,ip:0,todo:0,risk:'gray',severity:4}
+const BURNDOWN_DATA = [
+  {project:"AIPCC",version:"RHAII-3.5 EA1",date:"2026-06-02",total:49,done:44,ip:5,todo:0,daysLeft:-3,risk:"red",severity:1},
+  {project:"AIPCC",version:"RHAII-3.5",date:"2026-06-17",total:10,done:0,ip:5,todo:5,daysLeft:12,risk:"red",severity:1},
+  {project:"AIPCC",version:"rhelai-3.5 EA1 release",date:"2026-06-18",total:30,done:25,ip:5,todo:0,daysLeft:13,risk:"green",severity:3},
+  {project:"AIPCC",version:"RHAII-3.5 EA2",date:"2026-06-30",total:10,done:1,ip:5,todo:4,daysLeft:25,risk:"yellow",severity:2},
+  {project:"AIPCC",version:"rhelai-3.5 EA2 release",date:"2026-07-16",total:11,done:5,ip:2,todo:4,daysLeft:41,risk:"green",severity:3},
+  {project:"AIPCC",version:"RHAII-3.5 GA",date:"2026-07-30",total:23,done:4,ip:0,todo:19,daysLeft:55,risk:"green",severity:3}
 ];
 
-var agingData = [
-  {key:'RHODS-2795',project:'RHODS',summary:'Getting Familiar With Jira',assignee:'Prudhviraj Nammi',status:'In Progress',updated:'2022-01-31'},
-  {key:'RHODS-4830',project:'RHODS',summary:'[spike]OCP baremetal installation for rhods on-prem testing',assignee:'Tarun Kumar',status:'In Progress',updated:'2022-11-22'},
-  {key:'RHODS-6002',project:'RHODS',summary:'Release Activities on the next RHODS RC 1.20 - TK',assignee:'Tarun Kumar',status:'In Progress',updated:'2022-12-23'},
-  {key:'RHODS-5897',project:'RHODS',summary:'Partition etcd user spaces',assignee:'Unassigned',status:'In Progress',updated:'2023-03-30'},
-  {key:'RHODS-2751',project:'RHODS',summary:'Automate notebook image annotations',assignee:'Vaishnavi Hire',status:'In Progress',updated:'2023-05-23'},
-  {key:'RHODS-7933',project:'RHODS',summary:'Restructure model serving quickstart',assignee:'Unassigned',status:'In Progress',updated:'2023-06-05'},
-  {key:'RHODS-6267',project:'RHODS',summary:'SPIKE: Test modelmesh auto scaling capabilities',assignee:'JooHo Lee',status:'In Progress',updated:'2023-06-06'},
-  {key:'RHODS-9381',project:'RHODS',summary:'Research model types and gather sample notebooks',assignee:'Mariah Holder',status:'In Progress',updated:'2023-06-15'},
-  {key:'RHODS-9452',project:'RHODS',summary:'Add TSSaliency endpoint in service',assignee:'Rui Vieira',status:'In Progress',updated:'2023-06-26'},
-  {key:'RHODS-10495',project:'RHODS',summary:'RHODS QE Jira Overview',assignee:'Unassigned',status:'In Progress',updated:'2023-08-21'},
-  {key:'RHODS-10549',project:'RHODS',summary:'Request access to the Errata tool',assignee:'stephin',status:'In Progress',updated:'2023-08-22'},
-  {key:'RHODS-10547',project:'RHODS',summary:'RHODS QE knowledge base',assignee:'stephin',status:'In Progress',updated:'2023-08-22'},
-  {key:'RHODS-10554',project:'RHODS',summary:'Get yourself added to the necessary git organizations',assignee:'stephin',status:'In Progress',updated:'2023-08-22'},
-  {key:'RHODS-10564',project:'RHODS',summary:'Ask your manager to add you to RHOSi JIRA boards',assignee:'stephin',status:'In Progress',updated:'2023-08-22'},
-  {key:'RHODS-9369',project:'RHODS',summary:'Update Operator Bundle',assignee:'Pablo Felix Estevez Pico',status:'In Progress',updated:'2023-08-23'},
-  {key:'RHODS-9246',project:'RHODS',summary:'Add Support for custom ServiceMonitors at the CR level',assignee:'Rui Vieira',status:'Review',updated:'2023-10-06'},
-  {key:'RHODS-12571',project:'RHODS',summary:'RHODS QE knowledge base',assignee:'Savitha Thundathil Jose',status:'In Progress',updated:'2023-10-18'},
-  {key:'RHODS-12578',project:'RHODS',summary:'Learn RHODS build promotion',assignee:'Savitha Thundathil Jose',status:'In Progress',updated:'2023-10-20'},
-  {key:'RHODS-11194',project:'RHODS',summary:'RHODS QE knowledge base',assignee:'Unassigned',status:'In Progress',updated:'2023-10-24'},
-  {key:'RHODS-11255',project:'RHODS',summary:'Learn polarion for RHODS testcase management',assignee:'Unassigned',status:'In Progress',updated:'2023-10-24'},
-  {key:'RHELAI-2687',project:'RHELAI',summary:'Update the way users should validate the api key',assignee:'Kelly Brown',status:'In Progress',updated:'2024-12-11'},
-  {key:'RHELAI-3089',project:'RHELAI',summary:'Expand utilities to handle git branches and commit checkouts',assignee:'Joseph Groenenboom',status:'In Progress',updated:'2025-01-28'},
-  {key:'RHELAI-2376',project:'RHELAI',summary:'[rag] Creation of a RAG Pipeline Schema',assignee:'William Caban Babilonia',status:'In Progress',updated:'2025-02-25'},
-  {key:'RHELAI-3560',project:'RHELAI',summary:'[ilab] Exposing third-party models for inference and ilab flows',assignee:'Rob Greenberg',status:'In Progress',updated:'2025-03-11'},
-  {key:'RHELAI-2486',project:'RHELAI',summary:'[UI] MVP RHEL AI UI Enhancements for SMEs (phase 2)',assignee:'Jehlum Vitasta Pandit',status:'In Progress',updated:'2025-03-14'},
-  {key:'RHELAI-2645',project:'RHELAI',summary:'[create dev-doc] Research and Investigation',assignee:'Aakanksha Duggal',status:'In Progress',updated:'2025-03-25'},
-  {key:'RHELAI-2670',project:'RHELAI',summary:'Productize the 128k context window Granite v3.1',assignee:'William Caban Babilonia',status:'In Progress',updated:'2025-03-31'},
-  {key:'RHELAI-2717',project:'RHELAI',summary:'System profile and auto-detection for NVIDIA H200',assignee:'Jehlum Vitasta Pandit',status:'Testing',updated:'2025-03-31'},
-  {key:'RHELAI-2357',project:'RHELAI',summary:'Gaudi 3 multi-device inferencing',assignee:'James Kunstle',status:'Dev Complete',updated:'2025-04-07'},
-  {key:'RHELAI-3616',project:'RHELAI',summary:'Third-party model(s) support - end-to-end workflow and inference',assignee:'Jehlum Vitasta Pandit',status:'In Progress',updated:'2025-04-08'},
-  {key:'RHELAI-3497',project:'RHELAI',summary:'Support for NVIDIA H200',assignee:'Erwan Gallen',status:'Testing',updated:'2025-04-21'},
-  {key:'RHELAI-3954',project:'RHELAI',summary:'Misc improvements to QE cloud envs',assignee:'Mike DePaulo',status:'In Progress',updated:'2025-04-23'},
-  {key:'RHELAI-3904',project:'RHELAI',summary:'SDG Summit Goals [Use Cases]',assignee:'Aditi Saluja',status:'In Progress',updated:'2025-04-24'},
-  {key:'RHELAI-3917',project:'RHELAI',summary:'Support for NVIDIA B200',assignee:'Erwan Gallen',status:'In Progress',updated:'2025-04-24'},
-  {key:'RHELAI-3465',project:'RHELAI',summary:'Add "tuned" to RHEL AI base image',assignee:'William Caban Babilonia',status:'Dev Complete',updated:'2025-04-24'},
-  {key:'RHELAI-3997',project:'RHELAI',summary:'Show generation with Third Party Teacher Model (Llama 3.3 70B)',assignee:'Aakanksha Duggal',status:'In Progress',updated:'2025-04-24'},
-  {key:'RHELAI-3607',project:'RHELAI',summary:'[ilab] Llama 3.1 8B-Instruct ilab model serve (inference)',assignee:'Dan McPherson',status:'Testing',updated:'2025-05-08'},
-  {key:'RHELAI-3674',project:'RHELAI',summary:'[ilab] Granite 3.1 8B Instruct ilab model serve (inference)',assignee:'Dan McPherson',status:'Testing',updated:'2025-05-08'},
-  {key:'RHELAI-3598',project:'RHELAI',summary:'[ilab] Phi-4-14B ilab model serve (inference testing)',assignee:'Dan McPherson',status:'Testing',updated:'2025-05-08'},
-  {key:'RHELAI-3596',project:'RHELAI',summary:'[ilab] Mistral-Small 3-24B-Instruct ilab model serve',assignee:'Dan McPherson',status:'Testing',updated:'2025-05-08'},
-  {key:'AIPCC-1627',project:'AIPCC',summary:'Migrate RHOAI Images to Use AIPCC Wheels',assignee:'Frank Jansen',status:'In Progress',updated:'2026-03-18'},
-  {key:'AIPCC-8458',project:'AIPCC',summary:'O1: Reliable Value Delivery',assignee:'Tom Gundersen',status:'In Progress',updated:'2026-03-18'},
-  {key:'AIPCC-8465',project:'AIPCC',summary:'O2: Upstream AI Leadership & Influence',assignee:'Tom Gundersen',status:'In Progress',updated:'2026-03-18'},
-  {key:'AIPCC-8470',project:'AIPCC',summary:'O3: Culture of Growth & Engagement',assignee:'Tom Gundersen',status:'In Progress',updated:'2026-03-18'},
-  {key:'AIPCC-8475',project:'AIPCC',summary:'O4: AI-First Excellence',assignee:'Tom Gundersen',status:'In Progress',updated:'2026-03-18'},
-  {key:'AIPCC-6212',project:'AIPCC',summary:'Package Index (outcome)',assignee:'Doug Hellmann',status:'In Progress',updated:'2026-03-18'},
-  {key:'AIPCC-10160',project:'AIPCC',summary:'Mandatory Research – Follow Parent Story Instructions',assignee:'Amit Mendelevitch',status:'In Progress',updated:'2026-03-18'},
-  {key:'AIPCC-10224',project:'AIPCC',summary:'Review GPUaaS Requirements',assignee:'Amit Mendelevitch',status:'In Progress',updated:'2026-03-18'},
-  {key:'AIPCC-11356',project:'AIPCC',summary:'Director: Report Name Customization',assignee:'Adam Drew',status:'In Progress',updated:'2026-03-18'},
-  {key:'AIPCC-12347',project:'AIPCC',summary:'Dummy Feature to test automation',assignee:'Unassigned',status:'In Progress',updated:'2026-03-19'},
-  {key:'AIPCC-12861',project:'AIPCC',summary:'[PyTorch][CI] Separate wheel package names per CUDA version',assignee:'Subin George',status:'Review',updated:'2026-03-24'},
-  {key:'AIPCC-12862',project:'AIPCC',summary:'[PyTorch][CI] Fix NCCL version mismatch for CUDA 12.9',assignee:'Subin George',status:'Review',updated:'2026-03-24'},
-  {key:'AIPCC-12858',project:'AIPCC',summary:'[PyTorch][CI] Auto-upload release notes to Google Drive',assignee:'Subin George',status:'Review',updated:'2026-03-24'},
-  {key:'AIPCC-12856',project:'AIPCC',summary:'[PyTorch][CI] Add dual CUDA version build support (13.0+12.9)',assignee:'Subin George',status:'Review',updated:'2026-03-24'},
-  {key:'AIPCC-12857',project:'AIPCC',summary:'[PyTorch][CI] Add CUDA 12.9 sanity test suite',assignee:'Subin George',status:'Review',updated:'2026-03-24'},
-  {key:'AIPCC-14056',project:'AIPCC',summary:'Develop quality prompt for Claude/Cursor to automate setup',assignee:'Unassigned',status:'In Progress',updated:'2026-04-10'},
-  {key:'AIPCC-14057',project:'AIPCC',summary:'Write step-by-step guide for manual setup',assignee:'Unassigned',status:'In Progress',updated:'2026-04-10'},
-  {key:'AIPCC-9826',project:'AIPCC',summary:'GPU as Non-Issue – Inventory, Research, GPUaaS',assignee:'Aviran Badli',status:'In Progress',updated:'2026-04-13'},
-  {key:'AIPCC-14205',project:'AIPCC',summary:'Refactor test/dynamo/test_minifier.py',assignee:'Riya Punia',status:'Review',updated:'2026-04-13'},
-  {key:'AIPCC-14157',project:'AIPCC',summary:'Work to eliminate differences in package sets between variants',assignee:'Unassigned',status:'In Progress',updated:'2026-04-14'}
+const AGING_DATA = [
+  {key:"AIPCC-8458",project:"AIPCC",summary:"O1: Reliable Value Delivery",assignee:"Tom Gundersen",status:"In Progress",updated:"2026-03-18",days:79},
+  {key:"AIPCC-8465",project:"AIPCC",summary:"O2: Upstream AI Leadership & Influence",assignee:"Tom Gundersen",status:"In Progress",updated:"2026-03-18",days:79},
+  {key:"AIPCC-8470",project:"AIPCC",summary:"O3: Culture of Growth & Engagement",assignee:"Tom Gundersen",status:"In Progress",updated:"2026-03-18",days:79},
+  {key:"AIPCC-8475",project:"AIPCC",summary:"O4: AI-First Excellence",assignee:"Tom Gundersen",status:"In Progress",updated:"2026-03-18",days:79},
+  {key:"AIPCC-10160",project:"AIPCC",summary:"Mandatory Research – Follow Parent Story Instructions",assignee:"Amit Mendelevitch",status:"In Progress",updated:"2026-03-18",days:79},
+  {key:"AIPCC-10224",project:"AIPCC",summary:"Review GPUaaS Requirements",assignee:"Amit Mendelevitch",status:"In Progress",updated:"2026-03-18",days:79},
+  {key:"AIPCC-11356",project:"AIPCC",summary:"Director: Report Name Customization",assignee:"Adam Drew",status:"In Progress",updated:"2026-03-18",days:79},
+  {key:"AIPCC-12347",project:"AIPCC",summary:"Dummy Feature to test automation",assignee:"Unassigned",status:"In Progress",updated:"2026-03-19",days:78},
+  {key:"AIPCC-12861",project:"AIPCC",summary:"[PyTorch][CI] Separate wheel package names per CUDA version",assignee:"Subin George",status:"Review",updated:"2026-03-24",days:73},
+  {key:"AIPCC-12862",project:"AIPCC",summary:"[PyTorch][CI] Fix NCCL version mismatch for CUDA 12.9",assignee:"Subin George",status:"Review",updated:"2026-03-24",days:73},
+  {key:"AIPCC-12858",project:"AIPCC",summary:"[PyTorch][CI] Auto-upload release notes and logs to Google",assignee:"Subin George",status:"Review",updated:"2026-03-24",days:73},
+  {key:"AIPCC-12856",project:"AIPCC",summary:"[PyTorch][CI] Add dual CUDA version build support",assignee:"Subin George",status:"Review",updated:"2026-03-24",days:73},
+  {key:"AIPCC-12857",project:"AIPCC",summary:"[PyTorch][CI] Add CUDA 12.9 sanity test suite",assignee:"Subin George",status:"Review",updated:"2026-03-24",days:73},
+  {key:"AIPCC-14056",project:"AIPCC",summary:"Develop a quality prompt for Claude/Cursor to automate setup",assignee:"Unassigned",status:"In Progress",updated:"2026-04-10",days:56},
+  {key:"AIPCC-14057",project:"AIPCC",summary:"Write a step-by-step written guide for manual setup",assignee:"Unassigned",status:"In Progress",updated:"2026-04-10",days:56},
+  {key:"AIPCC-9826",project:"AIPCC",summary:"GPU as a Non-Issue – Inventory, Research & GPUaaS Implementation",assignee:"Aviran Badli",status:"In Progress",updated:"2026-04-13",days:53},
+  {key:"AIPCC-14205",project:"AIPCC",summary:"Refactor test/dynamo/test_minifier.py",assignee:"Riya Punia",status:"Review",updated:"2026-04-13",days:53},
+  {key:"AIPCC-14274",project:"AIPCC",summary:"Setup Openshift for PyTorch team",assignee:"Samuel Park",status:"In Progress",updated:"2026-04-14",days:52},
+  {key:"AIPCC-13745",project:"AIPCC",summary:"Refactoring of renovate runners",assignee:"Srija Ganguly",status:"In Progress",updated:"2026-04-14",days:52},
+  {key:"AIPCC-13851",project:"AIPCC",summary:"Agile Documentation Strategy & Governance Framework",assignee:"Kim Tam",status:"In Progress",updated:"2026-04-16",days:50},
+  {key:"AIPCC-13856",project:"AIPCC",summary:"Throughput Analysis: Predictive Risk & Red-Zone Trends (SPIKE)",assignee:"Demethria Ramseur",status:"Review",updated:"2026-04-20",days:46},
+  {key:"AIPCC-14239",project:"AIPCC",summary:"Refactor test/dynamo/test_unspec.py",assignee:"Riya Punia",status:"Review",updated:"2026-04-21",days:45},
+  {key:"AIPCC-14307",project:"AIPCC",summary:"Refactor test/dynamo/test_repros.py",assignee:"Riya Punia",status:"Review",updated:"2026-04-21",days:45},
+  {key:"AIPCC-12773",project:"AIPCC",summary:"Learn Tekton",assignee:"Srija Ganguly",status:"In Progress",updated:"2026-04-21",days:45},
+  {key:"AIPCC-14636",project:"AIPCC",summary:"[AI ENG Release Process] - Execution",assignee:"Kim Tam",status:"In Progress",updated:"2026-04-21",days:45},
+  {key:"AIPCC-13267",project:"AIPCC",summary:"Reducing total time to production",assignee:"Beth White",status:"In Progress",updated:"2026-04-23",days:43},
+  {key:"AIPCC-3554",project:"AIPCC",summary:"RedHat - Quansight work log",assignee:"Sudhir Dharanendraiah",status:"In Progress",updated:"2026-04-24",days:42},
+  {key:"AIPCC-14637",project:"AIPCC",summary:"Migrate Services from MPP to ITUP",assignee:"Xiyang Dong",status:"In Progress",updated:"2026-04-26",days:40},
+  {key:"AIPCC-14655",project:"AIPCC",summary:"[AI ENG Release Process] Release Workstream Quality Gate",assignee:"Demethria Ramseur",status:"In Progress",updated:"2026-04-28",days:38},
+  {key:"AIPCC-14807",project:"AIPCC",summary:"Develop a plan for rolling out improvements in reporting",assignee:"Saiesh Prabhu",status:"Review",updated:"2026-04-28",days:38},
+  {key:"AIPCC-2087",project:"AIPCC",summary:"Secure Access Management for AIPCC Resources",assignee:"Klara Bezdekova",status:"In Progress",updated:"2026-04-30",days:36},
+  {key:"AIPCC-13855",project:"AIPCC",summary:"Org Pulse App: Feature Backlog & Prioritization",assignee:"Saiesh Prabhu",status:"In Progress",updated:"2026-04-30",days:36},
+  {key:"AIPCC-14786",project:"AIPCC",summary:"Refactor test/profiler/test_memory_profiler.py",assignee:"Riya Punia",status:"Review",updated:"2026-05-06",days:30},
+  {key:"AIPCC-14825",project:"AIPCC",summary:"Support Form Responses for Org Pulse",assignee:"Saiesh Prabhu",status:"In Progress",updated:"2026-05-08",days:28},
+  {key:"AIPCC-15732",project:"AIPCC",summary:"[Placeholder] AutoQA/Taskotron — Automated Package Testing",assignee:"Josef Skladanka",status:"In Progress",updated:"2026-05-11",days:25},
+  {key:"AIPCC-16166",project:"AIPCC",summary:"Create Shared Organizational Stability Dashboard",assignee:"Arjay Hinek",status:"In Progress",updated:"2026-05-12",days:24},
+  {key:"AIPCC-14641",project:"AIPCC",summary:"[AI ENG Release Process] - Planning",assignee:"Erle Marion",status:"In Progress",updated:"2026-05-12",days:24},
+  {key:"AIPCC-14694",project:"AIPCC",summary:"Define structured approach for organizational identity with AI",assignee:"Arjay Hinek",status:"In Progress",updated:"2026-05-13",days:23},
+  {key:"AIPCC-14695",project:"AIPCC",summary:"Develop phased plans for async collaboration using Claude",assignee:"Arjay Hinek",status:"In Progress",updated:"2026-05-13",days:23},
+  {key:"AIPCC-16348",project:"AIPCC",summary:"Refactor test_optim.py",assignee:"Riya Punia",status:"Review",updated:"2026-05-14",days:22},
+  {key:"AIPCC-16297",project:"AIPCC",summary:"Default to group rank 0 for scatter/gather root in distwrap",assignee:"Atharva Mandar Kshirsagar",status:"Review",updated:"2026-05-17",days:19},
+  {key:"AIPCC-16574",project:"AIPCC",summary:"[OpenReg][Test Refactoring] Refactor test_utils.py",assignee:"Riya Punia",status:"Review",updated:"2026-05-19",days:17},
+  {key:"AIPCC-16715",project:"AIPCC",summary:"Add documentation for out of tree testing and pushing results",assignee:"Joseph Groenenboom",status:"In Progress",updated:"2026-05-20",days:16},
+  {key:"AIPCC-16770",project:"AIPCC",summary:"Builder performance upgrades",assignee:"Sean Pryor",status:"In Progress",updated:"2026-05-20",days:16},
+  {key:"AIPCC-16787",project:"AIPCC",summary:"Refactoring test_dlpack.py",assignee:"Dev Sashidhar",status:"Review",updated:"2026-05-21",days:15},
+  {key:"AIPCC-16616",project:"AIPCC",summary:"[OpenReg][Test Refactoring] Refactor test_dlpack.py",assignee:"Dev Sashidhar",status:"Review",updated:"2026-05-22",days:14}
 ];
 
-function daysLeft(dateStr){
-  var d=new Date(dateStr);
-  return Math.ceil((d-TODAY)/(1000*60*60*24));
-}
+// Sort burndown by severity then days left
+BURNDOWN_DATA.sort((a,b)=>a.severity-b.severity || a.daysLeft-b.daysLeft);
 
-function daysSince(dateStr){
-  var d=new Date(dateStr);
-  return Math.floor((TODAY-d)/(1000*60*60*24));
-}
+let activeProductFilter='all', activeRiskFilter='all';
 
 function renderBurndown(){
-  var tbody=document.getElementById('burndown-tbody');
+  const tbody=document.getElementById('burndown-tbody');
   tbody.innerHTML='';
-  burndownData.sort(function(a,b){return a.severity-b.severity;});
-  burndownData.forEach(function(r){
-    var dl=daysLeft(r.date);
-    var remaining=r.total-r.done;
-    var pct=r.total>0?((r.done/r.total)*100).toFixed(1):0;
-    var fillColor=r.risk==='red'?'#ff4d4f':r.risk==='yellow'?'#faad14':r.risk==='green'?'#52c41a':'#21262d';
-    var badgeClass='badge-'+r.risk;
-    var riskLabel=r.risk.charAt(0).toUpperCase()+r.risk.slice(1);
-    if(r.risk==='gray'){badgeClass='badge-gray';riskLabel='N/A';}
-    var sevClass='severity-'+r.severity;
-    var dlText=dl<0?'<span style="color:#ff4d4f">Overdue '+Math.abs(dl)+'d</span>':dl+'d';
-    var tr=document.createElement('tr');
-    tr.className=sevClass;
-    tr.dataset.project=r.project;
-    tr.dataset.risk=r.risk;
-    tr.innerHTML='<td>'+r.severity+'</td><td>'+r.project+'</td><td>'+r.version+'</td><td>'+r.date+'</td><td>'+dlText+'</td><td>'+r.total+'</td><td>'+r.done+'</td><td>'+remaining+'</td><td><div class="progress-bar"><div class="progress-fill" style="width:'+pct+'%;background:'+fillColor+'"></div></div><div class="progress-text">'+pct+'% complete</div></td><td><span class="badge '+badgeClass+'">'+riskLabel+'</span></td>';
-    tbody.appendChild(tr);
+  BURNDOWN_DATA.forEach(r=>{
+    if(activeProductFilter!=='all' && r.project!==activeProductFilter) return;
+    if(activeRiskFilter!=='all' && r.risk!==activeRiskFilter) return;
+    const remaining=r.total-r.done;
+    const pct=r.total>0?((r.done/r.total)*100):0;
+    const pctColor=pct>=70?'#52c41a':pct>=40?'#faad14':'#ff4d4f';
+    const daysText=r.daysLeft<0?`<span style="color:#ff4d4f">Overdue ${Math.abs(r.daysLeft)}d</span>`:`${r.daysLeft}d`;
+    const sevClass=`severity-${r.severity}`;
+    tbody.innerHTML+=`<tr class="${sevClass}" data-project="${r.project}" data-risk="${r.risk}">
+      <td>${r.severity}</td>
+      <td>${r.project}</td>
+      <td>${r.version}</td>
+      <td>${r.date}</td>
+      <td>${daysText}</td>
+      <td>${r.total}</td>
+      <td>${r.done}</td>
+      <td>${remaining}</td>
+      <td><div class="progress-bar"><div class="progress-fill" style="width:${pct}%;background:${pctColor}"></div></div><div class="progress-text">${pct.toFixed(1)}%</div></td>
+      <td><span class="badge badge-${r.risk}">${r.risk.charAt(0).toUpperCase()+r.risk.slice(1)}</span></td>
+    </tr>`;
   });
 }
 
-function renderAging(){
-  var tbody=document.getElementById('aging-tbody');
+function renderAging(filter){
+  const tbody=document.getElementById('aging-tbody');
   tbody.innerHTML='';
-  agingData.sort(function(a,b){return new Date(a.updated)-new Date(b.updated);});
-  agingData.forEach(function(r){
-    var ds=daysSince(r.updated);
-    var tr=document.createElement('tr');
-    tr.dataset.project=r.project;
-    var color=ds>365?'#ff4d4f':ds>90?'#ff4d4f':ds>30?'#faad14':'#faad14';
-    tr.innerHTML='<td class="aging-key">'+r.key+'</td><td>'+r.project+'</td><td>'+r.summary+'</td><td>'+r.assignee+'</td><td>'+r.status+'</td><td>'+r.updated+'</td><td style="color:'+color+'">'+ds+'d</td>';
-    tbody.appendChild(tr);
+  AGING_DATA.forEach(a=>{
+    if(filter!=='all' && a.project!==filter) return;
+    const daysColor=a.days>=60?'#ff4d4f':a.days>=30?'#faad14':'#c9d1d9';
+    tbody.innerHTML+=`<tr data-project="${a.project}">
+      <td><a class="aging-key" href="https://redhat.atlassian.net/browse/${a.key}" target="_blank" style="color:#58a6ff;text-decoration:none">${a.key}</a></td>
+      <td>${a.project}</td>
+      <td>${a.summary}</td>
+      <td>${a.assignee}</td>
+      <td>${a.status}</td>
+      <td>${a.updated}</td>
+      <td style="color:${daysColor};font-weight:600">${a.days}d</td>
+    </tr>`;
   });
 }
 
-var activeFilters={product:'all',risk:'all'};
+function switchTab(id){
+  document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));
+  document.querySelectorAll('.tab-content').forEach(t=>t.classList.remove('active'));
+  event.target.classList.add('active');
+  document.getElementById(id).classList.add('active');
+}
 
 function filterBurndown(val,type,btn){
-  activeFilters[type]=val;
-  var allBtns=btn.parentElement.querySelectorAll('.filter-btn');
-  allBtns.forEach(function(b){
-    var bOnclick=b.getAttribute('onclick')||'';
-    if(bOnclick.indexOf("'"+type+"'")>-1){
-      b.classList.remove('active');
-    }
-  });
+  if(type==='product'){
+    activeProductFilter=val;
+    btn.parentElement.querySelectorAll('.filter-btn').forEach(b=>{
+      if(b.textContent.includes('Red')||b.textContent.includes('Yellow')||b.textContent.includes('Green')) return;
+      if(b.textContent==='All' && !b.onclick.toString().includes('risk')) b.classList.remove('active');
+      else b.classList.remove('active');
+    });
+    const productBtns=[...btn.parentElement.querySelectorAll('.filter-btn')].filter(b=>!b.onclick.toString().includes('risk'));
+    productBtns.forEach(b=>b.classList.remove('active'));
+  } else {
+    activeRiskFilter=val;
+    const riskBtns=[...btn.parentElement.querySelectorAll('.filter-btn')].filter(b=>b.onclick.toString().includes('risk'));
+    riskBtns.forEach(b=>b.classList.remove('active'));
+  }
   btn.classList.add('active');
-
-  document.querySelectorAll('#burndown-tbody tr').forEach(function(tr){
-    var showP=activeFilters.product==='all'||tr.dataset.project===activeFilters.product;
-    var showR=activeFilters.risk==='all'||tr.dataset.risk===activeFilters.risk;
-    tr.style.display=(showP&&showR)?'':'none';
-  });
+  renderBurndown();
 }
 
-function filterAging(proj,btn){
-  btn.parentElement.querySelectorAll('.filter-btn').forEach(function(b){b.classList.remove('active');});
+function filterAging(val,btn){
+  btn.parentElement.querySelectorAll('.filter-btn').forEach(b=>b.classList.remove('active'));
   btn.classList.add('active');
-  document.querySelectorAll('#aging-tbody tr').forEach(function(tr){
-    tr.style.display=(proj==='all'||tr.dataset.project===proj)?'':'none';
-  });
-}
-
-function switchTab(tab){
-  document.querySelectorAll('.tab').forEach(function(t){t.classList.remove('active');});
-  document.querySelectorAll('.tab-content').forEach(function(t){t.classList.remove('active');});
-  event.target.classList.add('active');
-  document.getElementById(tab).classList.add('active');
-}
-
-function toggleAssumptions(){
-  var body=document.getElementById('assumptions-body');
-  var arrow=document.getElementById('assumptions-arrow');
-  body.classList.toggle('open');
-  arrow.innerHTML=body.classList.contains('open')?'&#9660;':'&#9654;';
+  renderAging(val);
 }
 
 renderBurndown();
-renderAging();
+renderAging('all');
 </script>
 
 </body>
