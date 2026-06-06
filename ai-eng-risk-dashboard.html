@@ -15,62 +15,62 @@ h1{font-size:1.6rem;font-weight:600;margin-bottom:4px}
 .tab.active{color:#58a6ff;border-color:#30363d;border-bottom-color:#0f1117;background:#0f1117}
 .tab-content{display:none}
 .tab-content.active{display:block}
-.filters{display:flex;gap:8px;margin-bottom:16px;flex-wrap:wrap;align-items:center}
+.filter-bar{display:flex;gap:8px;margin-bottom:16px;flex-wrap:wrap;align-items:center}
 .filter-label{font-size:0.8rem;color:#8b949e;margin-right:4px}
-.filter-btn{padding:4px 12px;border-radius:14px;cursor:pointer;font-size:0.8rem;border:1px solid #30363d;background:#161b22;color:#8b949e;transition:all .2s}
+.filter-btn{padding:4px 12px;border-radius:16px;cursor:pointer;font-size:0.8rem;border:1px solid #30363d;background:#161b22;color:#8b949e;transition:all .2s}
 .filter-btn:hover{border-color:#58a6ff;color:#c9d1d9}
 .filter-btn.active{background:#1f6feb;border-color:#1f6feb;color:#fff}
+.filter-btn.disabled{opacity:0.5;cursor:not-allowed}
 table{width:100%;border-collapse:collapse;background:#161b22;border-radius:10px;overflow:hidden}
 th{background:#21262d;padding:10px 14px;text-align:left;font-size:0.8rem;color:#8b949e;font-weight:600;text-transform:uppercase;letter-spacing:0.5px;cursor:pointer;user-select:none}
 th:hover{color:#c9d1d9}
 td{padding:10px 14px;border-top:1px solid #30363d;font-size:0.85rem}
 tr:hover td{background:#1c2128}
-.badge{padding:3px 10px;border-radius:12px;font-size:0.75rem;font-weight:600;text-transform:uppercase;display:inline-block}
+.progress-bar{width:100%;height:8px;background:#21262d;border-radius:4px;overflow:hidden}
+.progress-fill{height:100%;border-radius:4px}
+.progress-text{font-size:0.75rem;color:#8b949e;margin-top:3px}
+.badge{padding:3px 10px;border-radius:12px;font-size:0.75rem;font-weight:600;text-transform:uppercase;white-space:nowrap}
 .badge-green{background:#1b4332;color:#52c41a}
 .badge-yellow{background:#3d3200;color:#faad14}
 .badge-red{background:#3d1111;color:#ff4d4f}
 .badge-gray{background:#21262d;color:#8b949e}
-.progress-bar{width:100%;height:8px;background:#21262d;border-radius:4px;overflow:hidden}
-.progress-fill{height:100%;border-radius:4px}
-.progress-text{font-size:0.75rem;color:#8b949e;margin-top:3px}
-.flow-cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:16px;margin-bottom:24px}
+.table-wrap{border-radius:10px;overflow:hidden;border:1px solid #30363d;margin-bottom:24px}
+.summary-row{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-bottom:24px}
+.summary-card{background:#161b22;border:1px solid #30363d;border-radius:10px;padding:16px;text-align:center}
+.summary-card .big{font-size:2rem;font-weight:700}
+.summary-card .label{font-size:0.8rem;color:#8b949e;margin-top:4px}
+.flow-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:16px;margin-bottom:24px}
 .flow-card{background:#161b22;border:1px solid #30363d;border-radius:10px;padding:20px}
-.flow-card-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:16px}
-.flow-card-title{font-size:1rem;font-weight:600}
-.flow-metrics{display:grid;grid-template-columns:1fr 1fr;gap:12px}
-.flow-metric{text-align:center;padding:12px;background:#21262d;border-radius:8px}
-.flow-metric .val{font-size:1.5rem;font-weight:700}
-.flow-metric .lbl{font-size:0.75rem;color:#8b949e;margin-top:2px}
-.ratio-bar{display:flex;align-items:center;gap:8px;margin-top:12px}
-.ratio-bar-track{flex:1;height:10px;background:#21262d;border-radius:5px;overflow:hidden;position:relative}
-.ratio-bar-fill{height:100%;border-radius:5px;transition:width .5s}
-.ratio-label{font-size:0.8rem;color:#c9d1d9;min-width:60px;text-align:right}
-.aging-key{font-family:monospace;color:#58a6ff;font-size:0.85rem}
-.table-wrap{border-radius:10px;overflow:hidden;border:1px solid #30363d}
+.flow-card h3{font-size:0.95rem;font-weight:600;margin-bottom:12px}
+.flow-metric{display:flex;justify-content:space-between;padding:8px 0;border-bottom:1px solid #21262d}
+.flow-metric:last-child{border-bottom:none}
+.flow-metric .label{color:#8b949e;font-size:0.85rem}
+.flow-metric .value{font-weight:600;font-size:0.95rem}
+.bar-chart{display:flex;align-items:flex-end;gap:6px;height:100px;margin-top:12px;padding:4px 0}
+.bar-group{flex:1;display:flex;flex-direction:column;align-items:center;gap:2px}
+.bar-pair{display:flex;align-items:flex-end;gap:2px;height:80px}
+.bar{border-radius:3px 3px 0 0;min-width:14px}
+.bar-label{font-size:0.65rem;color:#8b949e;margin-top:4px;text-align:center}
+.legend{display:flex;gap:16px;margin-top:8px;font-size:0.75rem;color:#8b949e}
+.legend-dot{display:inline-block;width:10px;height:10px;border-radius:2px;margin-right:4px;vertical-align:middle}
+.auth-notice{background:#1c1917;border:1px solid #78350f;border-radius:8px;padding:12px 16px;margin-bottom:16px;font-size:0.85rem;color:#fbbf24}
 .assumptions{margin-top:30px;background:#161b22;border:1px solid #30363d;border-radius:10px;overflow:hidden}
 .assumptions-header{padding:12px 16px;cursor:pointer;display:flex;justify-content:space-between;align-items:center;font-size:0.85rem;color:#8b949e}
 .assumptions-header:hover{background:#1c2128}
 .assumptions-body{padding:0 16px 16px;font-size:0.8rem;color:#6e7681;line-height:1.6;display:none}
 .assumptions-body.open{display:block}
 .assumptions-body ul{padding-left:20px}
-.no-data{color:#484f58;font-style:italic;padding:20px;text-align:center}
-.summary-row{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-bottom:24px}
-.summary-card{background:#161b22;border:1px solid #30363d;border-radius:10px;padding:16px;text-align:center}
-.summary-card .big{font-size:2rem;font-weight:700}
-.summary-card .label{font-size:0.8rem;color:#8b949e;margin-top:4px}
-.severity-1{border-left:3px solid #ff4d4f}
-.severity-2{border-left:3px solid #faad14}
-.severity-3{border-left:3px solid #52c41a}
-.auth-notice{background:#1c1917;border:1px solid #78350f;border-radius:8px;padding:12px 16px;margin-bottom:16px;font-size:0.85rem;color:#fbbf24}
+.ratio-bar{display:flex;height:24px;border-radius:4px;overflow:hidden;margin:4px 0}
+.ratio-segment{display:flex;align-items:center;justify-content:center;font-size:0.7rem;font-weight:600;color:#fff;min-width:20px}
 </style>
 </head>
 <body>
 
 <h1>AI Engineering Risk Dashboard</h1>
-<div class="subtitle">Data as of 2026-06-05 &bull; Source: redhat.atlassian.net &bull; Projects: AIPCC, INFERENG, RHAIENG, RHOAIENG</div>
+<div class="subtitle">Data as of 2026-06-06 &bull; Source: redhat.atlassian.net &bull; Projects: AIPCC, INFERENG, RHAIENG, RHOAIENG</div>
 
 <div class="auth-notice">
-  INFERENG, RHAIENG, and RHOAIENG require Jira authentication and returned no data. Displaying live data for AIPCC only. Configure Jira credentials on the Ambient Integrations page for full multi-project coverage.
+  INFERENG, RHAIENG, and RHOAIENG require Jira authentication. Displaying live data for AIPCC only.
 </div>
 
 <div class="tabs">
@@ -81,50 +81,178 @@ tr:hover td{background:#1c2128}
 
 <!-- RELEASE BURNDOWN TAB -->
 <div id="burndown" class="tab-content active">
-  <div class="filters">
+  <div class="filter-bar">
     <span class="filter-label">Product:</span>
-    <button class="filter-btn active" onclick="filterBurndown('all','product',this)">All</button>
-    <button class="filter-btn" onclick="filterBurndown('AIPCC','product',this)">AIPCC</button>
-    <span class="filter-label" style="margin-left:16px">Risk:</span>
-    <button class="filter-btn active" onclick="filterBurndown('all','risk',this)">All</button>
-    <button class="filter-btn" onclick="filterBurndown('red','risk',this)">Red</button>
-    <button class="filter-btn" onclick="filterBurndown('yellow','risk',this)">Yellow</button>
-    <button class="filter-btn" onclick="filterBurndown('green','risk',this)">Green</button>
+    <button class="filter-btn active" onclick="filterBurndown('all',this)">All</button>
+    <button class="filter-btn" onclick="filterBurndown('rhaii',this)">RHAII</button>
+    <button class="filter-btn" onclick="filterBurndown('rhoai',this)">RHOAI</button>
+    <button class="filter-btn" onclick="filterBurndown('rhelai',this)">RHELAI</button>
+    <span style="margin-left:16px" class="filter-label">Risk:</span>
+    <button class="filter-btn active" onclick="filterRisk('all',this)">All</button>
+    <button class="filter-btn" onclick="filterRisk('red',this)" style="color:#ff4d4f">Red</button>
+    <button class="filter-btn" onclick="filterRisk('yellow',this)" style="color:#faad14">Yellow</button>
+    <button class="filter-btn" onclick="filterRisk('green',this)" style="color:#52c41a">Green</button>
+  </div>
+
+  <div class="summary-row">
+    <div class="summary-card"><div class="big" style="color:#ff4d4f">2</div><div class="label">Red Risk Versions</div></div>
+    <div class="summary-card"><div class="big" style="color:#faad14">3</div><div class="label">Yellow Risk Versions</div></div>
+    <div class="summary-card"><div class="big" style="color:#52c41a">6</div><div class="label">Green / On Track</div></div>
+    <div class="summary-card"><div class="big" style="color:#8b949e">11</div><div class="label">Total Tracked</div></div>
   </div>
 
   <div class="table-wrap">
   <table id="burndown-table">
     <thead>
       <tr>
-        <th>Severity</th>
-        <th>Project</th>
+        <th>Risk</th>
         <th>Version</th>
+        <th>Product</th>
         <th>Release Date</th>
         <th>Days Left</th>
         <th>Total</th>
         <th>Done</th>
-        <th>Remaining</th>
+        <th>IP</th>
+        <th>ToDo</th>
+        <th>% Done</th>
         <th>Progress</th>
-        <th>Risk</th>
       </tr>
     </thead>
-    <tbody id="burndown-tbody"></tbody>
+    <tbody>
+      <!-- Red risk - sorted by severity -->
+      <tr data-product="rhaii" data-risk="red">
+        <td><span class="badge badge-red">Red</span></td>
+        <td><strong>RHAII-3.5</strong></td>
+        <td>RHAII</td>
+        <td>2026-06-17</td>
+        <td style="color:#ff4d4f">11d</td>
+        <td>10</td><td>0</td><td>5</td><td>5</td>
+        <td style="color:#ff4d4f">0.0%</td>
+        <td style="min-width:120px"><div class="progress-bar"><div class="progress-fill" style="width:0%;background:#ff4d4f"></div></div></td>
+      </tr>
+      <tr data-product="rhoai" data-risk="red">
+        <td><span class="badge badge-red">Red</span></td>
+        <td><strong>rhoai-3.5.EA2</strong></td>
+        <td>RHOAI</td>
+        <td style="color:#484f58">No date</td>
+        <td style="color:#484f58">&mdash;</td>
+        <td>66</td><td>41</td><td>7</td><td>18</td>
+        <td style="color:#faad14">62.1%</td>
+        <td style="min-width:120px"><div class="progress-bar"><div class="progress-fill" style="width:62.1%;background:#faad14"></div></div></td>
+      </tr>
+      <!-- Yellow risk -->
+      <tr data-product="rhaii" data-risk="yellow">
+        <td><span class="badge badge-yellow">Yellow</span></td>
+        <td><strong>RHAII-3.5 EA1</strong></td>
+        <td>RHAII</td>
+        <td>2026-06-02</td>
+        <td style="color:#ff4d4f">Overdue 4d</td>
+        <td>49</td><td>47</td><td>2</td><td>0</td>
+        <td style="color:#52c41a">95.9%</td>
+        <td style="min-width:120px"><div class="progress-bar"><div class="progress-fill" style="width:95.9%;background:#52c41a"></div></div></td>
+      </tr>
+      <tr data-product="rhaii" data-risk="yellow">
+        <td><span class="badge badge-yellow">Yellow</span></td>
+        <td><strong>RHAII-3.5 EA2</strong></td>
+        <td>RHAII</td>
+        <td>2026-06-30</td>
+        <td>24d</td>
+        <td>10</td><td>1</td><td>5</td><td>4</td>
+        <td style="color:#ff4d4f">10.0%</td>
+        <td style="min-width:120px"><div class="progress-bar"><div class="progress-fill" style="width:10%;background:#faad14"></div></div></td>
+      </tr>
+      <tr data-product="rhoai" data-risk="yellow">
+        <td><span class="badge badge-yellow">Yellow</span></td>
+        <td><strong>rhoai-3.5</strong></td>
+        <td>RHOAI</td>
+        <td style="color:#484f58">No date</td>
+        <td style="color:#484f58">&mdash;</td>
+        <td>17</td><td>12</td><td>3</td><td>2</td>
+        <td style="color:#52c41a">70.6%</td>
+        <td style="min-width:120px"><div class="progress-bar"><div class="progress-fill" style="width:70.6%;background:#52c41a"></div></div></td>
+      </tr>
+      <!-- Green risk -->
+      <tr data-product="rhelai" data-risk="green">
+        <td><span class="badge badge-green">Green</span></td>
+        <td><strong>rhelai-3.5 EA1 release</strong></td>
+        <td>RHELAI</td>
+        <td>2026-06-18</td>
+        <td>12d</td>
+        <td>30</td><td>28</td><td>2</td><td>0</td>
+        <td style="color:#52c41a">93.3%</td>
+        <td style="min-width:120px"><div class="progress-bar"><div class="progress-fill" style="width:93.3%;background:#52c41a"></div></div></td>
+      </tr>
+      <tr data-product="rhelai" data-risk="green">
+        <td><span class="badge badge-green">Green</span></td>
+        <td><strong>rhelai-3.5 EA2 release</strong></td>
+        <td>RHELAI</td>
+        <td>2026-07-16</td>
+        <td>40d</td>
+        <td>11</td><td>5</td><td>3</td><td>3</td>
+        <td style="color:#faad14">45.5%</td>
+        <td style="min-width:120px"><div class="progress-bar"><div class="progress-fill" style="width:45.5%;background:#faad14"></div></div></td>
+      </tr>
+      <tr data-product="rhaii" data-risk="green">
+        <td><span class="badge badge-green">Green</span></td>
+        <td><strong>RHAII-3.5 GA</strong></td>
+        <td>RHAII</td>
+        <td>2026-07-30</td>
+        <td>54d</td>
+        <td>23</td><td>4</td><td>0</td><td>19</td>
+        <td style="color:#ff4d4f">17.4%</td>
+        <td style="min-width:120px"><div class="progress-bar"><div class="progress-fill" style="width:17.4%;background:#faad14"></div></div></td>
+      </tr>
+      <tr data-product="rhoai" data-risk="green">
+        <td><span class="badge badge-green">Green</span></td>
+        <td><strong>rhoai-3.5.EA1</strong></td>
+        <td>RHOAI</td>
+        <td style="color:#484f58">No date</td>
+        <td style="color:#484f58">&mdash;</td>
+        <td>91</td><td>86</td><td>4</td><td>1</td>
+        <td style="color:#52c41a">94.5%</td>
+        <td style="min-width:120px"><div class="progress-bar"><div class="progress-fill" style="width:94.5%;background:#52c41a"></div></div></td>
+      </tr>
+      <tr data-product="rhoai" data-risk="green">
+        <td><span class="badge badge-green">Green</span></td>
+        <td><strong>rhoai-3.4</strong></td>
+        <td>RHOAI</td>
+        <td style="color:#484f58">No date</td>
+        <td style="color:#484f58">&mdash;</td>
+        <td>35</td><td>33</td><td>1</td><td>1</td>
+        <td style="color:#52c41a">94.3%</td>
+        <td style="min-width:120px"><div class="progress-bar"><div class="progress-fill" style="width:94.3%;background:#52c41a"></div></div></td>
+      </tr>
+      <tr data-product="rhoai" data-risk="green">
+        <td><span class="badge badge-green">Green</span></td>
+        <td><strong>rhoai-3.3</strong></td>
+        <td>RHOAI</td>
+        <td style="color:#484f58">No date</td>
+        <td style="color:#484f58">&mdash;</td>
+        <td>34</td><td>33</td><td>0</td><td>1</td>
+        <td style="color:#52c41a">97.1%</td>
+        <td style="min-width:120px"><div class="progress-bar"><div class="progress-fill" style="width:97.1%;background:#52c41a"></div></div></td>
+      </tr>
+    </tbody>
   </table>
   </div>
 </div>
 
 <!-- AGING WIP TAB -->
 <div id="aging" class="tab-content">
-  <div class="filters">
+  <div class="filter-bar">
     <span class="filter-label">Project:</span>
-    <button class="filter-btn active" onclick="filterAging('all',this)">All</button>
-    <button class="filter-btn" onclick="filterAging('AIPCC',this)">AIPCC (46)</button>
+    <button class="filter-btn active" onclick="filterAgingProject('all',this)">All</button>
+    <button class="filter-btn" onclick="filterAgingProject('AIPCC',this)">AIPCC</button>
+    <button class="filter-btn disabled">INFERENG</button>
+    <button class="filter-btn disabled">RHAIENG</button>
+    <button class="filter-btn disabled">RHOAIENG</button>
   </div>
 
   <div class="summary-row">
-    <div class="summary-card"><div class="big" style="color:#ff4d4f">46</div><div class="label">Total Aging Items (&gt;14d)</div></div>
-    <div class="summary-card"><div class="big" style="color:#faad14">706</div><div class="label">Total WIP</div></div>
-    <div class="summary-card"><div class="big" style="color:#8b949e">6.5%</div><div class="label">Aging as % of WIP</div></div>
+    <div class="summary-card"><div class="big" style="color:#ff4d4f">39</div><div class="label">Stale Items (&gt;14d)</div></div>
+    <div class="summary-card"><div class="big" style="color:#faad14">509</div><div class="label">Total WIP</div></div>
+    <div class="summary-card"><div class="big" style="color:#58a6ff">7.7%</div><div class="label">Aging Rate</div></div>
+    <div class="summary-card"><div class="big" style="color:#8b949e">80d</div><div class="label">Oldest Stale Item</div></div>
   </div>
 
   <div class="table-wrap">
@@ -132,72 +260,325 @@ tr:hover td{background:#1c2128}
     <thead>
       <tr>
         <th>Key</th>
-        <th>Project</th>
+        <th>Type</th>
         <th>Summary</th>
-        <th>Assignee</th>
         <th>Status</th>
         <th>Last Updated</th>
-        <th>Days Stale</th>
+        <th>Stale Days</th>
+        <th>Assignee</th>
       </tr>
     </thead>
-    <tbody id="aging-tbody"></tbody>
+    <tbody>
+      <tr data-aging-project="AIPCC">
+        <td><a href="https://redhat.atlassian.net/browse/AIPCC-8458" target="_blank" style="color:#58a6ff">AIPCC-8458</a></td>
+        <td>Initiative</td>
+        <td>O1: Reliable Value Delivery</td>
+        <td><span class="badge badge-yellow">In Progress</span></td>
+        <td>2026-03-18</td>
+        <td style="color:#ff4d4f">80d</td>
+        <td>Tom Gundersen</td>
+      </tr>
+      <tr data-aging-project="AIPCC">
+        <td><a href="https://redhat.atlassian.net/browse/AIPCC-8465" target="_blank" style="color:#58a6ff">AIPCC-8465</a></td>
+        <td>Initiative</td>
+        <td>O2: Upstream AI Leadership &amp; Influence</td>
+        <td><span class="badge badge-yellow">In Progress</span></td>
+        <td>2026-03-18</td>
+        <td style="color:#ff4d4f">80d</td>
+        <td>Tom Gundersen</td>
+      </tr>
+      <tr data-aging-project="AIPCC">
+        <td><a href="https://redhat.atlassian.net/browse/AIPCC-8470" target="_blank" style="color:#58a6ff">AIPCC-8470</a></td>
+        <td>Initiative</td>
+        <td>O3: Culture of Growth &amp; Engagement</td>
+        <td><span class="badge badge-yellow">In Progress</span></td>
+        <td>2026-03-18</td>
+        <td style="color:#ff4d4f">80d</td>
+        <td>Tom Gundersen</td>
+      </tr>
+      <tr data-aging-project="AIPCC">
+        <td><a href="https://redhat.atlassian.net/browse/AIPCC-8475" target="_blank" style="color:#58a6ff">AIPCC-8475</a></td>
+        <td>Initiative</td>
+        <td>O4: AI-First Excellence</td>
+        <td><span class="badge badge-yellow">In Progress</span></td>
+        <td>2026-03-18</td>
+        <td style="color:#ff4d4f">80d</td>
+        <td>Tom Gundersen</td>
+      </tr>
+      <tr data-aging-project="AIPCC">
+        <td><a href="https://redhat.atlassian.net/browse/AIPCC-10160" target="_blank" style="color:#58a6ff">AIPCC-10160</a></td>
+        <td>Sub-task</td>
+        <td>Mandatory Research &ndash; Follow Parent Story Instructions</td>
+        <td><span class="badge badge-yellow">In Progress</span></td>
+        <td>2026-03-18</td>
+        <td style="color:#ff4d4f">80d</td>
+        <td>Amit Mendelevitch</td>
+      </tr>
+      <tr data-aging-project="AIPCC">
+        <td><a href="https://redhat.atlassian.net/browse/AIPCC-10224" target="_blank" style="color:#58a6ff">AIPCC-10224</a></td>
+        <td>Sub-task</td>
+        <td>Review GPUaaS Requirements</td>
+        <td><span class="badge badge-yellow">In Progress</span></td>
+        <td>2026-03-18</td>
+        <td style="color:#ff4d4f">80d</td>
+        <td>Amit Mendelevitch</td>
+      </tr>
+      <tr data-aging-project="AIPCC">
+        <td><a href="https://redhat.atlassian.net/browse/AIPCC-11356" target="_blank" style="color:#58a6ff">AIPCC-11356</a></td>
+        <td>Outcome</td>
+        <td>Director: Report Name Customization</td>
+        <td><span class="badge badge-yellow">In Progress</span></td>
+        <td>2026-03-18</td>
+        <td style="color:#ff4d4f">80d</td>
+        <td>Adam Drew</td>
+      </tr>
+      <tr data-aging-project="AIPCC">
+        <td><a href="https://redhat.atlassian.net/browse/AIPCC-12861" target="_blank" style="color:#58a6ff">AIPCC-12861</a></td>
+        <td>Task</td>
+        <td>[PyTorch][CI][Hermetic Build] Separate wheel package names per platform</td>
+        <td><span class="badge badge-yellow">Review</span></td>
+        <td>2026-03-24</td>
+        <td style="color:#ff4d4f">74d</td>
+        <td>Subin George</td>
+      </tr>
+      <tr data-aging-project="AIPCC">
+        <td><a href="https://redhat.atlassian.net/browse/AIPCC-12862" target="_blank" style="color:#58a6ff">AIPCC-12862</a></td>
+        <td>Task</td>
+        <td>[PyTorch][CI][Hermetic Build] Fix NCCL version mismatch</td>
+        <td><span class="badge badge-yellow">Review</span></td>
+        <td>2026-03-24</td>
+        <td style="color:#ff4d4f">74d</td>
+        <td>Subin George</td>
+      </tr>
+      <tr data-aging-project="AIPCC">
+        <td><a href="https://redhat.atlassian.net/browse/AIPCC-12858" target="_blank" style="color:#58a6ff">AIPCC-12858</a></td>
+        <td>Task</td>
+        <td>[PyTorch][CI][Hermetic Build] Auto-upload release notes and changelogs</td>
+        <td><span class="badge badge-yellow">Review</span></td>
+        <td>2026-03-24</td>
+        <td style="color:#ff4d4f">74d</td>
+        <td>Subin George</td>
+      </tr>
+      <tr data-aging-project="AIPCC">
+        <td><a href="https://redhat.atlassian.net/browse/AIPCC-12856" target="_blank" style="color:#58a6ff">AIPCC-12856</a></td>
+        <td>Task</td>
+        <td>[PyTorch][CI][Hermetic Build] Add dual CUDA version build support</td>
+        <td><span class="badge badge-yellow">Review</span></td>
+        <td>2026-03-24</td>
+        <td style="color:#ff4d4f">74d</td>
+        <td>Subin George</td>
+      </tr>
+      <tr data-aging-project="AIPCC">
+        <td><a href="https://redhat.atlassian.net/browse/AIPCC-12857" target="_blank" style="color:#58a6ff">AIPCC-12857</a></td>
+        <td>Task</td>
+        <td>[PyTorch][CI][Hermetic Build] Add CUDA 12.9 sanity test suite</td>
+        <td><span class="badge badge-yellow">Review</span></td>
+        <td>2026-03-24</td>
+        <td style="color:#ff4d4f">74d</td>
+        <td>Subin George</td>
+      </tr>
+      <tr data-aging-project="AIPCC">
+        <td><a href="https://redhat.atlassian.net/browse/AIPCC-14056" target="_blank" style="color:#58a6ff">AIPCC-14056</a></td>
+        <td>Task</td>
+        <td>Develop a quality prompt for Claude or Cursor to automate usage</td>
+        <td><span class="badge badge-yellow">In Progress</span></td>
+        <td>2026-04-10</td>
+        <td style="color:#ff4d4f">57d</td>
+        <td>Unassigned</td>
+      </tr>
+      <tr data-aging-project="AIPCC">
+        <td><a href="https://redhat.atlassian.net/browse/AIPCC-14057" target="_blank" style="color:#58a6ff">AIPCC-14057</a></td>
+        <td>Task</td>
+        <td>Write a step-by-step written guide for manual setup</td>
+        <td><span class="badge badge-yellow">In Progress</span></td>
+        <td>2026-04-10</td>
+        <td style="color:#ff4d4f">57d</td>
+        <td>Unassigned</td>
+      </tr>
+      <tr data-aging-project="AIPCC">
+        <td><a href="https://redhat.atlassian.net/browse/AIPCC-9826" target="_blank" style="color:#58a6ff">AIPCC-9826</a></td>
+        <td>Initiative</td>
+        <td>GPU as a Non-Issue &ndash; Inventory, Research, and Incremental GPU</td>
+        <td><span class="badge badge-yellow">In Progress</span></td>
+        <td>2026-04-13</td>
+        <td style="color:#ff4d4f">54d</td>
+        <td>Aviran Badli</td>
+      </tr>
+      <tr data-aging-project="AIPCC">
+        <td><a href="https://redhat.atlassian.net/browse/AIPCC-14205" target="_blank" style="color:#58a6ff">AIPCC-14205</a></td>
+        <td>Story</td>
+        <td>Refactor test/dynamo/test_minifier.py</td>
+        <td><span class="badge badge-yellow">Review</span></td>
+        <td>2026-04-13</td>
+        <td style="color:#ff4d4f">54d</td>
+        <td>Riya Punia</td>
+      </tr>
+      <tr data-aging-project="AIPCC">
+        <td><a href="https://redhat.atlassian.net/browse/AIPCC-13851" target="_blank" style="color:#58a6ff">AIPCC-13851</a></td>
+        <td>Initiative</td>
+        <td>Agile Documentation Strategy &amp; Governance Framework</td>
+        <td><span class="badge badge-yellow">In Progress</span></td>
+        <td>2026-04-16</td>
+        <td style="color:#ff4d4f">51d</td>
+        <td>Kim Tam</td>
+      </tr>
+      <tr data-aging-project="AIPCC">
+        <td><a href="https://redhat.atlassian.net/browse/AIPCC-13856" target="_blank" style="color:#58a6ff">AIPCC-13856</a></td>
+        <td>Initiative</td>
+        <td>Throughput Analysis: Predictive Risk &amp; Red-Zone Trends (SPIKE)</td>
+        <td><span class="badge badge-yellow">Review</span></td>
+        <td>2026-04-20</td>
+        <td style="color:#ff4d4f">47d</td>
+        <td>Demethria Ramseur</td>
+      </tr>
+      <tr data-aging-project="AIPCC">
+        <td><a href="https://redhat.atlassian.net/browse/AIPCC-14239" target="_blank" style="color:#58a6ff">AIPCC-14239</a></td>
+        <td>Story</td>
+        <td>Refactor test/dynamo/test_unspec.py</td>
+        <td><span class="badge badge-yellow">Review</span></td>
+        <td>2026-04-21</td>
+        <td style="color:#ff4d4f">46d</td>
+        <td>Riya Punia</td>
+      </tr>
+      <tr data-aging-project="AIPCC">
+        <td><a href="https://redhat.atlassian.net/browse/AIPCC-14307" target="_blank" style="color:#58a6ff">AIPCC-14307</a></td>
+        <td>Story</td>
+        <td>Refactor test/dynamo/test_repros.py</td>
+        <td><span class="badge badge-yellow">Review</span></td>
+        <td>2026-04-21</td>
+        <td style="color:#ff4d4f">46d</td>
+        <td>Riya Punia</td>
+      </tr>
+    </tbody>
   </table>
   </div>
+  <div style="font-size:0.8rem;color:#6e7681;margin-top:8px">Showing top 20 of 39 stale items, sorted by last updated (oldest first). Stale = In Progress status category with no update for &gt;14 days.</div>
 </div>
 
 <!-- FLOW METRICS TAB -->
 <div id="flow" class="tab-content">
-  <div class="flow-cards" id="flow-cards">
+  <div class="summary-row">
+    <div class="summary-card"><div class="big" style="color:#58a6ff">0.35</div><div class="label">WIP:Throughput Ratio</div></div>
+    <div class="summary-card"><div class="big" style="color:#52c41a">1,439</div><div class="label">30d Resolved (Out)</div></div>
+    <div class="summary-card"><div class="big" style="color:#faad14">1,553</div><div class="label">30d Created (In)</div></div>
+    <div class="summary-card"><div class="big" style="color:#ff4d4f">+114</div><div class="label">Net Inflow (30d)</div></div>
+  </div>
 
-    <!-- AIPCC Flow -->
+  <div class="flow-grid">
+    <!-- AIPCC Flow Card -->
     <div class="flow-card">
-      <div class="flow-card-header">
-        <div class="flow-card-title">AIPCC</div>
-        <span class="badge badge-green">Healthy</span>
+      <h3>AIPCC <span style="color:#8b949e;font-weight:400;font-size:0.8rem">AI Platform Core Components</span></h3>
+      <div class="flow-metric">
+        <span class="label">WIP:Throughput Ratio</span>
+        <span class="value" style="color:#52c41a">0.35</span>
       </div>
-      <div class="flow-metrics">
-        <div class="flow-metric"><div class="val" style="color:#58a6ff">706</div><div class="lbl">WIP</div></div>
-        <div class="flow-metric"><div class="val" style="color:#52c41a">1,662</div><div class="lbl">Throughput (30d)</div></div>
-        <div class="flow-metric"><div class="val" style="color:#faad14">1,883</div><div class="lbl">Created (30d)</div></div>
-        <div class="flow-metric"><div class="val" style="color:#c9d1d9">0.42</div><div class="lbl">WIP:Throughput</div></div>
+      <div class="flow-metric">
+        <span class="label">Current WIP</span>
+        <span class="value">509</span>
       </div>
-      <div class="ratio-bar" style="margin-top:16px">
-        <span class="filter-label">Created vs Resolved:</span>
-        <div class="ratio-bar-track">
-          <div class="ratio-bar-fill" style="width:46.9%;background:#52c41a" title="Resolved: 1662"></div>
+      <div class="flow-metric">
+        <span class="label">30d Resolved</span>
+        <span class="value" style="color:#52c41a">1,439</span>
+      </div>
+      <div class="flow-metric">
+        <span class="label">30d Created</span>
+        <span class="value" style="color:#faad14">1,553</span>
+      </div>
+      <div class="flow-metric">
+        <span class="label">Net Inflow</span>
+        <span class="value" style="color:#ff4d4f">+114</span>
+      </div>
+      <div class="flow-metric">
+        <span class="label">Aging WIP (&gt;14d)</span>
+        <span class="value">39 <span style="font-size:0.75rem;color:#8b949e">(7.7%)</span></span>
+      </div>
+      <div class="flow-metric">
+        <span class="label">To Do Backlog</span>
+        <span class="value">1,201</span>
+      </div>
+      <div style="margin-top:16px">
+        <div style="font-size:0.8rem;color:#8b949e;margin-bottom:6px">Created vs Resolved (weekly)</div>
+        <div class="bar-chart">
+          <div class="bar-group">
+            <div class="bar-pair">
+              <div class="bar" style="width:18px;height:30%;background:#ff6b6b" title="Created ~160"></div>
+              <div class="bar" style="width:18px;height:30%;background:#52c41a" title="Resolved 157"></div>
+            </div>
+            <div class="bar-label">W-5</div>
+          </div>
+          <div class="bar-group">
+            <div class="bar-pair">
+              <div class="bar" style="width:18px;height:72%;background:#ff6b6b" title="Created ~370"></div>
+              <div class="bar" style="width:18px;height:72%;background:#52c41a" title="Resolved 379"></div>
+            </div>
+            <div class="bar-label">W-4</div>
+          </div>
+          <div class="bar-group">
+            <div class="bar-pair">
+              <div class="bar" style="width:18px;height:85%;background:#ff6b6b" title="Created ~400"></div>
+              <div class="bar" style="width:18px;height:80%;background:#52c41a" title="Resolved 417"></div>
+            </div>
+            <div class="bar-label">W-3</div>
+          </div>
+          <div class="bar-group">
+            <div class="bar-pair">
+              <div class="bar" style="width:18px;height:62%;background:#ff6b6b" title="Created ~310"></div>
+              <div class="bar" style="width:18px;height:61%;background:#52c41a" title="Resolved 320"></div>
+            </div>
+            <div class="bar-label">W-2</div>
+          </div>
+          <div class="bar-group">
+            <div class="bar-pair">
+              <div class="bar" style="width:18px;height:55%;background:#ff6b6b" title="Created ~290"></div>
+              <div class="bar" style="width:18px;height:54%;background:#52c41a" title="Resolved 285"></div>
+            </div>
+            <div class="bar-label">W-1</div>
+          </div>
+          <div class="bar-group">
+            <div class="bar-pair">
+              <div class="bar" style="width:18px;height:100%;background:#ff6b6b" title="Created ~270"></div>
+              <div class="bar" style="width:18px;height:50%;background:#52c41a" title="Resolved 265"></div>
+            </div>
+            <div class="bar-label">Now</div>
+          </div>
         </div>
-        <span class="ratio-label" style="color:#faad14">1.13x</span>
+        <div class="legend">
+          <span><span class="legend-dot" style="background:#ff6b6b"></span>Created</span>
+          <span><span class="legend-dot" style="background:#52c41a"></span>Resolved</span>
+        </div>
       </div>
-      <div style="font-size:0.75rem;color:#6e7681;margin-top:8px">Net flow: +221 issues/30d (backlog growing slightly)</div>
+      <div style="margin-top:16px">
+        <div style="font-size:0.8rem;color:#8b949e;margin-bottom:6px">Issue Distribution</div>
+        <div class="ratio-bar">
+          <div class="ratio-segment" style="flex:1201;background:#30363d" title="To Do: 1,201">ToDo</div>
+          <div class="ratio-segment" style="flex:509;background:#1f6feb" title="In Progress: 509">WIP</div>
+          <div class="ratio-segment" style="flex:1439;background:#238636" title="Done (30d): 1,439">Done</div>
+        </div>
+        <div style="display:flex;justify-content:space-between;font-size:0.7rem;color:#6e7681;margin-top:4px">
+          <span>To Do: 1,201</span>
+          <span>WIP: 509</span>
+          <span>Done (30d): 1,439</span>
+        </div>
+      </div>
     </div>
 
     <!-- INFERENG Placeholder -->
     <div class="flow-card" style="opacity:0.6">
-      <div class="flow-card-header">
-        <div class="flow-card-title">INFERENG</div>
-        <span class="badge badge-gray">No Auth</span>
-      </div>
-      <div class="no-data">Requires Jira authentication</div>
+      <h3>INFERENG <span style="color:#8b949e;font-weight:400;font-size:0.8rem">Inference Engineering</span></h3>
+      <div style="color:#484f58;font-style:italic;padding:20px 0;text-align:center">Requires Jira authentication</div>
     </div>
 
     <!-- RHAIENG Placeholder -->
     <div class="flow-card" style="opacity:0.6">
-      <div class="flow-card-header">
-        <div class="flow-card-title">RHAIENG</div>
-        <span class="badge badge-gray">No Auth</span>
-      </div>
-      <div class="no-data">Requires Jira authentication</div>
+      <h3>RHAIENG <span style="color:#8b949e;font-weight:400;font-size:0.8rem">Red Hat AI Engineering</span></h3>
+      <div style="color:#484f58;font-style:italic;padding:20px 0;text-align:center">Requires Jira authentication</div>
     </div>
 
     <!-- RHOAIENG Placeholder -->
     <div class="flow-card" style="opacity:0.6">
-      <div class="flow-card-header">
-        <div class="flow-card-title">RHOAIENG</div>
-        <span class="badge badge-gray">No Auth</span>
-      </div>
-      <div class="no-data">Requires Jira authentication</div>
+      <h3>RHOAIENG <span style="color:#8b949e;font-weight:400;font-size:0.8rem">Red Hat OpenShift AI Engineering</span></h3>
+      <div style="color:#484f58;font-style:italic;padding:20px 0;text-align:center">Requires Jira authentication</div>
     </div>
-
   </div>
 </div>
 
@@ -208,163 +589,66 @@ tr:hover td{background:#1c2128}
   </div>
   <div class="assumptions-body">
     <ul>
-      <li><strong>Data source:</strong> Jira REST API v3 at redhat.atlassian.net, queried 2026-06-05.</li>
-      <li><strong>Projects accessible:</strong> Only AIPCC is publicly accessible. INFERENG, RHAIENG, and RHOAIENG require Jira authentication and returned no data.</li>
-      <li><strong>WIP:</strong> Issues with statusCategory = "In Progress" (includes statuses: In Progress, Review, Code Review, Development, etc.).</li>
-      <li><strong>Aging WIP:</strong> statusCategory = "In Progress" AND updated < -14d. Days stale calculated from last update date to 2026-06-05.</li>
-      <li><strong>Throughput:</strong> 30-day resolved = statusCategory=Done AND resolved >= -30d.</li>
-      <li><strong>Created:</strong> Issues with created >= -30d regardless of status.</li>
-      <li><strong>WIP:Throughput Ratio:</strong> Current WIP / 30-day throughput. Lower is better. &lt;1.0 = healthy, 1.0-2.0 = caution, &gt;2.0 = critical.</li>
-      <li><strong>Release data:</strong> Uses "Target Version" custom field (customfield_10855), NOT fixVersion. Excludes Epic and Feature issue types.</li>
-      <li><strong>Release Risk:</strong> Red = overdue with remaining work, or &lt;50% done with &lt;14d left. Yellow = &lt;70% done with &lt;30d left. Green = &gt;70% done or &gt;30d remaining.</li>
-      <li><strong>Severity sort:</strong> 1 (Red) &gt; 2 (Yellow) &gt; 3 (Green). Within same severity, sorted by days remaining ascending.</li>
+      <li><strong>Data source:</strong> redhat.atlassian.net REST API v3 (unauthenticated, approximate-count endpoint). AIPCC project data only; INFERENG, RHAIENG, RHOAIENG require authentication.</li>
+      <li><strong>Target Version field:</strong> Release burndown counts use <code>customfield_10855</code> ("Target Version"), queried via <code>project=AIPCC AND "Target Version"="&lt;ver&gt;" AND issuetype not in (Epic,Feature)</code>.</li>
+      <li><strong>Release Risk (Burndown tab):</strong> Green = &gt;70% done OR &gt;30d left. Yellow = &lt;70% done AND &lt;30d left. Red = &lt;50% done AND &lt;14d left, or overdue with &lt;90% done. Undated versions with &lt;70% done = Yellow.</li>
+      <li><strong>Aging WIP:</strong> Issues with <code>statusCategory="In Progress" AND updated &lt;= -14d</code>. Stale days calculated from last updated date to 2026-06-06.</li>
+      <li><strong>WIP:Throughput ratio:</strong> Current WIP / 30-day resolved. Values &lt;1.0 indicate healthy flow; &gt;2.0 signals bottleneck risk.</li>
+      <li><strong>Net Inflow:</strong> 30d created minus 30d resolved. Positive values indicate growing backlog.</li>
+      <li><strong>Weekly created counts</strong> in the chart are estimates based on the 30-day total (1,553) distributed proportionally to resolved patterns. Exact weekly created counts require authenticated JQL access.</li>
+      <li><strong>Issue counts are approximate</strong> (Jira <code>approximate-count</code> API) and may vary by &plusmn;5%.</li>
     </ul>
   </div>
 </div>
 
 <script>
-const BURNDOWN_DATA = [
-  {project:"AIPCC",version:"RHAII-3.5 EA1",date:"2026-06-02",total:49,done:44,ip:5,todo:0,daysLeft:-3,risk:"red",severity:1},
-  {project:"AIPCC",version:"RHAII-3.5",date:"2026-06-17",total:10,done:0,ip:5,todo:5,daysLeft:12,risk:"red",severity:1},
-  {project:"AIPCC",version:"rhelai-3.5 EA1 release",date:"2026-06-18",total:30,done:25,ip:5,todo:0,daysLeft:13,risk:"green",severity:3},
-  {project:"AIPCC",version:"RHAII-3.5 EA2",date:"2026-06-30",total:10,done:1,ip:5,todo:4,daysLeft:25,risk:"yellow",severity:2},
-  {project:"AIPCC",version:"rhelai-3.5 EA2 release",date:"2026-07-16",total:11,done:5,ip:2,todo:4,daysLeft:41,risk:"green",severity:3},
-  {project:"AIPCC",version:"RHAII-3.5 GA",date:"2026-07-30",total:23,done:4,ip:0,todo:19,daysLeft:55,risk:"green",severity:3}
-];
-
-const AGING_DATA = [
-  {key:"AIPCC-8458",project:"AIPCC",summary:"O1: Reliable Value Delivery",assignee:"Tom Gundersen",status:"In Progress",updated:"2026-03-18",days:79},
-  {key:"AIPCC-8465",project:"AIPCC",summary:"O2: Upstream AI Leadership & Influence",assignee:"Tom Gundersen",status:"In Progress",updated:"2026-03-18",days:79},
-  {key:"AIPCC-8470",project:"AIPCC",summary:"O3: Culture of Growth & Engagement",assignee:"Tom Gundersen",status:"In Progress",updated:"2026-03-18",days:79},
-  {key:"AIPCC-8475",project:"AIPCC",summary:"O4: AI-First Excellence",assignee:"Tom Gundersen",status:"In Progress",updated:"2026-03-18",days:79},
-  {key:"AIPCC-10160",project:"AIPCC",summary:"Mandatory Research – Follow Parent Story Instructions",assignee:"Amit Mendelevitch",status:"In Progress",updated:"2026-03-18",days:79},
-  {key:"AIPCC-10224",project:"AIPCC",summary:"Review GPUaaS Requirements",assignee:"Amit Mendelevitch",status:"In Progress",updated:"2026-03-18",days:79},
-  {key:"AIPCC-11356",project:"AIPCC",summary:"Director: Report Name Customization",assignee:"Adam Drew",status:"In Progress",updated:"2026-03-18",days:79},
-  {key:"AIPCC-12347",project:"AIPCC",summary:"Dummy Feature to test automation",assignee:"Unassigned",status:"In Progress",updated:"2026-03-19",days:78},
-  {key:"AIPCC-12861",project:"AIPCC",summary:"[PyTorch][CI] Separate wheel package names per CUDA version",assignee:"Subin George",status:"Review",updated:"2026-03-24",days:73},
-  {key:"AIPCC-12862",project:"AIPCC",summary:"[PyTorch][CI] Fix NCCL version mismatch for CUDA 12.9",assignee:"Subin George",status:"Review",updated:"2026-03-24",days:73},
-  {key:"AIPCC-12858",project:"AIPCC",summary:"[PyTorch][CI] Auto-upload release notes and logs to Google",assignee:"Subin George",status:"Review",updated:"2026-03-24",days:73},
-  {key:"AIPCC-12856",project:"AIPCC",summary:"[PyTorch][CI] Add dual CUDA version build support",assignee:"Subin George",status:"Review",updated:"2026-03-24",days:73},
-  {key:"AIPCC-12857",project:"AIPCC",summary:"[PyTorch][CI] Add CUDA 12.9 sanity test suite",assignee:"Subin George",status:"Review",updated:"2026-03-24",days:73},
-  {key:"AIPCC-14056",project:"AIPCC",summary:"Develop a quality prompt for Claude/Cursor to automate setup",assignee:"Unassigned",status:"In Progress",updated:"2026-04-10",days:56},
-  {key:"AIPCC-14057",project:"AIPCC",summary:"Write a step-by-step written guide for manual setup",assignee:"Unassigned",status:"In Progress",updated:"2026-04-10",days:56},
-  {key:"AIPCC-9826",project:"AIPCC",summary:"GPU as a Non-Issue – Inventory, Research & GPUaaS Implementation",assignee:"Aviran Badli",status:"In Progress",updated:"2026-04-13",days:53},
-  {key:"AIPCC-14205",project:"AIPCC",summary:"Refactor test/dynamo/test_minifier.py",assignee:"Riya Punia",status:"Review",updated:"2026-04-13",days:53},
-  {key:"AIPCC-14274",project:"AIPCC",summary:"Setup Openshift for PyTorch team",assignee:"Samuel Park",status:"In Progress",updated:"2026-04-14",days:52},
-  {key:"AIPCC-13745",project:"AIPCC",summary:"Refactoring of renovate runners",assignee:"Srija Ganguly",status:"In Progress",updated:"2026-04-14",days:52},
-  {key:"AIPCC-13851",project:"AIPCC",summary:"Agile Documentation Strategy & Governance Framework",assignee:"Kim Tam",status:"In Progress",updated:"2026-04-16",days:50},
-  {key:"AIPCC-13856",project:"AIPCC",summary:"Throughput Analysis: Predictive Risk & Red-Zone Trends (SPIKE)",assignee:"Demethria Ramseur",status:"Review",updated:"2026-04-20",days:46},
-  {key:"AIPCC-14239",project:"AIPCC",summary:"Refactor test/dynamo/test_unspec.py",assignee:"Riya Punia",status:"Review",updated:"2026-04-21",days:45},
-  {key:"AIPCC-14307",project:"AIPCC",summary:"Refactor test/dynamo/test_repros.py",assignee:"Riya Punia",status:"Review",updated:"2026-04-21",days:45},
-  {key:"AIPCC-12773",project:"AIPCC",summary:"Learn Tekton",assignee:"Srija Ganguly",status:"In Progress",updated:"2026-04-21",days:45},
-  {key:"AIPCC-14636",project:"AIPCC",summary:"[AI ENG Release Process] - Execution",assignee:"Kim Tam",status:"In Progress",updated:"2026-04-21",days:45},
-  {key:"AIPCC-13267",project:"AIPCC",summary:"Reducing total time to production",assignee:"Beth White",status:"In Progress",updated:"2026-04-23",days:43},
-  {key:"AIPCC-3554",project:"AIPCC",summary:"RedHat - Quansight work log",assignee:"Sudhir Dharanendraiah",status:"In Progress",updated:"2026-04-24",days:42},
-  {key:"AIPCC-14637",project:"AIPCC",summary:"Migrate Services from MPP to ITUP",assignee:"Xiyang Dong",status:"In Progress",updated:"2026-04-26",days:40},
-  {key:"AIPCC-14655",project:"AIPCC",summary:"[AI ENG Release Process] Release Workstream Quality Gate",assignee:"Demethria Ramseur",status:"In Progress",updated:"2026-04-28",days:38},
-  {key:"AIPCC-14807",project:"AIPCC",summary:"Develop a plan for rolling out improvements in reporting",assignee:"Saiesh Prabhu",status:"Review",updated:"2026-04-28",days:38},
-  {key:"AIPCC-2087",project:"AIPCC",summary:"Secure Access Management for AIPCC Resources",assignee:"Klara Bezdekova",status:"In Progress",updated:"2026-04-30",days:36},
-  {key:"AIPCC-13855",project:"AIPCC",summary:"Org Pulse App: Feature Backlog & Prioritization",assignee:"Saiesh Prabhu",status:"In Progress",updated:"2026-04-30",days:36},
-  {key:"AIPCC-14786",project:"AIPCC",summary:"Refactor test/profiler/test_memory_profiler.py",assignee:"Riya Punia",status:"Review",updated:"2026-05-06",days:30},
-  {key:"AIPCC-14825",project:"AIPCC",summary:"Support Form Responses for Org Pulse",assignee:"Saiesh Prabhu",status:"In Progress",updated:"2026-05-08",days:28},
-  {key:"AIPCC-15732",project:"AIPCC",summary:"[Placeholder] AutoQA/Taskotron — Automated Package Testing",assignee:"Josef Skladanka",status:"In Progress",updated:"2026-05-11",days:25},
-  {key:"AIPCC-16166",project:"AIPCC",summary:"Create Shared Organizational Stability Dashboard",assignee:"Arjay Hinek",status:"In Progress",updated:"2026-05-12",days:24},
-  {key:"AIPCC-14641",project:"AIPCC",summary:"[AI ENG Release Process] - Planning",assignee:"Erle Marion",status:"In Progress",updated:"2026-05-12",days:24},
-  {key:"AIPCC-14694",project:"AIPCC",summary:"Define structured approach for organizational identity with AI",assignee:"Arjay Hinek",status:"In Progress",updated:"2026-05-13",days:23},
-  {key:"AIPCC-14695",project:"AIPCC",summary:"Develop phased plans for async collaboration using Claude",assignee:"Arjay Hinek",status:"In Progress",updated:"2026-05-13",days:23},
-  {key:"AIPCC-16348",project:"AIPCC",summary:"Refactor test_optim.py",assignee:"Riya Punia",status:"Review",updated:"2026-05-14",days:22},
-  {key:"AIPCC-16297",project:"AIPCC",summary:"Default to group rank 0 for scatter/gather root in distwrap",assignee:"Atharva Mandar Kshirsagar",status:"Review",updated:"2026-05-17",days:19},
-  {key:"AIPCC-16574",project:"AIPCC",summary:"[OpenReg][Test Refactoring] Refactor test_utils.py",assignee:"Riya Punia",status:"Review",updated:"2026-05-19",days:17},
-  {key:"AIPCC-16715",project:"AIPCC",summary:"Add documentation for out of tree testing and pushing results",assignee:"Joseph Groenenboom",status:"In Progress",updated:"2026-05-20",days:16},
-  {key:"AIPCC-16770",project:"AIPCC",summary:"Builder performance upgrades",assignee:"Sean Pryor",status:"In Progress",updated:"2026-05-20",days:16},
-  {key:"AIPCC-16787",project:"AIPCC",summary:"Refactoring test_dlpack.py",assignee:"Dev Sashidhar",status:"Review",updated:"2026-05-21",days:15},
-  {key:"AIPCC-16616",project:"AIPCC",summary:"[OpenReg][Test Refactoring] Refactor test_dlpack.py",assignee:"Dev Sashidhar",status:"Review",updated:"2026-05-22",days:14}
-];
-
-// Sort burndown by severity then days left
-BURNDOWN_DATA.sort((a,b)=>a.severity-b.severity || a.daysLeft-b.daysLeft);
-
-let activeProductFilter='all', activeRiskFilter='all';
-
-function renderBurndown(){
-  const tbody=document.getElementById('burndown-tbody');
-  tbody.innerHTML='';
-  BURNDOWN_DATA.forEach(r=>{
-    if(activeProductFilter!=='all' && r.project!==activeProductFilter) return;
-    if(activeRiskFilter!=='all' && r.risk!==activeRiskFilter) return;
-    const remaining=r.total-r.done;
-    const pct=r.total>0?((r.done/r.total)*100):0;
-    const pctColor=pct>=70?'#52c41a':pct>=40?'#faad14':'#ff4d4f';
-    const daysText=r.daysLeft<0?`<span style="color:#ff4d4f">Overdue ${Math.abs(r.daysLeft)}d</span>`:`${r.daysLeft}d`;
-    const sevClass=`severity-${r.severity}`;
-    tbody.innerHTML+=`<tr class="${sevClass}" data-project="${r.project}" data-risk="${r.risk}">
-      <td>${r.severity}</td>
-      <td>${r.project}</td>
-      <td>${r.version}</td>
-      <td>${r.date}</td>
-      <td>${daysText}</td>
-      <td>${r.total}</td>
-      <td>${r.done}</td>
-      <td>${remaining}</td>
-      <td><div class="progress-bar"><div class="progress-fill" style="width:${pct}%;background:${pctColor}"></div></div><div class="progress-text">${pct.toFixed(1)}%</div></td>
-      <td><span class="badge badge-${r.risk}">${r.risk.charAt(0).toUpperCase()+r.risk.slice(1)}</span></td>
-    </tr>`;
-  });
-}
-
-function renderAging(filter){
-  const tbody=document.getElementById('aging-tbody');
-  tbody.innerHTML='';
-  AGING_DATA.forEach(a=>{
-    if(filter!=='all' && a.project!==filter) return;
-    const daysColor=a.days>=60?'#ff4d4f':a.days>=30?'#faad14':'#c9d1d9';
-    tbody.innerHTML+=`<tr data-project="${a.project}">
-      <td><a class="aging-key" href="https://redhat.atlassian.net/browse/${a.key}" target="_blank" style="color:#58a6ff;text-decoration:none">${a.key}</a></td>
-      <td>${a.project}</td>
-      <td>${a.summary}</td>
-      <td>${a.assignee}</td>
-      <td>${a.status}</td>
-      <td>${a.updated}</td>
-      <td style="color:${daysColor};font-weight:600">${a.days}d</td>
-    </tr>`;
-  });
-}
-
 function switchTab(id){
   document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));
   document.querySelectorAll('.tab-content').forEach(t=>t.classList.remove('active'));
-  event.target.classList.add('active');
   document.getElementById(id).classList.add('active');
+  document.querySelector('.tab[onclick*="\''+id+'\'"]').classList.add('active');
 }
 
-function filterBurndown(val,type,btn){
-  if(type==='product'){
-    activeProductFilter=val;
-    btn.parentElement.querySelectorAll('.filter-btn').forEach(b=>{
-      if(b.textContent.includes('Red')||b.textContent.includes('Yellow')||b.textContent.includes('Green')) return;
-      if(b.textContent==='All' && !b.onclick.toString().includes('risk')) b.classList.remove('active');
-      else b.classList.remove('active');
-    });
-    const productBtns=[...btn.parentElement.querySelectorAll('.filter-btn')].filter(b=>!b.onclick.toString().includes('risk'));
-    productBtns.forEach(b=>b.classList.remove('active'));
-  } else {
-    activeRiskFilter=val;
-    const riskBtns=[...btn.parentElement.querySelectorAll('.filter-btn')].filter(b=>b.onclick.toString().includes('risk'));
-    riskBtns.forEach(b=>b.classList.remove('active'));
-  }
+let activeProductFilter='all', activeRiskFilter='all';
+
+function filterBurndown(product,btn){
+  activeProductFilter=product;
+  btn.parentElement.querySelectorAll('.filter-btn').forEach(b=>{
+    if(b.textContent.trim()==='All'||b.textContent.trim().toLowerCase()===product||b.dataset?.filterType==='product')
+      b.classList.remove('active');
+  });
+  // Remove active from product filters only
+  const productBtns=Array.from(btn.parentElement.querySelectorAll('.filter-btn')).slice(0,4);
+  productBtns.forEach(b=>b.classList.remove('active'));
   btn.classList.add('active');
-  renderBurndown();
+  applyBurndownFilters();
 }
 
-function filterAging(val,btn){
-  btn.parentElement.querySelectorAll('.filter-btn').forEach(b=>b.classList.remove('active'));
+function filterRisk(risk,btn){
+  activeRiskFilter=risk;
+  const riskBtns=Array.from(btn.parentElement.querySelectorAll('.filter-btn')).slice(5);
+  riskBtns.forEach(b=>b.classList.remove('active'));
   btn.classList.add('active');
-  renderAging(val);
+  applyBurndownFilters();
 }
 
-renderBurndown();
-renderAging('all');
+function applyBurndownFilters(){
+  document.querySelectorAll('#burndown-table tbody tr').forEach(row=>{
+    const product=row.dataset.product||'';
+    const risk=row.dataset.risk||'';
+    const matchProduct=activeProductFilter==='all'||product===activeProductFilter;
+    const matchRisk=activeRiskFilter==='all'||risk===activeRiskFilter;
+    row.style.display=(matchProduct&&matchRisk)?'':'none';
+  });
+}
+
+function filterAgingProject(proj,btn){
+  btn.parentElement.querySelectorAll('.filter-btn:not(.disabled)').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+  document.querySelectorAll('[data-aging-project]').forEach(row=>{
+    row.style.display=(proj==='all'||row.dataset.agingProject===proj)?'':'none';
+  });
+}
 </script>
-
 </body>
 </html>
