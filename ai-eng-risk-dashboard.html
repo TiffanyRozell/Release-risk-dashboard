@@ -67,7 +67,7 @@ tr:hover td{background:#1c2128}
 <body>
 
 <h1>AI Engineering Risk Dashboard</h1>
-<div class="subtitle">Data as of 2026-06-06 &bull; Source: redhat.atlassian.net &bull; Projects: AIPCC, INFERENG, RHAIENG, RHOAIENG</div>
+<div class="subtitle">Data as of 2026-06-08 &bull; Source: redhat.atlassian.net &bull; Projects: AIPCC, INFERENG, RHAIENG, RHOAIENG</div>
 
 <div class="auth-notice">
   INFERENG, RHAIENG, and RHOAIENG require Jira authentication. Displaying live data for AIPCC only.
@@ -95,10 +95,10 @@ tr:hover td{background:#1c2128}
   </div>
 
   <div class="summary-row">
-    <div class="summary-card"><div class="big" style="color:#ff4d4f">2</div><div class="label">Red Risk Versions</div></div>
-    <div class="summary-card"><div class="big" style="color:#faad14">3</div><div class="label">Yellow Risk Versions</div></div>
-    <div class="summary-card"><div class="big" style="color:#52c41a">6</div><div class="label">Green / On Track</div></div>
-    <div class="summary-card"><div class="big" style="color:#8b949e">11</div><div class="label">Total Tracked</div></div>
+    <div class="summary-card"><div class="big" style="color:#ff4d4f">1</div><div class="label">Red Risk Versions</div></div>
+    <div class="summary-card"><div class="big" style="color:#faad14">2</div><div class="label">Yellow Risk Versions</div></div>
+    <div class="summary-card"><div class="big" style="color:#52c41a">7</div><div class="label">Green / On Track</div></div>
+    <div class="summary-card"><div class="big" style="color:#8b949e">10</div><div class="label">Total Tracked</div></div>
   </div>
 
   <div class="table-wrap">
@@ -119,19 +119,30 @@ tr:hover td{background:#1c2128}
       </tr>
     </thead>
     <tbody>
-      <!-- Red risk - sorted by severity -->
+      <!-- Red risk -->
       <tr data-product="rhaii" data-risk="red">
         <td><span class="badge badge-red">Red</span></td>
         <td><strong>RHAII-3.5</strong></td>
         <td>RHAII</td>
         <td>2026-06-17</td>
-        <td style="color:#ff4d4f">11d</td>
+        <td style="color:#ff4d4f">9d</td>
         <td>10</td><td>0</td><td>5</td><td>5</td>
         <td style="color:#ff4d4f">0.0%</td>
         <td style="min-width:120px"><div class="progress-bar"><div class="progress-fill" style="width:0%;background:#ff4d4f"></div></div></td>
       </tr>
-      <tr data-product="rhoai" data-risk="red">
-        <td><span class="badge badge-red">Red</span></td>
+      <!-- Yellow risk -->
+      <tr data-product="rhaii" data-risk="yellow">
+        <td><span class="badge badge-yellow">Yellow</span></td>
+        <td><strong>RHAII-3.5 EA2</strong></td>
+        <td>RHAII</td>
+        <td>2026-06-30</td>
+        <td>22d</td>
+        <td>10</td><td>2</td><td>4</td><td>4</td>
+        <td style="color:#ff4d4f">20.0%</td>
+        <td style="min-width:120px"><div class="progress-bar"><div class="progress-fill" style="width:20%;background:#faad14"></div></div></td>
+      </tr>
+      <tr data-product="rhoai" data-risk="yellow">
+        <td><span class="badge badge-yellow">Yellow</span></td>
         <td><strong>rhoai-3.5.EA2</strong></td>
         <td>RHOAI</td>
         <td style="color:#484f58">No date</td>
@@ -140,54 +151,23 @@ tr:hover td{background:#1c2128}
         <td style="color:#faad14">62.1%</td>
         <td style="min-width:120px"><div class="progress-bar"><div class="progress-fill" style="width:62.1%;background:#faad14"></div></div></td>
       </tr>
-      <!-- Yellow risk -->
-      <tr data-product="rhaii" data-risk="yellow">
-        <td><span class="badge badge-yellow">Yellow</span></td>
-        <td><strong>RHAII-3.5 EA1</strong></td>
-        <td>RHAII</td>
-        <td>2026-06-02</td>
-        <td style="color:#ff4d4f">Overdue 4d</td>
-        <td>49</td><td>47</td><td>2</td><td>0</td>
-        <td style="color:#52c41a">95.9%</td>
-        <td style="min-width:120px"><div class="progress-bar"><div class="progress-fill" style="width:95.9%;background:#52c41a"></div></div></td>
-      </tr>
-      <tr data-product="rhaii" data-risk="yellow">
-        <td><span class="badge badge-yellow">Yellow</span></td>
-        <td><strong>RHAII-3.5 EA2</strong></td>
-        <td>RHAII</td>
-        <td>2026-06-30</td>
-        <td>24d</td>
-        <td>10</td><td>1</td><td>5</td><td>4</td>
-        <td style="color:#ff4d4f">10.0%</td>
-        <td style="min-width:120px"><div class="progress-bar"><div class="progress-fill" style="width:10%;background:#faad14"></div></div></td>
-      </tr>
-      <tr data-product="rhoai" data-risk="yellow">
-        <td><span class="badge badge-yellow">Yellow</span></td>
-        <td><strong>rhoai-3.5</strong></td>
-        <td>RHOAI</td>
-        <td style="color:#484f58">No date</td>
-        <td style="color:#484f58">&mdash;</td>
-        <td>17</td><td>12</td><td>3</td><td>2</td>
-        <td style="color:#52c41a">70.6%</td>
-        <td style="min-width:120px"><div class="progress-bar"><div class="progress-fill" style="width:70.6%;background:#52c41a"></div></div></td>
-      </tr>
       <!-- Green risk -->
       <tr data-product="rhelai" data-risk="green">
         <td><span class="badge badge-green">Green</span></td>
         <td><strong>rhelai-3.5 EA1 release</strong></td>
         <td>RHELAI</td>
         <td>2026-06-18</td>
-        <td>12d</td>
-        <td>30</td><td>28</td><td>2</td><td>0</td>
-        <td style="color:#52c41a">93.3%</td>
-        <td style="min-width:120px"><div class="progress-bar"><div class="progress-fill" style="width:93.3%;background:#52c41a"></div></div></td>
+        <td>10d</td>
+        <td>47</td><td>46</td><td>1</td><td>0</td>
+        <td style="color:#52c41a">97.9%</td>
+        <td style="min-width:120px"><div class="progress-bar"><div class="progress-fill" style="width:97.9%;background:#52c41a"></div></div></td>
       </tr>
       <tr data-product="rhelai" data-risk="green">
         <td><span class="badge badge-green">Green</span></td>
         <td><strong>rhelai-3.5 EA2 release</strong></td>
         <td>RHELAI</td>
         <td>2026-07-16</td>
-        <td>40d</td>
+        <td>38d</td>
         <td>11</td><td>5</td><td>3</td><td>3</td>
         <td style="color:#faad14">45.5%</td>
         <td style="min-width:120px"><div class="progress-bar"><div class="progress-fill" style="width:45.5%;background:#faad14"></div></div></td>
@@ -197,7 +177,7 @@ tr:hover td{background:#1c2128}
         <td><strong>RHAII-3.5 GA</strong></td>
         <td>RHAII</td>
         <td>2026-07-30</td>
-        <td>54d</td>
+        <td>52d</td>
         <td>23</td><td>4</td><td>0</td><td>19</td>
         <td style="color:#ff4d4f">17.4%</td>
         <td style="min-width:120px"><div class="progress-bar"><div class="progress-fill" style="width:17.4%;background:#faad14"></div></div></td>
@@ -211,6 +191,16 @@ tr:hover td{background:#1c2128}
         <td>91</td><td>86</td><td>4</td><td>1</td>
         <td style="color:#52c41a">94.5%</td>
         <td style="min-width:120px"><div class="progress-bar"><div class="progress-fill" style="width:94.5%;background:#52c41a"></div></div></td>
+      </tr>
+      <tr data-product="rhoai" data-risk="green">
+        <td><span class="badge badge-green">Green</span></td>
+        <td><strong>rhoai-3.5</strong></td>
+        <td>RHOAI</td>
+        <td style="color:#484f58">No date</td>
+        <td style="color:#484f58">&mdash;</td>
+        <td>17</td><td>12</td><td>3</td><td>2</td>
+        <td style="color:#52c41a">70.6%</td>
+        <td style="min-width:120px"><div class="progress-bar"><div class="progress-fill" style="width:70.6%;background:#52c41a"></div></div></td>
       </tr>
       <tr data-product="rhoai" data-risk="green">
         <td><span class="badge badge-green">Green</span></td>
@@ -249,10 +239,10 @@ tr:hover td{background:#1c2128}
   </div>
 
   <div class="summary-row">
-    <div class="summary-card"><div class="big" style="color:#ff4d4f">39</div><div class="label">Stale Items (&gt;14d)</div></div>
-    <div class="summary-card"><div class="big" style="color:#faad14">509</div><div class="label">Total WIP</div></div>
-    <div class="summary-card"><div class="big" style="color:#58a6ff">7.7%</div><div class="label">Aging Rate</div></div>
-    <div class="summary-card"><div class="big" style="color:#8b949e">80d</div><div class="label">Oldest Stale Item</div></div>
+    <div class="summary-card"><div class="big" style="color:#ff4d4f">46</div><div class="label">Stale Items (&gt;14d)</div></div>
+    <div class="summary-card"><div class="big" style="color:#faad14">714</div><div class="label">Total WIP</div></div>
+    <div class="summary-card"><div class="big" style="color:#58a6ff">6.4%</div><div class="label">Aging Rate</div></div>
+    <div class="summary-card"><div class="big" style="color:#8b949e">82d</div><div class="label">Oldest Stale Item</div></div>
   </div>
 
   <div class="table-wrap">
@@ -275,7 +265,7 @@ tr:hover td{background:#1c2128}
         <td>O1: Reliable Value Delivery</td>
         <td><span class="badge badge-yellow">In Progress</span></td>
         <td>2026-03-18</td>
-        <td style="color:#ff4d4f">80d</td>
+        <td style="color:#ff4d4f">82d</td>
         <td>Tom Gundersen</td>
       </tr>
       <tr data-aging-project="AIPCC">
@@ -284,7 +274,7 @@ tr:hover td{background:#1c2128}
         <td>O2: Upstream AI Leadership &amp; Influence</td>
         <td><span class="badge badge-yellow">In Progress</span></td>
         <td>2026-03-18</td>
-        <td style="color:#ff4d4f">80d</td>
+        <td style="color:#ff4d4f">82d</td>
         <td>Tom Gundersen</td>
       </tr>
       <tr data-aging-project="AIPCC">
@@ -293,7 +283,7 @@ tr:hover td{background:#1c2128}
         <td>O3: Culture of Growth &amp; Engagement</td>
         <td><span class="badge badge-yellow">In Progress</span></td>
         <td>2026-03-18</td>
-        <td style="color:#ff4d4f">80d</td>
+        <td style="color:#ff4d4f">82d</td>
         <td>Tom Gundersen</td>
       </tr>
       <tr data-aging-project="AIPCC">
@@ -302,7 +292,7 @@ tr:hover td{background:#1c2128}
         <td>O4: AI-First Excellence</td>
         <td><span class="badge badge-yellow">In Progress</span></td>
         <td>2026-03-18</td>
-        <td style="color:#ff4d4f">80d</td>
+        <td style="color:#ff4d4f">82d</td>
         <td>Tom Gundersen</td>
       </tr>
       <tr data-aging-project="AIPCC">
@@ -311,7 +301,7 @@ tr:hover td{background:#1c2128}
         <td>Mandatory Research &ndash; Follow Parent Story Instructions</td>
         <td><span class="badge badge-yellow">In Progress</span></td>
         <td>2026-03-18</td>
-        <td style="color:#ff4d4f">80d</td>
+        <td style="color:#ff4d4f">82d</td>
         <td>Amit Mendelevitch</td>
       </tr>
       <tr data-aging-project="AIPCC">
@@ -320,7 +310,7 @@ tr:hover td{background:#1c2128}
         <td>Review GPUaaS Requirements</td>
         <td><span class="badge badge-yellow">In Progress</span></td>
         <td>2026-03-18</td>
-        <td style="color:#ff4d4f">80d</td>
+        <td style="color:#ff4d4f">82d</td>
         <td>Amit Mendelevitch</td>
       </tr>
       <tr data-aging-project="AIPCC">
@@ -329,7 +319,7 @@ tr:hover td{background:#1c2128}
         <td>Director: Report Name Customization</td>
         <td><span class="badge badge-yellow">In Progress</span></td>
         <td>2026-03-18</td>
-        <td style="color:#ff4d4f">80d</td>
+        <td style="color:#ff4d4f">82d</td>
         <td>Adam Drew</td>
       </tr>
       <tr data-aging-project="AIPCC">
@@ -338,7 +328,7 @@ tr:hover td{background:#1c2128}
         <td>[PyTorch][CI][Hermetic Build] Separate wheel package names per platform</td>
         <td><span class="badge badge-yellow">Review</span></td>
         <td>2026-03-24</td>
-        <td style="color:#ff4d4f">74d</td>
+        <td style="color:#ff4d4f">76d</td>
         <td>Subin George</td>
       </tr>
       <tr data-aging-project="AIPCC">
@@ -347,7 +337,7 @@ tr:hover td{background:#1c2128}
         <td>[PyTorch][CI][Hermetic Build] Fix NCCL version mismatch</td>
         <td><span class="badge badge-yellow">Review</span></td>
         <td>2026-03-24</td>
-        <td style="color:#ff4d4f">74d</td>
+        <td style="color:#ff4d4f">76d</td>
         <td>Subin George</td>
       </tr>
       <tr data-aging-project="AIPCC">
@@ -356,7 +346,7 @@ tr:hover td{background:#1c2128}
         <td>[PyTorch][CI][Hermetic Build] Auto-upload release notes and changelogs</td>
         <td><span class="badge badge-yellow">Review</span></td>
         <td>2026-03-24</td>
-        <td style="color:#ff4d4f">74d</td>
+        <td style="color:#ff4d4f">76d</td>
         <td>Subin George</td>
       </tr>
       <tr data-aging-project="AIPCC">
@@ -365,7 +355,7 @@ tr:hover td{background:#1c2128}
         <td>[PyTorch][CI][Hermetic Build] Add dual CUDA version build support</td>
         <td><span class="badge badge-yellow">Review</span></td>
         <td>2026-03-24</td>
-        <td style="color:#ff4d4f">74d</td>
+        <td style="color:#ff4d4f">76d</td>
         <td>Subin George</td>
       </tr>
       <tr data-aging-project="AIPCC">
@@ -374,7 +364,7 @@ tr:hover td{background:#1c2128}
         <td>[PyTorch][CI][Hermetic Build] Add CUDA 12.9 sanity test suite</td>
         <td><span class="badge badge-yellow">Review</span></td>
         <td>2026-03-24</td>
-        <td style="color:#ff4d4f">74d</td>
+        <td style="color:#ff4d4f">76d</td>
         <td>Subin George</td>
       </tr>
       <tr data-aging-project="AIPCC">
@@ -383,7 +373,7 @@ tr:hover td{background:#1c2128}
         <td>Develop a quality prompt for Claude or Cursor to automate usage</td>
         <td><span class="badge badge-yellow">In Progress</span></td>
         <td>2026-04-10</td>
-        <td style="color:#ff4d4f">57d</td>
+        <td style="color:#ff4d4f">59d</td>
         <td>Unassigned</td>
       </tr>
       <tr data-aging-project="AIPCC">
@@ -392,7 +382,7 @@ tr:hover td{background:#1c2128}
         <td>Write a step-by-step written guide for manual setup</td>
         <td><span class="badge badge-yellow">In Progress</span></td>
         <td>2026-04-10</td>
-        <td style="color:#ff4d4f">57d</td>
+        <td style="color:#ff4d4f">59d</td>
         <td>Unassigned</td>
       </tr>
       <tr data-aging-project="AIPCC">
@@ -401,7 +391,7 @@ tr:hover td{background:#1c2128}
         <td>GPU as a Non-Issue &ndash; Inventory, Research, and Incremental GPU</td>
         <td><span class="badge badge-yellow">In Progress</span></td>
         <td>2026-04-13</td>
-        <td style="color:#ff4d4f">54d</td>
+        <td style="color:#ff4d4f">56d</td>
         <td>Aviran Badli</td>
       </tr>
       <tr data-aging-project="AIPCC">
@@ -410,7 +400,7 @@ tr:hover td{background:#1c2128}
         <td>Refactor test/dynamo/test_minifier.py</td>
         <td><span class="badge badge-yellow">Review</span></td>
         <td>2026-04-13</td>
-        <td style="color:#ff4d4f">54d</td>
+        <td style="color:#ff4d4f">56d</td>
         <td>Riya Punia</td>
       </tr>
       <tr data-aging-project="AIPCC">
@@ -419,7 +409,7 @@ tr:hover td{background:#1c2128}
         <td>Agile Documentation Strategy &amp; Governance Framework</td>
         <td><span class="badge badge-yellow">In Progress</span></td>
         <td>2026-04-16</td>
-        <td style="color:#ff4d4f">51d</td>
+        <td style="color:#ff4d4f">53d</td>
         <td>Kim Tam</td>
       </tr>
       <tr data-aging-project="AIPCC">
@@ -428,7 +418,7 @@ tr:hover td{background:#1c2128}
         <td>Throughput Analysis: Predictive Risk &amp; Red-Zone Trends (SPIKE)</td>
         <td><span class="badge badge-yellow">Review</span></td>
         <td>2026-04-20</td>
-        <td style="color:#ff4d4f">47d</td>
+        <td style="color:#ff4d4f">49d</td>
         <td>Demethria Ramseur</td>
       </tr>
       <tr data-aging-project="AIPCC">
@@ -437,7 +427,7 @@ tr:hover td{background:#1c2128}
         <td>Refactor test/dynamo/test_unspec.py</td>
         <td><span class="badge badge-yellow">Review</span></td>
         <td>2026-04-21</td>
-        <td style="color:#ff4d4f">46d</td>
+        <td style="color:#ff4d4f">48d</td>
         <td>Riya Punia</td>
       </tr>
       <tr data-aging-project="AIPCC">
@@ -446,22 +436,22 @@ tr:hover td{background:#1c2128}
         <td>Refactor test/dynamo/test_repros.py</td>
         <td><span class="badge badge-yellow">Review</span></td>
         <td>2026-04-21</td>
-        <td style="color:#ff4d4f">46d</td>
+        <td style="color:#ff4d4f">48d</td>
         <td>Riya Punia</td>
       </tr>
     </tbody>
   </table>
   </div>
-  <div style="font-size:0.8rem;color:#6e7681;margin-top:8px">Showing top 20 of 39 stale items, sorted by last updated (oldest first). Stale = In Progress status category with no update for &gt;14 days.</div>
+  <div style="font-size:0.8rem;color:#6e7681;margin-top:8px">Showing top 20 of 46 stale items, sorted by last updated (oldest first). Stale = In Progress status category with no update for &gt;14 days.</div>
 </div>
 
 <!-- FLOW METRICS TAB -->
 <div id="flow" class="tab-content">
   <div class="summary-row">
-    <div class="summary-card"><div class="big" style="color:#58a6ff">0.35</div><div class="label">WIP:Throughput Ratio</div></div>
-    <div class="summary-card"><div class="big" style="color:#52c41a">1,439</div><div class="label">30d Resolved (Out)</div></div>
-    <div class="summary-card"><div class="big" style="color:#faad14">1,553</div><div class="label">30d Created (In)</div></div>
-    <div class="summary-card"><div class="big" style="color:#ff4d4f">+114</div><div class="label">Net Inflow (30d)</div></div>
+    <div class="summary-card"><div class="big" style="color:#58a6ff">0.52</div><div class="label">WIP:Throughput Ratio</div></div>
+    <div class="summary-card"><div class="big" style="color:#52c41a">1,375</div><div class="label">30d Resolved (Out)</div></div>
+    <div class="summary-card"><div class="big" style="color:#faad14">1,500</div><div class="label">30d Created (In)</div></div>
+    <div class="summary-card"><div class="big" style="color:#ff4d4f">+125</div><div class="label">Net Inflow (30d)</div></div>
   </div>
 
   <div class="flow-grid">
@@ -470,74 +460,74 @@ tr:hover td{background:#1c2128}
       <h3>AIPCC <span style="color:#8b949e;font-weight:400;font-size:0.8rem">AI Platform Core Components</span></h3>
       <div class="flow-metric">
         <span class="label">WIP:Throughput Ratio</span>
-        <span class="value" style="color:#52c41a">0.35</span>
+        <span class="value" style="color:#52c41a">0.52</span>
       </div>
       <div class="flow-metric">
         <span class="label">Current WIP</span>
-        <span class="value">509</span>
+        <span class="value">714</span>
       </div>
       <div class="flow-metric">
         <span class="label">30d Resolved</span>
-        <span class="value" style="color:#52c41a">1,439</span>
+        <span class="value" style="color:#52c41a">1,375</span>
       </div>
       <div class="flow-metric">
         <span class="label">30d Created</span>
-        <span class="value" style="color:#faad14">1,553</span>
+        <span class="value" style="color:#faad14">1,500</span>
       </div>
       <div class="flow-metric">
         <span class="label">Net Inflow</span>
-        <span class="value" style="color:#ff4d4f">+114</span>
+        <span class="value" style="color:#ff4d4f">+125</span>
       </div>
       <div class="flow-metric">
         <span class="label">Aging WIP (&gt;14d)</span>
-        <span class="value">39 <span style="font-size:0.75rem;color:#8b949e">(7.7%)</span></span>
+        <span class="value">46 <span style="font-size:0.75rem;color:#8b949e">(6.4%)</span></span>
       </div>
       <div class="flow-metric">
         <span class="label">To Do Backlog</span>
-        <span class="value">1,201</span>
+        <span class="value">1,200</span>
       </div>
       <div style="margin-top:16px">
         <div style="font-size:0.8rem;color:#8b949e;margin-bottom:6px">Created vs Resolved (weekly)</div>
         <div class="bar-chart">
           <div class="bar-group">
             <div class="bar-pair">
-              <div class="bar" style="width:18px;height:30%;background:#ff6b6b" title="Created ~160"></div>
-              <div class="bar" style="width:18px;height:30%;background:#52c41a" title="Resolved 157"></div>
+              <div class="bar" style="width:18px;height:40%;background:#ff6b6b" title="Created ~170"></div>
+              <div class="bar" style="width:18px;height:37%;background:#52c41a" title="Resolved 160"></div>
             </div>
             <div class="bar-label">W-5</div>
           </div>
           <div class="bar-group">
             <div class="bar-pair">
-              <div class="bar" style="width:18px;height:72%;background:#ff6b6b" title="Created ~370"></div>
-              <div class="bar" style="width:18px;height:72%;background:#52c41a" title="Resolved 379"></div>
+              <div class="bar" style="width:18px;height:86%;background:#ff6b6b" title="Created ~370"></div>
+              <div class="bar" style="width:18px;height:81%;background:#52c41a" title="Resolved 350"></div>
             </div>
             <div class="bar-label">W-4</div>
           </div>
           <div class="bar-group">
             <div class="bar-pair">
-              <div class="bar" style="width:18px;height:85%;background:#ff6b6b" title="Created ~400"></div>
-              <div class="bar" style="width:18px;height:80%;background:#52c41a" title="Resolved 417"></div>
+              <div class="bar" style="width:18px;height:100%;background:#ff6b6b" title="Created ~430"></div>
+              <div class="bar" style="width:18px;height:97%;background:#52c41a" title="Resolved 419"></div>
             </div>
             <div class="bar-label">W-3</div>
           </div>
           <div class="bar-group">
             <div class="bar-pair">
-              <div class="bar" style="width:18px;height:62%;background:#ff6b6b" title="Created ~310"></div>
-              <div class="bar" style="width:18px;height:61%;background:#52c41a" title="Resolved 320"></div>
+              <div class="bar" style="width:18px;height:67%;background:#ff6b6b" title="Created ~290"></div>
+              <div class="bar" style="width:18px;height:64%;background:#52c41a" title="Resolved 276"></div>
             </div>
             <div class="bar-label">W-2</div>
           </div>
           <div class="bar-group">
             <div class="bar-pair">
-              <div class="bar" style="width:18px;height:55%;background:#ff6b6b" title="Created ~290"></div>
-              <div class="bar" style="width:18px;height:54%;background:#52c41a" title="Resolved 285"></div>
+              <div class="bar" style="width:18px;height:72%;background:#ff6b6b" title="Created ~310"></div>
+              <div class="bar" style="width:18px;height:69%;background:#52c41a" title="Resolved 298"></div>
             </div>
             <div class="bar-label">W-1</div>
           </div>
           <div class="bar-group">
             <div class="bar-pair">
-              <div class="bar" style="width:18px;height:100%;background:#ff6b6b" title="Created ~270"></div>
-              <div class="bar" style="width:18px;height:50%;background:#52c41a" title="Resolved 265"></div>
+              <div class="bar" style="width:18px;height:53%;background:#ff6b6b" title="Created ~230"></div>
+              <div class="bar" style="width:18px;height:51%;background:#52c41a" title="Resolved 220"></div>
             </div>
             <div class="bar-label">Now</div>
           </div>
@@ -550,14 +540,14 @@ tr:hover td{background:#1c2128}
       <div style="margin-top:16px">
         <div style="font-size:0.8rem;color:#8b949e;margin-bottom:6px">Issue Distribution</div>
         <div class="ratio-bar">
-          <div class="ratio-segment" style="flex:1201;background:#30363d" title="To Do: 1,201">ToDo</div>
-          <div class="ratio-segment" style="flex:509;background:#1f6feb" title="In Progress: 509">WIP</div>
-          <div class="ratio-segment" style="flex:1439;background:#238636" title="Done (30d): 1,439">Done</div>
+          <div class="ratio-segment" style="flex:1200;background:#30363d" title="To Do: ~1,200">ToDo</div>
+          <div class="ratio-segment" style="flex:714;background:#1f6feb" title="In Progress: 714">WIP</div>
+          <div class="ratio-segment" style="flex:1375;background:#238636" title="Done (30d): 1,375">Done</div>
         </div>
         <div style="display:flex;justify-content:space-between;font-size:0.7rem;color:#6e7681;margin-top:4px">
-          <span>To Do: 1,201</span>
-          <span>WIP: 509</span>
-          <span>Done (30d): 1,439</span>
+          <span>To Do: ~1,200</span>
+          <span>WIP: 714</span>
+          <span>Done (30d): 1,375</span>
         </div>
       </div>
     </div>
@@ -589,14 +579,15 @@ tr:hover td{background:#1c2128}
   </div>
   <div class="assumptions-body">
     <ul>
-      <li><strong>Data source:</strong> redhat.atlassian.net REST API v3 (unauthenticated, approximate-count endpoint). AIPCC project data only; INFERENG, RHAIENG, RHOAIENG require authentication.</li>
-      <li><strong>Target Version field:</strong> Release burndown counts use <code>customfield_10855</code> ("Target Version"), queried via <code>project=AIPCC AND "Target Version"="&lt;ver&gt;" AND issuetype not in (Epic,Feature)</code>.</li>
+      <li><strong>Data source:</strong> redhat.atlassian.net REST API v3 (unauthenticated). AIPCC project data only; INFERENG, RHAIENG, RHOAIENG require authentication.</li>
+      <li><strong>Target Version field:</strong> Release burndown counts use <code>customfield_10855</code> ("Target Version"), queried via <code>project=AIPCC AND cf[10855]="&lt;ver&gt;" AND issuetype not in (Epic,Feature)</code>.</li>
       <li><strong>Release Risk (Burndown tab):</strong> Green = &gt;70% done OR &gt;30d left. Yellow = &lt;70% done AND &lt;30d left. Red = &lt;50% done AND &lt;14d left, or overdue with &lt;90% done. Undated versions with &lt;70% done = Yellow.</li>
-      <li><strong>Aging WIP:</strong> Issues with <code>statusCategory="In Progress" AND updated &lt;= -14d</code>. Stale days calculated from last updated date to 2026-06-06.</li>
-      <li><strong>WIP:Throughput ratio:</strong> Current WIP / 30-day resolved. Values &lt;1.0 indicate healthy flow; &gt;2.0 signals bottleneck risk.</li>
-      <li><strong>Net Inflow:</strong> 30d created minus 30d resolved. Positive values indicate growing backlog.</li>
-      <li><strong>Weekly created counts</strong> in the chart are estimates based on the 30-day total (1,553) distributed proportionally to resolved patterns. Exact weekly created counts require authenticated JQL access.</li>
-      <li><strong>Issue counts are approximate</strong> (Jira <code>approximate-count</code> API) and may vary by &plusmn;5%.</li>
+      <li><strong>Aging WIP:</strong> Issues with <code>statusCategory="In Progress" AND updated &lt;= -14d</code>. Stale days calculated from last updated date to 2026-06-08.</li>
+      <li><strong>WIP:Throughput ratio:</strong> Current WIP (714) / 30-day resolved (1,375) = 0.52. Values &lt;1.0 indicate healthy flow; &gt;2.0 signals bottleneck risk.</li>
+      <li><strong>Net Inflow:</strong> 30d created (1,500) minus 30d resolved (1,375) = +125. Positive values indicate growing backlog.</li>
+      <li><strong>Weekly created counts</strong> in the chart are estimates based on the 30-day total (~1,500) distributed proportionally to resolved patterns. Exact weekly created counts require authenticated JQL access.</li>
+      <li><strong>30-day created count (1,500) is an estimate</strong> based on the resolved/created ratio from prior data pulls.</li>
+      <li><strong>W-5 and W-4 velocity figures are estimates</strong> (&plusmn;10%) due to API response size limits.</li>
     </ul>
   </div>
 </div>
@@ -613,11 +604,6 @@ let activeProductFilter='all', activeRiskFilter='all';
 
 function filterBurndown(product,btn){
   activeProductFilter=product;
-  btn.parentElement.querySelectorAll('.filter-btn').forEach(b=>{
-    if(b.textContent.trim()==='All'||b.textContent.trim().toLowerCase()===product||b.dataset?.filterType==='product')
-      b.classList.remove('active');
-  });
-  // Remove active from product filters only
   const productBtns=Array.from(btn.parentElement.querySelectorAll('.filter-btn')).slice(0,4);
   productBtns.forEach(b=>b.classList.remove('active'));
   btn.classList.add('active');

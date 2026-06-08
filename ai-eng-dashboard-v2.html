@@ -63,7 +63,7 @@ tr:hover td{background:#1c2128}
 <body>
 
 <h1>AI Engineering Dashboard</h1>
-<div class="subtitle">Data as of 2026-06-06 &bull; Source: redhat.atlassian.net &bull; Projects: AIPCC, INFERENG, RHAIENG, RHOAIENG</div>
+<div class="subtitle">Data as of 2026-06-08 &bull; Source: redhat.atlassian.net &bull; Projects: AIPCC, INFERENG, RHAIENG, RHOAIENG</div>
 
 <div class="auth-notice">
   INFERENG, RHAIENG, and RHOAIENG require Jira authentication and returned no data via unauthenticated API. Displaying live data for AIPCC only. Configure Jira credentials on the Ambient Integrations page for full multi-project coverage.
@@ -84,10 +84,10 @@ tr:hover td{background:#1c2128}
 
 <div id="sprint" class="tab-content active">
   <div class="summary-row">
-    <div class="summary-card"><div class="big" style="color:#58a6ff">1,439</div><div class="label">30-Day Resolved</div></div>
-    <div class="summary-card"><div class="big" style="color:#faad14">509</div><div class="label">Active WIP</div></div>
-    <div class="summary-card"><div class="big" style="color:#52c41a">1,553</div><div class="label">30-Day Created</div></div>
-    <div class="summary-card"><div class="big" style="color:#ff4d4f">39</div><div class="label">Aging WIP (&gt;14d)</div></div>
+    <div class="summary-card"><div class="big" style="color:#58a6ff">1,375</div><div class="label">30-Day Resolved</div></div>
+    <div class="summary-card"><div class="big" style="color:#faad14">714</div><div class="label">Active WIP</div></div>
+    <div class="summary-card"><div class="big" style="color:#52c41a">1,500</div><div class="label">30-Day Created</div></div>
+    <div class="summary-card"><div class="big" style="color:#ff4d4f">46</div><div class="label">Aging WIP (&gt;14d)</div></div>
   </div>
 
   <div class="cards" id="sprint-cards">
@@ -99,21 +99,21 @@ tr:hover td{background:#1c2128}
         <span class="badge badge-green">Healthy</span>
       </div>
       <div class="metrics">
-        <div class="metric"><div class="metric-value">1,439</div><div class="metric-label">30d Resolved</div></div>
-        <div class="metric"><div class="metric-value">509</div><div class="metric-label">Current WIP</div></div>
-        <div class="metric"><div class="metric-value">1,553</div><div class="metric-label">30d Created</div></div>
+        <div class="metric"><div class="metric-value">1,375</div><div class="metric-label">30d Resolved</div></div>
+        <div class="metric"><div class="metric-value">714</div><div class="metric-label">Current WIP</div></div>
+        <div class="metric"><div class="metric-value">1,500</div><div class="metric-label">30d Created</div></div>
       </div>
       <div style="font-size:0.8rem;color:#8b949e;margin-bottom:4px">Weekly Velocity (resolved/week, last 6 weeks)</div>
       <div class="velocity-chart">
-        <div class="vel-bar" style="height:38%;background:#1f6feb"><div class="vel-value">157</div><div class="vel-label">W-5</div></div>
-        <div class="vel-bar" style="height:91%;background:#1f6feb"><div class="vel-value">379</div><div class="vel-label">W-4</div></div>
-        <div class="vel-bar" style="height:100%;background:#1f6feb"><div class="vel-value">417</div><div class="vel-label">W-3</div></div>
-        <div class="vel-bar" style="height:77%;background:#1f6feb"><div class="vel-value">320</div><div class="vel-label">W-2</div></div>
-        <div class="vel-bar" style="height:68%;background:#1f6feb"><div class="vel-value">285</div><div class="vel-label">W-1</div></div>
-        <div class="vel-bar" style="height:64%;background:#52c41a"><div class="vel-value">265</div><div class="vel-label">This wk</div></div>
+        <div class="vel-bar" style="height:38%;background:#1f6feb"><div class="vel-value">160</div><div class="vel-label">W-5</div></div>
+        <div class="vel-bar" style="height:84%;background:#1f6feb"><div class="vel-value">350</div><div class="vel-label">W-4</div></div>
+        <div class="vel-bar" style="height:100%;background:#1f6feb"><div class="vel-value">419</div><div class="vel-label">W-3</div></div>
+        <div class="vel-bar" style="height:66%;background:#1f6feb"><div class="vel-value">276</div><div class="vel-label">W-2</div></div>
+        <div class="vel-bar" style="height:71%;background:#1f6feb"><div class="vel-value">298</div><div class="vel-label">W-1</div></div>
+        <div class="vel-bar" style="height:53%;background:#52c41a"><div class="vel-value">220</div><div class="vel-label">This wk</div></div>
       </div>
       <div style="margin-top:24px;font-size:0.75rem;color:#6e7681">
-        Avg Velocity: <strong style="color:#58a6ff">304/wk</strong> &bull; WIP:Throughput Ratio: <strong style="color:#52c41a">0.35</strong> &bull; Aging WIP: <strong style="color:#52c41a">39</strong> (7.7% of WIP)
+        Avg Velocity: <strong style="color:#58a6ff">287/wk</strong> &bull; WIP:Throughput Ratio: <strong style="color:#52c41a">0.52</strong> &bull; Aging WIP: <strong style="color:#52c41a">46</strong> (6.4% of WIP)
       </div>
     </div>
 
@@ -121,22 +121,22 @@ tr:hover td{background:#1c2128}
     <div class="card" data-project="AIPCC">
       <div class="card-header">
         <div class="card-title">AIPCC Active Releases <span style="color:#8b949e;font-weight:400;font-size:0.8rem">Near-term milestones</span></div>
-        <span class="badge badge-yellow">Watch</span>
+        <span class="badge badge-red">At Risk</span>
       </div>
       <div class="metrics">
         <div class="metric"><div class="metric-value">5</div><div class="metric-label">Active Releases</div></div>
-        <div class="metric"><div class="metric-value">1</div><div class="metric-label">Overdue</div></div>
-        <div class="metric"><div class="metric-value">2</div><div class="metric-label">At Risk</div></div>
+        <div class="metric"><div class="metric-value">1</div><div class="metric-label">Red Risk</div></div>
+        <div class="metric"><div class="metric-value">2</div><div class="metric-label">Yellow Risk</div></div>
       </div>
       <div style="margin-top:8px;font-size:0.8rem">
-        <div style="display:flex;justify-content:space-between;margin-bottom:6px"><span>RHAII-3.5 EA1 <span style="color:#ff4d4f">(overdue 4d)</span></span><span style="color:#52c41a">95.9%</span></div>
-        <div class="progress-bar" style="height:6px;margin-bottom:10px"><div class="progress-fill" style="width:95.9%;background:#52c41a"></div></div>
-        <div style="display:flex;justify-content:space-between;margin-bottom:6px"><span>RHAII-3.5 <span style="color:#ff4d4f">(11d left)</span></span><span style="color:#ff4d4f">0.0%</span></div>
+        <div style="display:flex;justify-content:space-between;margin-bottom:6px"><span>RHAII-3.5 <span style="color:#ff4d4f">(9d left)</span></span><span style="color:#ff4d4f">0.0%</span></div>
         <div class="progress-bar" style="height:6px;margin-bottom:10px"><div class="progress-fill" style="width:0%;background:#ff4d4f"></div></div>
-        <div style="display:flex;justify-content:space-between;margin-bottom:6px"><span>rhelai-3.5 EA1 <span style="color:#8b949e">(12d left)</span></span><span style="color:#52c41a">93.3%</span></div>
-        <div class="progress-bar" style="height:6px;margin-bottom:10px"><div class="progress-fill" style="width:93.3%;background:#52c41a"></div></div>
-        <div style="display:flex;justify-content:space-between;margin-bottom:6px"><span>RHAII-3.5 EA2 <span style="color:#8b949e">(24d left)</span></span><span style="color:#faad14">10.0%</span></div>
-        <div class="progress-bar" style="height:6px;margin-bottom:10px"><div class="progress-fill" style="width:10%;background:#faad14"></div></div>
+        <div style="display:flex;justify-content:space-between;margin-bottom:6px"><span>rhelai-3.5 EA1 <span style="color:#8b949e">(10d left)</span></span><span style="color:#52c41a">97.9%</span></div>
+        <div class="progress-bar" style="height:6px;margin-bottom:10px"><div class="progress-fill" style="width:97.9%;background:#52c41a"></div></div>
+        <div style="display:flex;justify-content:space-between;margin-bottom:6px"><span>RHAII-3.5 EA2 <span style="color:#faad14">(22d left)</span></span><span style="color:#faad14">20.0%</span></div>
+        <div class="progress-bar" style="height:6px;margin-bottom:10px"><div class="progress-fill" style="width:20%;background:#faad14"></div></div>
+        <div style="display:flex;justify-content:space-between;margin-bottom:6px"><span>rhelai-3.5 EA2 <span style="color:#8b949e">(38d left)</span></span><span style="color:#faad14">45.5%</span></div>
+        <div class="progress-bar" style="height:6px;margin-bottom:10px"><div class="progress-fill" style="width:45.5%;background:#faad14"></div></div>
       </div>
     </div>
 
@@ -188,51 +188,45 @@ tr:hover td{background:#1c2128}
     </thead>
     <tbody id="release-tbody">
       <tr data-project="AIPCC">
-        <td>AIPCC</td><td>RHAII-3.5 EA1</td><td>2026-06-02</td>
-        <td>49</td><td>47</td><td>2</td><td>0</td>
-        <td><div class="progress-bar"><div class="progress-fill" style="width:95.9%;background:#52c41a"></div></div><div class="progress-text">95.9% complete &bull; <span style="color:#ff4d4f">Overdue 4d</span></div></td>
-        <td><span class="badge badge-yellow">Yellow</span></td>
-      </tr>
-      <tr data-project="AIPCC">
         <td>AIPCC</td><td>RHAII-3.5</td><td>2026-06-17</td>
         <td>10</td><td>0</td><td>5</td><td>5</td>
-        <td><div class="progress-bar"><div class="progress-fill" style="width:0%;background:#ff4d4f"></div></div><div class="progress-text">0.0% complete &bull; 11d left</div></td>
+        <td><div class="progress-bar"><div class="progress-fill" style="width:0%;background:#ff4d4f"></div></div><div class="progress-text">0.0% complete &bull; 9d left</div></td>
         <td><span class="badge badge-red">Red</span></td>
       </tr>
       <tr data-project="AIPCC">
         <td>AIPCC</td><td>rhelai-3.5 EA1 release</td><td>2026-06-18</td>
-        <td>30</td><td>28</td><td>2</td><td>0</td>
-        <td><div class="progress-bar"><div class="progress-fill" style="width:93.3%;background:#52c41a"></div></div><div class="progress-text">93.3% complete &bull; 12d left</div></td>
+        <td>47</td><td>46</td><td>1</td><td>0</td>
+        <td><div class="progress-bar"><div class="progress-fill" style="width:97.9%;background:#52c41a"></div></div><div class="progress-text">97.9% complete &bull; 10d left</div></td>
         <td><span class="badge badge-green">Green</span></td>
       </tr>
       <tr data-project="AIPCC">
         <td>AIPCC</td><td>RHAII-3.5 EA2</td><td>2026-06-30</td>
-        <td>10</td><td>1</td><td>5</td><td>4</td>
-        <td><div class="progress-bar"><div class="progress-fill" style="width:10%;background:#faad14"></div></div><div class="progress-text">10.0% complete &bull; 24d left</div></td>
+        <td>10</td><td>2</td><td>4</td><td>4</td>
+        <td><div class="progress-bar"><div class="progress-fill" style="width:20%;background:#faad14"></div></div><div class="progress-text">20.0% complete &bull; 22d left</div></td>
         <td><span class="badge badge-yellow">Yellow</span></td>
       </tr>
       <tr data-project="AIPCC">
         <td>AIPCC</td><td>rhelai-3.5 EA2 release</td><td>2026-07-16</td>
         <td>11</td><td>5</td><td>3</td><td>3</td>
-        <td><div class="progress-bar"><div class="progress-fill" style="width:45.5%;background:#faad14"></div></div><div class="progress-text">45.5% complete &bull; 40d left</div></td>
+        <td><div class="progress-bar"><div class="progress-fill" style="width:45.5%;background:#faad14"></div></div><div class="progress-text">45.5% complete &bull; 38d left</div></td>
         <td><span class="badge badge-green">Green</span></td>
       </tr>
       <tr data-project="AIPCC">
         <td>AIPCC</td><td>RHAII-3.5 GA</td><td>2026-07-30</td>
         <td>23</td><td>4</td><td>0</td><td>19</td>
-        <td><div class="progress-bar"><div class="progress-fill" style="width:17.4%;background:#faad14"></div></div><div class="progress-text">17.4% complete &bull; 54d left</div></td>
+        <td><div class="progress-bar"><div class="progress-fill" style="width:17.4%;background:#faad14"></div></div><div class="progress-text">17.4% complete &bull; 52d left</div></td>
         <td><span class="badge badge-green">Green</span></td>
       </tr>
       <tr data-project="AIPCC">
         <td>AIPCC</td><td>rhelai-3.5 GA</td><td>2026-08-20</td>
         <td>0</td><td>0</td><td>0</td><td>0</td>
-        <td><div class="progress-bar"><div class="progress-fill" style="width:0%;background:#21262d"></div></div><div class="progress-text">No issues targeted &bull; 75d left</div></td>
+        <td><div class="progress-bar"><div class="progress-fill" style="width:0%;background:#21262d"></div></div><div class="progress-text">No issues targeted &bull; 73d left</div></td>
         <td><span class="badge badge-gray">N/A</span></td>
       </tr>
       <tr data-project="AIPCC">
         <td>AIPCC</td><td>RHAII-3.6</td><td>2026-09-17</td>
         <td>0</td><td>0</td><td>0</td><td>0</td>
-        <td><div class="progress-bar"><div class="progress-fill" style="width:0%;background:#21262d"></div></div><div class="progress-text">No issues targeted &bull; 103d left</div></td>
+        <td><div class="progress-bar"><div class="progress-fill" style="width:0%;background:#21262d"></div></div><div class="progress-text">No issues targeted &bull; 101d left</div></td>
         <td><span class="badge badge-gray">N/A</span></td>
       </tr>
       <tr data-project="AIPCC" style="background:#1c2128">
@@ -280,15 +274,15 @@ tr:hover td{background:#1c2128}
   </div>
   <div class="assumptions-body">
     <ul>
-      <li><strong>Data source:</strong> redhat.atlassian.net REST API (unauthenticated). AIPCC project data only; INFERENG, RHAIENG, RHOAIENG require authentication and are shown as placeholders.</li>
-      <li><strong>Target Version field:</strong> Issue counts use <code>customfield_10855</code> ("Target Version"), queried via <code>project=AIPCC AND "Target Version"="&lt;ver&gt;" AND issuetype not in (Epic,Feature)</code>.</li>
+      <li><strong>Data source:</strong> redhat.atlassian.net REST API v3 (unauthenticated). AIPCC project data only; INFERENG, RHAIENG, RHOAIENG require authentication and are shown as placeholders.</li>
+      <li><strong>Target Version field:</strong> Issue counts use <code>customfield_10855</code> ("Target Version"), queried via <code>project=AIPCC AND cf[10855]="&lt;ver&gt;" AND issuetype not in (Epic,Feature)</code>.</li>
       <li><strong>Status categories:</strong> Done/In Progress/To Do mapped via Jira <code>statusCategory</code>.</li>
-      <li><strong>Velocity:</strong> Weekly resolved issue counts (rolling 7-day windows over the past 6 weeks). Current week (W-0) is partial.</li>
-      <li><strong>WIP:Throughput ratio:</strong> Current WIP (509) / 30-day resolved (1,439) = 0.35. Values &lt;1.0 are healthy.</li>
-      <li><strong>Risk (Sprint Throughput):</strong> Green = current velocity within +10% of 6-week avg (304/wk). Yellow = 10-30% deviation. Red = &gt;30% deviation.</li>
+      <li><strong>Velocity:</strong> Weekly resolved issue counts (rolling 7-day windows over the past 6 weeks). Current week (W-0) is partial. W-5 and W-4 are estimates (&plusmn;10%) due to API response limits.</li>
+      <li><strong>WIP:Throughput ratio:</strong> Current WIP (714) / 30-day resolved (1,375) = 0.52. Values &lt;1.0 are healthy.</li>
+      <li><strong>Risk (Sprint Throughput):</strong> Green = current velocity within +10% of 6-week avg (287/wk). Yellow = 10-30% deviation. Red = &gt;30% deviation.</li>
       <li><strong>Risk (Release):</strong> Green = &gt;70% done OR &gt;30d left. Yellow = &lt;70% done AND &lt;30d left. Red = &lt;50% done AND &lt;14d left, or overdue with &lt;90% done.</li>
       <li><strong>Aging WIP:</strong> Issues with <code>statusCategory="In Progress" AND updated &lt;= -14d</code>.</li>
-      <li><strong>Issue counts are approximate</strong> (Jira <code>approximate-count</code> API) and may vary by &plusmn;5%.</li>
+      <li><strong>30-day created count (1,500) is an estimate</strong> based on the resolved/created ratio from prior data pulls. Exact weekly created counts require authenticated JQL access.</li>
     </ul>
   </div>
 </div>
