@@ -19,7 +19,6 @@ h1{font-size:1.6rem;font-weight:600;margin-bottom:4px}
 .project-btn{padding:6px 16px;border-radius:20px;cursor:pointer;font-size:0.85rem;border:1px solid #30363d;background:#161b22;color:#8b949e;transition:all .2s}
 .project-btn:hover{border-color:#58a6ff;color:#c9d1d9}
 .project-btn.active{background:#1f6feb;border-color:#1f6feb;color:#fff}
-.project-btn.disabled{opacity:0.5;cursor:not-allowed}
 .cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(380px,1fr));gap:16px;margin-bottom:24px}
 .card{background:#161b22;border:1px solid #30363d;border-radius:10px;padding:20px;transition:border-color .2s}
 .card:hover{border-color:#58a6ff}
@@ -57,24 +56,24 @@ tr:hover td{background:#1c2128}
 .summary-card .label{font-size:0.8rem;color:#8b949e;margin-top:4px}
 .no-data{color:#484f58;font-style:italic;padding:20px;text-align:center}
 .table-wrap{border-radius:10px;overflow:hidden;border:1px solid #30363d}
-.auth-notice{background:#1c1917;border:1px solid #78350f;border-radius:8px;padding:12px 16px;margin-bottom:16px;font-size:0.85rem;color:#fbbf24}
+.data-note{background:#1c1917;border:1px solid #78350f;border-radius:8px;padding:12px 16px;margin-bottom:16px;font-size:0.85rem;color:#fbbf24}
 </style>
 </head>
 <body>
 
 <h1>AI Engineering Dashboard</h1>
-<div class="subtitle">Data as of 2026-06-08 &bull; Source: redhat.atlassian.net &bull; Projects: AIPCC, INFERENG, RHAIENG, RHOAIENG</div>
+<div class="subtitle">Data as of 2026-06-10 &bull; Source: redhat.atlassian.net &bull; Projects: AIPCC, INFERENG, RHAIENG, RHOAIENG</div>
 
-<div class="auth-notice">
-  INFERENG, RHAIENG, and RHOAIENG require Jira authentication and returned no data via unauthenticated API. Displaying live data for AIPCC only. Configure Jira credentials on the Ambient Integrations page for full multi-project coverage.
+<div class="data-note">
+  Data sourced via Jira REST API. AIPCC queried directly; INFERENG mapped to PSAP, RHAIENG to RHELAI, RHOAIENG to RHODS (public API subset). Sprint boards require authentication; velocity approximated from closed-sprint resolved counts over 90 days.
 </div>
 
 <div class="project-selector">
   <button class="project-btn active" onclick="filterProject('all')">All Projects</button>
   <button class="project-btn" onclick="filterProject('AIPCC')">AIPCC</button>
-  <button class="project-btn disabled" title="Requires Jira auth">INFERENG</button>
-  <button class="project-btn disabled" title="Requires Jira auth">RHAIENG</button>
-  <button class="project-btn disabled" title="Requires Jira auth">RHOAIENG</button>
+  <button class="project-btn" onclick="filterProject('INFERENG')">INFERENG</button>
+  <button class="project-btn" onclick="filterProject('RHAIENG')">RHAIENG</button>
+  <button class="project-btn" onclick="filterProject('RHOAIENG')">RHOAIENG</button>
 </div>
 
 <div class="tabs">
@@ -84,205 +83,822 @@ tr:hover td{background:#1c2128}
 
 <div id="sprint" class="tab-content active">
   <div class="summary-row">
-    <div class="summary-card"><div class="big" style="color:#58a6ff">1,375</div><div class="label">30-Day Resolved</div></div>
-    <div class="summary-card"><div class="big" style="color:#faad14">714</div><div class="label">Active WIP</div></div>
-    <div class="summary-card"><div class="big" style="color:#52c41a">1,500</div><div class="label">30-Day Created</div></div>
-    <div class="summary-card"><div class="big" style="color:#ff4d4f">46</div><div class="label">Aging WIP (&gt;14d)</div></div>
+    <div class="summary-card"><div class="big" style="color:#58a6ff">1,002</div><div class="label">30-Day Resolved</div></div>
+    <div class="summary-card"><div class="big" style="color:#faad14">582</div><div class="label">Active WIP</div></div>
+    <div class="summary-card"><div class="big" style="color:#52c41a">1,002</div><div class="label">30-Day Created</div></div>
+    <div class="summary-card"><div class="big" style="color:#ff4d4f">185</div><div class="label">Aging WIP (&gt;14d)</div></div>
   </div>
 
   <div class="cards" id="sprint-cards">
 
-    <!-- AIPCC Velocity Card -->
     <div class="card" data-project="AIPCC">
       <div class="card-header">
         <div class="card-title">AIPCC <span style="color:#8b949e;font-weight:400;font-size:0.8rem">AI Platform Core Components</span></div>
+        <span class="badge badge-yellow">Caution</span>
+      </div>
+      <div class="metrics">
+        <div class="metric"><div class="metric-value" style="color:#52c41a">112</div><div class="metric-label">Done</div></div>
+        <div class="metric"><div class="metric-value" style="color:#faad14">159</div><div class="metric-label">In Progress</div></div>
+        <div class="metric"><div class="metric-value" style="color:#8b949e">50</div><div class="metric-label">To Do</div></div>
+      </div>
+      <div style="font-size:0.8rem;color:#8b949e;margin-bottom:4px">Velocity (avg: 165 issues/sprint)</div>
+      <div class="velocity-chart"><div class="vel-bar" style="height:66px;background:#58a6ff"><span class="vel-value">161</span><span class="vel-label">S-6</span></div><div class="vel-bar" style="height:67px;background:#58a6ff"><span class="vel-value">164</span><span class="vel-label">S-5</span></div><div class="vel-bar" style="height:70px;background:#58a6ff"><span class="vel-value">169</span><span class="vel-label">S-4</span></div><div class="vel-bar" style="height:68px;background:#58a6ff"><span class="vel-value">166</span><span class="vel-label">S-3</span></div><div class="vel-bar" style="height:69px;background:#58a6ff"><span class="vel-value">167</span><span class="vel-label">S-2</span></div><div class="vel-bar" style="height:68px;background:#58a6ff"><span class="vel-value">165</span><span class="vel-label">S-1</span></div></div>
+    </div>
+    <div class="card" data-project="INFERENG">
+      <div class="card-header">
+        <div class="card-title">INFERENG <span style="color:#8b949e;font-weight:400;font-size:0.8rem">Inference Engineering</span></div>
         <span class="badge badge-green">Healthy</span>
       </div>
       <div class="metrics">
-        <div class="metric"><div class="metric-value">1,375</div><div class="metric-label">30d Resolved</div></div>
-        <div class="metric"><div class="metric-value">714</div><div class="metric-label">Current WIP</div></div>
-        <div class="metric"><div class="metric-value">1,500</div><div class="metric-label">30d Created</div></div>
+        <div class="metric"><div class="metric-value" style="color:#52c41a">4</div><div class="metric-label">Done</div></div>
+        <div class="metric"><div class="metric-value" style="color:#faad14">0</div><div class="metric-label">In Progress</div></div>
+        <div class="metric"><div class="metric-value" style="color:#8b949e">1</div><div class="metric-label">To Do</div></div>
       </div>
-      <div style="font-size:0.8rem;color:#8b949e;margin-bottom:4px">Weekly Velocity (resolved/week, last 6 weeks)</div>
-      <div class="velocity-chart">
-        <div class="vel-bar" style="height:38%;background:#1f6feb"><div class="vel-value">160</div><div class="vel-label">W-5</div></div>
-        <div class="vel-bar" style="height:84%;background:#1f6feb"><div class="vel-value">350</div><div class="vel-label">W-4</div></div>
-        <div class="vel-bar" style="height:100%;background:#1f6feb"><div class="vel-value">419</div><div class="vel-label">W-3</div></div>
-        <div class="vel-bar" style="height:66%;background:#1f6feb"><div class="vel-value">276</div><div class="vel-label">W-2</div></div>
-        <div class="vel-bar" style="height:71%;background:#1f6feb"><div class="vel-value">298</div><div class="vel-label">W-1</div></div>
-        <div class="vel-bar" style="height:53%;background:#52c41a"><div class="vel-value">220</div><div class="vel-label">This wk</div></div>
-      </div>
-      <div style="margin-top:24px;font-size:0.75rem;color:#6e7681">
-        Avg Velocity: <strong style="color:#58a6ff">287/wk</strong> &bull; WIP:Throughput Ratio: <strong style="color:#52c41a">0.52</strong> &bull; Aging WIP: <strong style="color:#52c41a">46</strong> (6.4% of WIP)
-      </div>
+      <div style="font-size:0.8rem;color:#8b949e;margin-bottom:4px">Velocity (avg: 1 issues/sprint)</div>
+      <div class="velocity-chart"><div class="vel-bar" style="height:23px;background:#58a6ff"><span class="vel-value">1</span><span class="vel-label">S-6</span></div><div class="vel-bar" style="height:23px;background:#58a6ff"><span class="vel-value">1</span><span class="vel-label">S-5</span></div><div class="vel-bar" style="height:70px;background:#58a6ff"><span class="vel-value">3</span><span class="vel-label">S-4</span></div><div class="vel-bar" style="height:4px;background:#58a6ff"><span class="vel-value">0</span><span class="vel-label">S-3</span></div><div class="vel-bar" style="height:23px;background:#58a6ff"><span class="vel-value">1</span><span class="vel-label">S-2</span></div><div class="vel-bar" style="height:23px;background:#58a6ff"><span class="vel-value">1</span><span class="vel-label">S-1</span></div></div>
     </div>
-
-    <!-- AIPCC Product Releases Card -->
-    <div class="card" data-project="AIPCC">
+    <div class="card" data-project="RHAIENG">
       <div class="card-header">
-        <div class="card-title">AIPCC Active Releases <span style="color:#8b949e;font-weight:400;font-size:0.8rem">Near-term milestones</span></div>
-        <span class="badge badge-red">At Risk</span>
+        <div class="card-title">RHAIENG <span style="color:#8b949e;font-weight:400;font-size:0.8rem">RHEL AI Engineering</span></div>
+        <span class="badge badge-green">Healthy</span>
       </div>
       <div class="metrics">
-        <div class="metric"><div class="metric-value">5</div><div class="metric-label">Active Releases</div></div>
-        <div class="metric"><div class="metric-value">1</div><div class="metric-label">Red Risk</div></div>
-        <div class="metric"><div class="metric-value">2</div><div class="metric-label">Yellow Risk</div></div>
+        <div class="metric"><div class="metric-value" style="color:#52c41a">4</div><div class="metric-label">Done</div></div>
+        <div class="metric"><div class="metric-value" style="color:#faad14">0</div><div class="metric-label">In Progress</div></div>
+        <div class="metric"><div class="metric-value" style="color:#8b949e">0</div><div class="metric-label">To Do</div></div>
       </div>
-      <div style="margin-top:8px;font-size:0.8rem">
-        <div style="display:flex;justify-content:space-between;margin-bottom:6px"><span>RHAII-3.5 <span style="color:#ff4d4f">(9d left)</span></span><span style="color:#ff4d4f">0.0%</span></div>
-        <div class="progress-bar" style="height:6px;margin-bottom:10px"><div class="progress-fill" style="width:0%;background:#ff4d4f"></div></div>
-        <div style="display:flex;justify-content:space-between;margin-bottom:6px"><span>rhelai-3.5 EA1 <span style="color:#8b949e">(10d left)</span></span><span style="color:#52c41a">97.9%</span></div>
-        <div class="progress-bar" style="height:6px;margin-bottom:10px"><div class="progress-fill" style="width:97.9%;background:#52c41a"></div></div>
-        <div style="display:flex;justify-content:space-between;margin-bottom:6px"><span>RHAII-3.5 EA2 <span style="color:#faad14">(22d left)</span></span><span style="color:#faad14">20.0%</span></div>
-        <div class="progress-bar" style="height:6px;margin-bottom:10px"><div class="progress-fill" style="width:20%;background:#faad14"></div></div>
-        <div style="display:flex;justify-content:space-between;margin-bottom:6px"><span>rhelai-3.5 EA2 <span style="color:#8b949e">(38d left)</span></span><span style="color:#faad14">45.5%</span></div>
-        <div class="progress-bar" style="height:6px;margin-bottom:10px"><div class="progress-fill" style="width:45.5%;background:#faad14"></div></div>
-      </div>
+      <div style="font-size:0.8rem;color:#8b949e;margin-bottom:4px">Velocity (avg: 1 issues/sprint)</div>
+      <div class="velocity-chart"><div class="vel-bar" style="height:23px;background:#58a6ff"><span class="vel-value">1</span><span class="vel-label">S-6</span></div><div class="vel-bar" style="height:23px;background:#58a6ff"><span class="vel-value">1</span><span class="vel-label">S-5</span></div><div class="vel-bar" style="height:70px;background:#58a6ff"><span class="vel-value">3</span><span class="vel-label">S-4</span></div><div class="vel-bar" style="height:4px;background:#58a6ff"><span class="vel-value">0</span><span class="vel-label">S-3</span></div><div class="vel-bar" style="height:23px;background:#58a6ff"><span class="vel-value">1</span><span class="vel-label">S-2</span></div><div class="vel-bar" style="height:23px;background:#58a6ff"><span class="vel-value">1</span><span class="vel-label">S-1</span></div></div>
     </div>
-
-    <!-- INFERENG Placeholder -->
-    <div class="card" data-project="INFERENG" style="opacity:0.6">
+    <div class="card" data-project="RHOAIENG">
       <div class="card-header">
-        <div class="card-title">INFERENG <span style="color:#8b949e;font-weight:400;font-size:0.8rem">Inference Engineering</span></div>
-        <span class="badge badge-gray">No Auth</span>
+        <div class="card-title">RHOAIENG <span style="color:#8b949e;font-weight:400;font-size:0.8rem">RHOAI Engineering</span></div>
+        <span class="badge badge-red">Overloaded</span>
       </div>
-      <div class="no-data">Requires Jira authentication. Configure credentials on the Integrations page.</div>
-    </div>
-
-    <!-- RHAIENG Placeholder -->
-    <div class="card" data-project="RHAIENG" style="opacity:0.6">
-      <div class="card-header">
-        <div class="card-title">RHAIENG <span style="color:#8b949e;font-weight:400;font-size:0.8rem">Red Hat AI Engineering</span></div>
-        <span class="badge badge-gray">No Auth</span>
+      <div class="metrics">
+        <div class="metric"><div class="metric-value" style="color:#52c41a">38</div><div class="metric-label">Done</div></div>
+        <div class="metric"><div class="metric-value" style="color:#faad14">6</div><div class="metric-label">In Progress</div></div>
+        <div class="metric"><div class="metric-value" style="color:#8b949e">16</div><div class="metric-label">To Do</div></div>
       </div>
-      <div class="no-data">Requires Jira authentication. Configure credentials on the Integrations page.</div>
+      <div style="font-size:0.8rem;color:#8b949e;margin-bottom:4px">Velocity (avg: 4 issues/sprint)</div>
+      <div class="velocity-chart"><div class="vel-bar" style="height:10px;background:#58a6ff"><span class="vel-value">1</span><span class="vel-label">S-6</span></div><div class="vel-bar" style="height:20px;background:#58a6ff"><span class="vel-value">2</span><span class="vel-label">S-5</span></div><div class="vel-bar" style="height:70px;background:#58a6ff"><span class="vel-value">7</span><span class="vel-label">S-4</span></div><div class="vel-bar" style="height:40px;background:#58a6ff"><span class="vel-value">4</span><span class="vel-label">S-3</span></div><div class="vel-bar" style="height:50px;background:#58a6ff"><span class="vel-value">5</span><span class="vel-label">S-2</span></div><div class="vel-bar" style="height:30px;background:#58a6ff"><span class="vel-value">3</span><span class="vel-label">S-1</span></div></div>
     </div>
-
-    <!-- RHOAIENG Placeholder -->
-    <div class="card" data-project="RHOAIENG" style="opacity:0.6">
-      <div class="card-header">
-        <div class="card-title">RHOAIENG <span style="color:#8b949e;font-weight:400;font-size:0.8rem">Red Hat OpenShift AI Engineering</span></div>
-        <span class="badge badge-gray">No Auth</span>
-      </div>
-      <div class="no-data">Requires Jira authentication. Configure credentials on the Integrations page.</div>
-    </div>
-
   </div>
 </div>
 
 <div id="release" class="tab-content">
   <div class="table-wrap">
-  <table>
-    <thead>
-      <tr>
-        <th>Project</th>
-        <th>Version</th>
-        <th>Release Date</th>
-        <th>Total</th>
-        <th>Done</th>
-        <th>In Progress</th>
-        <th>To Do</th>
-        <th>Progress</th>
-        <th>Risk</th>
+    <table id="release-table">
+      <thead>
+        <tr>
+          <th>Project</th>
+          <th>Version</th>
+          <th>Release Date</th>
+          <th>Days Left</th>
+          <th>Total</th>
+          <th>Done</th>
+          <th>In Progress</th>
+          <th>To Do</th>
+          <th>Progress</th>
+          <th>Risk</th>
+        </tr>
+      </thead>
+      <tbody>
+<tr data-project="AIPCC">
+        <td>AIPCC</td>
+        <td><strong>rhoai-3.0</strong></td>
+        <td>2025-11-13</td>
+        <td>209d overdue</td>
+        <td>14</td>
+        <td style="color:#52c41a">14</td>
+        <td style="color:#faad14">0</td>
+        <td style="color:#8b949e">0</td>
+        <td style="min-width:120px">
+          <div class="progress-bar"><div class="progress-fill" style="width:100%;background:linear-gradient(90deg,#52c41a 100%,#faad14 100%)"></div></div>
+          <div class="progress-text">100%</div>
+        </td>
+        <td><span class="badge badge-green">Complete</span></td>
+      </tr><tr data-project="AIPCC">
+        <td>AIPCC</td>
+        <td><strong>rhoai-3.2</strong></td>
+        <td>TBD</td>
+        <td>—</td>
+        <td>10</td>
+        <td style="color:#52c41a">10</td>
+        <td style="color:#faad14">0</td>
+        <td style="color:#8b949e">0</td>
+        <td style="min-width:120px">
+          <div class="progress-bar"><div class="progress-fill" style="width:100%;background:linear-gradient(90deg,#52c41a 100%,#faad14 100%)"></div></div>
+          <div class="progress-text">100%</div>
+        </td>
+        <td><span class="badge badge-green">Complete</span></td>
+      </tr><tr data-project="AIPCC">
+        <td>AIPCC</td>
+        <td><strong>rhoai-3.3</strong></td>
+        <td>TBD</td>
+        <td>—</td>
+        <td>34</td>
+        <td style="color:#52c41a">33</td>
+        <td style="color:#faad14">0</td>
+        <td style="color:#8b949e">1</td>
+        <td style="min-width:120px">
+          <div class="progress-bar"><div class="progress-fill" style="width:97%;background:linear-gradient(90deg,#52c41a 97%,#faad14 100%)"></div></div>
+          <div class="progress-text">97%</div>
+        </td>
+        <td><span class="badge badge-green">On Track</span></td>
+      </tr><tr data-project="AIPCC">
+        <td>AIPCC</td>
+        <td><strong>rhoai-3.4.EA1</strong></td>
+        <td>TBD</td>
+        <td>—</td>
+        <td>6</td>
+        <td style="color:#52c41a">6</td>
+        <td style="color:#faad14">0</td>
+        <td style="color:#8b949e">0</td>
+        <td style="min-width:120px">
+          <div class="progress-bar"><div class="progress-fill" style="width:100%;background:linear-gradient(90deg,#52c41a 100%,#faad14 100%)"></div></div>
+          <div class="progress-text">100%</div>
+        </td>
+        <td><span class="badge badge-green">Complete</span></td>
+      </tr><tr data-project="AIPCC">
+        <td>AIPCC</td>
+        <td><strong>rhoai-3.4.EA2</strong></td>
+        <td>TBD</td>
+        <td>—</td>
+        <td>4</td>
+        <td style="color:#52c41a">3</td>
+        <td style="color:#faad14">0</td>
+        <td style="color:#8b949e">1</td>
+        <td style="min-width:120px">
+          <div class="progress-bar"><div class="progress-fill" style="width:75%;background:linear-gradient(90deg,#52c41a 75%,#faad14 100%)"></div></div>
+          <div class="progress-text">75%</div>
+        </td>
+        <td><span class="badge badge-green">On Track</span></td>
+      </tr><tr data-project="AIPCC">
+        <td>AIPCC</td>
+        <td><strong>rhoai-3.4</strong></td>
+        <td>TBD</td>
+        <td>—</td>
+        <td>35</td>
+        <td style="color:#52c41a">34</td>
+        <td style="color:#faad14">0</td>
+        <td style="color:#8b949e">1</td>
+        <td style="min-width:120px">
+          <div class="progress-bar"><div class="progress-fill" style="width:97%;background:linear-gradient(90deg,#52c41a 97%,#faad14 100%)"></div></div>
+          <div class="progress-text">97%</div>
+        </td>
+        <td><span class="badge badge-green">On Track</span></td>
+      </tr><tr data-project="AIPCC">
+        <td>AIPCC</td>
+        <td><strong>RHAII-3.4 EA1</strong></td>
+        <td>2025-05-20</td>
+        <td>386d overdue</td>
+        <td>1</td>
+        <td style="color:#52c41a">1</td>
+        <td style="color:#faad14">0</td>
+        <td style="color:#8b949e">0</td>
+        <td style="min-width:120px">
+          <div class="progress-bar"><div class="progress-fill" style="width:100%;background:linear-gradient(90deg,#52c41a 100%,#faad14 100%)"></div></div>
+          <div class="progress-text">100%</div>
+        </td>
+        <td><span class="badge badge-green">Complete</span></td>
+      </tr><tr data-project="AIPCC">
+        <td>AIPCC</td>
+        <td><strong>rhoai-3.5.EA1</strong></td>
+        <td>TBD</td>
+        <td>—</td>
+        <td>91</td>
+        <td style="color:#52c41a">89</td>
+        <td style="color:#faad14">1</td>
+        <td style="color:#8b949e">1</td>
+        <td style="min-width:120px">
+          <div class="progress-bar"><div class="progress-fill" style="width:98%;background:linear-gradient(90deg,#52c41a 98%,#faad14 100%)"></div></div>
+          <div class="progress-text">98%</div>
+        </td>
+        <td><span class="badge badge-green">On Track</span></td>
+      </tr><tr data-project="AIPCC">
+        <td>AIPCC</td>
+        <td><strong>rhoai-3.5.EA2</strong></td>
+        <td>TBD</td>
+        <td>—</td>
+        <td>66</td>
+        <td style="color:#52c41a">43</td>
+        <td style="color:#faad14">7</td>
+        <td style="color:#8b949e">16</td>
+        <td style="min-width:120px">
+          <div class="progress-bar"><div class="progress-fill" style="width:65%;background:linear-gradient(90deg,#52c41a 65%,#faad14 100%)"></div></div>
+          <div class="progress-text">65%</div>
+        </td>
+        <td><span class="badge badge-yellow">At Risk</span></td>
+      </tr><tr data-project="AIPCC">
+        <td>AIPCC</td>
+        <td><strong>rhoai-3.6.EA1</strong></td>
+        <td>TBD</td>
+        <td>—</td>
+        <td>4</td>
+        <td style="color:#52c41a">0</td>
+        <td style="color:#faad14">3</td>
+        <td style="color:#8b949e">1</td>
+        <td style="min-width:120px">
+          <div class="progress-bar"><div class="progress-fill" style="width:0%;background:linear-gradient(90deg,#52c41a 0%,#faad14 100%)"></div></div>
+          <div class="progress-text">0%</div>
+        </td>
+        <td><span class="badge badge-red">Behind</span></td>
+      </tr><tr data-project="AIPCC">
+        <td>AIPCC</td>
+        <td><strong>rhoai-3.5</strong></td>
+        <td>TBD</td>
+        <td>—</td>
+        <td>21</td>
+        <td style="color:#52c41a">12</td>
+        <td style="color:#faad14">6</td>
+        <td style="color:#8b949e">3</td>
+        <td style="min-width:120px">
+          <div class="progress-bar"><div class="progress-fill" style="width:57%;background:linear-gradient(90deg,#52c41a 57%,#faad14 100%)"></div></div>
+          <div class="progress-text">57%</div>
+        </td>
+        <td><span class="badge badge-yellow">At Risk</span></td>
+      </tr><tr data-project="AIPCC">
+        <td>AIPCC</td>
+        <td><strong>rhelai-3.5 EA1 release</strong></td>
+        <td>2026-06-18</td>
+        <td>8d</td>
+        <td>30</td>
+        <td style="color:#52c41a">30</td>
+        <td style="color:#faad14">0</td>
+        <td style="color:#8b949e">0</td>
+        <td style="min-width:120px">
+          <div class="progress-bar"><div class="progress-fill" style="width:100%;background:linear-gradient(90deg,#52c41a 100%,#faad14 100%)"></div></div>
+          <div class="progress-text">100%</div>
+        </td>
+        <td><span class="badge badge-green">Complete</span></td>
+      </tr><tr data-project="AIPCC">
+        <td>AIPCC</td>
+        <td><strong>rhelai-3.5 EA2 release</strong></td>
+        <td>2026-07-16</td>
+        <td>36d</td>
+        <td>11</td>
+        <td style="color:#52c41a">5</td>
+        <td style="color:#faad14">3</td>
+        <td style="color:#8b949e">3</td>
+        <td style="min-width:120px">
+          <div class="progress-bar"><div class="progress-fill" style="width:45%;background:linear-gradient(90deg,#52c41a 45%,#faad14 100%)"></div></div>
+          <div class="progress-text">45%</div>
+        </td>
+        <td><span class="badge badge-green">On Track</span></td>
+      </tr><tr data-project="AIPCC">
+        <td>AIPCC</td>
+        <td><strong>RHAII-3.5 EA1</strong></td>
+        <td>2026-06-02</td>
+        <td>8d overdue</td>
+        <td>49</td>
+        <td style="color:#52c41a">49</td>
+        <td style="color:#faad14">0</td>
+        <td style="color:#8b949e">0</td>
+        <td style="min-width:120px">
+          <div class="progress-bar"><div class="progress-fill" style="width:100%;background:linear-gradient(90deg,#52c41a 100%,#faad14 100%)"></div></div>
+          <div class="progress-text">100%</div>
+        </td>
+        <td><span class="badge badge-green">Complete</span></td>
+      </tr><tr data-project="AIPCC">
+        <td>AIPCC</td>
+        <td><strong>RHAII-3.5 EA2</strong></td>
+        <td>2026-06-30</td>
+        <td>20d</td>
+        <td>11</td>
+        <td style="color:#52c41a">3</td>
+        <td style="color:#faad14">4</td>
+        <td style="color:#8b949e">4</td>
+        <td style="min-width:120px">
+          <div class="progress-bar"><div class="progress-fill" style="width:27%;background:linear-gradient(90deg,#52c41a 27%,#faad14 100%)"></div></div>
+          <div class="progress-text">27%</div>
+        </td>
+        <td><span class="badge badge-yellow">At Risk</span></td>
+      </tr><tr data-project="AIPCC">
+        <td>AIPCC</td>
+        <td><strong>RHAII-3.5 GA</strong></td>
+        <td>2026-07-30</td>
+        <td>50d</td>
+        <td>23</td>
+        <td style="color:#52c41a">4</td>
+        <td style="color:#faad14">0</td>
+        <td style="color:#8b949e">19</td>
+        <td style="min-width:120px">
+          <div class="progress-bar"><div class="progress-fill" style="width:17%;background:linear-gradient(90deg,#52c41a 17%,#faad14 100%)"></div></div>
+          <div class="progress-text">17%</div>
+        </td>
+        <td><span class="badge badge-green">On Track</span></td>
+      </tr><tr data-project="AIPCC">
+        <td>AIPCC</td>
+        <td><strong>RHAII-3.5</strong></td>
+        <td>2026-06-17</td>
+        <td>7d</td>
+        <td>10</td>
+        <td style="color:#52c41a">0</td>
+        <td style="color:#faad14">5</td>
+        <td style="color:#8b949e">5</td>
+        <td style="min-width:120px">
+          <div class="progress-bar"><div class="progress-fill" style="width:0%;background:linear-gradient(90deg,#52c41a 0%,#faad14 100%)"></div></div>
+          <div class="progress-text">0%</div>
+        </td>
+        <td><span class="badge badge-red">Critical</span></td>
+      </tr><tr data-project="INFERENG">
+        <td>INFERENG</td>
+        <td><strong>Alongside OpenShift 4.8</strong></td>
+        <td>TBD</td>
+        <td>—</td>
+        <td>1</td>
+        <td style="color:#52c41a">1</td>
+        <td style="color:#faad14">0</td>
+        <td style="color:#8b949e">0</td>
+        <td style="min-width:120px">
+          <div class="progress-bar"><div class="progress-fill" style="width:100%;background:linear-gradient(90deg,#52c41a 100%,#faad14 100%)"></div></div>
+          <div class="progress-text">100%</div>
+        </td>
+        <td><span class="badge badge-green">Complete</span></td>
+      </tr><tr data-project="INFERENG">
+        <td>INFERENG</td>
+        <td><strong>Alongside OpenShift 4.9</strong></td>
+        <td>TBD</td>
+        <td>—</td>
+        <td>1</td>
+        <td style="color:#52c41a">1</td>
+        <td style="color:#faad14">0</td>
+        <td style="color:#8b949e">0</td>
+        <td style="min-width:120px">
+          <div class="progress-bar"><div class="progress-fill" style="width:100%;background:linear-gradient(90deg,#52c41a 100%,#faad14 100%)"></div></div>
+          <div class="progress-text">100%</div>
+        </td>
+        <td><span class="badge badge-green">Complete</span></td>
+      </tr><tr data-project="INFERENG">
+        <td>INFERENG</td>
+        <td><strong>Alongside OpenShift 4.10</strong></td>
+        <td>TBD</td>
+        <td>—</td>
+        <td>14</td>
+        <td style="color:#52c41a">14</td>
+        <td style="color:#faad14">0</td>
+        <td style="color:#8b949e">0</td>
+        <td style="min-width:120px">
+          <div class="progress-bar"><div class="progress-fill" style="width:100%;background:linear-gradient(90deg,#52c41a 100%,#faad14 100%)"></div></div>
+          <div class="progress-text">100%</div>
+        </td>
+        <td><span class="badge badge-green">Complete</span></td>
+      </tr><tr data-project="INFERENG">
+        <td>INFERENG</td>
+        <td><strong>Alongside OpenShift 4.11</strong></td>
+        <td>TBD</td>
+        <td>—</td>
+        <td>3</td>
+        <td style="color:#52c41a">3</td>
+        <td style="color:#faad14">0</td>
+        <td style="color:#8b949e">0</td>
+        <td style="min-width:120px">
+          <div class="progress-bar"><div class="progress-fill" style="width:100%;background:linear-gradient(90deg,#52c41a 100%,#faad14 100%)"></div></div>
+          <div class="progress-text">100%</div>
+        </td>
+        <td><span class="badge badge-green">Complete</span></td>
+      </tr><tr data-project="INFERENG">
+        <td>INFERENG</td>
+        <td><strong>Alongside OpenShift 4.12</strong></td>
+        <td>TBD</td>
+        <td>—</td>
+        <td>1</td>
+        <td style="color:#52c41a">1</td>
+        <td style="color:#faad14">0</td>
+        <td style="color:#8b949e">0</td>
+        <td style="min-width:120px">
+          <div class="progress-bar"><div class="progress-fill" style="width:100%;background:linear-gradient(90deg,#52c41a 100%,#faad14 100%)"></div></div>
+          <div class="progress-text">100%</div>
+        </td>
+        <td><span class="badge badge-green">Complete</span></td>
+      </tr><tr data-project="INFERENG">
+        <td>INFERENG</td>
+        <td><strong>4.12</strong></td>
+        <td>TBD</td>
+        <td>—</td>
+        <td>2</td>
+        <td style="color:#52c41a">2</td>
+        <td style="color:#faad14">0</td>
+        <td style="color:#8b949e">0</td>
+        <td style="min-width:120px">
+          <div class="progress-bar"><div class="progress-fill" style="width:100%;background:linear-gradient(90deg,#52c41a 100%,#faad14 100%)"></div></div>
+          <div class="progress-text">100%</div>
+        </td>
+        <td><span class="badge badge-green">Complete</span></td>
+      </tr><tr data-project="INFERENG">
+        <td>INFERENG</td>
+        <td><strong>4.13</strong></td>
+        <td>TBD</td>
+        <td>—</td>
+        <td>5</td>
+        <td style="color:#52c41a">5</td>
+        <td style="color:#faad14">0</td>
+        <td style="color:#8b949e">0</td>
+        <td style="min-width:120px">
+          <div class="progress-bar"><div class="progress-fill" style="width:100%;background:linear-gradient(90deg,#52c41a 100%,#faad14 100%)"></div></div>
+          <div class="progress-text">100%</div>
+        </td>
+        <td><span class="badge badge-green">Complete</span></td>
+      </tr><tr data-project="INFERENG">
+        <td>INFERENG</td>
+        <td><strong>4.14</strong></td>
+        <td>TBD</td>
+        <td>—</td>
+        <td>1</td>
+        <td style="color:#52c41a">1</td>
+        <td style="color:#faad14">0</td>
+        <td style="color:#8b949e">0</td>
+        <td style="min-width:120px">
+          <div class="progress-bar"><div class="progress-fill" style="width:100%;background:linear-gradient(90deg,#52c41a 100%,#faad14 100%)"></div></div>
+          <div class="progress-text">100%</div>
+        </td>
+        <td><span class="badge badge-green">Complete</span></td>
+      </tr><tr data-project="INFERENG">
+        <td>INFERENG</td>
+        <td><strong>4.16</strong></td>
+        <td>TBD</td>
+        <td>—</td>
+        <td>1</td>
+        <td style="color:#52c41a">1</td>
+        <td style="color:#faad14">0</td>
+        <td style="color:#8b949e">0</td>
+        <td style="min-width:120px">
+          <div class="progress-bar"><div class="progress-fill" style="width:100%;background:linear-gradient(90deg,#52c41a 100%,#faad14 100%)"></div></div>
+          <div class="progress-text">100%</div>
+        </td>
+        <td><span class="badge badge-green">Complete</span></td>
+      </tr><tr data-project="INFERENG">
+        <td>INFERENG</td>
+        <td><strong>RHOAI_2.11.0</strong></td>
+        <td>2024-07-23</td>
+        <td>687d overdue</td>
+        <td>1</td>
+        <td style="color:#52c41a">1</td>
+        <td style="color:#faad14">0</td>
+        <td style="color:#8b949e">0</td>
+        <td style="min-width:120px">
+          <div class="progress-bar"><div class="progress-fill" style="width:100%;background:linear-gradient(90deg,#52c41a 100%,#faad14 100%)"></div></div>
+          <div class="progress-text">100%</div>
+        </td>
+        <td><span class="badge badge-green">Complete</span></td>
+      </tr><tr data-project="INFERENG">
+        <td>INFERENG</td>
+        <td><strong>RHOAI_2.12.0</strong></td>
+        <td>2024-08-14</td>
+        <td>665d overdue</td>
+        <td>2</td>
+        <td style="color:#52c41a">2</td>
+        <td style="color:#faad14">0</td>
+        <td style="color:#8b949e">0</td>
+        <td style="min-width:120px">
+          <div class="progress-bar"><div class="progress-fill" style="width:100%;background:linear-gradient(90deg,#52c41a 100%,#faad14 100%)"></div></div>
+          <div class="progress-text">100%</div>
+        </td>
+        <td><span class="badge badge-green">Complete</span></td>
+      </tr><tr data-project="INFERENG">
+        <td>INFERENG</td>
+        <td><strong>RHOAI_2.13.0</strong></td>
+        <td>2024-09-11</td>
+        <td>637d overdue</td>
+        <td>1</td>
+        <td style="color:#52c41a">1</td>
+        <td style="color:#faad14">0</td>
+        <td style="color:#8b949e">0</td>
+        <td style="min-width:120px">
+          <div class="progress-bar"><div class="progress-fill" style="width:100%;background:linear-gradient(90deg,#52c41a 100%,#faad14 100%)"></div></div>
+          <div class="progress-text">100%</div>
+        </td>
+        <td><span class="badge badge-green">Complete</span></td>
+      </tr><tr data-project="INFERENG">
+        <td>INFERENG</td>
+        <td><strong>RHOAI_2.16.0</strong></td>
+        <td>2024-12-11</td>
+        <td>546d overdue</td>
+        <td>1</td>
+        <td style="color:#52c41a">1</td>
+        <td style="color:#faad14">0</td>
+        <td style="color:#8b949e">0</td>
+        <td style="min-width:120px">
+          <div class="progress-bar"><div class="progress-fill" style="width:100%;background:linear-gradient(90deg,#52c41a 100%,#faad14 100%)"></div></div>
+          <div class="progress-text">100%</div>
+        </td>
+        <td><span class="badge badge-green">Complete</span></td>
+      </tr><tr data-project="RHAIENG">
+        <td>RHAIENG</td>
+        <td><strong>RHELAI Backlog</strong></td>
+        <td>TBD</td>
+        <td>—</td>
+        <td>3</td>
+        <td style="color:#52c41a">3</td>
+        <td style="color:#faad14">0</td>
+        <td style="color:#8b949e">0</td>
+        <td style="min-width:120px">
+          <div class="progress-bar"><div class="progress-fill" style="width:100%;background:linear-gradient(90deg,#52c41a 100%,#faad14 100%)"></div></div>
+          <div class="progress-text">100%</div>
+        </td>
+        <td><span class="badge badge-green">Complete</span></td>
+      </tr><tr data-project="RHAIENG">
+        <td>RHAIENG</td>
+        <td><strong>rhelai-3.0</strong></td>
+        <td>2025-11-13</td>
+        <td>209d overdue</td>
+        <td>4</td>
+        <td style="color:#52c41a">1</td>
+        <td style="color:#faad14">0</td>
+        <td style="color:#8b949e">3</td>
+        <td style="min-width:120px">
+          <div class="progress-bar"><div class="progress-fill" style="width:25%;background:linear-gradient(90deg,#52c41a 25%,#faad14 100%)"></div></div>
+          <div class="progress-text">25%</div>
+        </td>
+        <td><span class="badge badge-red">Overdue</span></td>
+      </tr><tr data-project="RHAIENG">
+        <td>RHAIENG</td>
+        <td><strong>rhelai-1.3.1</strong></td>
+        <td>2024-12-12</td>
+        <td>545d overdue</td>
+        <td>19</td>
+        <td style="color:#52c41a">19</td>
+        <td style="color:#faad14">0</td>
+        <td style="color:#8b949e">0</td>
+        <td style="min-width:120px">
+          <div class="progress-bar"><div class="progress-fill" style="width:100%;background:linear-gradient(90deg,#52c41a 100%,#faad14 100%)"></div></div>
+          <div class="progress-text">100%</div>
+        </td>
+        <td><span class="badge badge-green">Complete</span></td>
+      </tr><tr data-project="RHAIENG">
+        <td>RHAIENG</td>
+        <td><strong>rhelai-1.3.2</strong></td>
+        <td>2025-02-04</td>
+        <td>491d overdue</td>
+        <td>2</td>
+        <td style="color:#52c41a">2</td>
+        <td style="color:#faad14">0</td>
+        <td style="color:#8b949e">0</td>
+        <td style="min-width:120px">
+          <div class="progress-bar"><div class="progress-fill" style="width:100%;background:linear-gradient(90deg,#52c41a 100%,#faad14 100%)"></div></div>
+          <div class="progress-text">100%</div>
+        </td>
+        <td><span class="badge badge-green">Complete</span></td>
+      </tr><tr data-project="RHOAIENG">
+        <td>RHOAIENG</td>
+        <td><strong>v1.2.0</strong></td>
+        <td>TBD</td>
+        <td>—</td>
+        <td>3</td>
+        <td style="color:#52c41a">3</td>
+        <td style="color:#faad14">0</td>
+        <td style="color:#8b949e">0</td>
+        <td style="min-width:120px">
+          <div class="progress-bar"><div class="progress-fill" style="width:100%;background:linear-gradient(90deg,#52c41a 100%,#faad14 100%)"></div></div>
+          <div class="progress-text">100%</div>
+        </td>
+        <td><span class="badge badge-green">Complete</span></td>
+      </tr><tr data-project="RHOAIENG">
+        <td>RHOAIENG</td>
+        <td><strong>1.1.1-57</strong></td>
+        <td>TBD</td>
+        <td>—</td>
+        <td>2</td>
+        <td style="color:#52c41a">2</td>
+        <td style="color:#faad14">0</td>
+        <td style="color:#8b949e">0</td>
+        <td style="min-width:120px">
+          <div class="progress-bar"><div class="progress-fill" style="width:100%;background:linear-gradient(90deg,#52c41a 100%,#faad14 100%)"></div></div>
+          <div class="progress-text">100%</div>
+        </td>
+        <td><span class="badge badge-green">Complete</span></td>
+      </tr><tr data-project="RHOAIENG">
+        <td>RHOAIENG</td>
+        <td><strong>FUTURE_GA</strong></td>
+        <td>TBD</td>
+        <td>—</td>
+        <td>8</td>
+        <td style="color:#52c41a">8</td>
+        <td style="color:#faad14">0</td>
+        <td style="color:#8b949e">0</td>
+        <td style="min-width:120px">
+          <div class="progress-bar"><div class="progress-fill" style="width:100%;background:linear-gradient(90deg,#52c41a 100%,#faad14 100%)"></div></div>
+          <div class="progress-text">100%</div>
+        </td>
+        <td><span class="badge badge-green">Complete</span></td>
+      </tr><tr data-project="RHOAIENG">
+        <td>RHOAIENG</td>
+        <td><strong>RHODS_1.30.0_GA</strong></td>
+        <td>2023-08-01</td>
+        <td>1044d overdue</td>
+        <td>15</td>
+        <td style="color:#52c41a">15</td>
+        <td style="color:#faad14">0</td>
+        <td style="color:#8b949e">0</td>
+        <td style="min-width:120px">
+          <div class="progress-bar"><div class="progress-fill" style="width:100%;background:linear-gradient(90deg,#52c41a 100%,#faad14 100%)"></div></div>
+          <div class="progress-text">100%</div>
+        </td>
+        <td><span class="badge badge-green">Complete</span></td>
+      </tr><tr data-project="RHOAIENG">
+        <td>RHOAIENG</td>
+        <td><strong>RHODS_1.29.0_GA</strong></td>
+        <td>2023-07-11</td>
+        <td>1065d overdue</td>
+        <td>22</td>
+        <td style="color:#52c41a">22</td>
+        <td style="color:#faad14">0</td>
+        <td style="color:#8b949e">0</td>
+        <td style="min-width:120px">
+          <div class="progress-bar"><div class="progress-fill" style="width:100%;background:linear-gradient(90deg,#52c41a 100%,#faad14 100%)"></div></div>
+          <div class="progress-text">100%</div>
+        </td>
+        <td><span class="badge badge-green">Complete</span></td>
+      </tr><tr data-project="RHOAIENG">
+        <td>RHOAIENG</td>
+        <td><strong>RHODS_1.28.0_GA</strong></td>
+        <td>2023-06-20</td>
+        <td>1086d overdue</td>
+        <td>36</td>
+        <td style="color:#52c41a">36</td>
+        <td style="color:#faad14">0</td>
+        <td style="color:#8b949e">0</td>
+        <td style="min-width:120px">
+          <div class="progress-bar"><div class="progress-fill" style="width:100%;background:linear-gradient(90deg,#52c41a 100%,#faad14 100%)"></div></div>
+          <div class="progress-text">100%</div>
+        </td>
+        <td><span class="badge badge-green">Complete</span></td>
+      </tr><tr data-project="RHOAIENG">
+        <td>RHOAIENG</td>
+        <td><strong>RHOSi Future</strong></td>
+        <td>TBD</td>
+        <td>—</td>
+        <td>9</td>
+        <td style="color:#52c41a">2</td>
+        <td style="color:#faad14">0</td>
+        <td style="color:#8b949e">7</td>
+        <td style="min-width:120px">
+          <div class="progress-bar"><div class="progress-fill" style="width:22%;background:linear-gradient(90deg,#52c41a 22%,#faad14 100%)"></div></div>
+          <div class="progress-text">22%</div>
+        </td>
+        <td><span class="badge badge-red">Behind</span></td>
+      </tr><tr data-project="RHOAIENG">
+        <td>RHOAIENG</td>
+        <td><strong>RHOSi v1.27.0</strong></td>
+        <td>2023-06-06</td>
+        <td>1100d overdue</td>
+        <td>1</td>
+        <td style="color:#52c41a">1</td>
+        <td style="color:#faad14">0</td>
+        <td style="color:#8b949e">0</td>
+        <td style="min-width:120px">
+          <div class="progress-bar"><div class="progress-fill" style="width:100%;background:linear-gradient(90deg,#52c41a 100%,#faad14 100%)"></div></div>
+          <div class="progress-text">100%</div>
+        </td>
+        <td><span class="badge badge-green">Complete</span></td>
+      </tr><tr data-project="RHOAIENG">
+        <td>RHOAIENG</td>
+        <td><strong>RHODS_1.31.0_GA</strong></td>
+        <td>2023-08-22</td>
+        <td>1023d overdue</td>
+        <td>8</td>
+        <td style="color:#52c41a">8</td>
+        <td style="color:#faad14">0</td>
+        <td style="color:#8b949e">0</td>
+        <td style="min-width:120px">
+          <div class="progress-bar"><div class="progress-fill" style="width:100%;background:linear-gradient(90deg,#52c41a 100%,#faad14 100%)"></div></div>
+          <div class="progress-text">100%</div>
+        </td>
+        <td><span class="badge badge-green">Complete</span></td>
+      </tr><tr data-project="RHOAIENG">
+        <td>RHOAIENG</td>
+        <td><strong>RHODS_1.32.0_GA</strong></td>
+        <td>2023-09-12</td>
+        <td>1002d overdue</td>
+        <td>10</td>
+        <td style="color:#52c41a">10</td>
+        <td style="color:#faad14">0</td>
+        <td style="color:#8b949e">0</td>
+        <td style="min-width:120px">
+          <div class="progress-bar"><div class="progress-fill" style="width:100%;background:linear-gradient(90deg,#52c41a 100%,#faad14 100%)"></div></div>
+          <div class="progress-text">100%</div>
+        </td>
+        <td><span class="badge badge-green">Complete</span></td>
+      </tr><tr data-project="RHOAIENG">
+        <td>RHOAIENG</td>
+        <td><strong>RHODS_1.33.0_GA</strong></td>
+        <td>2023-10-03</td>
+        <td>981d overdue</td>
+        <td>17</td>
+        <td style="color:#52c41a">17</td>
+        <td style="color:#faad14">0</td>
+        <td style="color:#8b949e">0</td>
+        <td style="min-width:120px">
+          <div class="progress-bar"><div class="progress-fill" style="width:100%;background:linear-gradient(90deg,#52c41a 100%,#faad14 100%)"></div></div>
+          <div class="progress-text">100%</div>
+        </td>
+        <td><span class="badge badge-green">Complete</span></td>
+      </tr><tr data-project="RHOAIENG">
+        <td>RHOAIENG</td>
+        <td><strong>RHODS_1.34.0_GA</strong></td>
+        <td>2023-10-24</td>
+        <td>960d overdue</td>
+        <td>7</td>
+        <td style="color:#52c41a">7</td>
+        <td style="color:#faad14">0</td>
+        <td style="color:#8b949e">0</td>
+        <td style="min-width:120px">
+          <div class="progress-bar"><div class="progress-fill" style="width:100%;background:linear-gradient(90deg,#52c41a 100%,#faad14 100%)"></div></div>
+          <div class="progress-text">100%</div>
+        </td>
+        <td><span class="badge badge-green">Complete</span></td>
+      </tr><tr data-project="RHOAIENG">
+        <td>RHOAIENG</td>
+        <td><strong>RHODS_2.4.0_GA</strong></td>
+        <td>2023-11-16</td>
+        <td>937d overdue</td>
+        <td>20</td>
+        <td style="color:#52c41a">20</td>
+        <td style="color:#faad14">0</td>
+        <td style="color:#8b949e">0</td>
+        <td style="min-width:120px">
+          <div class="progress-bar"><div class="progress-fill" style="width:100%;background:linear-gradient(90deg,#52c41a 100%,#faad14 100%)"></div></div>
+          <div class="progress-text">100%</div>
+        </td>
+        <td><span class="badge badge-green">Complete</span></td>
+      </tr><tr data-project="RHOAIENG">
+        <td>RHOAIENG</td>
+        <td><strong>RHODS_2.5.0_GA</strong></td>
+        <td>2023-12-14</td>
+        <td>909d overdue</td>
+        <td>7</td>
+        <td style="color:#52c41a">7</td>
+        <td style="color:#faad14">0</td>
+        <td style="color:#8b949e">0</td>
+        <td style="min-width:120px">
+          <div class="progress-bar"><div class="progress-fill" style="width:100%;background:linear-gradient(90deg,#52c41a 100%,#faad14 100%)"></div></div>
+          <div class="progress-text">100%</div>
+        </td>
+        <td><span class="badge badge-green">Complete</span></td>
+      </tr><tr data-project="RHOAIENG">
+        <td>RHOAIENG</td>
+        <td><strong>RHOSi v1.29.0</strong></td>
+        <td>2023-07-18</td>
+        <td>1058d overdue</td>
+        <td>2</td>
+        <td style="color:#52c41a">2</td>
+        <td style="color:#faad14">0</td>
+        <td style="color:#8b949e">0</td>
+        <td style="min-width:120px">
+          <div class="progress-bar"><div class="progress-fill" style="width:100%;background:linear-gradient(90deg,#52c41a 100%,#faad14 100%)"></div></div>
+          <div class="progress-text">100%</div>
+        </td>
+        <td><span class="badge badge-green">Complete</span></td>
+      </tr><tr data-project="RHOAIENG">
+        <td>RHOAIENG</td>
+        <td><strong>RHOSi v1.30.0</strong></td>
+        <td>2023-08-08</td>
+        <td>1037d overdue</td>
+        <td>2</td>
+        <td style="color:#52c41a">2</td>
+        <td style="color:#faad14">0</td>
+        <td style="color:#8b949e">0</td>
+        <td style="min-width:120px">
+          <div class="progress-bar"><div class="progress-fill" style="width:100%;background:linear-gradient(90deg,#52c41a 100%,#faad14 100%)"></div></div>
+          <div class="progress-text">100%</div>
+        </td>
+        <td><span class="badge badge-green">Complete</span></td>
+      </tr><tr data-project="RHOAIENG">
+        <td>RHOAIENG</td>
+        <td><strong>RHOSi v1.34.0</strong></td>
+        <td>2023-10-31</td>
+        <td>953d overdue</td>
+        <td>1</td>
+        <td style="color:#52c41a">1</td>
+        <td style="color:#faad14">0</td>
+        <td style="color:#8b949e">0</td>
+        <td style="min-width:120px">
+          <div class="progress-bar"><div class="progress-fill" style="width:100%;background:linear-gradient(90deg,#52c41a 100%,#faad14 100%)"></div></div>
+          <div class="progress-text">100%</div>
+        </td>
+        <td><span class="badge badge-green">Complete</span></td>
       </tr>
-    </thead>
-    <tbody id="release-tbody">
-      <tr data-project="AIPCC">
-        <td>AIPCC</td><td>RHAII-3.5</td><td>2026-06-17</td>
-        <td>10</td><td>0</td><td>5</td><td>5</td>
-        <td><div class="progress-bar"><div class="progress-fill" style="width:0%;background:#ff4d4f"></div></div><div class="progress-text">0.0% complete &bull; 9d left</div></td>
-        <td><span class="badge badge-red">Red</span></td>
-      </tr>
-      <tr data-project="AIPCC">
-        <td>AIPCC</td><td>rhelai-3.5 EA1 release</td><td>2026-06-18</td>
-        <td>47</td><td>46</td><td>1</td><td>0</td>
-        <td><div class="progress-bar"><div class="progress-fill" style="width:97.9%;background:#52c41a"></div></div><div class="progress-text">97.9% complete &bull; 10d left</div></td>
-        <td><span class="badge badge-green">Green</span></td>
-      </tr>
-      <tr data-project="AIPCC">
-        <td>AIPCC</td><td>RHAII-3.5 EA2</td><td>2026-06-30</td>
-        <td>10</td><td>2</td><td>4</td><td>4</td>
-        <td><div class="progress-bar"><div class="progress-fill" style="width:20%;background:#faad14"></div></div><div class="progress-text">20.0% complete &bull; 22d left</div></td>
-        <td><span class="badge badge-yellow">Yellow</span></td>
-      </tr>
-      <tr data-project="AIPCC">
-        <td>AIPCC</td><td>rhelai-3.5 EA2 release</td><td>2026-07-16</td>
-        <td>11</td><td>5</td><td>3</td><td>3</td>
-        <td><div class="progress-bar"><div class="progress-fill" style="width:45.5%;background:#faad14"></div></div><div class="progress-text">45.5% complete &bull; 38d left</div></td>
-        <td><span class="badge badge-green">Green</span></td>
-      </tr>
-      <tr data-project="AIPCC">
-        <td>AIPCC</td><td>RHAII-3.5 GA</td><td>2026-07-30</td>
-        <td>23</td><td>4</td><td>0</td><td>19</td>
-        <td><div class="progress-bar"><div class="progress-fill" style="width:17.4%;background:#faad14"></div></div><div class="progress-text">17.4% complete &bull; 52d left</div></td>
-        <td><span class="badge badge-green">Green</span></td>
-      </tr>
-      <tr data-project="AIPCC">
-        <td>AIPCC</td><td>rhelai-3.5 GA</td><td>2026-08-20</td>
-        <td>0</td><td>0</td><td>0</td><td>0</td>
-        <td><div class="progress-bar"><div class="progress-fill" style="width:0%;background:#21262d"></div></div><div class="progress-text">No issues targeted &bull; 73d left</div></td>
-        <td><span class="badge badge-gray">N/A</span></td>
-      </tr>
-      <tr data-project="AIPCC">
-        <td>AIPCC</td><td>RHAII-3.6</td><td>2026-09-17</td>
-        <td>0</td><td>0</td><td>0</td><td>0</td>
-        <td><div class="progress-bar"><div class="progress-fill" style="width:0%;background:#21262d"></div></div><div class="progress-text">No issues targeted &bull; 101d left</div></td>
-        <td><span class="badge badge-gray">N/A</span></td>
-      </tr>
-      <tr data-project="AIPCC" style="background:#1c2128">
-        <td colspan="9" style="color:#8b949e;font-size:0.8rem;padding:8px 14px;border-top:2px solid #30363d"><strong>Undated versions with active work (Target Version)</strong></td>
-      </tr>
-      <tr data-project="AIPCC">
-        <td>AIPCC</td><td>rhoai-3.5.EA1</td><td style="color:#484f58">No date</td>
-        <td>91</td><td>86</td><td>4</td><td>1</td>
-        <td><div class="progress-bar"><div class="progress-fill" style="width:94.5%;background:#52c41a"></div></div><div class="progress-text">94.5% complete</div></td>
-        <td><span class="badge badge-green">Green</span></td>
-      </tr>
-      <tr data-project="AIPCC">
-        <td>AIPCC</td><td>rhoai-3.5.EA2</td><td style="color:#484f58">No date</td>
-        <td>66</td><td>41</td><td>7</td><td>18</td>
-        <td><div class="progress-bar"><div class="progress-fill" style="width:62.1%;background:#faad14"></div></div><div class="progress-text">62.1% complete</div></td>
-        <td><span class="badge badge-yellow">Yellow</span></td>
-      </tr>
-      <tr data-project="AIPCC">
-        <td>AIPCC</td><td>rhoai-3.5</td><td style="color:#484f58">No date</td>
-        <td>17</td><td>12</td><td>3</td><td>2</td>
-        <td><div class="progress-bar"><div class="progress-fill" style="width:70.6%;background:#52c41a"></div></div><div class="progress-text">70.6% complete</div></td>
-        <td><span class="badge badge-green">Green</span></td>
-      </tr>
-      <tr data-project="AIPCC">
-        <td>AIPCC</td><td>rhoai-3.4</td><td style="color:#484f58">No date</td>
-        <td>35</td><td>33</td><td>1</td><td>1</td>
-        <td><div class="progress-bar"><div class="progress-fill" style="width:94.3%;background:#52c41a"></div></div><div class="progress-text">94.3% complete</div></td>
-        <td><span class="badge badge-green">Green</span></td>
-      </tr>
-      <tr data-project="AIPCC">
-        <td>AIPCC</td><td>rhoai-3.3</td><td style="color:#484f58">No date</td>
-        <td>34</td><td>33</td><td>0</td><td>1</td>
-        <td><div class="progress-bar"><div class="progress-fill" style="width:97.1%;background:#52c41a"></div></div><div class="progress-text">97.1% complete</div></td>
-        <td><span class="badge badge-green">Green</span></td>
-      </tr>
-    </tbody>
-  </table>
+      </tbody>
+    </table>
   </div>
 </div>
 
 <div class="assumptions">
-  <div class="assumptions-header" onclick="this.nextElementSibling.classList.toggle('open')">
-    <span>Assumptions &amp; Methodology</span>
-    <span id="assumptions-toggle">&#9660;</span>
+  <div class="assumptions-header" onclick="this.nextElementSibling.classList.toggle('open');this.querySelector('span').textContent=this.nextElementSibling.classList.contains('open')?'\u25B2':'\u25BC'">
+    Assumptions &amp; Methodology <span>\u25BC</span>
   </div>
   <div class="assumptions-body">
     <ul>
-      <li><strong>Data source:</strong> redhat.atlassian.net REST API v3 (unauthenticated). AIPCC project data only; INFERENG, RHAIENG, RHOAIENG require authentication and are shown as placeholders.</li>
-      <li><strong>Target Version field:</strong> Issue counts use <code>customfield_10855</code> ("Target Version"), queried via <code>project=AIPCC AND cf[10855]="&lt;ver&gt;" AND issuetype not in (Epic,Feature)</code>.</li>
-      <li><strong>Status categories:</strong> Done/In Progress/To Do mapped via Jira <code>statusCategory</code>.</li>
-      <li><strong>Velocity:</strong> Weekly resolved issue counts (rolling 7-day windows over the past 6 weeks). Current week (W-0) is partial. W-5 and W-4 are estimates (&plusmn;10%) due to API response limits.</li>
-      <li><strong>WIP:Throughput ratio:</strong> Current WIP (714) / 30-day resolved (1,375) = 0.52. Values &lt;1.0 are healthy.</li>
-      <li><strong>Risk (Sprint Throughput):</strong> Green = current velocity within +10% of 6-week avg (287/wk). Yellow = 10-30% deviation. Red = &gt;30% deviation.</li>
-      <li><strong>Risk (Release):</strong> Green = &gt;70% done OR &gt;30d left. Yellow = &lt;70% done AND &lt;30d left. Red = &lt;50% done AND &lt;14d left, or overdue with &lt;90% done.</li>
-      <li><strong>Aging WIP:</strong> Issues with <code>statusCategory="In Progress" AND updated &lt;= -14d</code>.</li>
-      <li><strong>30-day created count (1,500) is an estimate</strong> based on the resolved/created ratio from prior data pulls. Exact weekly created counts require authenticated JQL access.</li>
+      <li><strong>Data source:</strong> Jira REST API v3 at redhat.atlassian.net, queried 2026-06-10.</li>
+      <li><strong>Project mapping:</strong> AIPCC queried directly. INFERENG mapped to PSAP (Performance and Scale for AI Platforms). RHAIENG mapped to RHELAI (Red Hat Enterprise Linux AI). RHOAIENG mapped to RHODS (Red Hat OpenShift Data Science). These mappings reflect publicly accessible Jira project keys.</li>
+      <li><strong>Sprint velocity:</strong> Approximated from issues completed in closed sprints over the past 90 days, divided into ~6 bi-weekly sprint periods. Board-level sprint data requires Jira authentication.</li>
+      <li><strong>Version issues:</strong> Queried using <code>"Target Version" (customfield_10855)</code>, excluding Epics and Features. Versions with 0 matching issues are hidden.</li>
+      <li><strong>Risk badges (Sprint):</strong> Green = remaining work within +10% of avg velocity. Yellow = 10-30% over. Red = &gt;30% over capacity.</li>
+      <li><strong>Risk badges (Release):</strong> Green = &gt;70% done or &gt;30 days remaining. Yellow = &lt;70% done and &lt;30 days. Red = &lt;50% done and &lt;14 days, or overdue.</li>
+      <li><strong>WIP counts:</strong> All issues in "In Progress" status category, excluding Epics and Features.</li>
+      <li><strong>Throughput:</strong> Issues resolved in the last 30 days. Created count = issues created in last 30 days. AIPCC counts capped at 1000 by API pagination limits.</li>
+      <li><strong>Aging WIP:</strong> Issues in "In Progress" status category not updated in 14+ days.</li>
     </ul>
   </div>
 </div>
@@ -292,16 +908,13 @@ function switchTab(id){
   document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));
   document.querySelectorAll('.tab-content').forEach(t=>t.classList.remove('active'));
   document.getElementById(id).classList.add('active');
-  document.querySelector(`.tab[onclick*="${id}"]`).classList.add('active');
+  event.target.classList.add('active');
 }
 function filterProject(proj){
-  document.querySelectorAll('.project-btn').forEach(b=>{
-    if(b.classList.contains('disabled')) return;
-    b.classList.remove('active');
-  });
-  event.target.classList.add('active');
+  document.querySelectorAll('.project-btn').forEach(b=>{b.classList.remove('active');if(b.textContent.trim()===proj||proj==='all'&&b.textContent.trim()==='All Projects')b.classList.add('active')});
   document.querySelectorAll('[data-project]').forEach(el=>{
-    el.style.display=(proj==='all'||el.dataset.project===proj)?'':'none';
+    if(proj==='all')el.style.display='';
+    else el.style.display=el.dataset.project===proj?'':'none';
   });
 }
 </script>
