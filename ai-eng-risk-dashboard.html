@@ -24,15 +24,26 @@ table{width:100%;border-collapse:collapse;background:#161b22;border-radius:10px;
 th{background:#21262d;padding:10px 14px;text-align:left;font-size:0.8rem;color:#8b949e;font-weight:600;text-transform:uppercase;letter-spacing:0.5px}
 td{padding:10px 14px;border-top:1px solid #30363d;font-size:0.85rem}
 tr:hover td{background:#1c2128}
-.progress-bar{width:100%;height:8px;background:#21262d;border-radius:4px;overflow:hidden}
-.progress-fill{height:100%;border-radius:4px}
-.progress-text{font-size:0.75rem;color:#8b949e;margin-top:3px}
 .badge{padding:3px 10px;border-radius:12px;font-size:0.75rem;font-weight:600;text-transform:uppercase}
 .badge-green{background:#1b4332;color:#52c41a}
 .badge-yellow{background:#3d3200;color:#faad14}
 .badge-red{background:#3d1111;color:#ff4d4f}
 .badge-gray{background:#21262d;color:#8b949e}
-.table-wrap{border-radius:10px;overflow:hidden;border:1px solid #30363d}
+.progress-bar{width:100%;height:8px;background:#21262d;border-radius:4px;overflow:hidden}
+.progress-fill{height:100%;border-radius:4px}
+.progress-text{font-size:0.75rem;color:#8b949e;margin-top:3px}
+.table-wrap{border-radius:10px;overflow:hidden;border:1px solid #30363d;margin-bottom:24px}
+.cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(340px,1fr));gap:16px;margin-bottom:24px}
+.card{background:#161b22;border:1px solid #30363d;border-radius:10px;padding:20px;transition:border-color .2s}
+.card:hover{border-color:#58a6ff}
+.card-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:12px}
+.card-title{font-size:1rem;font-weight:600}
+.metric-row{display:flex;gap:16px;margin-bottom:8px;flex-wrap:wrap}
+.metric-box{flex:1;min-width:80px;background:#21262d;border-radius:8px;padding:10px;text-align:center}
+.metric-box .val{font-size:1.3rem;font-weight:700}
+.metric-box .lbl{font-size:0.7rem;color:#8b949e;margin-top:2px}
+.ratio-bar{display:flex;height:24px;border-radius:6px;overflow:hidden;margin-top:8px}
+.ratio-bar div{display:flex;align-items:center;justify-content:center;font-size:0.7rem;font-weight:600}
 .summary-row{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-bottom:24px}
 .summary-card{background:#161b22;border:1px solid #30363d;border-radius:10px;padding:16px;text-align:center}
 .summary-card .big{font-size:2rem;font-weight:700}
@@ -43,18 +54,14 @@ tr:hover td{background:#1c2128}
 .assumptions-body{padding:0 16px 16px;font-size:0.8rem;color:#6e7681;line-height:1.6;display:none}
 .assumptions-body.open{display:block}
 .assumptions-body ul{padding-left:20px}
-a{color:#58a6ff}
-.data-note{background:#1c1917;border:1px solid #78350f;border-radius:8px;padding:12px 16px;margin-bottom:16px;font-size:0.85rem;color:#fbbf24}
+.issue-key{color:#58a6ff;font-weight:500}
+.stale-days{color:#ff4d4f;font-size:0.75rem}
 </style>
 </head>
 <body>
 
 <h1>AI Engineering Risk Dashboard</h1>
-<div class="subtitle">Data as of 2026-06-10 &bull; Source: redhat.atlassian.net &bull; Projects: AIPCC, INFERENG, RHAIENG, RHOAIENG</div>
-
-<div class="data-note">
-  Data sourced via Jira REST API v3 at redhat.atlassian.net. AIPCC queried directly; INFERENG mapped to PSAP, RHAIENG to RHELAI, RHOAIENG to RHODS. Some counts may be capped at API pagination limits.
-</div>
+<div class="subtitle">Data as of 2026-06-11 &bull; Source: redhat.atlassian.net &bull; Projects: AIPCC, INFERENG, RHAIENG, RHOAIENG</div>
 
 <div class="tabs">
   <div class="tab active" onclick="switchTab('burndown')">Release Burndown</div>
@@ -62,1538 +69,395 @@ a{color:#58a6ff}
   <div class="tab" onclick="switchTab('flow')">Flow Metrics</div>
 </div>
 
-<!-- Release Burndown Tab -->
+<!-- ===== RELEASE BURNDOWN TAB ===== -->
 <div id="burndown" class="tab-content active">
-  <div class="filter-row">
-    <span class="filter-label">Product:</span>
-    <button class="filter-btn active" onclick="filterBurndown('product','all',this)">All</button>
-    <button class="filter-btn" onclick="filterBurndown('product','RHOAI',this)">RHOAI</button>
-    <button class="filter-btn" onclick="filterBurndown('product','RHELAI',this)">RHELAI</button>
-    <button class="filter-btn" onclick="filterBurndown('product','RHAIIS',this)">RHAIIS</button>
-    <button class="filter-btn" onclick="filterBurndown('product','Other',this)">Other</button>
-    <span style="margin-left:16px" class="filter-label">Risk:</span>
-    <button class="filter-btn active" onclick="filterBurndown('risk','all',this)">All</button>
-    <button class="filter-btn" onclick="filterBurndown('risk','red',this)" style="color:#ff4d4f">Red</button>
-    <button class="filter-btn" onclick="filterBurndown('risk','yellow',this)" style="color:#faad14">Yellow</button>
-    <button class="filter-btn" onclick="filterBurndown('risk','green',this)" style="color:#52c41a">Green</button>
-  </div>
-  <div class="table-wrap">
-    <table id="burndown-table">
-      <thead>
-        <tr>
-          <th>Project</th>
-          <th>Product</th>
-          <th>Version</th>
-          <th>Release Date</th>
-          <th>Days Left</th>
-          <th>Total</th>
-          <th>Done</th>
-          <th>IP</th>
-          <th>To Do</th>
-          <th>Progress</th>
-          <th>Risk</th>
-        </tr>
-      </thead>
-      <tbody>
-<tr data-project="RHAIENG" data-product="RHELAI" data-risk="red">
-        <td>RHAIENG</td>
-        <td>RHELAI</td>
-        <td><strong>rhelai-3.0</strong></td>
-        <td>2025-11-13</td>
-        <td>209d overdue</td>
-        <td>4</td>
-        <td style="color:#52c41a">1</td>
-        <td style="color:#faad14">0</td>
-        <td style="color:#8b949e">3</td>
-        <td style="min-width:100px">
-          <div class="progress-bar"><div class="progress-fill" style="width:25%;background:#52c41a"></div></div>
-          <div class="progress-text">25%</div>
-        </td>
-        <td><span class="badge badge-red">Overdue</span></td>
-      </tr><tr data-project="AIPCC" data-product="RHELAI" data-risk="red">
-        <td>AIPCC</td>
-        <td>RHELAI</td>
-        <td><strong>RHAII-3.5</strong></td>
-        <td>2026-06-17</td>
-        <td>7d</td>
-        <td>10</td>
-        <td style="color:#52c41a">0</td>
-        <td style="color:#faad14">5</td>
-        <td style="color:#8b949e">5</td>
-        <td style="min-width:100px">
-          <div class="progress-bar"><div class="progress-fill" style="width:0%;background:#52c41a"></div></div>
-          <div class="progress-text">0%</div>
-        </td>
-        <td><span class="badge badge-red">Critical</span></td>
-      </tr><tr data-project="AIPCC" data-product="RHOAI" data-risk="red">
-        <td>AIPCC</td>
-        <td>RHOAI</td>
-        <td><strong>rhoai-3.6.EA1</strong></td>
-        <td>TBD</td>
-        <td>—</td>
-        <td>4</td>
-        <td style="color:#52c41a">0</td>
-        <td style="color:#faad14">3</td>
-        <td style="color:#8b949e">1</td>
-        <td style="min-width:100px">
-          <div class="progress-bar"><div class="progress-fill" style="width:0%;background:#52c41a"></div></div>
-          <div class="progress-text">0%</div>
-        </td>
-        <td><span class="badge badge-red">Behind</span></td>
-      </tr><tr data-project="RHOAIENG" data-product="Other" data-risk="red">
-        <td>RHOAIENG</td>
-        <td>Other</td>
-        <td><strong>RHOSi Future</strong></td>
-        <td>TBD</td>
-        <td>—</td>
-        <td>9</td>
-        <td style="color:#52c41a">2</td>
-        <td style="color:#faad14">0</td>
-        <td style="color:#8b949e">7</td>
-        <td style="min-width:100px">
-          <div class="progress-bar"><div class="progress-fill" style="width:22%;background:#52c41a"></div></div>
-          <div class="progress-text">22%</div>
-        </td>
-        <td><span class="badge badge-red">Behind</span></td>
-      </tr><tr data-project="AIPCC" data-product="RHELAI" data-risk="yellow">
-        <td>AIPCC</td>
-        <td>RHELAI</td>
-        <td><strong>RHAII-3.5 EA2</strong></td>
-        <td>2026-06-30</td>
-        <td>20d</td>
-        <td>11</td>
-        <td style="color:#52c41a">3</td>
-        <td style="color:#faad14">4</td>
-        <td style="color:#8b949e">4</td>
-        <td style="min-width:100px">
-          <div class="progress-bar"><div class="progress-fill" style="width:27%;background:#52c41a"></div></div>
-          <div class="progress-text">27%</div>
-        </td>
-        <td><span class="badge badge-yellow">At Risk</span></td>
-      </tr><tr data-project="AIPCC" data-product="RHOAI" data-risk="yellow">
-        <td>AIPCC</td>
-        <td>RHOAI</td>
-        <td><strong>rhoai-3.5.EA2</strong></td>
-        <td>TBD</td>
-        <td>—</td>
-        <td>66</td>
-        <td style="color:#52c41a">43</td>
-        <td style="color:#faad14">7</td>
-        <td style="color:#8b949e">16</td>
-        <td style="min-width:100px">
-          <div class="progress-bar"><div class="progress-fill" style="width:65%;background:#52c41a"></div></div>
-          <div class="progress-text">65%</div>
-        </td>
-        <td><span class="badge badge-yellow">At Risk</span></td>
-      </tr><tr data-project="AIPCC" data-product="RHOAI" data-risk="yellow">
-        <td>AIPCC</td>
-        <td>RHOAI</td>
-        <td><strong>rhoai-3.5</strong></td>
-        <td>TBD</td>
-        <td>—</td>
-        <td>21</td>
-        <td style="color:#52c41a">12</td>
-        <td style="color:#faad14">6</td>
-        <td style="color:#8b949e">3</td>
-        <td style="min-width:100px">
-          <div class="progress-bar"><div class="progress-fill" style="width:57%;background:#52c41a"></div></div>
-          <div class="progress-text">57%</div>
-        </td>
-        <td><span class="badge badge-yellow">At Risk</span></td>
-      </tr><tr data-project="RHOAIENG" data-product="Other" data-risk="green">
-        <td>RHOAIENG</td>
-        <td>Other</td>
-        <td><strong>RHOSi v1.27.0</strong></td>
-        <td>2023-06-06</td>
-        <td>1100d overdue</td>
-        <td>1</td>
-        <td style="color:#52c41a">1</td>
-        <td style="color:#faad14">0</td>
-        <td style="color:#8b949e">0</td>
-        <td style="min-width:100px">
-          <div class="progress-bar"><div class="progress-fill" style="width:100%;background:#52c41a"></div></div>
-          <div class="progress-text">100%</div>
-        </td>
-        <td><span class="badge badge-green">Complete</span></td>
-      </tr><tr data-project="RHOAIENG" data-product="RHOAI" data-risk="green">
-        <td>RHOAIENG</td>
-        <td>RHOAI</td>
-        <td><strong>RHODS_1.28.0_GA</strong></td>
-        <td>2023-06-20</td>
-        <td>1086d overdue</td>
-        <td>36</td>
-        <td style="color:#52c41a">36</td>
-        <td style="color:#faad14">0</td>
-        <td style="color:#8b949e">0</td>
-        <td style="min-width:100px">
-          <div class="progress-bar"><div class="progress-fill" style="width:100%;background:#52c41a"></div></div>
-          <div class="progress-text">100%</div>
-        </td>
-        <td><span class="badge badge-green">Complete</span></td>
-      </tr><tr data-project="RHOAIENG" data-product="RHOAI" data-risk="green">
-        <td>RHOAIENG</td>
-        <td>RHOAI</td>
-        <td><strong>RHODS_1.29.0_GA</strong></td>
-        <td>2023-07-11</td>
-        <td>1065d overdue</td>
-        <td>22</td>
-        <td style="color:#52c41a">22</td>
-        <td style="color:#faad14">0</td>
-        <td style="color:#8b949e">0</td>
-        <td style="min-width:100px">
-          <div class="progress-bar"><div class="progress-fill" style="width:100%;background:#52c41a"></div></div>
-          <div class="progress-text">100%</div>
-        </td>
-        <td><span class="badge badge-green">Complete</span></td>
-      </tr><tr data-project="RHOAIENG" data-product="Other" data-risk="green">
-        <td>RHOAIENG</td>
-        <td>Other</td>
-        <td><strong>RHOSi v1.29.0</strong></td>
-        <td>2023-07-18</td>
-        <td>1058d overdue</td>
-        <td>2</td>
-        <td style="color:#52c41a">2</td>
-        <td style="color:#faad14">0</td>
-        <td style="color:#8b949e">0</td>
-        <td style="min-width:100px">
-          <div class="progress-bar"><div class="progress-fill" style="width:100%;background:#52c41a"></div></div>
-          <div class="progress-text">100%</div>
-        </td>
-        <td><span class="badge badge-green">Complete</span></td>
-      </tr><tr data-project="RHOAIENG" data-product="RHOAI" data-risk="green">
-        <td>RHOAIENG</td>
-        <td>RHOAI</td>
-        <td><strong>RHODS_1.30.0_GA</strong></td>
-        <td>2023-08-01</td>
-        <td>1044d overdue</td>
-        <td>15</td>
-        <td style="color:#52c41a">15</td>
-        <td style="color:#faad14">0</td>
-        <td style="color:#8b949e">0</td>
-        <td style="min-width:100px">
-          <div class="progress-bar"><div class="progress-fill" style="width:100%;background:#52c41a"></div></div>
-          <div class="progress-text">100%</div>
-        </td>
-        <td><span class="badge badge-green">Complete</span></td>
-      </tr><tr data-project="RHOAIENG" data-product="Other" data-risk="green">
-        <td>RHOAIENG</td>
-        <td>Other</td>
-        <td><strong>RHOSi v1.30.0</strong></td>
-        <td>2023-08-08</td>
-        <td>1037d overdue</td>
-        <td>2</td>
-        <td style="color:#52c41a">2</td>
-        <td style="color:#faad14">0</td>
-        <td style="color:#8b949e">0</td>
-        <td style="min-width:100px">
-          <div class="progress-bar"><div class="progress-fill" style="width:100%;background:#52c41a"></div></div>
-          <div class="progress-text">100%</div>
-        </td>
-        <td><span class="badge badge-green">Complete</span></td>
-      </tr><tr data-project="RHOAIENG" data-product="RHOAI" data-risk="green">
-        <td>RHOAIENG</td>
-        <td>RHOAI</td>
-        <td><strong>RHODS_1.31.0_GA</strong></td>
-        <td>2023-08-22</td>
-        <td>1023d overdue</td>
-        <td>8</td>
-        <td style="color:#52c41a">8</td>
-        <td style="color:#faad14">0</td>
-        <td style="color:#8b949e">0</td>
-        <td style="min-width:100px">
-          <div class="progress-bar"><div class="progress-fill" style="width:100%;background:#52c41a"></div></div>
-          <div class="progress-text">100%</div>
-        </td>
-        <td><span class="badge badge-green">Complete</span></td>
-      </tr><tr data-project="RHOAIENG" data-product="RHOAI" data-risk="green">
-        <td>RHOAIENG</td>
-        <td>RHOAI</td>
-        <td><strong>RHODS_1.32.0_GA</strong></td>
-        <td>2023-09-12</td>
-        <td>1002d overdue</td>
-        <td>10</td>
-        <td style="color:#52c41a">10</td>
-        <td style="color:#faad14">0</td>
-        <td style="color:#8b949e">0</td>
-        <td style="min-width:100px">
-          <div class="progress-bar"><div class="progress-fill" style="width:100%;background:#52c41a"></div></div>
-          <div class="progress-text">100%</div>
-        </td>
-        <td><span class="badge badge-green">Complete</span></td>
-      </tr><tr data-project="RHOAIENG" data-product="RHOAI" data-risk="green">
-        <td>RHOAIENG</td>
-        <td>RHOAI</td>
-        <td><strong>RHODS_1.33.0_GA</strong></td>
-        <td>2023-10-03</td>
-        <td>981d overdue</td>
-        <td>17</td>
-        <td style="color:#52c41a">17</td>
-        <td style="color:#faad14">0</td>
-        <td style="color:#8b949e">0</td>
-        <td style="min-width:100px">
-          <div class="progress-bar"><div class="progress-fill" style="width:100%;background:#52c41a"></div></div>
-          <div class="progress-text">100%</div>
-        </td>
-        <td><span class="badge badge-green">Complete</span></td>
-      </tr><tr data-project="RHOAIENG" data-product="RHOAI" data-risk="green">
-        <td>RHOAIENG</td>
-        <td>RHOAI</td>
-        <td><strong>RHODS_1.34.0_GA</strong></td>
-        <td>2023-10-24</td>
-        <td>960d overdue</td>
-        <td>7</td>
-        <td style="color:#52c41a">7</td>
-        <td style="color:#faad14">0</td>
-        <td style="color:#8b949e">0</td>
-        <td style="min-width:100px">
-          <div class="progress-bar"><div class="progress-fill" style="width:100%;background:#52c41a"></div></div>
-          <div class="progress-text">100%</div>
-        </td>
-        <td><span class="badge badge-green">Complete</span></td>
-      </tr><tr data-project="RHOAIENG" data-product="Other" data-risk="green">
-        <td>RHOAIENG</td>
-        <td>Other</td>
-        <td><strong>RHOSi v1.34.0</strong></td>
-        <td>2023-10-31</td>
-        <td>953d overdue</td>
-        <td>1</td>
-        <td style="color:#52c41a">1</td>
-        <td style="color:#faad14">0</td>
-        <td style="color:#8b949e">0</td>
-        <td style="min-width:100px">
-          <div class="progress-bar"><div class="progress-fill" style="width:100%;background:#52c41a"></div></div>
-          <div class="progress-text">100%</div>
-        </td>
-        <td><span class="badge badge-green">Complete</span></td>
-      </tr><tr data-project="RHOAIENG" data-product="RHOAI" data-risk="green">
-        <td>RHOAIENG</td>
-        <td>RHOAI</td>
-        <td><strong>RHODS_2.4.0_GA</strong></td>
-        <td>2023-11-16</td>
-        <td>937d overdue</td>
-        <td>20</td>
-        <td style="color:#52c41a">20</td>
-        <td style="color:#faad14">0</td>
-        <td style="color:#8b949e">0</td>
-        <td style="min-width:100px">
-          <div class="progress-bar"><div class="progress-fill" style="width:100%;background:#52c41a"></div></div>
-          <div class="progress-text">100%</div>
-        </td>
-        <td><span class="badge badge-green">Complete</span></td>
-      </tr><tr data-project="RHOAIENG" data-product="RHOAI" data-risk="green">
-        <td>RHOAIENG</td>
-        <td>RHOAI</td>
-        <td><strong>RHODS_2.5.0_GA</strong></td>
-        <td>2023-12-14</td>
-        <td>909d overdue</td>
-        <td>7</td>
-        <td style="color:#52c41a">7</td>
-        <td style="color:#faad14">0</td>
-        <td style="color:#8b949e">0</td>
-        <td style="min-width:100px">
-          <div class="progress-bar"><div class="progress-fill" style="width:100%;background:#52c41a"></div></div>
-          <div class="progress-text">100%</div>
-        </td>
-        <td><span class="badge badge-green">Complete</span></td>
-      </tr><tr data-project="INFERENG" data-product="RHOAI" data-risk="green">
-        <td>INFERENG</td>
-        <td>RHOAI</td>
-        <td><strong>RHOAI_2.11.0</strong></td>
-        <td>2024-07-23</td>
-        <td>687d overdue</td>
-        <td>1</td>
-        <td style="color:#52c41a">1</td>
-        <td style="color:#faad14">0</td>
-        <td style="color:#8b949e">0</td>
-        <td style="min-width:100px">
-          <div class="progress-bar"><div class="progress-fill" style="width:100%;background:#52c41a"></div></div>
-          <div class="progress-text">100%</div>
-        </td>
-        <td><span class="badge badge-green">Complete</span></td>
-      </tr><tr data-project="INFERENG" data-product="RHOAI" data-risk="green">
-        <td>INFERENG</td>
-        <td>RHOAI</td>
-        <td><strong>RHOAI_2.12.0</strong></td>
-        <td>2024-08-14</td>
-        <td>665d overdue</td>
-        <td>2</td>
-        <td style="color:#52c41a">2</td>
-        <td style="color:#faad14">0</td>
-        <td style="color:#8b949e">0</td>
-        <td style="min-width:100px">
-          <div class="progress-bar"><div class="progress-fill" style="width:100%;background:#52c41a"></div></div>
-          <div class="progress-text">100%</div>
-        </td>
-        <td><span class="badge badge-green">Complete</span></td>
-      </tr><tr data-project="INFERENG" data-product="RHOAI" data-risk="green">
-        <td>INFERENG</td>
-        <td>RHOAI</td>
-        <td><strong>RHOAI_2.13.0</strong></td>
-        <td>2024-09-11</td>
-        <td>637d overdue</td>
-        <td>1</td>
-        <td style="color:#52c41a">1</td>
-        <td style="color:#faad14">0</td>
-        <td style="color:#8b949e">0</td>
-        <td style="min-width:100px">
-          <div class="progress-bar"><div class="progress-fill" style="width:100%;background:#52c41a"></div></div>
-          <div class="progress-text">100%</div>
-        </td>
-        <td><span class="badge badge-green">Complete</span></td>
-      </tr><tr data-project="INFERENG" data-product="RHOAI" data-risk="green">
-        <td>INFERENG</td>
-        <td>RHOAI</td>
-        <td><strong>RHOAI_2.16.0</strong></td>
-        <td>2024-12-11</td>
-        <td>546d overdue</td>
-        <td>1</td>
-        <td style="color:#52c41a">1</td>
-        <td style="color:#faad14">0</td>
-        <td style="color:#8b949e">0</td>
-        <td style="min-width:100px">
-          <div class="progress-bar"><div class="progress-fill" style="width:100%;background:#52c41a"></div></div>
-          <div class="progress-text">100%</div>
-        </td>
-        <td><span class="badge badge-green">Complete</span></td>
-      </tr><tr data-project="RHAIENG" data-product="RHELAI" data-risk="green">
-        <td>RHAIENG</td>
-        <td>RHELAI</td>
-        <td><strong>rhelai-1.3.1</strong></td>
-        <td>2024-12-12</td>
-        <td>545d overdue</td>
-        <td>19</td>
-        <td style="color:#52c41a">19</td>
-        <td style="color:#faad14">0</td>
-        <td style="color:#8b949e">0</td>
-        <td style="min-width:100px">
-          <div class="progress-bar"><div class="progress-fill" style="width:100%;background:#52c41a"></div></div>
-          <div class="progress-text">100%</div>
-        </td>
-        <td><span class="badge badge-green">Complete</span></td>
-      </tr><tr data-project="RHAIENG" data-product="RHELAI" data-risk="green">
-        <td>RHAIENG</td>
-        <td>RHELAI</td>
-        <td><strong>rhelai-1.3.2</strong></td>
-        <td>2025-02-04</td>
-        <td>491d overdue</td>
-        <td>2</td>
-        <td style="color:#52c41a">2</td>
-        <td style="color:#faad14">0</td>
-        <td style="color:#8b949e">0</td>
-        <td style="min-width:100px">
-          <div class="progress-bar"><div class="progress-fill" style="width:100%;background:#52c41a"></div></div>
-          <div class="progress-text">100%</div>
-        </td>
-        <td><span class="badge badge-green">Complete</span></td>
-      </tr><tr data-project="AIPCC" data-product="RHELAI" data-risk="green">
-        <td>AIPCC</td>
-        <td>RHELAI</td>
-        <td><strong>RHAII-3.4 EA1</strong></td>
-        <td>2025-05-20</td>
-        <td>386d overdue</td>
-        <td>1</td>
-        <td style="color:#52c41a">1</td>
-        <td style="color:#faad14">0</td>
-        <td style="color:#8b949e">0</td>
-        <td style="min-width:100px">
-          <div class="progress-bar"><div class="progress-fill" style="width:100%;background:#52c41a"></div></div>
-          <div class="progress-text">100%</div>
-        </td>
-        <td><span class="badge badge-green">Complete</span></td>
-      </tr><tr data-project="AIPCC" data-product="RHOAI" data-risk="green">
-        <td>AIPCC</td>
-        <td>RHOAI</td>
-        <td><strong>rhoai-3.0</strong></td>
-        <td>2025-11-13</td>
-        <td>209d overdue</td>
-        <td>14</td>
-        <td style="color:#52c41a">14</td>
-        <td style="color:#faad14">0</td>
-        <td style="color:#8b949e">0</td>
-        <td style="min-width:100px">
-          <div class="progress-bar"><div class="progress-fill" style="width:100%;background:#52c41a"></div></div>
-          <div class="progress-text">100%</div>
-        </td>
-        <td><span class="badge badge-green">Complete</span></td>
-      </tr><tr data-project="AIPCC" data-product="RHELAI" data-risk="green">
-        <td>AIPCC</td>
-        <td>RHELAI</td>
-        <td><strong>RHAII-3.5 EA1</strong></td>
-        <td>2026-06-02</td>
-        <td>8d overdue</td>
-        <td>49</td>
-        <td style="color:#52c41a">49</td>
-        <td style="color:#faad14">0</td>
-        <td style="color:#8b949e">0</td>
-        <td style="min-width:100px">
-          <div class="progress-bar"><div class="progress-fill" style="width:100%;background:#52c41a"></div></div>
-          <div class="progress-text">100%</div>
-        </td>
-        <td><span class="badge badge-green">Complete</span></td>
-      </tr><tr data-project="AIPCC" data-product="RHELAI" data-risk="green">
-        <td>AIPCC</td>
-        <td>RHELAI</td>
-        <td><strong>rhelai-3.5 EA1 release</strong></td>
-        <td>2026-06-18</td>
-        <td>8d</td>
-        <td>30</td>
-        <td style="color:#52c41a">30</td>
-        <td style="color:#faad14">0</td>
-        <td style="color:#8b949e">0</td>
-        <td style="min-width:100px">
-          <div class="progress-bar"><div class="progress-fill" style="width:100%;background:#52c41a"></div></div>
-          <div class="progress-text">100%</div>
-        </td>
-        <td><span class="badge badge-green">Complete</span></td>
-      </tr><tr data-project="AIPCC" data-product="RHELAI" data-risk="green">
-        <td>AIPCC</td>
-        <td>RHELAI</td>
-        <td><strong>rhelai-3.5 EA2 release</strong></td>
-        <td>2026-07-16</td>
-        <td>36d</td>
-        <td>11</td>
-        <td style="color:#52c41a">5</td>
-        <td style="color:#faad14">3</td>
-        <td style="color:#8b949e">3</td>
-        <td style="min-width:100px">
-          <div class="progress-bar"><div class="progress-fill" style="width:45%;background:#52c41a"></div></div>
-          <div class="progress-text">45%</div>
-        </td>
-        <td><span class="badge badge-green">On Track</span></td>
-      </tr><tr data-project="AIPCC" data-product="RHELAI" data-risk="green">
-        <td>AIPCC</td>
-        <td>RHELAI</td>
-        <td><strong>RHAII-3.5 GA</strong></td>
-        <td>2026-07-30</td>
-        <td>50d</td>
-        <td>23</td>
-        <td style="color:#52c41a">4</td>
-        <td style="color:#faad14">0</td>
-        <td style="color:#8b949e">19</td>
-        <td style="min-width:100px">
-          <div class="progress-bar"><div class="progress-fill" style="width:17%;background:#52c41a"></div></div>
-          <div class="progress-text">17%</div>
-        </td>
-        <td><span class="badge badge-green">On Track</span></td>
-      </tr><tr data-project="AIPCC" data-product="RHOAI" data-risk="green">
-        <td>AIPCC</td>
-        <td>RHOAI</td>
-        <td><strong>rhoai-3.2</strong></td>
-        <td>TBD</td>
-        <td>—</td>
-        <td>10</td>
-        <td style="color:#52c41a">10</td>
-        <td style="color:#faad14">0</td>
-        <td style="color:#8b949e">0</td>
-        <td style="min-width:100px">
-          <div class="progress-bar"><div class="progress-fill" style="width:100%;background:#52c41a"></div></div>
-          <div class="progress-text">100%</div>
-        </td>
-        <td><span class="badge badge-green">Complete</span></td>
-      </tr><tr data-project="AIPCC" data-product="RHOAI" data-risk="green">
-        <td>AIPCC</td>
-        <td>RHOAI</td>
-        <td><strong>rhoai-3.3</strong></td>
-        <td>TBD</td>
-        <td>—</td>
-        <td>34</td>
-        <td style="color:#52c41a">33</td>
-        <td style="color:#faad14">0</td>
-        <td style="color:#8b949e">1</td>
-        <td style="min-width:100px">
-          <div class="progress-bar"><div class="progress-fill" style="width:97%;background:#52c41a"></div></div>
-          <div class="progress-text">97%</div>
-        </td>
-        <td><span class="badge badge-green">On Track</span></td>
-      </tr><tr data-project="AIPCC" data-product="RHOAI" data-risk="green">
-        <td>AIPCC</td>
-        <td>RHOAI</td>
-        <td><strong>rhoai-3.4.EA1</strong></td>
-        <td>TBD</td>
-        <td>—</td>
-        <td>6</td>
-        <td style="color:#52c41a">6</td>
-        <td style="color:#faad14">0</td>
-        <td style="color:#8b949e">0</td>
-        <td style="min-width:100px">
-          <div class="progress-bar"><div class="progress-fill" style="width:100%;background:#52c41a"></div></div>
-          <div class="progress-text">100%</div>
-        </td>
-        <td><span class="badge badge-green">Complete</span></td>
-      </tr><tr data-project="AIPCC" data-product="RHOAI" data-risk="green">
-        <td>AIPCC</td>
-        <td>RHOAI</td>
-        <td><strong>rhoai-3.4.EA2</strong></td>
-        <td>TBD</td>
-        <td>—</td>
-        <td>4</td>
-        <td style="color:#52c41a">3</td>
-        <td style="color:#faad14">0</td>
-        <td style="color:#8b949e">1</td>
-        <td style="min-width:100px">
-          <div class="progress-bar"><div class="progress-fill" style="width:75%;background:#52c41a"></div></div>
-          <div class="progress-text">75%</div>
-        </td>
-        <td><span class="badge badge-green">On Track</span></td>
-      </tr><tr data-project="AIPCC" data-product="RHOAI" data-risk="green">
-        <td>AIPCC</td>
-        <td>RHOAI</td>
-        <td><strong>rhoai-3.4</strong></td>
-        <td>TBD</td>
-        <td>—</td>
-        <td>35</td>
-        <td style="color:#52c41a">34</td>
-        <td style="color:#faad14">0</td>
-        <td style="color:#8b949e">1</td>
-        <td style="min-width:100px">
-          <div class="progress-bar"><div class="progress-fill" style="width:97%;background:#52c41a"></div></div>
-          <div class="progress-text">97%</div>
-        </td>
-        <td><span class="badge badge-green">On Track</span></td>
-      </tr><tr data-project="AIPCC" data-product="RHOAI" data-risk="green">
-        <td>AIPCC</td>
-        <td>RHOAI</td>
-        <td><strong>rhoai-3.5.EA1</strong></td>
-        <td>TBD</td>
-        <td>—</td>
-        <td>91</td>
-        <td style="color:#52c41a">89</td>
-        <td style="color:#faad14">1</td>
-        <td style="color:#8b949e">1</td>
-        <td style="min-width:100px">
-          <div class="progress-bar"><div class="progress-fill" style="width:98%;background:#52c41a"></div></div>
-          <div class="progress-text">98%</div>
-        </td>
-        <td><span class="badge badge-green">On Track</span></td>
-      </tr><tr data-project="INFERENG" data-product="Other" data-risk="green">
-        <td>INFERENG</td>
-        <td>Other</td>
-        <td><strong>Alongside OpenShift 4.8</strong></td>
-        <td>TBD</td>
-        <td>—</td>
-        <td>1</td>
-        <td style="color:#52c41a">1</td>
-        <td style="color:#faad14">0</td>
-        <td style="color:#8b949e">0</td>
-        <td style="min-width:100px">
-          <div class="progress-bar"><div class="progress-fill" style="width:100%;background:#52c41a"></div></div>
-          <div class="progress-text">100%</div>
-        </td>
-        <td><span class="badge badge-green">Complete</span></td>
-      </tr><tr data-project="INFERENG" data-product="Other" data-risk="green">
-        <td>INFERENG</td>
-        <td>Other</td>
-        <td><strong>Alongside OpenShift 4.9</strong></td>
-        <td>TBD</td>
-        <td>—</td>
-        <td>1</td>
-        <td style="color:#52c41a">1</td>
-        <td style="color:#faad14">0</td>
-        <td style="color:#8b949e">0</td>
-        <td style="min-width:100px">
-          <div class="progress-bar"><div class="progress-fill" style="width:100%;background:#52c41a"></div></div>
-          <div class="progress-text">100%</div>
-        </td>
-        <td><span class="badge badge-green">Complete</span></td>
-      </tr><tr data-project="INFERENG" data-product="Other" data-risk="green">
-        <td>INFERENG</td>
-        <td>Other</td>
-        <td><strong>Alongside OpenShift 4.10</strong></td>
-        <td>TBD</td>
-        <td>—</td>
-        <td>14</td>
-        <td style="color:#52c41a">14</td>
-        <td style="color:#faad14">0</td>
-        <td style="color:#8b949e">0</td>
-        <td style="min-width:100px">
-          <div class="progress-bar"><div class="progress-fill" style="width:100%;background:#52c41a"></div></div>
-          <div class="progress-text">100%</div>
-        </td>
-        <td><span class="badge badge-green">Complete</span></td>
-      </tr><tr data-project="INFERENG" data-product="Other" data-risk="green">
-        <td>INFERENG</td>
-        <td>Other</td>
-        <td><strong>Alongside OpenShift 4.11</strong></td>
-        <td>TBD</td>
-        <td>—</td>
-        <td>3</td>
-        <td style="color:#52c41a">3</td>
-        <td style="color:#faad14">0</td>
-        <td style="color:#8b949e">0</td>
-        <td style="min-width:100px">
-          <div class="progress-bar"><div class="progress-fill" style="width:100%;background:#52c41a"></div></div>
-          <div class="progress-text">100%</div>
-        </td>
-        <td><span class="badge badge-green">Complete</span></td>
-      </tr><tr data-project="INFERENG" data-product="Other" data-risk="green">
-        <td>INFERENG</td>
-        <td>Other</td>
-        <td><strong>Alongside OpenShift 4.12</strong></td>
-        <td>TBD</td>
-        <td>—</td>
-        <td>1</td>
-        <td style="color:#52c41a">1</td>
-        <td style="color:#faad14">0</td>
-        <td style="color:#8b949e">0</td>
-        <td style="min-width:100px">
-          <div class="progress-bar"><div class="progress-fill" style="width:100%;background:#52c41a"></div></div>
-          <div class="progress-text">100%</div>
-        </td>
-        <td><span class="badge badge-green">Complete</span></td>
-      </tr><tr data-project="INFERENG" data-product="Other" data-risk="green">
-        <td>INFERENG</td>
-        <td>Other</td>
-        <td><strong>4.12</strong></td>
-        <td>TBD</td>
-        <td>—</td>
-        <td>2</td>
-        <td style="color:#52c41a">2</td>
-        <td style="color:#faad14">0</td>
-        <td style="color:#8b949e">0</td>
-        <td style="min-width:100px">
-          <div class="progress-bar"><div class="progress-fill" style="width:100%;background:#52c41a"></div></div>
-          <div class="progress-text">100%</div>
-        </td>
-        <td><span class="badge badge-green">Complete</span></td>
-      </tr><tr data-project="INFERENG" data-product="Other" data-risk="green">
-        <td>INFERENG</td>
-        <td>Other</td>
-        <td><strong>4.13</strong></td>
-        <td>TBD</td>
-        <td>—</td>
-        <td>5</td>
-        <td style="color:#52c41a">5</td>
-        <td style="color:#faad14">0</td>
-        <td style="color:#8b949e">0</td>
-        <td style="min-width:100px">
-          <div class="progress-bar"><div class="progress-fill" style="width:100%;background:#52c41a"></div></div>
-          <div class="progress-text">100%</div>
-        </td>
-        <td><span class="badge badge-green">Complete</span></td>
-      </tr><tr data-project="INFERENG" data-product="Other" data-risk="green">
-        <td>INFERENG</td>
-        <td>Other</td>
-        <td><strong>4.14</strong></td>
-        <td>TBD</td>
-        <td>—</td>
-        <td>1</td>
-        <td style="color:#52c41a">1</td>
-        <td style="color:#faad14">0</td>
-        <td style="color:#8b949e">0</td>
-        <td style="min-width:100px">
-          <div class="progress-bar"><div class="progress-fill" style="width:100%;background:#52c41a"></div></div>
-          <div class="progress-text">100%</div>
-        </td>
-        <td><span class="badge badge-green">Complete</span></td>
-      </tr><tr data-project="INFERENG" data-product="Other" data-risk="green">
-        <td>INFERENG</td>
-        <td>Other</td>
-        <td><strong>4.16</strong></td>
-        <td>TBD</td>
-        <td>—</td>
-        <td>1</td>
-        <td style="color:#52c41a">1</td>
-        <td style="color:#faad14">0</td>
-        <td style="color:#8b949e">0</td>
-        <td style="min-width:100px">
-          <div class="progress-bar"><div class="progress-fill" style="width:100%;background:#52c41a"></div></div>
-          <div class="progress-text">100%</div>
-        </td>
-        <td><span class="badge badge-green">Complete</span></td>
-      </tr><tr data-project="RHAIENG" data-product="RHELAI" data-risk="green">
-        <td>RHAIENG</td>
-        <td>RHELAI</td>
-        <td><strong>RHELAI Backlog</strong></td>
-        <td>TBD</td>
-        <td>—</td>
-        <td>3</td>
-        <td style="color:#52c41a">3</td>
-        <td style="color:#faad14">0</td>
-        <td style="color:#8b949e">0</td>
-        <td style="min-width:100px">
-          <div class="progress-bar"><div class="progress-fill" style="width:100%;background:#52c41a"></div></div>
-          <div class="progress-text">100%</div>
-        </td>
-        <td><span class="badge badge-green">Complete</span></td>
-      </tr><tr data-project="RHOAIENG" data-product="Other" data-risk="green">
-        <td>RHOAIENG</td>
-        <td>Other</td>
-        <td><strong>v1.2.0</strong></td>
-        <td>TBD</td>
-        <td>—</td>
-        <td>3</td>
-        <td style="color:#52c41a">3</td>
-        <td style="color:#faad14">0</td>
-        <td style="color:#8b949e">0</td>
-        <td style="min-width:100px">
-          <div class="progress-bar"><div class="progress-fill" style="width:100%;background:#52c41a"></div></div>
-          <div class="progress-text">100%</div>
-        </td>
-        <td><span class="badge badge-green">Complete</span></td>
-      </tr><tr data-project="RHOAIENG" data-product="Other" data-risk="green">
-        <td>RHOAIENG</td>
-        <td>Other</td>
-        <td><strong>1.1.1-57</strong></td>
-        <td>TBD</td>
-        <td>—</td>
-        <td>2</td>
-        <td style="color:#52c41a">2</td>
-        <td style="color:#faad14">0</td>
-        <td style="color:#8b949e">0</td>
-        <td style="min-width:100px">
-          <div class="progress-bar"><div class="progress-fill" style="width:100%;background:#52c41a"></div></div>
-          <div class="progress-text">100%</div>
-        </td>
-        <td><span class="badge badge-green">Complete</span></td>
-      </tr><tr data-project="RHOAIENG" data-product="Other" data-risk="green">
-        <td>RHOAIENG</td>
-        <td>Other</td>
-        <td><strong>FUTURE_GA</strong></td>
-        <td>TBD</td>
-        <td>—</td>
-        <td>8</td>
-        <td style="color:#52c41a">8</td>
-        <td style="color:#faad14">0</td>
-        <td style="color:#8b949e">0</td>
-        <td style="min-width:100px">
-          <div class="progress-bar"><div class="progress-fill" style="width:100%;background:#52c41a"></div></div>
-          <div class="progress-text">100%</div>
-        </td>
-        <td><span class="badge badge-green">Complete</span></td>
-      </tr>
-      </tbody>
-    </table>
-  </div>
-</div>
 
-<!-- Aging WIP Tab -->
-<div id="aging" class="tab-content">
-  <div class="summary-row">
-    <div class="summary-card"><div class="big" style="color:#ff4d4f">185</div><div class="label">Total Aging Items</div></div>
-    <div class="summary-card"><div class="big" style="color:#faad14">94</div><div class="label">AIPCC</div></div>
-    <div class="summary-card"><div class="big" style="color:#faad14">40</div><div class="label">RHAIENG</div></div>
-    <div class="summary-card"><div class="big" style="color:#faad14">50</div><div class="label">RHOAIENG</div></div>
-  </div>
   <div class="filter-row">
     <span class="filter-label">Project:</span>
-    <button class="filter-btn active" onclick="filterAging('all',this)">All</button>
-    <button class="filter-btn" onclick="filterAging('AIPCC',this)">AIPCC</button>
-    <button class="filter-btn" onclick="filterAging('INFERENG',this)">INFERENG</button>
-    <button class="filter-btn" onclick="filterAging('RHAIENG',this)">RHAIENG</button>
-    <button class="filter-btn" onclick="filterAging('RHOAIENG',this)">RHOAIENG</button>
+    <button class="filter-btn active" data-group="proj" onclick="filterBurndown(this,'proj','all')">All</button>
+    <button class="filter-btn" data-group="proj" onclick="filterBurndown(this,'proj','AIPCC')">AIPCC</button>
+    <button class="filter-btn" data-group="proj" onclick="filterBurndown(this,'proj','RHAIENG')">RHAIENG</button>
+    <span class="filter-label" style="margin-left:12px">Risk:</span>
+    <button class="filter-btn active" data-group="risk" onclick="filterBurndown(this,'risk','all')">All</button>
+    <button class="filter-btn" data-group="risk" onclick="filterBurndown(this,'risk','red')">Red</button>
+    <button class="filter-btn" data-group="risk" onclick="filterBurndown(this,'risk','yellow')">Yellow</button>
+    <button class="filter-btn" data-group="risk" onclick="filterBurndown(this,'risk','green')">Green</button>
   </div>
+
   <div class="table-wrap">
-    <table id="aging-table">
-      <thead>
-        <tr>
-          <th>Project</th>
-          <th>Key</th>
-          <th>Summary</th>
-          <th>Status</th>
-          <th>Priority</th>
-          <th>Assignee</th>
-          <th>Last Updated</th>
-          <th>Stale</th>
-        </tr>
-      </thead>
-      <tbody>
-<tr data-project="AIPCC">
-        <td>AIPCC</td>
-        <td><a href="https://redhat.atlassian.net/browse/AIPCC-16910" target="_blank" style="color:#58a6ff;text-decoration:none">AIPCC-16910</a></td>
-        <td>Learn and review how to use the RFE builder</td>
-        <td>In Progress</td>
-        <td>Undefined</td>
-        <td>Unassigned</td>
-        <td>2026-05-26</td>
-        <td style="color:#faad14">15d</td>
-      </tr><tr data-project="AIPCC">
-        <td>AIPCC</td>
-        <td><a href="https://redhat.atlassian.net/browse/AIPCC-16789" target="_blank" style="color:#58a6ff;text-decoration:none">AIPCC-16789</a></td>
-        <td>Integrate post-release defect tracking into Releases module</td>
-        <td>Review</td>
-        <td>Undefined</td>
-        <td>Gerald Trotman</td>
-        <td>2026-05-26</td>
-        <td style="color:#faad14">15d</td>
-      </tr><tr data-project="AIPCC">
-        <td>AIPCC</td>
-        <td><a href="https://redhat.atlassian.net/browse/AIPCC-16787" target="_blank" style="color:#58a6ff;text-decoration:none">AIPCC-16787</a></td>
-        <td>Refactoring test_dlpack.py </td>
-        <td>Review</td>
-        <td>Undefined</td>
-        <td>Dev Sashidhar</td>
-        <td>2026-05-21</td>
-        <td style="color:#faad14">20d</td>
-      </tr><tr data-project="AIPCC">
-        <td>AIPCC</td>
-        <td><a href="https://redhat.atlassian.net/browse/AIPCC-16731" target="_blank" style="color:#58a6ff;text-decoration:none">AIPCC-16731</a></td>
-        <td>Review happy path package onboarding</td>
-        <td>In Progress</td>
-        <td>Undefined</td>
-        <td>Unassigned</td>
-        <td>2026-05-26</td>
-        <td style="color:#faad14">15d</td>
-      </tr><tr data-project="AIPCC">
-        <td>AIPCC</td>
-        <td><a href="https://redhat.atlassian.net/browse/AIPCC-16705" target="_blank" style="color:#58a6ff;text-decoration:none">AIPCC-16705</a></td>
-        <td>aiu-monitor is not being installed in the base image for spyre</td>
-        <td>Review</td>
-        <td>Undefined</td>
-        <td>Nick Zeak</td>
-        <td>2026-05-26</td>
-        <td style="color:#faad14">15d</td>
-      </tr><tr data-project="AIPCC">
-        <td>AIPCC</td>
-        <td><a href="https://redhat.atlassian.net/browse/AIPCC-16694" target="_blank" style="color:#58a6ff;text-decoration:none">AIPCC-16694</a></td>
-        <td>May 19: Velocity model redesign, Phase 1 fixVersion bypass removal (MR !17)</td>
-        <td>Review</td>
-        <td>Major</td>
-        <td>Erle Marion</td>
-        <td>2026-05-26</td>
-        <td style="color:#faad14">15d</td>
-      </tr><tr data-project="AIPCC">
-        <td>AIPCC</td>
-        <td><a href="https://redhat.atlassian.net/browse/AIPCC-16633" target="_blank" style="color:#58a6ff;text-decoration:none">AIPCC-16633</a></td>
-        <td>torch.compile fails on addmm with beta=0 and non-broadcastable bias shape</td>
-        <td>Review</td>
-        <td>Undefined</td>
-        <td>Dev Sashidhar</td>
-        <td>2026-05-23</td>
-        <td style="color:#faad14">18d</td>
-      </tr><tr data-project="AIPCC">
-        <td>AIPCC</td>
-        <td><a href="https://redhat.atlassian.net/browse/AIPCC-16616" target="_blank" style="color:#58a6ff;text-decoration:none">AIPCC-16616</a></td>
-        <td>[OpenReg][Test Refactoring] Refactor test_dlpack.py</td>
-        <td>Review</td>
-        <td>Undefined</td>
-        <td>Dev Sashidhar</td>
-        <td>2026-05-22</td>
-        <td style="color:#faad14">19d</td>
-      </tr><tr data-project="AIPCC">
-        <td>AIPCC</td>
-        <td><a href="https://redhat.atlassian.net/browse/AIPCC-16574" target="_blank" style="color:#58a6ff;text-decoration:none">AIPCC-16574</a></td>
-        <td>[OpenReg][Test Refactoring] Refactor test_utils.py</td>
-        <td>Review</td>
-        <td>Undefined</td>
-        <td>Riya Punia</td>
-        <td>2026-05-19</td>
-        <td style="color:#faad14">22d</td>
-      </tr><tr data-project="AIPCC">
-        <td>AIPCC</td>
-        <td><a href="https://redhat.atlassian.net/browse/AIPCC-16498" target="_blank" style="color:#58a6ff;text-decoration:none">AIPCC-16498</a></td>
-        <td>Create dashboard sandbox for better observability</td>
-        <td>In Progress</td>
-        <td>Undefined</td>
-        <td>Einat Pacifici</td>
-        <td>2026-05-26</td>
-        <td style="color:#faad14">15d</td>
-      </tr><tr data-project="AIPCC">
-        <td>AIPCC</td>
-        <td><a href="https://redhat.atlassian.net/browse/AIPCC-16493" target="_blank" style="color:#58a6ff;text-decoration:none">AIPCC-16493</a></td>
-        <td>make cuda graph capture match normal failed com behavior</td>
-        <td>Review</td>
-        <td>Undefined</td>
-        <td>Arkadip Maitra</td>
-        <td>2026-05-26</td>
-        <td style="color:#faad14">15d</td>
-      </tr><tr data-project="AIPCC">
-        <td>AIPCC</td>
-        <td><a href="https://redhat.atlassian.net/browse/AIPCC-16432" target="_blank" style="color:#58a6ff;text-decoration:none">AIPCC-16432</a></td>
-        <td>Add a custom slack bot to read MR/PR review requests on the group and add it to </td>
-        <td>In Progress</td>
-        <td>Undefined</td>
-        <td>Srija Ganguly</td>
-        <td>2026-05-26</td>
-        <td style="color:#faad14">15d</td>
-      </tr><tr data-project="AIPCC">
-        <td>AIPCC</td>
-        <td><a href="https://redhat.atlassian.net/browse/AIPCC-16348" target="_blank" style="color:#58a6ff;text-decoration:none">AIPCC-16348</a></td>
-        <td>Refactor test_optim.py</td>
-        <td>Review</td>
-        <td>Undefined</td>
-        <td>Riya Punia</td>
-        <td>2026-05-14</td>
-        <td style="color:#faad14">27d</td>
-      </tr><tr data-project="AIPCC">
-        <td>AIPCC</td>
-        <td><a href="https://redhat.atlassian.net/browse/AIPCC-16166" target="_blank" style="color:#58a6ff;text-decoration:none">AIPCC-16166</a></td>
-        <td>Create Shared Organizational Stability Dashboard</td>
-        <td>In Progress</td>
-        <td>Undefined</td>
-        <td>Arjay Hinek</td>
-        <td>2026-05-12</td>
-        <td style="color:#faad14">29d</td>
-      </tr><tr data-project="AIPCC">
-        <td>AIPCC</td>
-        <td><a href="https://redhat.atlassian.net/browse/AIPCC-16150" target="_blank" style="color:#58a6ff;text-decoration:none">AIPCC-16150</a></td>
-        <td>Build Jira Data Extraction Service--for Org Load Radar</td>
-        <td>In Progress</td>
-        <td>Undefined</td>
-        <td>Arjay Hinek</td>
-        <td>2026-05-26</td>
-        <td style="color:#faad14">15d</td>
-      </tr><tr data-project="AIPCC">
-        <td>AIPCC</td>
-        <td><a href="https://redhat.atlassian.net/browse/AIPCC-16025" target="_blank" style="color:#58a6ff;text-decoration:none">AIPCC-16025</a></td>
-        <td>`torch.compile` raises InternalTorchDynamoError KeyError("class_type") when cons</td>
-        <td>Review</td>
-        <td>Undefined</td>
-        <td>Dev Sashidhar</td>
-        <td>2026-05-26</td>
-        <td style="color:#faad14">15d</td>
-      </tr><tr data-project="AIPCC">
-        <td>AIPCC</td>
-        <td><a href="https://redhat.atlassian.net/browse/AIPCC-15993" target="_blank" style="color:#58a6ff;text-decoration:none">AIPCC-15993</a></td>
-        <td>Implement Quality Metrics Module - Post-Release Defects Dashboard</td>
-        <td>In Progress</td>
-        <td>Undefined</td>
-        <td>Gerald Trotman</td>
-        <td>2026-05-26</td>
-        <td style="color:#faad14">15d</td>
-      </tr><tr data-project="AIPCC">
-        <td>AIPCC</td>
-        <td><a href="https://redhat.atlassian.net/browse/AIPCC-15982" target="_blank" style="color:#58a6ff;text-decoration:none">AIPCC-15982</a></td>
-        <td>CI linter auto-fixes ruff errors instead of reporting failures</td>
-        <td>Review</td>
-        <td>Undefined</td>
-        <td>AIPCC JIRABOT</td>
-        <td>2026-05-26</td>
-        <td style="color:#faad14">15d</td>
-      </tr><tr data-project="AIPCC">
-        <td>AIPCC</td>
-        <td><a href="https://redhat.atlassian.net/browse/AIPCC-15905" target="_blank" style="color:#58a6ff;text-decoration:none">AIPCC-15905</a></td>
-        <td>Investigate and raise setuptools ceiling past 82.0.1</td>
-        <td>Review</td>
-        <td>Undefined</td>
-        <td>Andre Lustosa Cabral de Paula Motta</td>
-        <td>2026-05-26</td>
-        <td style="color:#faad14">15d</td>
-      </tr><tr data-project="AIPCC">
-        <td>AIPCC</td>
-        <td><a href="https://redhat.atlassian.net/browse/AIPCC-15878" target="_blank" style="color:#58a6ff;text-decoration:none">AIPCC-15878</a></td>
-        <td>Update base image version and wheel collections in RHAIIS container</td>
-        <td>In Progress</td>
-        <td>Undefined</td>
-        <td>Nick Zeak</td>
-        <td>2026-05-26</td>
-        <td style="color:#faad14">15d</td>
-      </tr><tr data-project="INFERENG">
-        <td>INFERENG</td>
-        <td><a href="https://redhat.atlassian.net/browse/PSAP-1359" target="_blank" style="color:#58a6ff;text-decoration:none">PSAP-1359</a></td>
-        <td>Investigate profiling of llm serving runtime process</td>
-        <td>In Progress</td>
-        <td>Normal</td>
-        <td>Nikhil Palaskar</td>
-        <td>2026-03-21</td>
-        <td style="color:#ff4d4f">81d</td>
-      </tr><tr data-project="RHAIENG">
-        <td>RHAIENG</td>
-        <td><a href="https://redhat.atlassian.net/browse/RHELAI-2687" target="_blank" style="color:#58a6ff;text-decoration:none">RHELAI-2687</a></td>
-        <td>Update the way users should validate the api key  </td>
-        <td>In Progress</td>
-        <td>Normal</td>
-        <td>Kelly Brown</td>
-        <td>2024-12-11</td>
-        <td style="color:#ff4d4f">546d</td>
-      </tr><tr data-project="RHAIENG">
-        <td>RHAIENG</td>
-        <td><a href="https://redhat.atlassian.net/browse/RHELAI-3089" target="_blank" style="color:#58a6ff;text-decoration:none">RHELAI-3089</a></td>
-        <td>Expand utilities to handle git branches and commit checkouts</td>
-        <td>In Progress</td>
-        <td>Undefined</td>
-        <td>Joseph Groenenboom</td>
-        <td>2025-01-28</td>
-        <td style="color:#ff4d4f">498d</td>
-      </tr><tr data-project="RHAIENG">
-        <td>RHAIENG</td>
-        <td><a href="https://redhat.atlassian.net/browse/RHELAI-3846" target="_blank" style="color:#58a6ff;text-decoration:none">RHELAI-3846</a></td>
-        <td>Implement API for Modifying Provider Configuration</td>
-        <td>In Progress</td>
-        <td>Undefined</td>
-        <td>Charlie Doern</td>
-        <td>2025-05-13</td>
-        <td style="color:#ff4d4f">393d</td>
-      </tr><tr data-project="RHAIENG">
-        <td>RHAIENG</td>
-        <td><a href="https://redhat.atlassian.net/browse/RHELAI-3913" target="_blank" style="color:#58a6ff;text-decoration:none">RHELAI-3913</a></td>
-        <td>build DPO example notebook / script</td>
-        <td>In Progress</td>
-        <td>Undefined</td>
-        <td>James Kunstle</td>
-        <td>2025-05-22</td>
-        <td style="color:#ff4d4f">384d</td>
-      </tr><tr data-project="RHAIENG">
-        <td>RHAIENG</td>
-        <td><a href="https://redhat.atlassian.net/browse/RHELAI-4132" target="_blank" style="color:#58a6ff;text-decoration:none">RHELAI-4132</a></td>
-        <td>log more instructlab image information in diip runs</td>
-        <td>In Progress</td>
-        <td>Normal</td>
-        <td>Charli Allen</td>
-        <td>2025-05-29</td>
-        <td style="color:#ff4d4f">377d</td>
-      </tr><tr data-project="RHAIENG">
-        <td>RHAIENG</td>
-        <td><a href="https://redhat.atlassian.net/browse/RHELAI-3978" target="_blank" style="color:#58a6ff;text-decoration:none">RHELAI-3978</a></td>
-        <td>Create `Model` class</td>
-        <td>Dev Complete</td>
-        <td>Undefined</td>
-        <td>Charlie Doern</td>
-        <td>2025-06-04</td>
-        <td style="color:#ff4d4f">371d</td>
-      </tr><tr data-project="RHAIENG">
-        <td>RHAIENG</td>
-        <td><a href="https://redhat.atlassian.net/browse/RHELAI-4149" target="_blank" style="color:#58a6ff;text-decoration:none">RHELAI-4149</a></td>
-        <td>Investigate Meta’s Synthetic Data Kit</td>
-        <td>In Progress</td>
-        <td>Undefined</td>
-        <td>Alina Ryan</td>
-        <td>2025-06-12</td>
-        <td style="color:#ff4d4f">363d</td>
-      </tr><tr data-project="RHAIENG">
-        <td>RHAIENG</td>
-        <td><a href="https://redhat.atlassian.net/browse/RHELAI-4524" target="_blank" style="color:#58a6ff;text-decoration:none">RHELAI-4524</a></td>
-        <td>Missing --expected-size argument in aws c3 cp command</td>
-        <td>In Progress</td>
-        <td>Undefined</td>
-        <td>Kelly Brown</td>
-        <td>2025-07-01</td>
-        <td style="color:#ff4d4f">344d</td>
-      </tr><tr data-project="RHAIENG">
-        <td>RHAIENG</td>
-        <td><a href="https://redhat.atlassian.net/browse/RHELAI-4521" target="_blank" style="color:#58a6ff;text-decoration:none">RHELAI-4521</a></td>
-        <td>Please list AWS instance types among the support hardware configurations</td>
-        <td>In Progress</td>
-        <td>Undefined</td>
-        <td>Kelly Brown</td>
-        <td>2025-07-01</td>
-        <td style="color:#ff4d4f">344d</td>
-      </tr><tr data-project="RHAIENG">
-        <td>RHAIENG</td>
-        <td><a href="https://redhat.atlassian.net/browse/RHELAI-2667" target="_blank" style="color:#58a6ff;text-decoration:none">RHELAI-2667</a></td>
-        <td>Upstream vLLM MP backend on Gaudi 3 cards</td>
-        <td>Review</td>
-        <td>Undefined</td>
-        <td>Fabien Dupont</td>
-        <td>2025-07-03</td>
-        <td style="color:#ff4d4f">342d</td>
-      </tr><tr data-project="RHAIENG">
-        <td>RHAIENG</td>
-        <td><a href="https://redhat.atlassian.net/browse/RHELAI-3844" target="_blank" style="color:#58a6ff;text-decoration:none">RHELAI-3844</a></td>
-        <td>enable instructlab-sdg library updates in renovate</td>
-        <td>Code Review</td>
-        <td>Undefined</td>
-        <td>Unassigned</td>
-        <td>2025-07-07</td>
-        <td style="color:#ff4d4f">338d</td>
-      </tr><tr data-project="RHAIENG">
-        <td>RHAIENG</td>
-        <td><a href="https://redhat.atlassian.net/browse/RHELAI-4516" target="_blank" style="color:#58a6ff;text-decoration:none">RHELAI-4516</a></td>
-        <td>Unclear support status of single L40S AWS instances</td>
-        <td>In Progress</td>
-        <td>Undefined</td>
-        <td>Kelly Brown</td>
-        <td>2025-07-09</td>
-        <td style="color:#ff4d4f">336d</td>
-      </tr><tr data-project="RHAIENG">
-        <td>RHAIENG</td>
-        <td><a href="https://redhat.atlassian.net/browse/RHELAI-4654" target="_blank" style="color:#58a6ff;text-decoration:none">RHELAI-4654</a></td>
-        <td>[certification] Evaluation with MMLU benchmark failure</td>
-        <td>In Progress</td>
-        <td>Major</td>
-        <td>Unassigned</td>
-        <td>2025-07-16</td>
-        <td style="color:#ff4d4f">329d</td>
-      </tr><tr data-project="RHAIENG">
-        <td>RHAIENG</td>
-        <td><a href="https://redhat.atlassian.net/browse/RHELAI-4517" target="_blank" style="color:#58a6ff;text-decoration:none">RHELAI-4517</a></td>
-        <td>Upgrade instructions in release notes do not work</td>
-        <td>In Progress</td>
-        <td>Undefined</td>
-        <td>Kelly Brown</td>
-        <td>2025-07-24</td>
-        <td style="color:#ff4d4f">321d</td>
-      </tr><tr data-project="RHAIENG">
-        <td>RHAIENG</td>
-        <td><a href="https://redhat.atlassian.net/browse/RHELAI-4615" target="_blank" style="color:#58a6ff;text-decoration:none">RHELAI-4615</a></td>
-        <td>Connect with the Product Managers to understand their needs & objectives</td>
-        <td>Review</td>
-        <td>Major</td>
-        <td>Charli Allen</td>
-        <td>2025-08-07</td>
-        <td style="color:#ff4d4f">307d</td>
-      </tr><tr data-project="RHAIENG">
-        <td>RHAIENG</td>
-        <td><a href="https://redhat.atlassian.net/browse/RHELAI-4515" target="_blank" style="color:#58a6ff;text-decoration:none">RHELAI-4515</a></td>
-        <td>[Certification] Evaluation using Mt Bench failed Azure ND MI300x v5</td>
-        <td>Review</td>
-        <td>Undefined</td>
-        <td>Unassigned</td>
-        <td>2025-08-13</td>
-        <td style="color:#ff4d4f">301d</td>
-      </tr><tr data-project="RHAIENG">
-        <td>RHAIENG</td>
-        <td><a href="https://redhat.atlassian.net/browse/RHELAI-4597" target="_blank" style="color:#58a6ff;text-decoration:none">RHELAI-4597</a></td>
-        <td>Connect with the Agentic/MCP Team to understand their needs & objectives</td>
-        <td>In Progress</td>
-        <td>Major</td>
-        <td>Charli Allen</td>
-        <td>2025-08-21</td>
-        <td style="color:#ff4d4f">293d</td>
-      </tr><tr data-project="RHAIENG">
-        <td>RHAIENG</td>
-        <td><a href="https://redhat.atlassian.net/browse/RHELAI-4655" target="_blank" style="color:#58a6ff;text-decoration:none">RHELAI-4655</a></td>
-        <td>DIIP is unable to authenticate against registry.redhat.io or registry.staging.re</td>
-        <td>Testing</td>
-        <td>Major</td>
-        <td>Courtney Pacheco</td>
-        <td>2025-08-21</td>
-        <td style="color:#ff4d4f">293d</td>
-      </tr><tr data-project="RHAIENG">
-        <td>RHAIENG</td>
-        <td><a href="https://redhat.atlassian.net/browse/RHELAI-2700" target="_blank" style="color:#58a6ff;text-decoration:none">RHELAI-2700</a></td>
-        <td>[instructlab/instructlab] Add ability to convert models to OCI format directorie</td>
-        <td>Dev Complete</td>
-        <td>Normal</td>
-        <td>Jaideep Rao</td>
-        <td>2025-08-30</td>
-        <td style="color:#ff4d4f">284d</td>
-      </tr><tr data-project="RHAIENG">
-        <td>RHAIENG</td>
-        <td><a href="https://redhat.atlassian.net/browse/RHELAI-4749" target="_blank" style="color:#58a6ff;text-decoration:none">RHELAI-4749</a></td>
-        <td>Review & Document GitHub CI/CD Security Best Practices with AI Innovation Team</td>
-        <td>In Progress</td>
-        <td>Critical</td>
-        <td>Charli Allen</td>
-        <td>2025-09-02</td>
-        <td style="color:#ff4d4f">281d</td>
-      </tr><tr data-project="RHOAIENG">
-        <td>RHOAIENG</td>
-        <td><a href="https://redhat.atlassian.net/browse/RHODS-2795" target="_blank" style="color:#58a6ff;text-decoration:none">RHODS-2795</a></td>
-        <td>Getting Familiar With Jira </td>
-        <td>In Progress</td>
-        <td>Normal</td>
-        <td>Prudhviraj Nammi</td>
-        <td>2022-01-31</td>
-        <td style="color:#ff4d4f">1591d</td>
-      </tr><tr data-project="RHOAIENG">
-        <td>RHOAIENG</td>
-        <td><a href="https://redhat.atlassian.net/browse/RHODS-4830" target="_blank" style="color:#58a6ff;text-decoration:none">RHODS-4830</a></td>
-        <td>[spike]OCP baremetal installation for rhods on-prem testing</td>
-        <td>In Progress</td>
-        <td>Normal</td>
-        <td>Tarun Kumar</td>
-        <td>2022-11-22</td>
-        <td style="color:#ff4d4f">1296d</td>
-      </tr><tr data-project="RHOAIENG">
-        <td>RHOAIENG</td>
-        <td><a href="https://redhat.atlassian.net/browse/RHODS-6002" target="_blank" style="color:#58a6ff;text-decoration:none">RHODS-6002</a></td>
-        <td>Release Activities on the next RHODS RC 1.20 - TK</td>
-        <td>In Progress</td>
-        <td>Undefined</td>
-        <td>Tarun Kumar</td>
-        <td>2022-12-23</td>
-        <td style="color:#ff4d4f">1265d</td>
-      </tr><tr data-project="RHOAIENG">
-        <td>RHOAIENG</td>
-        <td><a href="https://redhat.atlassian.net/browse/RHODS-5897" target="_blank" style="color:#58a6ff;text-decoration:none">RHODS-5897</a></td>
-        <td>Partition etcd user spaces</td>
-        <td>In Progress</td>
-        <td>Undefined</td>
-        <td>Unassigned</td>
-        <td>2023-03-30</td>
-        <td style="color:#ff4d4f">1168d</td>
-      </tr><tr data-project="RHOAIENG">
-        <td>RHOAIENG</td>
-        <td><a href="https://redhat.atlassian.net/browse/RHODS-2751" target="_blank" style="color:#58a6ff;text-decoration:none">RHODS-2751</a></td>
-        <td>Automate notebook image annotations</td>
-        <td>In Progress</td>
-        <td>Normal</td>
-        <td>Vaishnavi Hire</td>
-        <td>2023-05-23</td>
-        <td style="color:#ff4d4f">1114d</td>
-      </tr><tr data-project="RHOAIENG">
-        <td>RHOAIENG</td>
-        <td><a href="https://redhat.atlassian.net/browse/RHODS-7933" target="_blank" style="color:#58a6ff;text-decoration:none">RHODS-7933</a></td>
-        <td>Restructure model serving quickstart.</td>
-        <td>In Progress</td>
-        <td>Normal</td>
-        <td>Unassigned</td>
-        <td>2023-06-05</td>
-        <td style="color:#ff4d4f">1101d</td>
-      </tr><tr data-project="RHOAIENG">
-        <td>RHOAIENG</td>
-        <td><a href="https://redhat.atlassian.net/browse/RHODS-6267" target="_blank" style="color:#58a6ff;text-decoration:none">RHODS-6267</a></td>
-        <td>SPIKE: Test modelmesh auto scaling capabilities</td>
-        <td>In Progress</td>
-        <td>Undefined</td>
-        <td>JooHo Lee</td>
-        <td>2023-06-06</td>
-        <td style="color:#ff4d4f">1100d</td>
-      </tr><tr data-project="RHOAIENG">
-        <td>RHOAIENG</td>
-        <td><a href="https://redhat.atlassian.net/browse/RHODS-9381" target="_blank" style="color:#58a6ff;text-decoration:none">RHODS-9381</a></td>
-        <td>Research model types and gather sample notebooks</td>
-        <td>In Progress</td>
-        <td>Undefined</td>
-        <td>Mariah Holder</td>
-        <td>2023-06-15</td>
-        <td style="color:#ff4d4f">1091d</td>
-      </tr><tr data-project="RHOAIENG">
-        <td>RHOAIENG</td>
-        <td><a href="https://redhat.atlassian.net/browse/RHODS-9452" target="_blank" style="color:#58a6ff;text-decoration:none">RHODS-9452</a></td>
-        <td>Add TSSaliency endpoint in service</td>
-        <td>In Progress</td>
-        <td>Undefined</td>
-        <td>Rui Vieira</td>
-        <td>2023-06-26</td>
-        <td style="color:#ff4d4f">1080d</td>
-      </tr><tr data-project="RHOAIENG">
-        <td>RHOAIENG</td>
-        <td><a href="https://redhat.atlassian.net/browse/RHODS-10495" target="_blank" style="color:#58a6ff;text-decoration:none">RHODS-10495</a></td>
-        <td>RHODS QE Jira Overview</td>
-        <td>In Progress</td>
-        <td>Undefined</td>
-        <td>Unassigned</td>
-        <td>2023-08-21</td>
-        <td style="color:#ff4d4f">1024d</td>
-      </tr><tr data-project="RHOAIENG">
-        <td>RHOAIENG</td>
-        <td><a href="https://redhat.atlassian.net/browse/RHODS-10549" target="_blank" style="color:#58a6ff;text-decoration:none">RHODS-10549</a></td>
-        <td>Request access to the Errata tool</td>
-        <td>In Progress</td>
-        <td>Undefined</td>
-        <td>stephin</td>
-        <td>2023-08-22</td>
-        <td style="color:#ff4d4f">1023d</td>
-      </tr><tr data-project="RHOAIENG">
-        <td>RHOAIENG</td>
-        <td><a href="https://redhat.atlassian.net/browse/RHODS-10547" target="_blank" style="color:#58a6ff;text-decoration:none">RHODS-10547</a></td>
-        <td>RHODS QE knowledge base</td>
-        <td>In Progress</td>
-        <td>Undefined</td>
-        <td>stephin</td>
-        <td>2023-08-22</td>
-        <td style="color:#ff4d4f">1023d</td>
-      </tr><tr data-project="RHOAIENG">
-        <td>RHOAIENG</td>
-        <td><a href="https://redhat.atlassian.net/browse/RHODS-10554" target="_blank" style="color:#58a6ff;text-decoration:none">RHODS-10554</a></td>
-        <td>Get yourself added to the necessary git organizations</td>
-        <td>In Progress</td>
-        <td>Undefined</td>
-        <td>stephin</td>
-        <td>2023-08-22</td>
-        <td style="color:#ff4d4f">1023d</td>
-      </tr><tr data-project="RHOAIENG">
-        <td>RHOAIENG</td>
-        <td><a href="https://redhat.atlassian.net/browse/RHODS-10564" target="_blank" style="color:#58a6ff;text-decoration:none">RHODS-10564</a></td>
-        <td>Ask your manager to add you to RHOSi JIRA boards</td>
-        <td>In Progress</td>
-        <td>Undefined</td>
-        <td>stephin</td>
-        <td>2023-08-22</td>
-        <td style="color:#ff4d4f">1023d</td>
-      </tr><tr data-project="RHOAIENG">
-        <td>RHOAIENG</td>
-        <td><a href="https://redhat.atlassian.net/browse/RHODS-9369" target="_blank" style="color:#58a6ff;text-decoration:none">RHODS-9369</a></td>
-        <td>Update Operator Bundle</td>
-        <td>In Progress</td>
-        <td>Undefined</td>
-        <td>Pablo Felix Estevez Pico</td>
-        <td>2023-08-23</td>
-        <td style="color:#ff4d4f">1022d</td>
-      </tr><tr data-project="RHOAIENG">
-        <td>RHOAIENG</td>
-        <td><a href="https://redhat.atlassian.net/browse/RHODS-9246" target="_blank" style="color:#58a6ff;text-decoration:none">RHODS-9246</a></td>
-        <td>Add Support for custom ServiceMonitors at the CR level</td>
-        <td>Review</td>
-        <td>Major</td>
-        <td>Rui Vieira</td>
-        <td>2023-10-06</td>
-        <td style="color:#ff4d4f">978d</td>
-      </tr><tr data-project="RHOAIENG">
-        <td>RHOAIENG</td>
-        <td><a href="https://redhat.atlassian.net/browse/RHODS-12571" target="_blank" style="color:#58a6ff;text-decoration:none">RHODS-12571</a></td>
-        <td>RHODS QE knowledge base</td>
-        <td>In Progress</td>
-        <td>Undefined</td>
-        <td>Savitha Thundathil Jose</td>
-        <td>2023-10-18</td>
-        <td style="color:#ff4d4f">966d</td>
-      </tr><tr data-project="RHOAIENG">
-        <td>RHOAIENG</td>
-        <td><a href="https://redhat.atlassian.net/browse/RHODS-12578" target="_blank" style="color:#58a6ff;text-decoration:none">RHODS-12578</a></td>
-        <td>Learn RHODS build promotion</td>
-        <td>In Progress</td>
-        <td>Undefined</td>
-        <td>Savitha Thundathil Jose</td>
-        <td>2023-10-20</td>
-        <td style="color:#ff4d4f">964d</td>
-      </tr><tr data-project="RHOAIENG">
-        <td>RHOAIENG</td>
-        <td><a href="https://redhat.atlassian.net/browse/RHODS-11194" target="_blank" style="color:#58a6ff;text-decoration:none">RHODS-11194</a></td>
-        <td>RHODS QE knowledge base</td>
-        <td>In Progress</td>
-        <td>Undefined</td>
-        <td>Unassigned</td>
-        <td>2023-10-24</td>
-        <td style="color:#ff4d4f">960d</td>
-      </tr><tr data-project="RHOAIENG">
-        <td>RHOAIENG</td>
-        <td><a href="https://redhat.atlassian.net/browse/RHODS-11255" target="_blank" style="color:#58a6ff;text-decoration:none">RHODS-11255</a></td>
-        <td>Learn polarion for RHODS testcase management</td>
-        <td>In Progress</td>
-        <td>Undefined</td>
-        <td>Unassigned</td>
-        <td>2023-10-24</td>
-        <td style="color:#ff4d4f">960d</td>
+  <table id="burndown-table">
+    <thead>
+      <tr>
+        <th>Project</th>
+        <th>Version</th>
+        <th>Release Date</th>
+        <th>Days Left</th>
+        <th>Total</th>
+        <th>Done</th>
+        <th>Remaining</th>
+        <th>% Done</th>
+        <th>Progress</th>
+        <th>Severity</th>
       </tr>
-      </tbody>
-    </table>
+    </thead>
+    <tbody>
+      <tr data-project="AIPCC" data-risk="red">
+        <td>AIPCC</td>
+        <td>RHAII-3.5</td>
+        <td>2026-06-17</td>
+        <td style="color:#ff4d4f;font-weight:600">6</td>
+        <td>10</td>
+        <td>0</td>
+        <td style="color:#ff4d4f">10</td>
+        <td>0%</td>
+        <td><div class="progress-bar"><div class="progress-fill" style="width:0%;background:#ff4d4f"></div></div></td>
+        <td><span class="badge badge-red">Critical</span></td>
+      </tr>
+      <tr data-project="RHAIENG" data-risk="red">
+        <td>RHAIENG</td>
+        <td>rhelai-3.0</td>
+        <td style="color:#ff4d4f">2025-11-13</td>
+        <td style="color:#ff4d4f;font-weight:600">-210</td>
+        <td>4</td>
+        <td>1</td>
+        <td style="color:#ff4d4f">3</td>
+        <td>25%</td>
+        <td><div class="progress-bar"><div class="progress-fill" style="width:25%;background:#ff4d4f"></div></div></td>
+        <td><span class="badge badge-red">Critical</span></td>
+      </tr>
+      <tr data-project="AIPCC" data-risk="yellow">
+        <td>AIPCC</td>
+        <td>RHAII-3.5 EA2</td>
+        <td>2026-06-30</td>
+        <td style="color:#faad14;font-weight:600">19</td>
+        <td>11</td>
+        <td>7</td>
+        <td style="color:#faad14">4</td>
+        <td>63.6%</td>
+        <td><div class="progress-bar"><div class="progress-fill" style="width:63.6%;background:#faad14"></div></div></td>
+        <td><span class="badge badge-yellow">Watch</span></td>
+      </tr>
+      <tr data-project="AIPCC" data-risk="yellow">
+        <td>AIPCC</td>
+        <td>RHAII-3.5 GA</td>
+        <td>2026-07-30</td>
+        <td>49</td>
+        <td>23</td>
+        <td>4</td>
+        <td style="color:#faad14">19</td>
+        <td>17.4%</td>
+        <td><div class="progress-bar"><div class="progress-fill" style="width:17.4%;background:#faad14"></div></div></td>
+        <td><span class="badge badge-yellow">Watch</span></td>
+      </tr>
+      <tr data-project="AIPCC" data-risk="green">
+        <td>AIPCC</td>
+        <td>rhelai-3.5 EA2 release</td>
+        <td>2026-07-16</td>
+        <td>35</td>
+        <td>11</td>
+        <td>5</td>
+        <td>6</td>
+        <td>45.5%</td>
+        <td><div class="progress-bar"><div class="progress-fill" style="width:45.5%;background:#52c41a"></div></div></td>
+        <td><span class="badge badge-green">On Track</span></td>
+      </tr>
+      <tr data-project="AIPCC" data-risk="green" style="opacity:0.5">
+        <td>AIPCC</td>
+        <td>RHAII-3.5 EA1</td>
+        <td>2026-06-02</td>
+        <td style="color:#52c41a">Done</td>
+        <td>49</td>
+        <td>49</td>
+        <td>0</td>
+        <td>100%</td>
+        <td><div class="progress-bar"><div class="progress-fill" style="width:100%;background:#52c41a"></div></div></td>
+        <td><span class="badge badge-green">Complete</span></td>
+      </tr>
+      <tr data-project="AIPCC" data-risk="green" style="opacity:0.5">
+        <td>AIPCC</td>
+        <td>rhelai-3.5 EA1 release</td>
+        <td>2026-06-18</td>
+        <td style="color:#52c41a">Done</td>
+        <td>30</td>
+        <td>30</td>
+        <td>0</td>
+        <td>100%</td>
+        <td><div class="progress-bar"><div class="progress-fill" style="width:100%;background:#52c41a"></div></div></td>
+        <td><span class="badge badge-green">Complete</span></td>
+      </tr>
+    </tbody>
+  </table>
   </div>
 </div>
 
-<!-- Flow Metrics Tab -->
-<div id="flow" class="tab-content">
+<!-- ===== AGING WIP TAB ===== -->
+<div id="aging" class="tab-content">
+
+  <div class="summary-row">
+    <div class="summary-card"><div class="big" style="color:#ff4d4f">307</div><div class="label">Total Aging Items</div></div>
+    <div class="summary-card"><div class="big" style="color:#faad14">161</div><div class="label">AIPCC</div></div>
+    <div class="summary-card"><div class="big" style="color:#ff4d4f">66</div><div class="label">RHAIENG</div></div>
+    <div class="summary-card"><div class="big" style="color:#ff4d4f">77</div><div class="label">RHOAIENG</div></div>
+  </div>
+
+  <div class="filter-row">
+    <span class="filter-label">Filter by project:</span>
+    <button class="filter-btn active" onclick="filterAging('all',this)">All (307)</button>
+    <button class="filter-btn" onclick="filterAging('AIPCC',this)">AIPCC (161)</button>
+    <button class="filter-btn" onclick="filterAging('INFERENG',this)">INFERENG (3)</button>
+    <button class="filter-btn" onclick="filterAging('RHAIENG',this)">RHAIENG (66)</button>
+    <button class="filter-btn" onclick="filterAging('RHOAIENG',this)">RHOAIENG (77)</button>
+  </div>
+
   <div class="table-wrap">
+  <table id="aging-table">
+    <thead>
+      <tr>
+        <th>Project</th>
+        <th>Key</th>
+        <th>Summary</th>
+        <th>Assignee</th>
+        <th>Status</th>
+        <th>Last Updated</th>
+        <th>Stale Days</th>
+      </tr>
+    </thead>
+    <tbody>
+      <!-- AIPCC aging items (20 of 161) -->
+      <tr data-project="AIPCC"><td>AIPCC</td><td class="issue-key">AIPCC-8458</td><td>O1: Reliable Value Delivery</td><td>Tom Gundersen</td><td>In Progress</td><td>2026-03-18</td><td class="stale-days">85d</td></tr>
+      <tr data-project="AIPCC"><td>AIPCC</td><td class="issue-key">AIPCC-8465</td><td>O2: Upstream AI Leadership &amp; Influence</td><td>Tom Gundersen</td><td>In Progress</td><td>2026-03-18</td><td class="stale-days">85d</td></tr>
+      <tr data-project="AIPCC"><td>AIPCC</td><td class="issue-key">AIPCC-8470</td><td>O3: Culture of Growth &amp; Engagement</td><td>Tom Gundersen</td><td>In Progress</td><td>2026-03-18</td><td class="stale-days">85d</td></tr>
+      <tr data-project="AIPCC"><td>AIPCC</td><td class="issue-key">AIPCC-8475</td><td>O4: AI-First Excellence</td><td>Tom Gundersen</td><td>In Progress</td><td>2026-03-18</td><td class="stale-days">85d</td></tr>
+      <tr data-project="AIPCC"><td>AIPCC</td><td class="issue-key">AIPCC-10160</td><td>Mandatory Research - Follow Parent Story Instructions</td><td>Amit Mendelevitch</td><td>In Progress</td><td>2026-03-18</td><td class="stale-days">85d</td></tr>
+      <tr data-project="AIPCC"><td>AIPCC</td><td class="issue-key">AIPCC-10224</td><td>Review GPUaaS Requirements</td><td>Amit Mendelevitch</td><td>In Progress</td><td>2026-03-18</td><td class="stale-days">85d</td></tr>
+      <tr data-project="AIPCC"><td>AIPCC</td><td class="issue-key">AIPCC-11356</td><td>Director: Report Name Customization</td><td>Adam Drew</td><td>In Progress</td><td>2026-03-18</td><td class="stale-days">85d</td></tr>
+      <tr data-project="AIPCC"><td>AIPCC</td><td class="issue-key">AIPCC-12347</td><td>Dummy Feature to test automation</td><td>Unassigned</td><td>In Progress</td><td>2026-03-19</td><td class="stale-days">84d</td></tr>
+      <tr data-project="AIPCC"><td>AIPCC</td><td class="issue-key">AIPCC-12861</td><td>[PyTorch][CI] Separate wheel package names per CUDA version</td><td>Subin George</td><td>Review</td><td>2026-03-24</td><td class="stale-days">79d</td></tr>
+      <tr data-project="AIPCC"><td>AIPCC</td><td class="issue-key">AIPCC-12862</td><td>[PyTorch][CI] Fix NCCL version mismatch for CUDA 12.9</td><td>Subin George</td><td>Review</td><td>2026-03-24</td><td class="stale-days">79d</td></tr>
+      <tr data-project="AIPCC"><td>AIPCC</td><td class="issue-key">AIPCC-12858</td><td>[PyTorch][CI] Auto-upload release notes</td><td>Subin George</td><td>Review</td><td>2026-03-24</td><td class="stale-days">79d</td></tr>
+      <tr data-project="AIPCC"><td>AIPCC</td><td class="issue-key">AIPCC-12856</td><td>[PyTorch][CI] Add dual CUDA version build support</td><td>Subin George</td><td>Review</td><td>2026-03-24</td><td class="stale-days">79d</td></tr>
+      <tr data-project="AIPCC"><td>AIPCC</td><td class="issue-key">AIPCC-12857</td><td>[PyTorch][CI] Add CUDA 12.9 sanity test suite</td><td>Subin George</td><td>Review</td><td>2026-03-24</td><td class="stale-days">79d</td></tr>
+      <tr data-project="AIPCC"><td>AIPCC</td><td class="issue-key">AIPCC-14056</td><td>Develop quality prompt for Claude/Cursor to automate...</td><td>Unassigned</td><td>In Progress</td><td>2026-04-10</td><td class="stale-days">62d</td></tr>
+      <tr data-project="AIPCC"><td>AIPCC</td><td class="issue-key">AIPCC-14057</td><td>Write step-by-step written guide for manual setup</td><td>Unassigned</td><td>In Progress</td><td>2026-04-10</td><td class="stale-days">62d</td></tr>
+      <tr data-project="AIPCC"><td>AIPCC</td><td class="issue-key">AIPCC-9826</td><td>GPU as a Non-Issue - Inventory, Research</td><td>Aviran Badli</td><td>In Progress</td><td>2026-04-13</td><td class="stale-days">59d</td></tr>
+      <tr data-project="AIPCC"><td>AIPCC</td><td class="issue-key">AIPCC-14205</td><td>Refactor test/dynamo/test_minifier.py</td><td>Riya Punia</td><td>Review</td><td>2026-04-13</td><td class="stale-days">59d</td></tr>
+      <tr data-project="AIPCC"><td>AIPCC</td><td class="issue-key">AIPCC-14274</td><td>Setup Openshift for PyTorch team</td><td>Samuel Park</td><td>In Progress</td><td>2026-04-14</td><td class="stale-days">58d</td></tr>
+      <tr data-project="AIPCC"><td>AIPCC</td><td class="issue-key">AIPCC-13745</td><td>Refactoring of renovate runners</td><td>Srija Ganguly</td><td>In Progress</td><td>2026-04-14</td><td class="stale-days">58d</td></tr>
+      <tr data-project="AIPCC"><td>AIPCC</td><td class="issue-key">AIPCC-13851</td><td>Agile Documentation Strategy &amp; Governance Framework</td><td>Kim Tam</td><td>In Progress</td><td>2026-04-16</td><td class="stale-days">56d</td></tr>
+
+      <!-- INFERENG aging items (3 of 3) -->
+      <tr data-project="INFERENG"><td>INFERENG</td><td class="issue-key">PSAP-1359</td><td>Investigate profiling of llm serving runtime process</td><td>Nikhil Palaskar</td><td>In Progress</td><td>2026-03-21</td><td class="stale-days">82d</td></tr>
+      <tr data-project="INFERENG"><td>INFERENG</td><td class="issue-key">PSAP-1114</td><td>RHOAI test automation / ci-artifacts project evolution</td><td>David Whyte-Gray</td><td>In Progress</td><td>2026-03-22</td><td class="stale-days">81d</td></tr>
+      <tr data-project="INFERENG"><td>INFERENG</td><td class="issue-key">PSAP-1291</td><td>Perf and Scale testing for Data Science Pipelines v2</td><td>Drew Ripberger</td><td>In Progress</td><td>2026-03-22</td><td class="stale-days">81d</td></tr>
+
+      <!-- RHAIENG aging items (20 of 66) -->
+      <tr data-project="RHAIENG"><td>RHAIENG</td><td class="issue-key">RHELAI-2687</td><td>Update the way users should validate the api key</td><td>Kelly Brown</td><td>In Progress</td><td>2024-12-11</td><td class="stale-days">548d</td></tr>
+      <tr data-project="RHAIENG"><td>RHAIENG</td><td class="issue-key">RHELAI-3089</td><td>Expand utilities to handle git branches and commit checkouts</td><td>Joseph Groenenboom</td><td>In Progress</td><td>2025-01-28</td><td class="stale-days">500d</td></tr>
+      <tr data-project="RHAIENG"><td>RHAIENG</td><td class="issue-key">RHELAI-2376</td><td>[rag] Creation of a RAG Pipeline</td><td>William Caban Babilonia</td><td>In Progress</td><td>2025-02-25</td><td class="stale-days">472d</td></tr>
+      <tr data-project="RHAIENG"><td>RHAIENG</td><td class="issue-key">RHELAI-3560</td><td>[ilab] Exposing third-party models for inference and ilab</td><td>Rob Greenberg</td><td>In Progress</td><td>2025-03-11</td><td class="stale-days">458d</td></tr>
+      <tr data-project="RHAIENG"><td>RHAIENG</td><td class="issue-key">RHELAI-2486</td><td>[UI] MVP RHEL AI UI Enhancements for SMEs (phase 2)</td><td>Jehlum Vitasta Pandit</td><td>In Progress</td><td>2025-03-14</td><td class="stale-days">455d</td></tr>
+      <tr data-project="RHAIENG"><td>RHAIENG</td><td class="issue-key">RHELAI-2645</td><td>[create dev-doc] Research and Investigation</td><td>Aakanksha Duggal</td><td>In Progress</td><td>2025-03-25</td><td class="stale-days">444d</td></tr>
+      <tr data-project="RHAIENG"><td>RHAIENG</td><td class="issue-key">RHELAI-2670</td><td>Productize the 128k context window Granite v3.1</td><td>William Caban Babilonia</td><td>In Progress</td><td>2025-03-31</td><td class="stale-days">438d</td></tr>
+      <tr data-project="RHAIENG"><td>RHAIENG</td><td class="issue-key">RHELAI-2717</td><td>System profile and auto-detection for NVIDIA H200</td><td>Jehlum Vitasta Pandit</td><td>Testing</td><td>2025-03-31</td><td class="stale-days">438d</td></tr>
+      <tr data-project="RHAIENG"><td>RHAIENG</td><td class="issue-key">RHELAI-2357</td><td>Gaudi 3 multi-device inferencing</td><td>James Kunstle</td><td>Dev Complete</td><td>2025-04-07</td><td class="stale-days">431d</td></tr>
+      <tr data-project="RHAIENG"><td>RHAIENG</td><td class="issue-key">RHELAI-3616</td><td>Third-party model(s) support - end-to-end workflow</td><td>Jehlum Vitasta Pandit</td><td>In Progress</td><td>2025-04-08</td><td class="stale-days">430d</td></tr>
+      <tr data-project="RHAIENG"><td>RHAIENG</td><td class="issue-key">RHELAI-3497</td><td>Support for NVIDIA H200</td><td>Erwan Gallen</td><td>Testing</td><td>2025-04-21</td><td class="stale-days">417d</td></tr>
+      <tr data-project="RHAIENG"><td>RHAIENG</td><td class="issue-key">RHELAI-3954</td><td>Misc improvements to QE cloud envs</td><td>Mike DePaulo</td><td>In Progress</td><td>2025-04-23</td><td class="stale-days">415d</td></tr>
+      <tr data-project="RHAIENG"><td>RHAIENG</td><td class="issue-key">RHELAI-3904</td><td>SDG Summit Goals [Use Cases]</td><td>Aditi Saluja</td><td>In Progress</td><td>2025-04-24</td><td class="stale-days">414d</td></tr>
+      <tr data-project="RHAIENG"><td>RHAIENG</td><td class="issue-key">RHELAI-3917</td><td>Support for NVIDIA B200</td><td>Erwan Gallen</td><td>In Progress</td><td>2025-04-24</td><td class="stale-days">414d</td></tr>
+      <tr data-project="RHAIENG"><td>RHAIENG</td><td class="issue-key">RHELAI-3465</td><td>Add "tuned" to RHEL AI base image</td><td>William Caban Babilonia</td><td>Dev Complete</td><td>2025-04-24</td><td class="stale-days">414d</td></tr>
+      <tr data-project="RHAIENG"><td>RHAIENG</td><td class="issue-key">RHELAI-3997</td><td>Show generation with Third Party Teacher Model</td><td>Aakanksha Duggal</td><td>In Progress</td><td>2025-04-24</td><td class="stale-days">414d</td></tr>
+      <tr data-project="RHAIENG"><td>RHAIENG</td><td class="issue-key">RHELAI-3607</td><td>[ilab] Llama 3.1 8B-Instruct ilab model serve</td><td>Dan McPherson</td><td>Testing</td><td>2025-05-08</td><td class="stale-days">400d</td></tr>
+      <tr data-project="RHAIENG"><td>RHAIENG</td><td class="issue-key">RHELAI-3674</td><td>[ilab] Granite 3.1 8B Instruct ilab model serve</td><td>Dan McPherson</td><td>Testing</td><td>2025-05-08</td><td class="stale-days">400d</td></tr>
+      <tr data-project="RHAIENG"><td>RHAIENG</td><td class="issue-key">RHELAI-3598</td><td>[ilab] Phi-4-14B ilab model serve</td><td>Dan McPherson</td><td>Testing</td><td>2025-05-08</td><td class="stale-days">400d</td></tr>
+      <tr data-project="RHAIENG"><td>RHAIENG</td><td class="issue-key">RHELAI-3596</td><td>[ilab] Mistral-Small 3-24B-Instruct ilab model serve</td><td>Dan McPherson</td><td>Testing</td><td>2025-05-08</td><td class="stale-days">400d</td></tr>
+
+      <!-- RHOAIENG aging items (20 of 77) -->
+      <tr data-project="RHOAIENG"><td>RHOAIENG</td><td class="issue-key">RHODS-2795</td><td>Getting Familiar With Jira</td><td>Prudhviraj Nammi</td><td>In Progress</td><td>2022-01-31</td><td class="stale-days">1,592d</td></tr>
+      <tr data-project="RHOAIENG"><td>RHOAIENG</td><td class="issue-key">RHODS-4830</td><td>[spike] OCP baremetal installation for rhods on-prem testing</td><td>Tarun Kumar</td><td>In Progress</td><td>2022-11-22</td><td class="stale-days">1,297d</td></tr>
+      <tr data-project="RHOAIENG"><td>RHOAIENG</td><td class="issue-key">RHODS-6002</td><td>Release Activities on the next RHODS RC 1.20</td><td>Tarun Kumar</td><td>In Progress</td><td>2022-12-23</td><td class="stale-days">1,266d</td></tr>
+      <tr data-project="RHOAIENG"><td>RHOAIENG</td><td class="issue-key">RHODS-5897</td><td>Partition etcd user spaces</td><td>Unassigned</td><td>In Progress</td><td>2023-03-30</td><td class="stale-days">1,169d</td></tr>
+      <tr data-project="RHOAIENG"><td>RHOAIENG</td><td class="issue-key">RHODS-2751</td><td>Automate notebook image annotations</td><td>Vaishnavi Hire</td><td>In Progress</td><td>2023-05-23</td><td class="stale-days">1,115d</td></tr>
+      <tr data-project="RHOAIENG"><td>RHOAIENG</td><td class="issue-key">RHODS-7933</td><td>Restructure model serving quickstart</td><td>Unassigned</td><td>In Progress</td><td>2023-06-05</td><td class="stale-days">1,102d</td></tr>
+      <tr data-project="RHOAIENG"><td>RHOAIENG</td><td class="issue-key">RHODS-6267</td><td>SPIKE: Test modelmesh auto scaling capabilities</td><td>JooHo Lee</td><td>In Progress</td><td>2023-06-06</td><td class="stale-days">1,101d</td></tr>
+      <tr data-project="RHOAIENG"><td>RHOAIENG</td><td class="issue-key">RHODS-9381</td><td>Research model types and gather sample notebooks</td><td>Mariah Holder</td><td>In Progress</td><td>2023-06-15</td><td class="stale-days">1,092d</td></tr>
+      <tr data-project="RHOAIENG"><td>RHOAIENG</td><td class="issue-key">RHODS-9452</td><td>Add TSSaliency endpoint in service</td><td>Rui Vieira</td><td>In Progress</td><td>2023-06-26</td><td class="stale-days">1,081d</td></tr>
+      <tr data-project="RHOAIENG"><td>RHOAIENG</td><td class="issue-key">RHODS-10495</td><td>RHODS QE Jira Overview</td><td>Unassigned</td><td>In Progress</td><td>2023-08-21</td><td class="stale-days">1,025d</td></tr>
+      <tr data-project="RHOAIENG"><td>RHOAIENG</td><td class="issue-key">RHODS-10549</td><td>Request access to the Errata tool</td><td>stephin</td><td>In Progress</td><td>2023-08-22</td><td class="stale-days">1,024d</td></tr>
+      <tr data-project="RHOAIENG"><td>RHOAIENG</td><td class="issue-key">RHODS-10547</td><td>RHODS QE knowledge base</td><td>stephin</td><td>In Progress</td><td>2023-08-22</td><td class="stale-days">1,024d</td></tr>
+      <tr data-project="RHOAIENG"><td>RHOAIENG</td><td class="issue-key">RHODS-10554</td><td>Get yourself added to the necessary git organizations</td><td>stephin</td><td>In Progress</td><td>2023-08-22</td><td class="stale-days">1,024d</td></tr>
+      <tr data-project="RHOAIENG"><td>RHOAIENG</td><td class="issue-key">RHODS-10564</td><td>Ask your manager to add you to RHOSi JIRA boards</td><td>stephin</td><td>In Progress</td><td>2023-08-22</td><td class="stale-days">1,024d</td></tr>
+      <tr data-project="RHOAIENG"><td>RHOAIENG</td><td class="issue-key">RHODS-9369</td><td>Update Operator Bundle</td><td>Pablo Felix Estevez Pico</td><td>In Progress</td><td>2023-08-23</td><td class="stale-days">1,023d</td></tr>
+      <tr data-project="RHOAIENG"><td>RHOAIENG</td><td class="issue-key">RHODS-9246</td><td>Add Support for custom ServiceMonitors at the CR level</td><td>Rui Vieira</td><td>Review</td><td>2023-10-06</td><td class="stale-days">979d</td></tr>
+      <tr data-project="RHOAIENG"><td>RHOAIENG</td><td class="issue-key">RHODS-12571</td><td>RHODS QE knowledge base</td><td>Savitha Thundathil Jose</td><td>In Progress</td><td>2023-10-18</td><td class="stale-days">967d</td></tr>
+      <tr data-project="RHOAIENG"><td>RHOAIENG</td><td class="issue-key">RHODS-12578</td><td>Learn RHODS build promotion</td><td>Savitha Thundathil Jose</td><td>In Progress</td><td>2023-10-20</td><td class="stale-days">965d</td></tr>
+      <tr data-project="RHOAIENG"><td>RHOAIENG</td><td class="issue-key">RHODS-11194</td><td>RHODS QE knowledge base</td><td>Unassigned</td><td>In Progress</td><td>2023-10-24</td><td class="stale-days">961d</td></tr>
+      <tr data-project="RHOAIENG"><td>RHOAIENG</td><td class="issue-key">RHODS-11255</td><td>Learn polarion for RHODS testcase management</td><td>Unassigned</td><td>In Progress</td><td>2023-10-24</td><td class="stale-days">961d</td></tr>
+    </tbody>
+  </table>
+  </div>
+</div>
+
+<!-- ===== FLOW METRICS TAB ===== -->
+<div id="flow" class="tab-content">
+
+  <div class="cards">
+
+    <div class="card">
+      <div class="card-header">
+        <div class="card-title">AIPCC</div>
+        <span class="badge badge-green">Healthy</span>
+      </div>
+      <div class="metric-row">
+        <div class="metric-box"><div class="val" style="color:#faad14">686</div><div class="lbl">WIP</div></div>
+        <div class="metric-box"><div class="val" style="color:#52c41a">1,587</div><div class="lbl">Throughput (30d)</div></div>
+        <div class="metric-box"><div class="val" style="color:#58a6ff">0.43</div><div class="lbl">WIP:Throughput</div></div>
+      </div>
+      <div class="metric-row">
+        <div class="metric-box"><div class="val" style="color:#c9d1d9">1,596</div><div class="lbl">Created (30d)</div></div>
+        <div class="metric-box"><div class="val" style="color:#52c41a">0.99</div><div class="lbl">Resolved:Created</div></div>
+        <div class="metric-box"><div class="val" style="color:#faad14">161</div><div class="lbl">Aging WIP</div></div>
+      </div>
+      <div style="font-size:0.75rem;color:#8b949e;margin-top:8px;margin-bottom:4px">Created vs Resolved (30d)</div>
+      <div class="ratio-bar">
+        <div style="width:49.9%;background:#238636;color:#fff">Resolved: 1,587</div>
+        <div style="width:50.1%;background:#1f6feb;color:#fff">Created: 1,596</div>
+      </div>
+      <div style="font-size:0.75rem;color:#6e7681;margin-top:8px">Throughput exceeds WIP. Resolved/created ratio near 1.0 indicates balanced flow. 23.5% aging WIP warrants grooming attention.</div>
+    </div>
+
+    <div class="card">
+      <div class="card-header">
+        <div class="card-title">INFERENG</div>
+        <span class="badge badge-yellow">Low Activity</span>
+      </div>
+      <div class="metric-row">
+        <div class="metric-box"><div class="val" style="color:#faad14">4</div><div class="lbl">WIP</div></div>
+        <div class="metric-box"><div class="val" style="color:#faad14">1</div><div class="lbl">Throughput (30d)</div></div>
+        <div class="metric-box"><div class="val" style="color:#ff4d4f">4.0</div><div class="lbl">WIP:Throughput</div></div>
+      </div>
+      <div class="metric-row">
+        <div class="metric-box"><div class="val" style="color:#c9d1d9">1</div><div class="lbl">Created (30d)</div></div>
+        <div class="metric-box"><div class="val" style="color:#52c41a">1.00</div><div class="lbl">Resolved:Created</div></div>
+        <div class="metric-box"><div class="val" style="color:#ff4d4f">3</div><div class="lbl">Aging WIP</div></div>
+      </div>
+      <div style="font-size:0.75rem;color:#8b949e;margin-top:8px;margin-bottom:4px">Created vs Resolved (30d)</div>
+      <div class="ratio-bar">
+        <div style="width:50%;background:#238636;color:#fff">Resolved: 1</div>
+        <div style="width:50%;background:#1f6feb;color:#fff">Created: 1</div>
+      </div>
+      <div style="font-size:0.75rem;color:#6e7681;margin-top:8px">Very low activity. 75% of WIP is aging. Small team or project may have moved tracking elsewhere (mapped from PSAP).</div>
+    </div>
+
+    <div class="card">
+      <div class="card-header">
+        <div class="card-title">RHAIENG</div>
+        <span class="badge badge-red">Stalled</span>
+      </div>
+      <div class="metric-row">
+        <div class="metric-box"><div class="val" style="color:#ff4d4f">66</div><div class="lbl">WIP</div></div>
+        <div class="metric-box"><div class="val" style="color:#ff4d4f">1</div><div class="lbl">Throughput (30d)</div></div>
+        <div class="metric-box"><div class="val" style="color:#ff4d4f">66.0</div><div class="lbl">WIP:Throughput</div></div>
+      </div>
+      <div class="metric-row">
+        <div class="metric-box"><div class="val" style="color:#c9d1d9">0</div><div class="lbl">Created (30d)</div></div>
+        <div class="metric-box"><div class="val" style="color:#ff4d4f">N/A</div><div class="lbl">Resolved:Created</div></div>
+        <div class="metric-box"><div class="val" style="color:#ff4d4f">66</div><div class="lbl">Aging WIP</div></div>
+      </div>
+      <div style="font-size:0.75rem;color:#8b949e;margin-top:8px;margin-bottom:4px">Created vs Resolved (30d)</div>
+      <div class="ratio-bar">
+        <div style="width:100%;background:#484f58;color:#8b949e">Resolved: 1 &bull; Created: 0</div>
+      </div>
+      <div style="font-size:0.75rem;color:#6e7681;margin-top:8px">100% of WIP is aging. Zero new issues in 30 days. Near-zero throughput. Oldest stale item: 548 days. Likely moved to different tracking (mapped from RHELAI).</div>
+    </div>
+
+    <div class="card">
+      <div class="card-header">
+        <div class="card-title">RHOAIENG</div>
+        <span class="badge badge-red">Stalled</span>
+      </div>
+      <div class="metric-row">
+        <div class="metric-box"><div class="val" style="color:#ff4d4f">78</div><div class="lbl">WIP</div></div>
+        <div class="metric-box"><div class="val" style="color:#ff4d4f">0</div><div class="lbl">Throughput (30d)</div></div>
+        <div class="metric-box"><div class="val" style="color:#ff4d4f">&infin;</div><div class="lbl">WIP:Throughput</div></div>
+      </div>
+      <div class="metric-row">
+        <div class="metric-box"><div class="val" style="color:#c9d1d9">0</div><div class="lbl">Created (30d)</div></div>
+        <div class="metric-box"><div class="val" style="color:#ff4d4f">N/A</div><div class="lbl">Resolved:Created</div></div>
+        <div class="metric-box"><div class="val" style="color:#ff4d4f">77</div><div class="lbl">Aging WIP</div></div>
+      </div>
+      <div style="font-size:0.75rem;color:#8b949e;margin-top:8px;margin-bottom:4px">Created vs Resolved (30d)</div>
+      <div class="ratio-bar">
+        <div style="width:100%;background:#484f58;color:#8b949e">Resolved: 0 &bull; Created: 0</div>
+      </div>
+      <div style="font-size:0.75rem;color:#6e7681;margin-top:8px">99% of WIP is aging. Zero activity in 30 days. Oldest stale item: 1,592 days (Jan 2022). Project (RHODS) appears fully inactive.</div>
+    </div>
+
+  </div>
+
+  <div style="margin-top:16px">
+    <h3 style="font-size:0.95rem;margin-bottom:12px;color:#c9d1d9">Cross-Project Flow Summary</h3>
+    <div class="table-wrap">
     <table>
       <thead>
-        <tr>
-          <th>Project</th>
-          <th>Current WIP</th>
-          <th>30d Throughput</th>
-          <th>WIP:Throughput</th>
-          <th>30d Created</th>
-          <th>Net Flow</th>
-          <th>Health</th>
-        </tr>
+        <tr><th>Project</th><th>WIP</th><th>Throughput (30d)</th><th>WIP:Throughput</th><th>Created (30d)</th><th>Resolved:Created</th><th>Aging WIP</th><th>Aging %</th><th>Health</th></tr>
       </thead>
       <tbody>
-<tr data-project="AIPCC">
-        <td><strong>AIPCC</strong><br><span style="color:#8b949e;font-size:0.8rem">AI Platform Core Components</span></td>
-        <td>479</td>
-        <td>1000</td>
-        <td>0.5</td>
-        <td>1000</td>
-        <td style="color:#52c41a">0</td>
-        <td><span class="badge badge-green">Healthy</span></td>
-      </tr><tr data-project="INFERENG">
-        <td><strong>INFERENG</strong><br><span style="color:#8b949e;font-size:0.8rem">Inference Engineering</span></td>
-        <td>2</td>
-        <td>1</td>
-        <td>2.0</td>
-        <td>2</td>
-        <td style="color:#ff4d4f">+1</td>
-        <td><span class="badge badge-green">Healthy</span></td>
-      </tr><tr data-project="RHAIENG">
-        <td><strong>RHAIENG</strong><br><span style="color:#8b949e;font-size:0.8rem">RHEL AI Engineering</span></td>
-        <td>40</td>
-        <td>1</td>
-        <td>40.0</td>
-        <td>0</td>
-        <td style="color:#52c41a">-1</td>
-        <td><span class="badge badge-red">Bottleneck</span></td>
-      </tr><tr data-project="RHOAIENG">
-        <td><strong>RHOAIENG</strong><br><span style="color:#8b949e;font-size:0.8rem">RHOAI Engineering</span></td>
-        <td>61</td>
-        <td>0</td>
-        <td>N/A</td>
-        <td>0</td>
-        <td style="color:#52c41a">0</td>
-        <td><span class="badge badge-red">Stalled</span></td>
-      </tr>
+        <tr><td>AIPCC</td><td>686</td><td>1,587</td><td style="color:#52c41a">0.43</td><td>1,596</td><td>0.99</td><td>161</td><td>23.5%</td><td><span class="badge badge-green">Healthy</span></td></tr>
+        <tr><td>INFERENG</td><td>4</td><td>1</td><td style="color:#ff4d4f">4.0</td><td>1</td><td>1.00</td><td>3</td><td>75%</td><td><span class="badge badge-yellow">Low Activity</span></td></tr>
+        <tr><td>RHAIENG</td><td>66</td><td>1</td><td style="color:#ff4d4f">66.0</td><td>0</td><td>N/A</td><td>66</td><td>100%</td><td><span class="badge badge-red">Stalled</span></td></tr>
+        <tr><td>RHOAIENG</td><td>78</td><td>0</td><td style="color:#ff4d4f">&infin;</td><td>0</td><td>N/A</td><td>77</td><td>99%</td><td><span class="badge badge-red">Stalled</span></td></tr>
       </tbody>
     </table>
-  </div>
-  <div style="margin-top:16px;padding:16px;background:#161b22;border:1px solid #30363d;border-radius:10px">
-    <div style="font-size:0.85rem;color:#8b949e;margin-bottom:8px">WIP:Throughput Ratio Guide</div>
-    <div style="display:flex;gap:16px;font-size:0.8rem">
-      <span><span class="badge badge-green">Healthy</span> ratio &le; 2.0</span>
-      <span><span class="badge badge-yellow">Elevated</span> ratio 2.0 &ndash; 5.0</span>
-      <span><span class="badge badge-red">Bottleneck</span> ratio &gt; 5.0</span>
-      <span><span class="badge badge-red">Stalled</span> WIP &gt; 0, throughput = 0</span>
     </div>
   </div>
 </div>
 
 <div class="assumptions">
-  <div class="assumptions-header" onclick="this.nextElementSibling.classList.toggle('open');this.querySelector('span').textContent=this.nextElementSibling.classList.contains('open')?'\u25B2':'\u25BC'">
-    Assumptions &amp; Methodology <span>\u25BC</span>
+  <div class="assumptions-header" onclick="this.nextElementSibling.classList.toggle('open')">
+    <span>Assumptions &amp; Methodology</span>
+    <span>&#9660;</span>
   </div>
   <div class="assumptions-body">
     <ul>
-      <li><strong>Data source:</strong> Jira REST API v3 at redhat.atlassian.net, queried 2026-06-10.</li>
-      <li><strong>Project mapping:</strong> AIPCC queried directly. INFERENG &rarr; PSAP (Performance and Scale for AI Platforms). RHAIENG &rarr; RHELAI (Red Hat Enterprise Linux AI). RHOAIENG &rarr; RHODS (Red Hat OpenShift Data Science).</li>
-      <li><strong>Release risk:</strong> Green = &gt;70% done or &gt;30 days remaining. Yellow = &lt;70% done and &lt;30 days remaining. Red = &lt;50% done and &lt;14 days remaining, or past release date.</li>
-      <li><strong>Aging WIP:</strong> Issues with statusCategory = "In Progress" and last updated &gt;14 days ago. Top 20 shown per project.</li>
-      <li><strong>Flow metrics:</strong> WIP = all issues in "In Progress" status category. Throughput = issues resolved in last 30 days. Created = issues created in last 30 days. Net flow = created &minus; resolved (negative = draining backlog).</li>
-      <li><strong>WIP:Throughput ratio:</strong> Lower is better. Under 2.0 indicates healthy flow; above 5.0 suggests bottlenecks. "Stalled" indicates WIP exists but no throughput.</li>
-      <li><strong>API limitations:</strong> AIPCC throughput/created counts capped at 1,000 by pagination. Board and sprint APIs require authentication.</li>
-      <li><strong>Versions:</strong> Queried using "Target Version" (customfield_10855), excluding Epics and Features. Only versions with &ge;1 matching issue are shown.</li>
+      <li><strong>Data source:</strong> Jira REST API v3 (search/jql) at redhat.atlassian.net, queried 2026-06-11. Public API access (no authentication).</li>
+      <li><strong>Project mapping:</strong> AIPCC &rarr; AIPCC, INFERENG &rarr; PSAP (Performance and Scale for AI Platforms), RHAIENG &rarr; RHELAI (Red Hat Enterprise Linux AI), RHOAIENG &rarr; RHODS (Red Hat OpenShift Data Science).</li>
+      <li><strong>Release burndown risk:</strong> Green = &gt;70% done OR &gt;30 days remaining; Yellow = &lt;70% done AND &lt;30 days left; Red = &lt;50% done AND &lt;14 days left, or overdue with incomplete items.</li>
+      <li><strong>Aging WIP:</strong> Issues with statusCategory = "In Progress" and updated &lt; -14d. Stale days calculated from last update to 2026-06-11. Top 20 items per project shown, sorted oldest first.</li>
+      <li><strong>Flow health:</strong> Green = WIP:Throughput &lt; 1.5 and aging &lt; 30%; Yellow = low volume or aging 30-75%; Red = zero throughput with WIP present, or &gt;75% aging.</li>
+      <li><strong>Version queries:</strong> Issues linked via "Target Version" (customfield_10855) first, falling back to fixVersion. Non-Epic, non-Feature types only.</li>
+      <li><strong>Stale projects:</strong> RHAIENG and RHOAIENG show patterns consistent with work having moved to other Jira projects. RHOAIENG (RHODS) contains onboarding tasks from 2022-2023 that were never closed.</li>
+      <li><strong>Boards/Sprints:</strong> Agile board API requires authentication and was not accessible. No sprint-level data available.</li>
     </ul>
   </div>
 </div>
 
 <script>
-function switchTab(id){
-  document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));
-  document.querySelectorAll('.tab-content').forEach(t=>t.classList.remove('active'));
-  document.getElementById(id).classList.add('active');
+function switchTab(tab) {
+  document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+  document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
+  document.querySelector(`.tab-content#${tab}`).classList.add('active');
   event.target.classList.add('active');
 }
 
-let burndownFilters={product:'all',risk:'all'};
-function filterBurndown(type,val,btn){
-  burndownFilters[type]=val;
-  btn.parentElement.querySelectorAll('.filter-btn').forEach(b=>{
-    if(b.dataset.filterType===type||(!b.dataset.filterType)){}
-  });
-  // Toggle active in the correct filter group
-  let siblings=btn.parentElement.children;
-  let inGroup=false;
-  for(let i=0;i<siblings.length;i++){
-    if(siblings[i]===btn)inGroup=true;
-    if(siblings[i].classList.contains('filter-label')){
-      if(inGroup)break;
-      inGroup=false;
-    }
-  }
-  // Simpler: deactivate siblings that are filter-btn until next filter-label
-  let group=[];let found=false;
-  for(let el of btn.parentElement.children){
-    if(el.classList&&el.classList.contains('filter-label')){
-      if(found)break;
-      group=[];continue;
-    }
-    if(el===btn)found=true;
-    if(found||group.length>0)group.push(el);
-    else group.push(el);
-  }
-  // Just use a data attribute approach
-  document.querySelectorAll('#burndown .filter-row .filter-btn').forEach(b=>{
-    // Find which group this btn belongs to by checking previous siblings
-    let prev=b.previousElementSibling;
-    while(prev&&!prev.classList.contains('filter-label'))prev=prev.previousElementSibling;
-    let g=prev?prev.textContent.trim().replace(':','').toLowerCase():'';
-    let prev2=btn.previousElementSibling;
-    while(prev2&&!prev2.classList.contains('filter-label'))prev2=prev2.previousElementSibling;
-    let g2=prev2?prev2.textContent.trim().replace(':','').toLowerCase():'';
-    if(g===g2)b.classList.remove('active');
-  });
+let burndownFilters = { proj: 'all', risk: 'all' };
+
+function filterBurndown(btn, group, value) {
+  burndownFilters[group] = value;
+  document.querySelectorAll(`.filter-btn[data-group="${group}"]`).forEach(b => b.classList.remove('active'));
   btn.classList.add('active');
-  
-  document.querySelectorAll('#burndown-table tbody tr').forEach(tr=>{
-    let show=true;
-    if(burndownFilters.product!=='all'&&tr.dataset.product!==burndownFilters.product)show=false;
-    if(burndownFilters.risk!=='all'&&tr.dataset.risk!==burndownFilters.risk)show=false;
-    tr.style.display=show?'':'none';
+  document.querySelectorAll('#burndown-table tbody tr').forEach(row => {
+    const projMatch = burndownFilters.proj === 'all' || row.dataset.project === burndownFilters.proj;
+    const riskMatch = burndownFilters.risk === 'all' || row.dataset.risk === burndownFilters.risk;
+    row.style.display = (projMatch && riskMatch) ? '' : 'none';
   });
 }
 
-function filterAging(proj,btn){
-  btn.parentElement.querySelectorAll('.filter-btn').forEach(b=>b.classList.remove('active'));
+function filterAging(proj, btn) {
+  btn.parentElement.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
   btn.classList.add('active');
-  document.querySelectorAll('#aging-table tbody tr').forEach(tr=>{
-    tr.style.display=(proj==='all'||tr.dataset.project===proj)?'':'none';
+  document.querySelectorAll('#aging-table tbody tr').forEach(row => {
+    row.style.display = (proj === 'all' || row.dataset.project === proj) ? '' : 'none';
   });
 }
 </script>
