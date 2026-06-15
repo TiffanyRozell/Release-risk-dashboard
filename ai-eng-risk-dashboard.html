@@ -61,7 +61,7 @@ tr:hover td{background:#1c2128}
 <body>
 
 <h1>AI Engineering Risk Dashboard</h1>
-<div class="subtitle">Data as of 2026-06-12 &bull; Source: redhat.atlassian.net &bull; Projects: AIPCC, INFERENG, RHAIENG, RHOAIENG</div>
+<div class="subtitle">Data as of 2026-06-15 &bull; Source: redhat.atlassian.net &bull; Projects: AIPCC, INFERENG, RHAIENG, RHOAIENG</div>
 
 <div class="tabs">
   <div class="tab active" onclick="switchTab('burndown')">Release Burndown</div>
@@ -105,7 +105,7 @@ tr:hover td{background:#1c2128}
         <td>AIPCC</td>
         <td>RHAII-3.5</td>
         <td>2026-06-17</td>
-        <td style="color:#ff4d4f;font-weight:600">5</td>
+        <td style="color:#ff4d4f;font-weight:600">2</td>
         <td>10</td>
         <td>0</td>
         <td style="color:#ff4d4f">10</td>
@@ -117,7 +117,7 @@ tr:hover td{background:#1c2128}
         <td>RHAIENG</td>
         <td>rhelai-3.0</td>
         <td style="color:#ff4d4f">2025-11-13</td>
-        <td style="color:#ff4d4f;font-weight:600">-211</td>
+        <td style="color:#ff4d4f;font-weight:600">-214</td>
         <td>4</td>
         <td>1</td>
         <td style="color:#ff4d4f">3</td>
@@ -129,7 +129,7 @@ tr:hover td{background:#1c2128}
         <td>AIPCC</td>
         <td>RHAII-3.5 EA2</td>
         <td>2026-06-30</td>
-        <td style="color:#faad14;font-weight:600">18</td>
+        <td style="color:#faad14;font-weight:600">15</td>
         <td>11</td>
         <td>7</td>
         <td style="color:#faad14">4</td>
@@ -151,18 +151,6 @@ tr:hover td{background:#1c2128}
       </tr>
       <tr data-project="AIPCC" data-risk="yellow">
         <td>AIPCC</td>
-        <td>rhoai-3.5.EA2</td>
-        <td style="color:#8b949e">No date</td>
-        <td style="color:#8b949e">&mdash;</td>
-        <td>67</td>
-        <td>46</td>
-        <td style="color:#faad14">21</td>
-        <td>68.7%</td>
-        <td><div class="progress-bar"><div class="progress-fill" style="width:68.7%;background:#faad14"></div></div></td>
-        <td><span class="badge badge-yellow">Watch</span></td>
-      </tr>
-      <tr data-project="AIPCC" data-risk="yellow">
-        <td>AIPCC</td>
         <td>rhoai-3.6.EA1</td>
         <td style="color:#8b949e">No date</td>
         <td style="color:#8b949e">&mdash;</td>
@@ -175,9 +163,21 @@ tr:hover td{background:#1c2128}
       </tr>
       <tr data-project="AIPCC" data-risk="green">
         <td>AIPCC</td>
+        <td>rhoai-3.5.EA2</td>
+        <td style="color:#8b949e">No date</td>
+        <td style="color:#8b949e">&mdash;</td>
+        <td>67</td>
+        <td>49</td>
+        <td>18</td>
+        <td>73.1%</td>
+        <td><div class="progress-bar"><div class="progress-fill" style="width:73.1%;background:#52c41a"></div></div></td>
+        <td><span class="badge badge-green">On Track</span></td>
+      </tr>
+      <tr data-project="AIPCC" data-risk="green">
+        <td>AIPCC</td>
         <td>rhelai-3.5 EA2 release</td>
         <td>2026-07-16</td>
-        <td>34</td>
+        <td>31</td>
         <td>11</td>
         <td>5</td>
         <td>6</td>
@@ -189,7 +189,7 @@ tr:hover td{background:#1c2128}
         <td>AIPCC</td>
         <td>RHAII-3.5 GA</td>
         <td>2026-07-30</td>
-        <td>48</td>
+        <td>45</td>
         <td>23</td>
         <td>5</td>
         <td>18</td>
@@ -201,7 +201,7 @@ tr:hover td{background:#1c2128}
         <td>AIPCC</td>
         <td>rhelai-3.5 GA</td>
         <td>2026-08-20</td>
-        <td>69</td>
+        <td>66</td>
         <td colspan="4" style="color:#484f58;font-style:italic">No issues with Target Version set yet</td>
         <td><span class="badge badge-green">On Track</span></td>
       </tr>
@@ -250,19 +250,19 @@ tr:hover td{background:#1c2128}
 <div id="aging" class="tab-content">
 
   <div class="summary-row">
-    <div class="summary-card"><div class="big" style="color:#ff4d4f">310</div><div class="label">Total Aging Items</div></div>
-    <div class="summary-card"><div class="big" style="color:#faad14">164</div><div class="label">AIPCC</div></div>
+    <div class="summary-card"><div class="big" style="color:#ff4d4f">317</div><div class="label">Total Aging Items</div></div>
+    <div class="summary-card"><div class="big" style="color:#faad14">170</div><div class="label">AIPCC</div></div>
     <div class="summary-card"><div class="big" style="color:#ff4d4f">66</div><div class="label">RHAIENG</div></div>
-    <div class="summary-card"><div class="big" style="color:#ff4d4f">77</div><div class="label">RHOAIENG</div></div>
+    <div class="summary-card"><div class="big" style="color:#ff4d4f">78</div><div class="label">RHOAIENG</div></div>
   </div>
 
   <div class="filter-row">
     <span class="filter-label">Filter by project:</span>
-    <button class="filter-btn active" onclick="filterAging('all',this)">All (310)</button>
-    <button class="filter-btn" onclick="filterAging('AIPCC',this)">AIPCC (164)</button>
+    <button class="filter-btn active" onclick="filterAging('all',this)">All (317)</button>
+    <button class="filter-btn" onclick="filterAging('AIPCC',this)">AIPCC (170)</button>
     <button class="filter-btn" onclick="filterAging('INFERENG',this)">INFERENG (3)</button>
     <button class="filter-btn" onclick="filterAging('RHAIENG',this)">RHAIENG (66)</button>
-    <button class="filter-btn" onclick="filterAging('RHOAIENG',this)">RHOAIENG (77)</button>
+    <button class="filter-btn" onclick="filterAging('RHOAIENG',this)">RHOAIENG (78)</button>
   </div>
 
   <div class="table-wrap">
@@ -279,76 +279,76 @@ tr:hover td{background:#1c2128}
       </tr>
     </thead>
     <tbody>
-      <!-- AIPCC aging items (20 of 164) -->
-      <tr data-project="AIPCC"><td>AIPCC</td><td class="issue-key">AIPCC-8458</td><td>O1: Reliable Value Delivery</td><td>Tom Gundersen</td><td>In Progress</td><td>2026-03-18</td><td class="stale-days">86d</td></tr>
-      <tr data-project="AIPCC"><td>AIPCC</td><td class="issue-key">AIPCC-8465</td><td>O2: Upstream AI Leadership &amp; Influence</td><td>Tom Gundersen</td><td>In Progress</td><td>2026-03-18</td><td class="stale-days">86d</td></tr>
-      <tr data-project="AIPCC"><td>AIPCC</td><td class="issue-key">AIPCC-8470</td><td>O3: Culture of Growth &amp; Engagement</td><td>Tom Gundersen</td><td>In Progress</td><td>2026-03-18</td><td class="stale-days">86d</td></tr>
-      <tr data-project="AIPCC"><td>AIPCC</td><td class="issue-key">AIPCC-8475</td><td>O4: AI-First Excellence</td><td>Tom Gundersen</td><td>In Progress</td><td>2026-03-18</td><td class="stale-days">86d</td></tr>
-      <tr data-project="AIPCC"><td>AIPCC</td><td class="issue-key">AIPCC-10160</td><td>Mandatory Research &ndash; Follow Parent Story Instructions</td><td>Amit Mendelevitch</td><td>In Progress</td><td>2026-03-18</td><td class="stale-days">86d</td></tr>
-      <tr data-project="AIPCC"><td>AIPCC</td><td class="issue-key">AIPCC-10224</td><td>Review GPUaaS Requirements</td><td>Amit Mendelevitch</td><td>In Progress</td><td>2026-03-18</td><td class="stale-days">86d</td></tr>
-      <tr data-project="AIPCC"><td>AIPCC</td><td class="issue-key">AIPCC-11356</td><td>Director: Report Name Customization</td><td>Adam Drew</td><td>In Progress</td><td>2026-03-18</td><td class="stale-days">86d</td></tr>
-      <tr data-project="AIPCC"><td>AIPCC</td><td class="issue-key">AIPCC-12347</td><td>Dummy Feature to test automation</td><td>Unassigned</td><td>In Progress</td><td>2026-03-19</td><td class="stale-days">85d</td></tr>
-      <tr data-project="AIPCC"><td>AIPCC</td><td class="issue-key">AIPCC-12861</td><td>[PyTorch][CI] Separate wheel package names per CUDA version</td><td>Subin George</td><td>Review</td><td>2026-03-24</td><td class="stale-days">80d</td></tr>
-      <tr data-project="AIPCC"><td>AIPCC</td><td class="issue-key">AIPCC-12862</td><td>[PyTorch][CI] Fix NCCL version mismatch for CUDA 12.9</td><td>Subin George</td><td>Review</td><td>2026-03-24</td><td class="stale-days">80d</td></tr>
-      <tr data-project="AIPCC"><td>AIPCC</td><td class="issue-key">AIPCC-12858</td><td>[PyTorch][CI] Auto-upload release notes</td><td>Subin George</td><td>Review</td><td>2026-03-24</td><td class="stale-days">80d</td></tr>
-      <tr data-project="AIPCC"><td>AIPCC</td><td class="issue-key">AIPCC-12856</td><td>[PyTorch][CI] Add dual CUDA version build support</td><td>Subin George</td><td>Review</td><td>2026-03-24</td><td class="stale-days">80d</td></tr>
-      <tr data-project="AIPCC"><td>AIPCC</td><td class="issue-key">AIPCC-12857</td><td>[PyTorch][CI] Add CUDA 12.9 sanity test suite</td><td>Subin George</td><td>Review</td><td>2026-03-24</td><td class="stale-days">80d</td></tr>
-      <tr data-project="AIPCC"><td>AIPCC</td><td class="issue-key">AIPCC-14056</td><td>Develop quality prompt for Claude/Cursor to automate&hellip;</td><td>Unassigned</td><td>In Progress</td><td>2026-04-10</td><td class="stale-days">63d</td></tr>
-      <tr data-project="AIPCC"><td>AIPCC</td><td class="issue-key">AIPCC-14057</td><td>Write step-by-step written guide for manual setup</td><td>Unassigned</td><td>In Progress</td><td>2026-04-10</td><td class="stale-days">63d</td></tr>
-      <tr data-project="AIPCC"><td>AIPCC</td><td class="issue-key">AIPCC-9826</td><td>GPU as a Non-Issue &ndash; Inventory, Research</td><td>Aviran Badli</td><td>In Progress</td><td>2026-04-13</td><td class="stale-days">60d</td></tr>
-      <tr data-project="AIPCC"><td>AIPCC</td><td class="issue-key">AIPCC-14205</td><td>Refactor test/dynamo/test_minifier.py</td><td>Riya Punia</td><td>Review</td><td>2026-04-13</td><td class="stale-days">60d</td></tr>
-      <tr data-project="AIPCC"><td>AIPCC</td><td class="issue-key">AIPCC-14274</td><td>Setup Openshift for PyTorch team</td><td>Samuel Park</td><td>In Progress</td><td>2026-04-14</td><td class="stale-days">59d</td></tr>
-      <tr data-project="AIPCC"><td>AIPCC</td><td class="issue-key">AIPCC-13745</td><td>Refactoring of renovate runners</td><td>Srija Ganguly</td><td>In Progress</td><td>2026-04-14</td><td class="stale-days">59d</td></tr>
-      <tr data-project="AIPCC"><td>AIPCC</td><td class="issue-key">AIPCC-13851</td><td>Agile Documentation Strategy &amp; Governance Framework</td><td>Kim Tam</td><td>In Progress</td><td>2026-04-16</td><td class="stale-days">57d</td></tr>
+      <!-- AIPCC aging items (20 of 170) -->
+      <tr data-project="AIPCC"><td>AIPCC</td><td class="issue-key">AIPCC-8458</td><td>O1: Reliable Value Delivery</td><td>Tom Gundersen</td><td>In Progress</td><td>2026-03-18</td><td class="stale-days">89d</td></tr>
+      <tr data-project="AIPCC"><td>AIPCC</td><td class="issue-key">AIPCC-8465</td><td>O2: Upstream AI Leadership &amp; Influence</td><td>Tom Gundersen</td><td>In Progress</td><td>2026-03-18</td><td class="stale-days">89d</td></tr>
+      <tr data-project="AIPCC"><td>AIPCC</td><td class="issue-key">AIPCC-8470</td><td>O3: Culture of Growth &amp; Engagement</td><td>Tom Gundersen</td><td>In Progress</td><td>2026-03-18</td><td class="stale-days">89d</td></tr>
+      <tr data-project="AIPCC"><td>AIPCC</td><td class="issue-key">AIPCC-8475</td><td>O4: AI-First Excellence</td><td>Tom Gundersen</td><td>In Progress</td><td>2026-03-18</td><td class="stale-days">89d</td></tr>
+      <tr data-project="AIPCC"><td>AIPCC</td><td class="issue-key">AIPCC-10160</td><td>Mandatory Research &ndash; Follow Parent Story Instructions</td><td>Amit Mendelevitch</td><td>In Progress</td><td>2026-03-18</td><td class="stale-days">89d</td></tr>
+      <tr data-project="AIPCC"><td>AIPCC</td><td class="issue-key">AIPCC-10224</td><td>Review GPUaaS Requirements</td><td>Amit Mendelevitch</td><td>In Progress</td><td>2026-03-18</td><td class="stale-days">89d</td></tr>
+      <tr data-project="AIPCC"><td>AIPCC</td><td class="issue-key">AIPCC-11356</td><td>Director: Report Name Customization</td><td>Adam Drew</td><td>In Progress</td><td>2026-03-18</td><td class="stale-days">89d</td></tr>
+      <tr data-project="AIPCC"><td>AIPCC</td><td class="issue-key">AIPCC-12347</td><td>Dummy Feature to test automation</td><td>Unassigned</td><td>In Progress</td><td>2026-03-19</td><td class="stale-days">88d</td></tr>
+      <tr data-project="AIPCC"><td>AIPCC</td><td class="issue-key">AIPCC-12861</td><td>[PyTorch][CI] Separate wheel package names per CUDA version</td><td>Subin George</td><td>Review</td><td>2026-03-24</td><td class="stale-days">83d</td></tr>
+      <tr data-project="AIPCC"><td>AIPCC</td><td class="issue-key">AIPCC-12862</td><td>[PyTorch][CI] Fix NCCL version mismatch for CUDA 12.9</td><td>Subin George</td><td>Review</td><td>2026-03-24</td><td class="stale-days">83d</td></tr>
+      <tr data-project="AIPCC"><td>AIPCC</td><td class="issue-key">AIPCC-12858</td><td>[PyTorch][CI] Auto-upload release notes</td><td>Subin George</td><td>Review</td><td>2026-03-24</td><td class="stale-days">83d</td></tr>
+      <tr data-project="AIPCC"><td>AIPCC</td><td class="issue-key">AIPCC-12856</td><td>[PyTorch][CI] Add dual CUDA version build support</td><td>Subin George</td><td>Review</td><td>2026-03-24</td><td class="stale-days">83d</td></tr>
+      <tr data-project="AIPCC"><td>AIPCC</td><td class="issue-key">AIPCC-12857</td><td>[PyTorch][CI] Add CUDA 12.9 sanity test suite</td><td>Subin George</td><td>Review</td><td>2026-03-24</td><td class="stale-days">83d</td></tr>
+      <tr data-project="AIPCC"><td>AIPCC</td><td class="issue-key">AIPCC-14056</td><td>Develop quality prompt for Claude/Cursor to automate&hellip;</td><td>Unassigned</td><td>In Progress</td><td>2026-04-10</td><td class="stale-days">66d</td></tr>
+      <tr data-project="AIPCC"><td>AIPCC</td><td class="issue-key">AIPCC-14057</td><td>Write step-by-step written guide for manual setup</td><td>Unassigned</td><td>In Progress</td><td>2026-04-10</td><td class="stale-days">66d</td></tr>
+      <tr data-project="AIPCC"><td>AIPCC</td><td class="issue-key">AIPCC-9826</td><td>GPU as a Non-Issue &ndash; Inventory, Research</td><td>Aviran Badli</td><td>In Progress</td><td>2026-04-13</td><td class="stale-days">63d</td></tr>
+      <tr data-project="AIPCC"><td>AIPCC</td><td class="issue-key">AIPCC-14205</td><td>Refactor test/dynamo/test_minifier.py</td><td>Riya Punia</td><td>Review</td><td>2026-04-13</td><td class="stale-days">63d</td></tr>
+      <tr data-project="AIPCC"><td>AIPCC</td><td class="issue-key">AIPCC-14274</td><td>Setup Openshift for PyTorch team</td><td>Samuel Park</td><td>In Progress</td><td>2026-04-14</td><td class="stale-days">62d</td></tr>
+      <tr data-project="AIPCC"><td>AIPCC</td><td class="issue-key">AIPCC-13745</td><td>Refactoring of renovate runners</td><td>Srija Ganguly</td><td>In Progress</td><td>2026-04-14</td><td class="stale-days">62d</td></tr>
+      <tr data-project="AIPCC"><td>AIPCC</td><td class="issue-key">AIPCC-13851</td><td>Agile Documentation Strategy &amp; Governance Framework</td><td>Kim Tam</td><td>In Progress</td><td>2026-04-16</td><td class="stale-days">60d</td></tr>
 
       <!-- INFERENG aging items (3 of 3) -->
-      <tr data-project="INFERENG"><td>INFERENG</td><td class="issue-key">PSAP-1359</td><td>Investigate profiling of llm serving runtime process</td><td>Nikhil Palaskar</td><td>In Progress</td><td>2026-03-21</td><td class="stale-days">83d</td></tr>
-      <tr data-project="INFERENG"><td>INFERENG</td><td class="issue-key">PSAP-1114</td><td>RHOAI test automation / ci-artifacts project evolution</td><td>David Whyte-Gray</td><td>In Progress</td><td>2026-03-22</td><td class="stale-days">82d</td></tr>
-      <tr data-project="INFERENG"><td>INFERENG</td><td class="issue-key">PSAP-1291</td><td>Perf and Scale testing for Data Science Pipelines v2</td><td>Drew Ripberger</td><td>In Progress</td><td>2026-03-22</td><td class="stale-days">82d</td></tr>
+      <tr data-project="INFERENG"><td>INFERENG</td><td class="issue-key">PSAP-1359</td><td>Investigate profiling of llm serving runtime process</td><td>Nikhil Palaskar</td><td>In Progress</td><td>2026-03-21</td><td class="stale-days">86d</td></tr>
+      <tr data-project="INFERENG"><td>INFERENG</td><td class="issue-key">PSAP-1114</td><td>RHOAI test automation / ci-artifacts project evolution</td><td>David Whyte-Gray</td><td>In Progress</td><td>2026-03-22</td><td class="stale-days">85d</td></tr>
+      <tr data-project="INFERENG"><td>INFERENG</td><td class="issue-key">PSAP-1291</td><td>Perf and Scale testing for Data Science Pipelines v2</td><td>Drew Ripberger</td><td>In Progress</td><td>2026-03-22</td><td class="stale-days">85d</td></tr>
 
       <!-- RHAIENG aging items (20 of 66) -->
-      <tr data-project="RHAIENG"><td>RHAIENG</td><td class="issue-key">RHELAI-2687</td><td>Update the way users should validate the api key</td><td>Kelly Brown</td><td>In Progress</td><td>2024-12-11</td><td class="stale-days">549d</td></tr>
-      <tr data-project="RHAIENG"><td>RHAIENG</td><td class="issue-key">RHELAI-3089</td><td>Expand utilities to handle git branches and commit checkouts</td><td>Joseph Groenenboom</td><td>In Progress</td><td>2025-01-28</td><td class="stale-days">501d</td></tr>
-      <tr data-project="RHAIENG"><td>RHAIENG</td><td class="issue-key">RHELAI-2376</td><td>[rag] Creation of a RAG Pipeline</td><td>William Caban Babilonia</td><td>In Progress</td><td>2025-02-25</td><td class="stale-days">473d</td></tr>
-      <tr data-project="RHAIENG"><td>RHAIENG</td><td class="issue-key">RHELAI-3560</td><td>[ilab] Exposing third-party models for inference and ilab</td><td>Rob Greenberg</td><td>In Progress</td><td>2025-03-11</td><td class="stale-days">459d</td></tr>
-      <tr data-project="RHAIENG"><td>RHAIENG</td><td class="issue-key">RHELAI-2486</td><td>[UI] MVP RHEL AI UI Enhancements for SMEs (phase 2)</td><td>Jehlum Vitasta Pandit</td><td>In Progress</td><td>2025-03-14</td><td class="stale-days">456d</td></tr>
-      <tr data-project="RHAIENG"><td>RHAIENG</td><td class="issue-key">RHELAI-2645</td><td>[create dev-doc] Research and Investigation</td><td>Aakanksha Duggal</td><td>In Progress</td><td>2025-03-25</td><td class="stale-days">445d</td></tr>
-      <tr data-project="RHAIENG"><td>RHAIENG</td><td class="issue-key">RHELAI-2670</td><td>Productize the 128k context window Granite v3.1</td><td>William Caban Babilonia</td><td>In Progress</td><td>2025-03-31</td><td class="stale-days">439d</td></tr>
-      <tr data-project="RHAIENG"><td>RHAIENG</td><td class="issue-key">RHELAI-2717</td><td>System profile and auto-detection for NVIDIA H200</td><td>Jehlum Vitasta Pandit</td><td>Testing</td><td>2025-03-31</td><td class="stale-days">439d</td></tr>
-      <tr data-project="RHAIENG"><td>RHAIENG</td><td class="issue-key">RHELAI-2357</td><td>Gaudi 3 multi-device inferencing</td><td>James Kunstle</td><td>Dev Complete</td><td>2025-04-07</td><td class="stale-days">432d</td></tr>
-      <tr data-project="RHAIENG"><td>RHAIENG</td><td class="issue-key">RHELAI-3616</td><td>Third-party model(s) support &ndash; end-to-end workflow</td><td>Jehlum Vitasta Pandit</td><td>In Progress</td><td>2025-04-08</td><td class="stale-days">431d</td></tr>
-      <tr data-project="RHAIENG"><td>RHAIENG</td><td class="issue-key">RHELAI-3497</td><td>Support for NVIDIA H200</td><td>Erwan Gallen</td><td>Testing</td><td>2025-04-21</td><td class="stale-days">418d</td></tr>
-      <tr data-project="RHAIENG"><td>RHAIENG</td><td class="issue-key">RHELAI-3954</td><td>Misc improvements to QE cloud envs</td><td>Mike DePaulo</td><td>In Progress</td><td>2025-04-23</td><td class="stale-days">416d</td></tr>
-      <tr data-project="RHAIENG"><td>RHAIENG</td><td class="issue-key">RHELAI-3904</td><td>SDG Summit Goals [Use Cases]</td><td>Aditi Saluja</td><td>In Progress</td><td>2025-04-24</td><td class="stale-days">415d</td></tr>
-      <tr data-project="RHAIENG"><td>RHAIENG</td><td class="issue-key">RHELAI-3917</td><td>Support for NVIDIA B200</td><td>Erwan Gallen</td><td>In Progress</td><td>2025-04-24</td><td class="stale-days">415d</td></tr>
-      <tr data-project="RHAIENG"><td>RHAIENG</td><td class="issue-key">RHELAI-3465</td><td>Add "tuned" to RHEL AI base image</td><td>William Caban Babilonia</td><td>Dev Complete</td><td>2025-04-24</td><td class="stale-days">415d</td></tr>
-      <tr data-project="RHAIENG"><td>RHAIENG</td><td class="issue-key">RHELAI-3997</td><td>Show generation with Third Party Teacher Model</td><td>Aakanksha Duggal</td><td>In Progress</td><td>2025-04-24</td><td class="stale-days">415d</td></tr>
-      <tr data-project="RHAIENG"><td>RHAIENG</td><td class="issue-key">RHELAI-3607</td><td>[ilab] Llama 3.1 8B-Instruct ilab model serve</td><td>Dan McPherson</td><td>Testing</td><td>2025-05-08</td><td class="stale-days">401d</td></tr>
-      <tr data-project="RHAIENG"><td>RHAIENG</td><td class="issue-key">RHELAI-3674</td><td>[ilab] Granite 3.1 8B Instruct ilab model serve</td><td>Dan McPherson</td><td>Testing</td><td>2025-05-08</td><td class="stale-days">401d</td></tr>
-      <tr data-project="RHAIENG"><td>RHAIENG</td><td class="issue-key">RHELAI-3598</td><td>[ilab] Phi-4-14B ilab model serve</td><td>Dan McPherson</td><td>Testing</td><td>2025-05-08</td><td class="stale-days">401d</td></tr>
-      <tr data-project="RHAIENG"><td>RHAIENG</td><td class="issue-key">RHELAI-3596</td><td>[ilab] Mistral-Small 3-24B-Instruct ilab model serve</td><td>Dan McPherson</td><td>Testing</td><td>2025-05-08</td><td class="stale-days">401d</td></tr>
+      <tr data-project="RHAIENG"><td>RHAIENG</td><td class="issue-key">RHELAI-2687</td><td>Update the way users should validate the api key</td><td>Kelly Brown</td><td>In Progress</td><td>2024-12-11</td><td class="stale-days">551d</td></tr>
+      <tr data-project="RHAIENG"><td>RHAIENG</td><td class="issue-key">RHELAI-3089</td><td>Expand utilities to handle git branches and commit checkouts</td><td>Joseph Groenenboom</td><td>In Progress</td><td>2025-01-28</td><td class="stale-days">503d</td></tr>
+      <tr data-project="RHAIENG"><td>RHAIENG</td><td class="issue-key">RHELAI-2376</td><td>[rag] Creation of a RAG Pipeline</td><td>William Caban Babilonia</td><td>In Progress</td><td>2025-02-25</td><td class="stale-days">475d</td></tr>
+      <tr data-project="RHAIENG"><td>RHAIENG</td><td class="issue-key">RHELAI-3560</td><td>[ilab] Exposing third-party models for inference and ilab</td><td>Rob Greenberg</td><td>In Progress</td><td>2025-03-11</td><td class="stale-days">461d</td></tr>
+      <tr data-project="RHAIENG"><td>RHAIENG</td><td class="issue-key">RHELAI-2486</td><td>[UI] MVP RHEL AI UI Enhancements for SMEs (phase 2)</td><td>Jehlum Vitasta Pandit</td><td>In Progress</td><td>2025-03-14</td><td class="stale-days">458d</td></tr>
+      <tr data-project="RHAIENG"><td>RHAIENG</td><td class="issue-key">RHELAI-2645</td><td>[create dev-doc] Research and Investigation</td><td>Aakanksha Duggal</td><td>In Progress</td><td>2025-03-25</td><td class="stale-days">447d</td></tr>
+      <tr data-project="RHAIENG"><td>RHAIENG</td><td class="issue-key">RHELAI-2670</td><td>Productize the 128k context window Granite v3.1</td><td>William Caban Babilonia</td><td>In Progress</td><td>2025-03-31</td><td class="stale-days">441d</td></tr>
+      <tr data-project="RHAIENG"><td>RHAIENG</td><td class="issue-key">RHELAI-2717</td><td>System profile and auto-detection for NVIDIA H200</td><td>Jehlum Vitasta Pandit</td><td>Testing</td><td>2025-03-31</td><td class="stale-days">441d</td></tr>
+      <tr data-project="RHAIENG"><td>RHAIENG</td><td class="issue-key">RHELAI-2357</td><td>Gaudi 3 multi-device inferencing</td><td>James Kunstle</td><td>Dev Complete</td><td>2025-04-07</td><td class="stale-days">434d</td></tr>
+      <tr data-project="RHAIENG"><td>RHAIENG</td><td class="issue-key">RHELAI-3616</td><td>Third-party model(s) support &ndash; end-to-end workflow</td><td>Jehlum Vitasta Pandit</td><td>In Progress</td><td>2025-04-08</td><td class="stale-days">433d</td></tr>
+      <tr data-project="RHAIENG"><td>RHAIENG</td><td class="issue-key">RHELAI-3497</td><td>Support for NVIDIA H200</td><td>Erwan Gallen</td><td>Testing</td><td>2025-04-21</td><td class="stale-days">420d</td></tr>
+      <tr data-project="RHAIENG"><td>RHAIENG</td><td class="issue-key">RHELAI-3954</td><td>Misc improvements to QE cloud envs</td><td>Mike DePaulo</td><td>In Progress</td><td>2025-04-23</td><td class="stale-days">418d</td></tr>
+      <tr data-project="RHAIENG"><td>RHAIENG</td><td class="issue-key">RHELAI-3904</td><td>SDG Summit Goals [Use Cases]</td><td>Aditi Saluja</td><td>In Progress</td><td>2025-04-24</td><td class="stale-days">417d</td></tr>
+      <tr data-project="RHAIENG"><td>RHAIENG</td><td class="issue-key">RHELAI-3917</td><td>Support for NVIDIA B200</td><td>Erwan Gallen</td><td>In Progress</td><td>2025-04-24</td><td class="stale-days">417d</td></tr>
+      <tr data-project="RHAIENG"><td>RHAIENG</td><td class="issue-key">RHELAI-3465</td><td>Add "tuned" to RHEL AI base image</td><td>William Caban Babilonia</td><td>Dev Complete</td><td>2025-04-24</td><td class="stale-days">417d</td></tr>
+      <tr data-project="RHAIENG"><td>RHAIENG</td><td class="issue-key">RHELAI-3997</td><td>Show generation with Third Party Teacher Model</td><td>Aakanksha Duggal</td><td>In Progress</td><td>2025-04-24</td><td class="stale-days">417d</td></tr>
+      <tr data-project="RHAIENG"><td>RHAIENG</td><td class="issue-key">RHELAI-3607</td><td>[ilab] Llama 3.1 8B-Instruct ilab model serve</td><td>Dan McPherson</td><td>Testing</td><td>2025-05-08</td><td class="stale-days">403d</td></tr>
+      <tr data-project="RHAIENG"><td>RHAIENG</td><td class="issue-key">RHELAI-3674</td><td>[ilab] Granite 3.1 8B Instruct ilab model serve</td><td>Dan McPherson</td><td>Testing</td><td>2025-05-08</td><td class="stale-days">403d</td></tr>
+      <tr data-project="RHAIENG"><td>RHAIENG</td><td class="issue-key">RHELAI-3598</td><td>[ilab] Phi-4-14B ilab model serve</td><td>Dan McPherson</td><td>Testing</td><td>2025-05-08</td><td class="stale-days">403d</td></tr>
+      <tr data-project="RHAIENG"><td>RHAIENG</td><td class="issue-key">RHELAI-3596</td><td>[ilab] Mistral-Small 3-24B-Instruct ilab model serve</td><td>Dan McPherson</td><td>Testing</td><td>2025-05-08</td><td class="stale-days">403d</td></tr>
 
-      <!-- RHOAIENG aging items (20 of 77) -->
-      <tr data-project="RHOAIENG"><td>RHOAIENG</td><td class="issue-key">RHODS-2795</td><td>Getting Familiar With Jira</td><td>Prudhviraj Nammi</td><td>In Progress</td><td>2022-01-31</td><td class="stale-days">1,593d</td></tr>
-      <tr data-project="RHOAIENG"><td>RHOAIENG</td><td class="issue-key">RHODS-4830</td><td>[spike] OCP baremetal installation for rhods on-prem testing</td><td>Tarun Kumar</td><td>In Progress</td><td>2022-11-22</td><td class="stale-days">1,298d</td></tr>
-      <tr data-project="RHOAIENG"><td>RHOAIENG</td><td class="issue-key">RHODS-6002</td><td>Release Activities on the next RHODS RC 1.20</td><td>Tarun Kumar</td><td>In Progress</td><td>2022-12-23</td><td class="stale-days">1,267d</td></tr>
-      <tr data-project="RHOAIENG"><td>RHOAIENG</td><td class="issue-key">RHODS-5897</td><td>Partition etcd user spaces</td><td>Unassigned</td><td>In Progress</td><td>2023-03-30</td><td class="stale-days">1,170d</td></tr>
-      <tr data-project="RHOAIENG"><td>RHOAIENG</td><td class="issue-key">RHODS-2751</td><td>Automate notebook image annotations</td><td>Vaishnavi Hire</td><td>In Progress</td><td>2023-05-23</td><td class="stale-days">1,116d</td></tr>
-      <tr data-project="RHOAIENG"><td>RHOAIENG</td><td class="issue-key">RHODS-7933</td><td>Restructure model serving quickstart</td><td>Unassigned</td><td>In Progress</td><td>2023-06-05</td><td class="stale-days">1,103d</td></tr>
-      <tr data-project="RHOAIENG"><td>RHOAIENG</td><td class="issue-key">RHODS-6267</td><td>SPIKE: Test modelmesh auto scaling capabilities</td><td>JooHo Lee</td><td>In Progress</td><td>2023-06-06</td><td class="stale-days">1,102d</td></tr>
-      <tr data-project="RHOAIENG"><td>RHOAIENG</td><td class="issue-key">RHODS-9381</td><td>Research model types and gather sample notebooks</td><td>Mariah Holder</td><td>In Progress</td><td>2023-06-15</td><td class="stale-days">1,093d</td></tr>
-      <tr data-project="RHOAIENG"><td>RHOAIENG</td><td class="issue-key">RHODS-9452</td><td>Add TSSaliency endpoint in service</td><td>Rui Vieira</td><td>In Progress</td><td>2023-06-26</td><td class="stale-days">1,082d</td></tr>
-      <tr data-project="RHOAIENG"><td>RHOAIENG</td><td class="issue-key">RHODS-10495</td><td>RHODS QE Jira Overview</td><td>Unassigned</td><td>In Progress</td><td>2023-08-21</td><td class="stale-days">1,026d</td></tr>
-      <tr data-project="RHOAIENG"><td>RHOAIENG</td><td class="issue-key">RHODS-10549</td><td>Request access to the Errata tool</td><td>stephin</td><td>In Progress</td><td>2023-08-22</td><td class="stale-days">1,025d</td></tr>
-      <tr data-project="RHOAIENG"><td>RHOAIENG</td><td class="issue-key">RHODS-10547</td><td>RHODS QE knowledge base</td><td>stephin</td><td>In Progress</td><td>2023-08-22</td><td class="stale-days">1,025d</td></tr>
-      <tr data-project="RHOAIENG"><td>RHOAIENG</td><td class="issue-key">RHODS-10554</td><td>Get yourself added to the necessary git organizations</td><td>stephin</td><td>In Progress</td><td>2023-08-22</td><td class="stale-days">1,025d</td></tr>
-      <tr data-project="RHOAIENG"><td>RHOAIENG</td><td class="issue-key">RHODS-10564</td><td>Ask your manager to add you to RHOSi JIRA boards</td><td>stephin</td><td>In Progress</td><td>2023-08-22</td><td class="stale-days">1,025d</td></tr>
-      <tr data-project="RHOAIENG"><td>RHOAIENG</td><td class="issue-key">RHODS-9369</td><td>Update Operator Bundle</td><td>Pablo Felix Estevez Pico</td><td>In Progress</td><td>2023-08-23</td><td class="stale-days">1,024d</td></tr>
-      <tr data-project="RHOAIENG"><td>RHOAIENG</td><td class="issue-key">RHODS-9246</td><td>Add Support for custom ServiceMonitors at the CR level</td><td>Rui Vieira</td><td>Review</td><td>2023-10-06</td><td class="stale-days">980d</td></tr>
-      <tr data-project="RHOAIENG"><td>RHOAIENG</td><td class="issue-key">RHODS-12571</td><td>RHODS QE knowledge base</td><td>Savitha Thundathil Jose</td><td>In Progress</td><td>2023-10-18</td><td class="stale-days">968d</td></tr>
-      <tr data-project="RHOAIENG"><td>RHOAIENG</td><td class="issue-key">RHODS-12578</td><td>Learn RHODS build promotion</td><td>Savitha Thundathil Jose</td><td>In Progress</td><td>2023-10-20</td><td class="stale-days">966d</td></tr>
-      <tr data-project="RHOAIENG"><td>RHOAIENG</td><td class="issue-key">RHODS-11194</td><td>RHODS QE knowledge base</td><td>Unassigned</td><td>In Progress</td><td>2023-10-24</td><td class="stale-days">962d</td></tr>
-      <tr data-project="RHOAIENG"><td>RHOAIENG</td><td class="issue-key">RHODS-11255</td><td>Learn polarion for RHODS testcase management</td><td>Unassigned</td><td>In Progress</td><td>2023-10-24</td><td class="stale-days">962d</td></tr>
+      <!-- RHOAIENG aging items (20 of 78) -->
+      <tr data-project="RHOAIENG"><td>RHOAIENG</td><td class="issue-key">RHODS-2795</td><td>Getting Familiar With Jira</td><td>Prudhviraj Nammi</td><td>In Progress</td><td>2022-01-31</td><td class="stale-days">1,596d</td></tr>
+      <tr data-project="RHOAIENG"><td>RHOAIENG</td><td class="issue-key">RHODS-4830</td><td>[spike] OCP baremetal installation for rhods on-prem testing</td><td>Tarun Kumar</td><td>In Progress</td><td>2022-11-22</td><td class="stale-days">1,301d</td></tr>
+      <tr data-project="RHOAIENG"><td>RHOAIENG</td><td class="issue-key">RHODS-6002</td><td>Release Activities on the next RHODS RC 1.20</td><td>Tarun Kumar</td><td>In Progress</td><td>2022-12-23</td><td class="stale-days">1,270d</td></tr>
+      <tr data-project="RHOAIENG"><td>RHOAIENG</td><td class="issue-key">RHODS-5897</td><td>Partition etcd user spaces</td><td>Unassigned</td><td>In Progress</td><td>2023-03-30</td><td class="stale-days">1,173d</td></tr>
+      <tr data-project="RHOAIENG"><td>RHOAIENG</td><td class="issue-key">RHODS-2751</td><td>Automate notebook image annotations</td><td>Vaishnavi Hire</td><td>In Progress</td><td>2023-05-23</td><td class="stale-days">1,119d</td></tr>
+      <tr data-project="RHOAIENG"><td>RHOAIENG</td><td class="issue-key">RHODS-7933</td><td>Restructure model serving quickstart</td><td>Unassigned</td><td>In Progress</td><td>2023-06-05</td><td class="stale-days">1,106d</td></tr>
+      <tr data-project="RHOAIENG"><td>RHOAIENG</td><td class="issue-key">RHODS-6267</td><td>SPIKE: Test modelmesh auto scaling capabilities</td><td>JooHo Lee</td><td>In Progress</td><td>2023-06-06</td><td class="stale-days">1,105d</td></tr>
+      <tr data-project="RHOAIENG"><td>RHOAIENG</td><td class="issue-key">RHODS-9381</td><td>Research model types and gather sample notebooks</td><td>Mariah Holder</td><td>In Progress</td><td>2023-06-15</td><td class="stale-days">1,096d</td></tr>
+      <tr data-project="RHOAIENG"><td>RHOAIENG</td><td class="issue-key">RHODS-9452</td><td>Add TSSaliency endpoint in service</td><td>Rui Vieira</td><td>In Progress</td><td>2023-06-26</td><td class="stale-days">1,085d</td></tr>
+      <tr data-project="RHOAIENG"><td>RHOAIENG</td><td class="issue-key">RHODS-10495</td><td>RHODS QE Jira Overview</td><td>Unassigned</td><td>In Progress</td><td>2023-08-21</td><td class="stale-days">1,029d</td></tr>
+      <tr data-project="RHOAIENG"><td>RHOAIENG</td><td class="issue-key">RHODS-10549</td><td>Request access to the Errata tool</td><td>stephin</td><td>In Progress</td><td>2023-08-22</td><td class="stale-days">1,028d</td></tr>
+      <tr data-project="RHOAIENG"><td>RHOAIENG</td><td class="issue-key">RHODS-10547</td><td>RHODS QE knowledge base</td><td>stephin</td><td>In Progress</td><td>2023-08-22</td><td class="stale-days">1,028d</td></tr>
+      <tr data-project="RHOAIENG"><td>RHOAIENG</td><td class="issue-key">RHODS-10554</td><td>Get yourself added to the necessary git organizations</td><td>stephin</td><td>In Progress</td><td>2023-08-22</td><td class="stale-days">1,028d</td></tr>
+      <tr data-project="RHOAIENG"><td>RHOAIENG</td><td class="issue-key">RHODS-10564</td><td>Ask your manager to add you to RHOSi JIRA boards</td><td>stephin</td><td>In Progress</td><td>2023-08-22</td><td class="stale-days">1,028d</td></tr>
+      <tr data-project="RHOAIENG"><td>RHOAIENG</td><td class="issue-key">RHODS-9369</td><td>Update Operator Bundle</td><td>Pablo Felix Estevez Pico</td><td>In Progress</td><td>2023-08-23</td><td class="stale-days">1,027d</td></tr>
+      <tr data-project="RHOAIENG"><td>RHOAIENG</td><td class="issue-key">RHODS-9246</td><td>Add Support for custom ServiceMonitors at the CR level</td><td>Rui Vieira</td><td>Review</td><td>2023-10-06</td><td class="stale-days">983d</td></tr>
+      <tr data-project="RHOAIENG"><td>RHOAIENG</td><td class="issue-key">RHODS-12571</td><td>RHODS QE knowledge base</td><td>Savitha Thundathil Jose</td><td>In Progress</td><td>2023-10-18</td><td class="stale-days">971d</td></tr>
+      <tr data-project="RHOAIENG"><td>RHOAIENG</td><td class="issue-key">RHODS-12578</td><td>Learn RHODS build promotion</td><td>Savitha Thundathil Jose</td><td>In Progress</td><td>2023-10-20</td><td class="stale-days">969d</td></tr>
+      <tr data-project="RHOAIENG"><td>RHOAIENG</td><td class="issue-key">RHODS-11194</td><td>RHODS QE knowledge base</td><td>Unassigned</td><td>In Progress</td><td>2023-10-24</td><td class="stale-days">965d</td></tr>
+      <tr data-project="RHOAIENG"><td>RHOAIENG</td><td class="issue-key">RHODS-11255</td><td>Learn polarion for RHODS testcase management</td><td>Unassigned</td><td>In Progress</td><td>2023-10-24</td><td class="stale-days">965d</td></tr>
     </tbody>
   </table>
   </div>
@@ -365,21 +365,21 @@ tr:hover td{background:#1c2128}
         <span class="badge badge-green">Healthy</span>
       </div>
       <div class="metric-row">
-        <div class="metric-box"><div class="val" style="color:#faad14">681</div><div class="lbl">WIP</div></div>
-        <div class="metric-box"><div class="val" style="color:#52c41a">1,568</div><div class="lbl">Throughput (30d)</div></div>
-        <div class="metric-box"><div class="val" style="color:#58a6ff">0.43</div><div class="lbl">WIP:Throughput</div></div>
+        <div class="metric-box"><div class="val" style="color:#faad14">673</div><div class="lbl">WIP</div></div>
+        <div class="metric-box"><div class="val" style="color:#52c41a">1,361</div><div class="lbl">Throughput (30d)</div></div>
+        <div class="metric-box"><div class="val" style="color:#58a6ff">0.49</div><div class="lbl">WIP:Throughput</div></div>
       </div>
       <div class="metric-row">
-        <div class="metric-box"><div class="val" style="color:#c9d1d9">1,513</div><div class="lbl">Created (30d)</div></div>
-        <div class="metric-box"><div class="val" style="color:#52c41a">1.04</div><div class="lbl">Resolved:Created</div></div>
-        <div class="metric-box"><div class="val" style="color:#faad14">164</div><div class="lbl">Aging WIP</div></div>
+        <div class="metric-box"><div class="val" style="color:#c9d1d9">1,431</div><div class="lbl">Created (30d)</div></div>
+        <div class="metric-box"><div class="val" style="color:#faad14">0.95</div><div class="lbl">Resolved:Created</div></div>
+        <div class="metric-box"><div class="val" style="color:#faad14">170</div><div class="lbl">Aging WIP</div></div>
       </div>
       <div style="font-size:0.75rem;color:#8b949e;margin-top:8px;margin-bottom:4px">Created vs Resolved (30d)</div>
       <div class="ratio-bar">
-        <div style="width:50.9%;background:#238636;color:#fff">Resolved: 1,568</div>
-        <div style="width:49.1%;background:#1f6feb;color:#fff">Created: 1,513</div>
+        <div style="width:48.7%;background:#238636;color:#fff">Resolved: 1,361</div>
+        <div style="width:51.3%;background:#1f6feb;color:#fff">Created: 1,431</div>
       </div>
-      <div style="font-size:0.75rem;color:#6e7681;margin-top:8px">Throughput exceeds WIP and creation rate. Resolved/created ratio of 1.04 indicates healthy flow with backlog slightly shrinking. 24.1% aging WIP warrants grooming attention.</div>
+      <div style="font-size:0.75rem;color:#6e7681;margin-top:8px">Throughput exceeds WIP. Resolved/created ratio of 0.95 shows slightly more issues being created than resolved. 25.3% aging WIP warrants grooming attention.</div>
     </div>
 
     <div class="card">
@@ -424,7 +424,7 @@ tr:hover td{background:#1c2128}
       <div class="ratio-bar">
         <div style="width:100%;background:#484f58;color:#8b949e">Resolved: 1 &bull; Created: 0</div>
       </div>
-      <div style="font-size:0.75rem;color:#6e7681;margin-top:8px">100% of WIP is aging. Zero new issues in 30 days. Near-zero throughput. Oldest stale item: 549 days. Likely moved to different tracking (mapped from RHELAI).</div>
+      <div style="font-size:0.75rem;color:#6e7681;margin-top:8px">100% of WIP is aging. Zero new issues in 30 days. Near-zero throughput. Oldest stale item: 551 days. Likely moved to different tracking (mapped from RHELAI).</div>
     </div>
 
     <div class="card">
@@ -440,13 +440,13 @@ tr:hover td{background:#1c2128}
       <div class="metric-row">
         <div class="metric-box"><div class="val" style="color:#c9d1d9">0</div><div class="lbl">Created (30d)</div></div>
         <div class="metric-box"><div class="val" style="color:#ff4d4f">N/A</div><div class="lbl">Resolved:Created</div></div>
-        <div class="metric-box"><div class="val" style="color:#ff4d4f">77</div><div class="lbl">Aging WIP</div></div>
+        <div class="metric-box"><div class="val" style="color:#ff4d4f">78</div><div class="lbl">Aging WIP</div></div>
       </div>
       <div style="font-size:0.75rem;color:#8b949e;margin-top:8px;margin-bottom:4px">Created vs Resolved (30d)</div>
       <div class="ratio-bar">
         <div style="width:100%;background:#484f58;color:#8b949e">Resolved: 0 &bull; Created: 0</div>
       </div>
-      <div style="font-size:0.75rem;color:#6e7681;margin-top:8px">99% of WIP is aging. Zero activity in 30 days. Oldest stale item: 1,593 days (Jan 2022). Project (RHODS) appears fully inactive.</div>
+      <div style="font-size:0.75rem;color:#6e7681;margin-top:8px">100% of WIP is aging. Zero activity in 30 days. Oldest stale item: 1,596 days (Jan 2022). Project (RHODS) appears fully inactive.</div>
     </div>
 
   </div>
@@ -459,10 +459,10 @@ tr:hover td{background:#1c2128}
         <tr><th>Project</th><th>WIP</th><th>Throughput (30d)</th><th>WIP:Throughput</th><th>Created (30d)</th><th>Resolved:Created</th><th>Aging WIP</th><th>Aging %</th><th>Health</th></tr>
       </thead>
       <tbody>
-        <tr><td>AIPCC</td><td>681</td><td>1,568</td><td style="color:#52c41a">0.43</td><td>1,513</td><td>1.04</td><td>164</td><td>24.1%</td><td><span class="badge badge-green">Healthy</span></td></tr>
+        <tr><td>AIPCC</td><td>673</td><td>1,361</td><td style="color:#52c41a">0.49</td><td>1,431</td><td>0.95</td><td>170</td><td>25.3%</td><td><span class="badge badge-green">Healthy</span></td></tr>
         <tr><td>INFERENG</td><td>4</td><td>1</td><td style="color:#ff4d4f">4.0</td><td>1</td><td>1.00</td><td>3</td><td>75%</td><td><span class="badge badge-yellow">Low Activity</span></td></tr>
         <tr><td>RHAIENG</td><td>66</td><td>1</td><td style="color:#ff4d4f">66.0</td><td>0</td><td>N/A</td><td>66</td><td>100%</td><td><span class="badge badge-red">Stalled</span></td></tr>
-        <tr><td>RHOAIENG</td><td>78</td><td>0</td><td style="color:#ff4d4f">&infin;</td><td>0</td><td>N/A</td><td>77</td><td>99%</td><td><span class="badge badge-red">Stalled</span></td></tr>
+        <tr><td>RHOAIENG</td><td>78</td><td>0</td><td style="color:#ff4d4f">&infin;</td><td>0</td><td>N/A</td><td>78</td><td>100%</td><td><span class="badge badge-red">Stalled</span></td></tr>
       </tbody>
     </table>
     </div>
@@ -476,10 +476,10 @@ tr:hover td{background:#1c2128}
   </div>
   <div class="assumptions-body">
     <ul>
-      <li><strong>Data source:</strong> Jira REST API v3 (search/jql) at redhat.atlassian.net, queried 2026-06-12. Public API access (no authentication).</li>
+      <li><strong>Data source:</strong> Jira REST API v3 (search/jql) at redhat.atlassian.net, queried 2026-06-15. Public API access (no authentication).</li>
       <li><strong>Project mapping:</strong> AIPCC &rarr; AIPCC, INFERENG &rarr; PSAP (Performance and Scale for AI Platforms), RHAIENG &rarr; RHELAI (Red Hat Enterprise Linux AI), RHOAIENG &rarr; RHODS (Red Hat OpenShift Data Science). The original keys INFERENG, RHAIENG, RHOAIENG do not exist in redhat.atlassian.net; closest matches used.</li>
       <li><strong>Release burndown risk:</strong> Green = &gt;70% done OR &gt;30 days remaining; Yellow = &lt;70% done AND &lt;30 days left; Red = &lt;50% done AND &lt;14 days left, or overdue with incomplete items. Versions without release dates flagged Yellow if &lt;70% done.</li>
-      <li><strong>Aging WIP:</strong> Issues with statusCategory = "In Progress" and updated &lt; -14d. Stale days calculated from last update to 2026-06-12. Top 20 items per project shown, sorted oldest first.</li>
+      <li><strong>Aging WIP:</strong> Issues with statusCategory = "In Progress" and updated &lt; -14d. Stale days calculated from last update to 2026-06-15. Top 20 items per project shown, sorted oldest first.</li>
       <li><strong>Flow health:</strong> Green = WIP:Throughput &lt; 1.5 and aging &lt; 30%; Yellow = low volume or aging 30&ndash;75%; Red = zero throughput with WIP present, or &gt;75% aging.</li>
       <li><strong>Version queries:</strong> Issues linked via "Target Version" (customfield_10855). Non-Epic, non-Feature types only.</li>
       <li><strong>Stale projects:</strong> RHAIENG and RHOAIENG show patterns consistent with work having moved to other Jira projects. RHOAIENG (RHODS) contains onboarding tasks from 2022&ndash;2023 that were never closed.</li>
